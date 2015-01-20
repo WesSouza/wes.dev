@@ -1,4 +1,4 @@
-# Wex.vc website contents
+# wesley.so website
 
 Installation:
 
