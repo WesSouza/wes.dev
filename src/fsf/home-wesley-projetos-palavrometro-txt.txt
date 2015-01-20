@@ -1,0 +1,7 @@
+www.palavrometro.com.br
+
+O Palavrômetro foi um site que procurava no Twitter em tempo real por diversos pares de palavras, como 'Sim' e 'Não', e apresentava estas batalhas, junto com seu histórico.
+
+Eu aprendi que, depois de um certo tempo (uns 10 segundos), a proporção entre sim e não chega num valor e não muda mais. Muito bizarro.
+
+Hoje o Palavrômetro é outro site. Troquei a funcionalidade para apresentar posts públicos do Facebook de qualquer termo de busca, em colunas no estilo do Pinterest.

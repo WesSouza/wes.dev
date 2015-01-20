@@ -1,0 +1,127 @@
+// Content
+.wrapper {
+	width: 100%;
+	margin: 0 auto;
+	padding: 0 20px;
+	@include respond-equal(md) { width: $break-medium - 20px; }
+	@include respond-equal(lg) { width: $break-large - 20px; }
+}
+
+// Default Content - White Background
+%content, .content {
+	padding: 40px 0;
+	background-color: $white;
+	color: $darkgray;
+	font-size: em(16);
+	text-align: center;
+	
+	h1, h2 {
+		font-size: em(30);
+		font-weight: $normal;
+		color: $black;
+		margin: 0 0 20px 0;
+		
+		a {
+			color: $black;
+		}
+	}
+	
+	h2 {
+		font-size: em(20);
+		
+		@include respond-equal(sm) {
+			font-size: em(18);
+		}
+	}
+	
+	input {
+		color: $darkgray;
+	}
+	
+	a {
+		color: $darkgray;
+	}
+	
+	@include respond-equal(sm) {
+		padding: 20px 0;
+		
+		h1 {
+			font-size: em(22);
+		}
+		
+		h2 {
+			font-size: em(16);
+		}
+	}
+}
+
+// Alternate Content
+.content-alternate {
+	@extend %content;
+	
+	border: 1px solid darken( $lightgray, 10 );
+	border-width: 1px 0;
+	background-color: $lightgray;
+}
+
+// Highlighted Content - Orange Background
+.content-highlight-1, .content-highlight-2, .content-highlight-3 {
+	@extend %content;
+	
+	color: $white;
+	background-color: $darkgray;
+	
+	h1, h2, a {
+		color: $white;
+	}
+	
+	a {
+		color: $white;
+	}
+	
+	body & .input-text, body & a.btn, body & .btn {
+		@extend %input-dark;
+	}
+	
+	body & a.btn-primary, body & .btn-primary {
+		@extend %input-dark;
+		border-color: $black;
+		background-color: $black;
+	}
+}
+
+// Highlighted Content - Blue Background
+.content-highlight-2 {
+	background-color: $darkergray;
+}
+
+// Highlighted Content - Dark Blue Background
+.content-highlight-3 {
+}
+
+.page-header {
+	h1 {
+		font-size: em(40);
+	}
+	
+	@include respond-equal(sm) {
+		h1 {
+			font-size: em(25);
+		}
+	}
+	
+	@include respond-larger(md) {
+		.tagline {
+			margin-left: auto;
+			margin-right: auto;
+			width: 600px;
+		}
+	}
+}
+
+.box {
+	padding: 20px 10px;
+	border: 1px solid $gray;
+	border-radius: $border-radius;
+	color: $darkgray;
+}

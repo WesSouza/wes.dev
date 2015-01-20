@@ -1,0 +1,11 @@
+root:x:1:1:root:/:/bin/bash
+raquel:x:2:2:raquel:/home/raquel:/bin/bash
+nobody:x:3:3:nobody:/tmp:/bin/bash
+zer0cool:x:4:4:zer0cool:/home/zer0cool:/bin/bash
+neo:x:5:5:neo:/home/neo:/bin/bash
+hal9000:x:6:6:hal9000:/home/hal9000:/bin/bash
+god:x:7:7:god:/:/bin/bash
+anonymous:x:8:8:anonymous:/tmp:/bin/bash
+printer:x:9:9:printer:/tmp:/bin/sh
+microwave:x:10:10:microwave:/tmp:/bin/sh
+roomba:x:11:11:roomba:/tmp:/bin/sh

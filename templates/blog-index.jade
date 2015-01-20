@@ -1,0 +1,25 @@
+extends template-default
+
+block meta
+	- title = 'Blog do Wes'
+	- bodyClass += ' transparent'
+
+block content
+	header.content.page-header.blog-header.-home.-hero(style='background-image: url(/images/page-blog-hero.jpg)')
+		.wrapper
+			h1 Wesley’s Blog
+			p.blog-author
+				a(href='/rss.xml') RSS
+			p.blog-hero-caption
+				a(href='http://www.toad.com.br/', target='_blank') Photo by Matheus Gonçalves
+	section.content.blog-posts
+		.wrapper
+			ul.list-stacked
+				each post in blog
+					li.blog-post
+						a(href='/#{post.path}')
+							h1= post.title
+							if post.tagline
+								p.blog-tagline= post.tagline
+							if post.author
+								p.blog-date= post.date

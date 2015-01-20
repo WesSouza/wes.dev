@@ -1,0 +1,156 @@
+.blog-header, .blog-body, .blog-posts {
+	text-align: left;
+	@include respond-equal(md) {
+		font-size: em(18);
+	}
+	@include respond-equal(lg) {
+		font-size: em(22);
+	}
+	
+	.wrapper {
+		@include respond-equal(md) { width: 600px; }
+		@include respond-equal(lg) { width: 800px; }
+	}
+}
+
+.blog-header {
+	h1 {
+		margin: 0;
+	}
+	
+	p {
+		margin: 10px 0;
+	}
+	
+	a, h1, h2 {
+		text-decoration: none;
+	}
+	
+	.blog-hat {
+		margin: 0;
+		font-size: em(12);
+	}
+	
+	.blog-author {
+		font-size: em(12);
+	}
+	
+	&.-plain {
+		padding-bottom: 0;
+	}
+	
+	&.-hero {
+		position: relative;
+		margin-top: - $nav-height-lg;
+		padding-top: 80px;
+		background-color: $darkgray;
+		background-size: cover;
+		background-position: center;
+		
+		&, a, h1, h2 {
+			color: $white;
+			text-shadow: 0px 1px 0 transparentize($black, 0.3);
+		}
+		
+		.blog-hat {
+			&, a {
+				color: $lightgray;
+			}
+		}
+		
+		@include respond-equal(sm) {
+			margin-top: - $nav-height-sm;
+		}
+		
+		@include respond-equal(md) {
+			padding-top: 160px;
+		}
+		
+		@include respond-equal(lg) {
+			padding-top: 280px;
+		}
+		
+		.blog-hero-caption {
+			position: absolute;
+			right: 0;
+			bottom: 0;
+			margin: 10px;
+			font-size: em(10);
+		}
+	}
+	
+	&.-home {
+		@include respond-equal(md) {
+			height: 250px;
+			padding-top: 140px;
+		}
+		
+		@include respond-equal(lg) {
+			height: 300px;
+			padding-top: 160px;
+		}
+	}
+}
+
+.blog-posts {
+	.blog-post {
+		padding: 40px 0;
+		border-top: 1px solid $gray;
+		
+		&:first-child {
+			padding-top: 0;
+			border-top: none;
+		}
+		
+		&:last-child {
+			padding-bottom: 0;
+		}
+		
+		&, a {
+			text-decoration: none;
+		}
+		
+		h1, p {
+			margin: 0 0 5px 0;
+		}
+		
+		.blog-date {
+			font-size: em(12);
+		}
+	}
+}
+
+.blog-body {
+	line-height: 1.7;
+	
+	@include respond-larger(md) {
+		.blog-image-wrapper {
+			margin: 0 -40px;
+			padding: 20px 0;
+		}
+	}
+	
+	.blog-image {
+		display: block;
+		
+		@include respond-equal(sm) { width: 100%; }
+		@include respond-equal(md) { max-width: 680px; }
+		@include respond-equal(lg) { max-width: 880px; }
+		
+		@include respond-larger(md) {
+			margin-left: auto;
+			margin-right: auto;
+		}
+	}
+	
+}
+
+.blog-share {
+	li {
+		padding: 0 5px;
+	}
+	
+	.fb-like {
+		top: -5px;
+	}
+}

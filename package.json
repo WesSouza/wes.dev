@@ -1,0 +1,32 @@
+{
+  "name": "wesley.so website",
+  "private": true,
+  "scripts": {
+    "build": "node index.js",
+    "deploy": "./deploy.sh",
+    "nodemon": "nodemon -w src -w templates -w index.js -e js,jade,md,scss",
+    "server": "http-server build"
+  },
+  "dependencies": {
+    "jade": "^1.9.1",
+    "marked": "^0.3.2",
+    "metalsmith": "^1.0.1",
+    "metalsmith-collections": "^0.6.0",
+    "metalsmith-define": "^1.0.0",
+    "metalsmith-drafts": "0.0.1",
+    "metalsmith-feed": "0.0.6",
+    "metalsmith-filemetadata": "0.0.4",
+    "metalsmith-fingerprint": "^1.0.1",
+    "metalsmith-headings-identifier": "0.0.3",
+    "metalsmith-lunr": "0.0.4",
+    "metalsmith-markdown": "^0.2.1",
+    "metalsmith-metallic": "^0.3.1",
+    "metalsmith-pagination": "^1.0.0",
+    "metalsmith-permalinks": "^0.4.0",
+    "metalsmith-sass": "^0.5.0",
+    "metalsmith-serve": "0.0.3",
+    "metalsmith-tags": "^0.6.1",
+    "metalsmith-templates": "^0.6.0",
+    "metalsmith-watch": "^0.2.0"
+  }
+}
