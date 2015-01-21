@@ -1,5 +1,5 @@
 {
-  "name": "wesley.so website",
+  "name": "wesley.so-website",
   "private": true,
   "scripts": {
     "build": "node index.js",
