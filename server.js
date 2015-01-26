@@ -19,7 +19,16 @@ function fourOhFour ( ) {
 	}
 }
 
-app.use( serveStatic( 'build' ) );
+function setHeaders ( res, path ) {
+	if ( path.match( /\.(gif|png|jpe?g)$/i ) ) {
+		res.setHeader( 'Cache-Control', 'public, max-age=7200' );
+	}
+	else if ( path.match( /\.(css|js)$/i ) ) {
+		res.setHeader( 'Cache-Control', 'public, max-age=3024000' );
+	}
+}
+
+app.use( serveStatic( 'build', { setHeaders: setHeaders } ) );
 
 app.get( '/pt/', redirect( '/' ) )
 app.get( '/en/', redirect( '/' ) )
