@@ -13,10 +13,8 @@ var Metalsmith = require( 'metalsmith' ),
 	pagination = require( 'metalsmith-pagination' ),
 	permalinks = require( 'metalsmith-permalinks' ),
 	sass = require( 'metalsmith-sass' ),
-	serve = require( 'metalsmith-serve' ),
 	tags = require( 'metalsmith-tags' ),
-	templates = require( 'metalsmith-templates' ),
-	watch = require( 'metalsmith-watch' )
+	templates = require( 'metalsmith-templates' )
 
 function markedOptions ( ) {
 	var markedRenderer = new marked.Renderer();
