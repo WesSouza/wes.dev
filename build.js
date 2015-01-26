@@ -16,6 +16,12 @@ var Metalsmith = require( 'metalsmith' ),
 	tags = require( 'metalsmith-tags' ),
 	templates = require( 'metalsmith-templates' )
 
+var site = {
+	title: 'Wesley’s Blog',
+	url: 'http://wesley.so',
+	author: 'Wesley de Souza'
+};
+
 function markedOptions ( ) {
 	var markedRenderer = new marked.Renderer();
 	markedRenderer.heading = function ( text, level ) {
@@ -23,7 +29,7 @@ function markedOptions ( ) {
 		return '<h'+ level +'>'+ text +'</h'+ level +'>';
 	};
 	markedRenderer.image = function ( src, title, alt ) {
-		return '<div class="blog-image-wrapper"><img src="'+ src +'" alt="'+ ( alt || '' ) +'" title="'+ ( title || '' ) +'" class="blog-image"></div>';
+		return '<div class="blog-image-wrapper"><img src="'+ ( process.env.NODE_ENV == 'production' ? site.url : '' ) + src +'" alt="'+ ( alt || '' ) +'" title="'+ ( title || '' ) +'" class="blog-image"></div>';
 	};
 	markedRenderer.link = function ( href, title, text ) {
 		return '<a href="'+ href +'" target="_blank" title="'+ ( title || '' ) +'">'+ text +'</a>';
@@ -36,11 +42,7 @@ function markedOptions ( ) {
 
 Metalsmith( __dirname )
 	.metadata( {
-		site: {
-			title: 'Wesley’s Blog',
-			url: 'http://wesley.so/',
-			author: 'Wesley de Souza'
-		}
+		site: site
 	} )
 	.use( sass( { outputStyle: 'expanded' } ) )
 	.use( fingerprint( { pattern: [ 'scripts/main.js', 'styles/main.css' ] } ) )
@@ -50,9 +52,9 @@ Metalsmith( __dirname )
 	.use( headingsIdentifier() )
 	.use( collections( { blog: { sortBy: 'date', reverse: true } } ) )
 	.use( pagination( { 'collections.blog': { perPage: 10, template: 'blog-index.jade', first: 'blog/index.html', path: 'blog/:num/index.html' } } ) )
-	.use( permalinks() )
-	.use( templates( 'jade' ) )
+	.use( permalinks( { pattern: ':title' } ) )
 	.use( feed( { collection: 'blog' } ) )
+	.use( templates( 'jade' ) )
 	.build( function ( err ) {
 		if ( err ) throw err
 	} );
