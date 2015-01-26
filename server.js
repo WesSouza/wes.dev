@@ -1,4 +1,5 @@
 var express = require( 'express' ),
+	compress = require( 'compression' ),
 	fs = require( 'fs' ),
 	serveStatic = require( 'serve-static' ),
 	url = require( 'url' );
@@ -28,6 +29,7 @@ function setHeaders ( res, path ) {
 	}
 }
 
+app.use( compress() );
 app.use( serveStatic( 'build', { setHeaders: setHeaders } ) );
 
 app.get( '/pt/', redirect( '/' ) )
