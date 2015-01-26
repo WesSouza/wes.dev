@@ -49,11 +49,11 @@ Metalsmith( __dirname )
 	.use( filemetadata( [ { pattern: 'blog/**/*', metadata: { template: 'blog-post.jade', collection: 'blog' } } ] ) )
 	.use( drafts() )
 	.use( markdown( markedOptions() ) )
-	.use( headingsIdentifier() )
 	.use( collections( { blog: { sortBy: 'date', reverse: true } } ) )
 	.use( pagination( { 'collections.blog': { perPage: 10, template: 'blog-index.jade', first: 'blog/index.html', path: 'blog/:num/index.html' } } ) )
 	.use( permalinks( { pattern: ':title' } ) )
 	.use( feed( { collection: 'blog' } ) )
+	.use( headingsIdentifier() )
 	.use( templates( 'jade' ) )
 	.build( function ( err ) {
 		if ( err ) throw err
