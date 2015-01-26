@@ -1,7 +1,7 @@
 /**
  * Code is not minified so you can check my style.
  * 
- * @author Wesley de Souza <dev@wex.vc>
+ * @author Wesley de Souza <dev@wesley.so>
  */
 
 var wex = null;
@@ -382,7 +382,7 @@ var unwex_bash = function ( control ) {
 		cwd = '/home/wesley',
 		home = '/home/wesley',
 		user = 'wesley',
-		hostname = 'wex.vc',
+		hostname = 'wesley.so',
 		root = false,
 		commands = {},
 		hiddenCommands = {};
@@ -418,7 +418,7 @@ var unwex_bash = function ( control ) {
 		new unwex_easter( self, control );
 		
 		var text = 'login as: wesley\n'+
-			'wesley@wex.vc\'s password:\n'+
+			'wesley@wesley.so\'s password:\n'+
 			'\n'+
 			'Welcome!\n'+
 			'\n'+

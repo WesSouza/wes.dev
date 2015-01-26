@@ -1,5 +1,6 @@
 127.0.0.1     localhost
 
+127.0.0.1     wesley.so
 127.0.0.1     wex.vc
 127.0.0.1     wesleydesouza.com.br
 127.0.0.1     palavrometro.com.br
