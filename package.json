@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "build": "node build.js",
-    "nodemon": "nodemon -w src -w templates -w build.js -e js,jade,md,scss",
+    "nodemon": "nodemon -w src -w templates -w build.js dev.js -e js,jade,md,scss",
     "server": "node server.js"
   },
   "dependencies": {
