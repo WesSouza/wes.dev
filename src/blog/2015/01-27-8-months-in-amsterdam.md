@@ -8,7 +8,7 @@ image:
   caption: Photo by Wesley de Souza
 tags:
   - personal
-draft: true
+publish: draft
 ---
 
 In this beginning of 2015 I commemorated the eight month of my arrival in Amsterdam. I was found by a [Booking.com](workingatbooking.com) recruiter on May of the previous year, and after three interviews, 33 hours in an airplane and the usual bureaucracy, immigrated in the Netherlands with a permanent contract.

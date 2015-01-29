@@ -1,7 +1,6 @@
 var Metalsmith = require( 'metalsmith' ),
 	collections = require( 'metalsmith-collections' ),
 	define = require( 'metalsmith-define' ),
-	drafts = require( 'metalsmith-drafts' ),
 	feed = require( 'metalsmith-feed' ),
 	filemetadata = require( 'metalsmith-filemetadata' ),
 	fingerprint = require( 'metalsmith-fingerprint' ),
@@ -12,6 +11,7 @@ var Metalsmith = require( 'metalsmith' ),
 	metallic = require( 'metalsmith-metallic' ),
 	pagination = require( 'metalsmith-pagination' ),
 	permalinks = require( 'metalsmith-permalinks' ),
+	publish = require( 'metalsmith-publish' ),
 	sass = require( 'metalsmith-sass' ),
 	tags = require( 'metalsmith-tags' ),
 	templates = require( 'metalsmith-templates' )
@@ -22,6 +22,8 @@ var site = {
 	author: 'Wesley de Souza'
 };
 
+var production = process.env.NODE_ENV == 'production';
+
 function markedOptions ( ) {
 	var markedRenderer = new marked.Renderer();
 	markedRenderer.heading = function ( text, level ) {
@@ -29,7 +31,7 @@ function markedOptions ( ) {
 		return '<h'+ level +'>'+ text +'</h'+ level +'>';
 	};
 	markedRenderer.image = function ( src, title, alt ) {
-		return '<div class="blog-image-wrapper"><img src="'+ ( process.env.NODE_ENV == 'production' ? site.url : '' ) + src +'" alt="'+ ( alt || '' ) +'" title="'+ ( title || '' ) +'" class="blog-image"></div>';
+		return '<div class="blog-image-wrapper"><img src="'+ ( production ? site.url : '' ) + src +'" alt="'+ ( alt || '' ) +'" title="'+ ( title || '' ) +'" class="blog-image"></div>';
 	};
 	markedRenderer.link = function ( href, title, text ) {
 		return '<a href="'+ href +'" target="_blank" title="'+ ( title || '' ) +'">'+ text +'</a>';
@@ -47,7 +49,7 @@ Metalsmith( __dirname )
 	.use( sass( { outputStyle: 'expanded' } ) )
 	.use( fingerprint( { pattern: [ 'scripts/main.js', 'styles/main.css' ] } ) )
 	.use( filemetadata( [ { pattern: 'blog/**/*', metadata: { template: 'blog-post.jade', collection: 'blog' } } ] ) )
-	.use( drafts() )
+	.use( publish( { draft: !production } ) )
 	.use( markdown( markedOptions() ) )
 	.use( collections( { blog: { sortBy: 'date', reverse: true } } ) )
 	.use( pagination( { 'collections.blog': { perPage: 10, template: 'blog-index.jade', first: 'blog/index.html', path: 'blog/:num/index.html' } } ) )
