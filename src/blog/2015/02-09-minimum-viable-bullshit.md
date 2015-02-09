@@ -5,7 +5,6 @@ author: Wesley de Souza
 date: '2015-02-09 23:09:00'
 image:
   src: mvp-bullshit-free-zone.jpg
-draft: true
 ---
 
 I work with software development since 2006 &ndash; dude, almost 10 years! &ndash; and I’ve been through a lot of different ways of managing a project. At college I’ve read about waterfall, RUP, and endless strategies and paradigms full of bureaucracy, impediments and managers over managers, where your product would take years to form, only to be already *outdated*.
