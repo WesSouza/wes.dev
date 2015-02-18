@@ -14,7 +14,7 @@ function redirect ( destination, excludeQueryString ) {
 }
 
 function fourOhFour ( ) {
-	var file = fs.readFileSync( 'build/404.html', 'utf8' );
+	var file = fs.readFileSync( __dirname +'/build/404.html', 'utf8' );
 	return function ( req, res, next ) {
 		res.status( 404 ).send( file );
 	}
@@ -30,7 +30,7 @@ function setHeaders ( res, path ) {
 }
 
 app.use( compress() );
-app.use( serveStatic( 'build', { setHeaders: setHeaders } ) );
+app.use( serveStatic( __dirname +'/build', { setHeaders: setHeaders } ) );
 
 app.get( '/pt/', redirect( '/' ) )
 app.get( '/en/', redirect( '/' ) )
