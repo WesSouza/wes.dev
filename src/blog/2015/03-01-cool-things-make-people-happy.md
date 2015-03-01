@@ -3,7 +3,6 @@ title: Cool Things Make People Happy
 tagline: A set of small positive actions for web developers I’ve learned over the years
 author: Wesley de Souza
 date: '2015-03-01 01:31:01'
-publish: unlisted
 image:
   src: ctmph-dog.jpg
 ---
