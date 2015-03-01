@@ -15,9 +15,9 @@
 	font-size: em(16);
 	text-align: center;
 	
-	h1, h2 {
+	h1, h2, h3 {
 		font-size: em(30);
-		font-weight: $normal;
+		font-weight: $bold;
 		color: $black;
 		margin: 0 0 20px 0;
 		
@@ -25,12 +25,24 @@
 			color: $black;
 		}
 	}
+
+	h1 {
+		font-weight: $normal;
+	}
 	
 	h2 {
-		font-size: em(20);
+		font-size: em(24);
 		
 		@include respond-equal(sm) {
 			font-size: em(18);
+		}
+	}
+	
+	h3 {
+		font-size: em(20);
+		
+		@include respond-equal(sm) {
+			font-size: em(14);
 		}
 	}
 	
