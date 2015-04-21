@@ -1,0 +1,7 @@
+www.palavrometro.com.br
+
+Palavrômetro was a website that looked two keywords on Twitter in real time, like "Yes" versus "No", and presented them as battles, together with previous data.
+
+With this I've learned that, after a couple of seconds, the proportion beteen yes and no would reach a constant value, and wouldn't change. One of the most bizarre discoveries of my life.
+
+Today, Palavrômetro is another thing. I've totally replaced the features with a public post search from Facebook that presents results in columns.

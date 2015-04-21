@@ -1,5 +1,0 @@
-wex.vc/prefixo9
-
-O Prefixo 9 pega a sua agenda de contatos do Google e altera os celulares adicionando o nono dígito, usado em diversos lugares no Brasil. Quando eu comecei a fazer o Prefixo 9 (1) eu usava o Google para salvar meus contatos do celular e (2) não havia um bilhão de aplicativos grátis que faziam o que ele faz.
-
-Recentemente eu repaginei o visual dele, usando Bootstrap.
