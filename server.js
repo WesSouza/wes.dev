@@ -39,6 +39,8 @@ app.get( '/pt/blog/feed', redirect( '/rss.xml' ) )
 app.get( '/pt/blog/hello-world', redirect( '/hello-world/' ) )
 app.get( '/pt/blog/o-dia-que-eu-vendi-tudo', redirect( '/the-day-i-sold-everything/' ) )
 
+app.get( '/prefixo9/', redirect( 'http://prefixo9.wex.vc/' ) )
+
 app.get( '*', fourOhFour() )
 
 app.listen( 3015 );
