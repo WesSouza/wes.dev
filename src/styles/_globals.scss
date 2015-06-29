@@ -68,6 +68,10 @@ body .align-middle {
 	vertical-align: middle;
 }
 
+body .no-wrap {
+	white-space: nowrap;
+}
+
 // Lists
 .list-linear,
 .list-stacked {

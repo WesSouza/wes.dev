@@ -218,6 +218,14 @@
 	}
 }
 
+.home-project-frontinamsterdam {
+	@include respond-larger(md) {
+		&:before {
+			background-image: url(/images/page-home-project-frontinamsterdam.jpg);
+		}
+	}
+}
+
 .home-project-whocares {
 	@include respond-larger(md) {
 		&:before {
@@ -240,6 +248,14 @@
 		&:before {
 			background-size: inherit;
 			background-image: url(/images/page-home-project-palavrometro.png);
+		}
+	}
+}
+
+.home-project-booking-business {
+	@include respond-larger(md) {
+		&:before {
+			background-image: url(/images/page-home-project-booking-business.jpg);
 		}
 	}
 }
