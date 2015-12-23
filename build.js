@@ -14,7 +14,7 @@ var Metalsmith = require( 'metalsmith' ),
 	publish = require( 'metalsmith-publish' ),
 	sass = require( 'metalsmith-sass' ),
 	tags = require( 'metalsmith-tags' ),
-	templates = require( 'metalsmith-templates' )
+	layouts = require( 'metalsmith-layouts' )
 
 var site = {
 	title: 'Wesley’s Blog',
@@ -48,16 +48,16 @@ Metalsmith( __dirname )
 	} )
 	.use( sass( { outputStyle: 'expanded' } ) )
 	.use( fingerprint( { pattern: [ 'scripts/main.js', 'styles/main.css' ] } ) )
-	.use( filemetadata( [ { pattern: 'blog/**/*', metadata: { template: 'blog-post.jade', collection: 'blog' } } ] ) )
+	.use( filemetadata( [ { pattern: 'blog/**/*', metadata: { layout: 'blog-post.jade', collection: 'blog' } } ] ) )
 	.use( publish( { draft: !production, unlisted: !production } ) )
 	.use( metallic() )
 	.use( markdown( markedOptions() ) )
 	.use( collections( { blog: { sortBy: 'date', reverse: true } } ) )
-	.use( pagination( { 'collections.blog': { perPage: 10, template: 'blog-index.jade', first: 'blog/index.html', path: 'blog/:num/index.html' } } ) )
+	.use( pagination( { 'collections.blog': { perPage: 10, layout: 'blog-index.jade', first: 'blog/index.html', path: 'blog/:num/index.html' } } ) )
 	.use( permalinks( { pattern: ':title/' } ) )
 	.use( feed( { collection: 'blog' } ) )
 	.use( headingsIdentifier() )
-	.use( templates( 'jade' ) )
+	.use( layouts( { engine: 'jade', directory: 'templates' } ) )
 	.build( function ( err ) {
 		if ( err ) throw err
 	} );
