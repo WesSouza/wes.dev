@@ -1,2 +1,2 @@
-require( './build' );
-require( './server' );
+require('./build');
+require('./server');

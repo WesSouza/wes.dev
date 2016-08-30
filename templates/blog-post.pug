@@ -1,0 +1,37 @@
+extends template-default
+
+block meta
+    if tagline
+        - description = tagline
+    if image
+        - bodyClass += ' transparent'
+
+block append feet
+    #fb-root
+    script (function(d, s, id) {var js, fjs = d.getElementsByTagName(s)[0];if (d.getElementById(id)) return;js = d.createElement(s); js.id = id;js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=651701388212407";fjs.parentNode.insertBefore(js, fjs);}(document, 'script', 'facebook-jssdk')); !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
+
+block content
+    header.content.page-header.blog-header(class=image ? '-hero' : '-plain', style=image ? 'background-image: url(/images/blog/#{image.src})' : '')
+        .wrapper
+            p.blog-hat: a(href='/blog/') Wesley’s Blog
+            h1: a(href='/#{path}')= title
+            if tagline
+                p.blog-tagline= tagline
+            if author
+                p.blog-author By #{author}
+                    if date
+                        |  on #{date}
+            if image && image.caption
+                p.blog-hero-caption
+                    if image.link
+                        a(href=image.link, target='_blank')= image.caption
+                    else
+                        = image.caption
+    section.content.blog-body
+        .wrapper!= contents
+    section.content-alternate.blog-share
+        h1 Like and share
+        ul.list-linear
+            li: .visible-sm: .fb-like(data-href='#{site.url}/#{path}', data-layout='button_count', data-action='like', data-share='true')
+            li: .hidden-sm: .fb-like(data-href='#{site.url}/#{path}', data-width='450', data-layout='standard', data-action='like', data-show-faces='true', data-share='true')
+            li: a.twitter-share-button(href='https://twitter.com/share', data-url='#{site.url}/#{path}', data-via='WesleydeSouza', data-lang='en') Tweetar
