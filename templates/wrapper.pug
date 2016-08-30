@@ -21,8 +21,8 @@ html(lang=locale)
             meta(name='description', content=description)
             meta(property='og:description', content=description)
         if path
-            meta(property='og:url', content='#{site.url}/#{path}')
-            link(rel='canonical', href='#{site.url}/#{path}')
+            meta(property='og:url', content=site.url +'/'+ path)
+            link(rel='canonical', href=site.url +'/'+ path)
         meta(property='fb:app_id', content='651701388212407')
         link(rel='alternate', type='application/rss+xml', title='Wesley’s Blog', href='/rss.xml')
         block head

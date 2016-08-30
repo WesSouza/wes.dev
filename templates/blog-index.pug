@@ -17,7 +17,7 @@ block content
             ul.list-stacked
                 each post in blog
                     li.blog-post
-                        a(href='/#{post.path}')
+                        a(href='/'+ post.path)
                             h1= post.title
                             if post.tagline
                                 p.blog-tagline= post.tagline
