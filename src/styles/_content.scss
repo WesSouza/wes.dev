@@ -67,6 +67,10 @@
 	}
 }
 
+.content:not(.-hero):not(.content-alternate) + .content {
+	padding-top: 0;
+}
+
 // Alternate Content
 .content-alternate {
 	@extend %content;
@@ -132,8 +136,57 @@
 }
 
 .box {
-	padding: 20px 10px;
+	$spacing: 20px;
+	
+	display: block;
+	padding: $spacing $spacing 0;
 	border: 1px solid $gray;
 	border-radius: $border-radius;
-	color: $darkgray;
+	
+	header, .box-content, footer {
+		margin-bottom: $spacing;
+	}
+	
+	h1, h2 {
+		margin: 0 0 $spacing 0;
+		font-size: em(14);
+		font-weight: $bold;
+		text-transform: uppercase;
+	}
+	
+	h2 {
+		font-size: em(12);
+	}
+	
+	hr {
+		margin-bottom: $spacing;
+	}
+	
+	header {
+		img {
+			margin-bottom: $spacing;
+		}
+		
+		h1 {
+			margin-bottom: 0;
+		}
+		
+		.tagline {
+			margin-top: 0;
+			font-size: em(12);
+			font-weight: $bold;
+			text-transform: uppercase;
+		}
+	}
+	
+	@include respond-equal(sm) {
+		.box-wrapper & {
+			padding: 0;
+			border-width: 0 0 1px 0;
+			border-radius: 0;
+		}
+		.box-wrapper:last-child & {
+			border-bottom: 0 none;
+		}
+	}
 }

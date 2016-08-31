@@ -76,10 +76,6 @@
 	
 	@include respond-equal(md) {
 		letter-spacing: em(0.1);
-		
-		li {
-			margin-left: 15px;
-		}
 	}
 	
 	@include respond-equal(sm) {
@@ -120,9 +116,6 @@
 			letter-spacing: em(0.1);
 			color: $white;
 			border-color: $white;
-			&.nav-btn-dropdown {
-				margin-right: 20px;
-			}
 		}
 		
 		.nav-btn-dropdown-close {

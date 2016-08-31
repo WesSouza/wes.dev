@@ -1,0 +1,35 @@
+.ecommerce--product {
+	a {
+		text-decoration: none;
+	}
+	
+	h1 {
+		font-size: em(18);
+		text-transform: none;
+	}
+}
+
+.ecommerce--price {
+	margin-bottom: $spacing-sm;
+}
+
+.product--buy {
+	margin: 40px auto 0;
+
+	.product--retail {
+		font-size: em(12);
+
+		.product--price {
+			font-weight: $normal;
+			text-decoration: line-through;
+		}
+	}
+
+	.product--only {
+		display: block;
+	}
+	.product--price {
+		font-size: em(24);
+		font-weight: $bold;
+	}
+}

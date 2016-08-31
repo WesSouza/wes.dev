@@ -1,6 +1,21 @@
-.wrapper,
-.grid { @include clearfix; }
-.grid > * { display: inline-block; vertical-align: top; }
+.wrapper, .grid { @include clearfix; }
+.grid-padded {
+	margin-left: -10px;
+	margin-right: -10px;
+	
+	> * {
+		padding-left: 10px;
+		padding-right: 10px;
+		padding-bottom: 20px;
+	}
+}
+.grid > * {
+	display: inline-block;
+	vertical-align: top;
+}
+.grid.align-middle > * {
+	vertical-align: middle;
+}
 .width-1-1 { width: 100%; }
 .width-1-2 { width: 50%; }
 .width-1-3 { width: 33.33333%; }
@@ -47,6 +62,8 @@
 	.visible-lg { display: none; }
 
 	.wide-sm { max-width: 100%; }
+	.text-left-sm { text-align: left; }
+	.text-right-sm { text-align: right; }
 }
 @include respond-equal(md) {
 	.hidden-md,
@@ -54,6 +71,8 @@
 	.visible-lg { display: none; }
 
 	.wide-md { max-width: 100%; }
+	.text-left-md { text-align: left; }
+	.text-right-md { text-align: right; }
 }
 @include respond-equal(lg) {
 	.hidden-lg,
@@ -61,4 +80,6 @@
 	.visible-md { display: none; }
 
 	.wide-lg { max-width: 100%; }
+	.text-left-lg { text-align: left; }
+	.text-right-lg { text-align: right; }
 }

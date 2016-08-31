@@ -9,7 +9,10 @@ html(lang=locale)
                 | Wesley de Souza &ndash; Web developer, restless innovator, crazy guy.
         meta(property='og:title', content=title ? title : 'Wesley de Souza')
         meta(property='og:type', content=collection && ~collection.indexOf( 'blog' ) ? 'article' : 'website')
-        meta(property='og:image', content=image && image.src ? site.url +'/images/blog/'+ image.src : 'http://wesley.so/images/og-image.jpg')
+        if ogImage
+            meta(property='og:image', content=ogImage ? site.url +'/images/'+ ogImage : 'http://wesley.so/images/og-image.jpg')
+        else
+            meta(property='og:image', content=image && image.src ? site.url +'/images/blog/'+ image.src : 'http://wesley.so/images/og-image.jpg')
         meta(property='og:site_name', content='Wesley de Souza')
         meta(name='twitter:card', content='summary_large_image')
         meta(name='twitter:site', content='WesleydeSouza')

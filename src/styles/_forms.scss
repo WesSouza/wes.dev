@@ -42,7 +42,7 @@ body a.btn,
 body .btn {
 	@extend %input-default;
 	display: inline-block;
-	padding: 20px 40px;
+	padding: 15px 30px;
 	font-size: em(12.5);
 	font-weight: $bold;
 	letter-spacing: em(2);
@@ -69,8 +69,32 @@ body .btn {
 	}
 }
 
+body a.btn[disabled],
+body .btn[disabled] {
+	cursor: no-drop;
+}
+
 body a.btn-primary,
 body .btn-primary {
+	border-color: $green;
+	background-color: $green;
+	color: $white;
+	
+	&:focus, &:active {
+		border-color: $white;
+		background-color: $white;
+		color: $green;
+		outline: none;
+		box-shadow: 0 0 0 2px $green;
+	}
+	
+	&:hover {
+		box-shadow: 0 0 0 2px $green;
+	}
+}
+
+body a.btn-info,
+body .btn-info {
 	border-color: $darkgray;
 	background-color: $darkgray;
 	color: $white;

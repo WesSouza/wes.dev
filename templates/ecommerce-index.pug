@@ -1,0 +1,40 @@
+extends template-default
+
+block meta
+    - title = 'Wes is Selling Everything'
+    - bodyClass += ' transparent'
+    - ogImage = 'ecommerce-og-image.jpg'
+
+block content
+    if products && products.length
+        header.content.page-header.blog-header.-hero(style='background-image: url(/images/page-ecommerce-hero.jpg)')
+            .wrapper
+                h1 Everything Must Go!
+                p.blog-tagline I'm moving to New York City really soon, so it is time to sell everything and start over. Check out some of the amazing things I'm selling for an incredible price.
+        section.content
+            .wrapper
+                ul.list-stacked
+                    .grid.grid-padded
+                        each product in products
+                            .width-1-1.width-md-1-3.width-lg-1-5.ecommerce--product(data-category=product.category)
+                                a.box(href='/'+ product.path)
+                                    header.text-left-sm
+                                        h1= product.title
+                                    .grid
+                                        .width-1-2.width-md-1-1.text-left-sm
+                                            .ecommerce--price € #{product.price}
+                                        .box-content.hidden-sm.width-md-1-1
+                                            if product.image
+                                                img.ecommerce--image.rounded-corners.width-1-1(src='/images/products/'+ product.image)
+                                        footer.width-1-2.width-md-1-1.text-right-sm
+                                            if product.sold
+                                                span.btn(disabled) #[i.fa.fa-ban] Sold
+                                            else
+                                                span.btn.btn-primary More #[i.fa.fa-chevron-right]
+    else
+        header.content.page-header
+            .wrapper
+                h1 Thanks!
+                p.tagline Thank you very much for everyone that helped sharing, recommending, commenting and, of course, buying what I had available here.
+                p.tagline Now let's go to the Big Apple!
+
