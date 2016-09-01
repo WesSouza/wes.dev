@@ -24,7 +24,7 @@ block content
                     if sold
                         span.btn(disabled) #[i.fa.fa-ban] Sold
                     else
-                        a.btn.btn-primary(href=buyLink, target='_blank') #[i.fa.fa-check-square] Buy
+                        a.btn.btn-primary(href=buyLink, target=buyLinkMailto ? '' : '_blank') #[i.fa.fa-check-square] Buy
             p.tagline
                 if moreInfo
                     a(href=moreInfo, target='_blank') Technical Specs
