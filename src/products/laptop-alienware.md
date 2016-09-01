@@ -9,6 +9,8 @@ buyLinkMailto: true
 moreInfo: http://www.dell.com/nl/p/alienware-17-r3/pd.aspx?c=nl&l=nl&s=dhs
 ---
 
+Comes with a [17" Alienware backpack](https://www.amazon.de/Alienware-Orion-Laptop-Backpack-Screen/dp/B001GI5CSA/ref=sr_1_2?ie=UTF8&qid=1472638431&sr=8-2&keywords=alienware+backpack).
+
 - Intel® Core™ i7-6700HQ 3,5 GHz
 - 8 GB Dual Channel DDR4 2.133 MHz (4 GB x 2)
 - 1 TB SATA 6 Gb/s (7.200 rpm)
