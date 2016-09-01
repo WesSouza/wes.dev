@@ -17,21 +17,33 @@ block content
                 ul.list-stacked
                     .grid.grid-padded
                         each product in products
-                            .width-1-1.width-md-1-3.width-lg-1-5.ecommerce--product(data-category=product.category)
-                                a.box(href='/'+ product.path)
-                                    header.text-left-sm
-                                        h1= product.title
-                                    .grid
-                                        .width-1-2.width-md-1-1.text-left-sm
-                                            .ecommerce--price € #{product.price}
-                                        .box-content.hidden-sm.width-md-1-1
-                                            if product.image
-                                                img.ecommerce--image.rounded-corners.width-1-1(src='/images/products/'+ product.image)
-                                        footer.width-1-2.width-md-1-1.text-right-sm
-                                            if product.sold
-                                                span.btn(disabled) #[i.fa.fa-ban] Sold
-                                            else
+                            if !product.sold
+                                .width-1-1.width-md-1-3.width-lg-1-5.ecommerce--product(data-category=product.category)
+                                    a.box(href='/'+ product.path)
+                                        header.text-left-sm
+                                            h1= product.title
+                                        .grid
+                                            .width-1-2.width-md-1-1.text-left-sm
+                                                .ecommerce--price € #{product.price}
+                                            .box-content.hidden-sm.width-md-1-1
+                                                if product.image
+                                                    img.ecommerce--image.rounded-corners.width-1-1(src='/images/products/'+ product.image)
+                                            footer.width-1-2.width-md-1-1.text-right-sm
                                                 span.btn.btn-primary More #[i.fa.fa-chevron-right]
+        section.content
+            .wrapper
+                h2 Sold items
+                ul.list-stacked
+                    .grid.grid-padded
+                        each product in products
+                            if product.sold
+                                .width-1-1.width-md-1-3.width-lg-1-5.ecommerce--product(data-category=product.category)
+                                    a.box(href='/'+ product.path)
+                                        header.text-left-sm
+                                            h1= product.title
+                                        .grid
+                                            .width-1-2.width-md-1-1.text-left-sm
+                                                .ecommerce--price € #{product.price}
     else
         header.content.page-header
             .wrapper
