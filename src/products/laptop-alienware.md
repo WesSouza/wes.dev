@@ -4,6 +4,7 @@ image: laptop-alienware.jpg
 price: 1400
 retailPrice: 1940
 sold: false
+new: true
 buyLink: mailto:guialbuquerque@me.com
 buyLinkMailto: true
 moreInfo: http://www.dell.com/nl/p/alienware-17-r3/pd.aspx?c=nl&l=nl&s=dhs
