@@ -1,7 +1,7 @@
 ---
 title: Alienware 17 R3 - GTX 970M
 image: laptop-alienware.jpg
-price: 1400
+price: 1200
 retailPrice: 1940
 sold: false
 new: true
