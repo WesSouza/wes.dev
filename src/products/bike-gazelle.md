@@ -2,7 +2,7 @@
 title: Gazelle Bike + Lock + Pump
 image: bike-gazelle.jpg
 price: 90
-sold: false
+sold: true
 new: true
 buyLink: https://docs.google.com/forms/d/e/1FAIpQLScbZ504UritZtV82QdfhQuVMZgGHU2o9nqQIv8dhNlFesLBEw/viewform?entry.1902462749=Gazelle+Bike
 ---
