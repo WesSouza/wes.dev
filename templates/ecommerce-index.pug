@@ -14,30 +14,11 @@ block content
                 p.blog-tagline I'm moving to New York City really soon, so it is time to sell everything and start over. Check out some of the amazing things I'm selling for an incredible price.
         section.content
             .wrapper
-                h2.ecommerce--new New Items!
-                ul.list-stacked
-                    .grid.grid-padded
-                        each product in products
-                            if product.new && !product.sold
-                                .width-1-1.width-md-1-3.width-lg-1-5.ecommerce--product(data-category=product.category)
-                                    a.box(href='/'+ product.path)
-                                        header.text-left-sm
-                                            h1= product.title
-                                        .grid
-                                            .width-1-2.width-md-1-1.text-left-sm
-                                                .ecommerce--price € #{product.price}
-                                            .box-content.hidden-sm.width-md-1-1
-                                                if product.image
-                                                    img.ecommerce--image.rounded-corners.width-1-1(src='/images/products/'+ product.image)
-                                            footer.width-1-2.width-md-1-1.text-right-sm
-                                                span.btn.btn-primary More #[i.fa.fa-chevron-right]
-        section.content
-            .wrapper
                 h2 More Items
                 ul.list-stacked
                     .grid.grid-padded
                         each product in products
-                            if !product.new && !product.sold
+                            if !product.sold
                                 .width-1-1.width-md-1-3.width-lg-1-5.ecommerce--product(data-category=product.category)
                                     a.box(href='/'+ product.path)
                                         header.text-left-sm
