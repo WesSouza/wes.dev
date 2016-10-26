@@ -16,11 +16,10 @@ block body
     nav.main-nav(role='navigation')
         .wrapper
             h1.pull-left
-                a(href=collection == 'products' ? '/selling-everything/' : '/') Wesley de Souza 
+                a(href='/') Wesley de Souza 
             .hidden-sm
                 ul.list-linear.pull-left
                     li: a(href='/blog/', class= false ? 'active' : '') Blog
-                    li: a(href='/selling-everything/', class= false ? 'active' : '') Everything Must Go Sale
             .visible-sm
                 a.nav-btn-dropdown.nav-btn-dropdown-open.btn.pull-right(href='#') Menu
                     |  
@@ -30,7 +29,6 @@ block body
                 ul.nav-ul-menu.list-stacked
                     li: a(href='/') Home
                     li: a(href='/blog/') Blog
-                    li: a(href='/selling-everything/') Everything Must Go Sale
     
     .main-content(role='main')
         block content
