@@ -2,4 +2,4 @@
 
 Installation:
 
-    npm install && npm build
+    yarn && yarn run build
