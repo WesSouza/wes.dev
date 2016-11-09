@@ -142,6 +142,12 @@
 	}
 }
 
+.home-company-workandco {
+	header a {
+		@include sprite-data($sprite-logo-workandco);
+	}
+}
+
 .home-company-bookingcom {
 	header a {
 		@include sprite-data($sprite-logo-bookingcom);
