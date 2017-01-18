@@ -1,0 +1,102 @@
+:root {
+  --font-size: 1.25em;
+
+  --color-text: rgba(255, 255, 255, .5);
+  --color-text-highlighted: #fff;
+  --color-background: #281A78;
+
+  --body-spacing: 2rem;
+}
+@media (min-width: 768px) {
+  :root {
+    --font-size: 2em;
+    --body-spacing: 2.5rem;
+  }
+}
+* {
+  box-sizing: inherit;
+}
+html {
+  display: flex;
+  justify-content: center;
+  box-sizing: border-box;
+  font-size: var(--font-size);
+  background-color: var(--color-background);
+  background-image: url('./background.jpg');
+  background-size: cover;
+}
+body {
+  max-width: 35rem;
+  margin: var(--body-spacing);
+  line-height: 1.6rem;
+  font-family: 'Cousine', monospace;
+  font-weight: 400;
+  font-size: 1rem;
+  color: var(--color-text);
+}
+a {
+  color: var(--color-text-highlighted);
+  text-decoration-skip: ink;
+  white-space: nowrap;
+}
+a:focus,
+a:active {
+  outline: 2px solid var(--color-text);
+  text-decoration: none;
+}
+h1 {
+  margin: 0 0 2rem;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--color-text-highlighted)
+}
+h1 span {
+  font-weight: 400;
+  color: var(--color-text);
+}
+p {
+  margin: 2rem 0;
+}
+@supports (animation-name: fadeIn) {
+  .Animation {
+    opacity: 0;
+  }
+}
+.Animation {
+  animation-delay: 0;
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+  animation-name: fadeIn;
+  animation-timing-function: ease;
+}
+.Animation-2 {
+  animation-delay: 0.25s;
+}
+.Animation-3 {
+  animation-delay: 0.5s;
+}
+.Animation-4 {
+  animation-delay: 0.75s;
+}
+.Animation-5 {
+  animation-delay: 1s;
+}
+.Animation-6 {
+  animation-delay: 1.25s;
+}
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+  }
+}
+.Greeting {
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+.Greeting-loaded {
+  opacity: 1;
+}

@@ -1,36 +1,31 @@
 {
-  "name": "wesley.so-website",
-  "private": true,
+  "name": "wesley.so",
+  "version": "2017.0.1",
+  "description": "https://wesley.so/",
+  "main": "src/index.js",
   "scripts": {
-    "build": "node build.js",
-    "build-sprites": "node build-sprites.js",
-    "nodemon": "nodemon -w src -w templates -w build.js dev.js -e js,pug,md,scss",
-    "server": "node server.js"
+    "build": "NODE_ENV='production' gulp",
+    "dev": "gulp dev",
+    "eslint": "eslint -c .eslintrc.js src/**/*.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "dependencies": {
-    "compression": "^1.6.2",
-    "express": "^4.14.0",
-    "marked": "^0.3.6",
-    "metalsmith": "^2.2.0",
-    "metalsmith-collections": "^0.7.0",
-    "metalsmith-define": "^2.0.1",
-    "metalsmith-feed": "^0.2.0",
-    "metalsmith-filemetadata": "^1.0.0",
-    "metalsmith-fingerprint": "^1.0.3",
-    "metalsmith-headings-identifier": "^0.0.11",
-    "metalsmith-layouts": "^1.6.5",
-    "metalsmith-lunr": "^0.2.1",
-    "metalsmith-markdown": "^0.2.1",
-    "metalsmith-metallic": "^2.0.1",
-    "metalsmith-pagination": "^1.4.0",
-    "metalsmith-permalinks": "^0.5.0",
-    "metalsmith-publish": "^0.1.4",
-    "metalsmith-sass": "^1.3.0",
-    "metalsmith-tags": "^2.0.0",
-    "pug": "^2.0.0-beta6",
-    "serve-static": "^1.11.1"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WesleydeSouza/wesley.so.git"
   },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "homepage": "https://wesley.so/",
   "devDependencies": {
-    "spritesmith": "^3.1.0"
+    "eslint": "^3.12.2",
+    "eslint_d": "^4.2.1",
+    "gulp": "^3.9.1",
+    "gulp-browserify": "^0.5.1",
+    "gulp-connect": "^5.0.0",
+    "gulp-postcss": "^6.2.0",
+    "postcss": "^5.2.8",
+    "postcss-cssnext": "^2.9.0",
+    "postcss-import": "^9.0.0"
   }
 }
