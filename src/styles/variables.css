@@ -1,0 +1,19 @@
+@custom-media --viewport-sm-only (width < 768px);
+@custom-media --viewport-md (width >= 768px);
+
+:root {
+  --font-size: 1.25em;
+
+  --color-text: rgba(255, 255, 255, 0.5);
+  --color-text-highlighted: #fff;
+  --color-background: #281A78;
+
+  --body-spacing: 2rem;
+}
+
+@media (--viewport-md) {
+  :root {
+    --font-size: 2em;
+    --body-spacing: 2.5rem;
+  }
+}

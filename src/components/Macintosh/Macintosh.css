@@ -1,0 +1,94 @@
+html.-huevosRancheros {
+  height: 100%;
+  background-image: linear-gradient(to bottom, #ff85c3 0%, #33d3da 100%);
+}
+
+html.-huevosRancheros body {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.Macintosh-chassis {
+  border-radius: 30px 30px 0 0;
+  padding: 60px 15px 0;
+  background-image: radial-gradient(ellipse at 50% -500%, #DDDACD 89%, #908A75 92%);
+}
+
+.Macintosh-front {
+  padding: 50px 50px 50px;
+  border-radius: 20px 20px 0 0 ;
+  background-image: linear-gradient(to bottom, #C5C1B0 0%, #C2BFB0 100%);
+}
+
+.Macintosh-screenBorder,
+.Macintosh-drive {
+  position: relative;
+  border-radius: 15px;
+  padding: 20px;
+  background-image: radial-gradient(ellipse at 50% 50%, #87826B 20%, #E7E3DA 80%);
+  background-size: 100% 500%;
+  background-position: 0% 50%;
+}
+
+.Macintosh-screen {
+  padding: 30px;
+  background-color: #000;
+  border-top-left-radius: 70% 3%;
+  border-top-right-radius: 70% 3%;
+  border-bottom-left-radius: 70% 3%;
+  border-bottom-right-radius: 70% 3%;
+  overflow: auto;
+}
+
+.Macintosh-screenPixels {
+  width: 640px;
+  height: 480px;
+  background-color: #fff;
+  color: #000;
+  border-radius: 2px;
+  overflow: auto;
+}
+
+.Macintosh-glare {
+  position: absolute;
+  width: calc(100% - 40px);
+  height: calc(100% - 40px);
+  border-top-left-radius: 70% 3%;
+  border-top-right-radius: 70% 3%;
+  background-image: radial-gradient(ellipse at 50% 15%, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.0) 50%);
+  background-size: 200% 100%;
+  background-position: 55% 50%;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.Macintosh-drive {
+  margin: 100px 0 0 300px;
+  padding: 8px 20px;
+
+  &::after {
+    border-radius: 7px;
+    content: '';
+    display: block;
+    height: 20px;
+    background-color: #000;
+  }
+
+}
+
+.Macintosh-drive::after {
+  border-radius: 7px;
+  content: '';
+  display: block;
+  height: 20px;
+  background-color: #000;
+}
+
+@media (max-height: 800px) {
+  .Macintosh-drive {
+    display: none;
+  }
+}

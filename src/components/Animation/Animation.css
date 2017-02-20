@@ -1,0 +1,44 @@
+@supports (animation-name: fadeIn) {
+  .Animation {
+    opacity: 0;
+  }
+}
+
+.Animation {
+  animation-delay: 0;
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+  animation-name: fadeIn;
+  animation-timing-function: ease;
+}
+
+.Animation-2 {
+  animation-delay: 0.25s;
+}
+
+.Animation-3 {
+  animation-delay: 0.5s;
+}
+
+.Animation-4 {
+  animation-delay: 0.75s;
+}
+
+.Animation-5 {
+  animation-delay: 1s;
+}
+
+.Animation-6 {
+  animation-delay: 1.25s;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
