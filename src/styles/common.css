@@ -10,6 +10,11 @@ html {
   background-color: var(--color-background);
   background-image: url('./background.jpg');
   background-size: cover;
+
+  &.fourOhFour {
+    background-color: var(--color-background-404);
+    background-image: none;
+  }
 }
 
 body {

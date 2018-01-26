@@ -4,6 +4,7 @@
   --color-text: rgba(255, 255, 255, .5);
   --color-text-highlighted: #fff;
   --color-background: #281A78;
+  --color-background-404: #000;
 
   --body-spacing: 2rem;
 }
@@ -23,7 +24,11 @@ html {
   font-size: var(--font-size);
   background-color: var(--color-background);
   background-image: url('./background.jpg');
-  background-size: cover;
+  background-size: cover
+}
+html.fourOhFour {
+  background-color: var(--color-background-404);
+  background-image: none;
 }
 body {
   max-width: 35rem;
