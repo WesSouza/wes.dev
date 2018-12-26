@@ -2,8 +2,14 @@
 
 Installation:
 
-    yarn && yarn build
+```sh
+npm install
+```
 
 Development:
 
-    yarn dev
+```sh
+npm run parcel-watch
+```
+
+Server listens at http://localhost:1234/
