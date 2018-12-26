@@ -1,8 +1,0 @@
-.Greeting {
-  opacity: 0;
-  transition: opacity 0.25s ease;
-}
-
-.Greeting-loaded {
-  opacity: 1;
-}
