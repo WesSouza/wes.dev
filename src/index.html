@@ -6,6 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <title>Wes Souza &mdash; Web Developer, Creator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
       content="Wesley de Souza is a software developer working at Work & Co in Brooklyn, NY. Learn more at the website."
@@ -205,7 +206,7 @@
 
       @media (max-width: 50rem) {
         :root {
-          --base-size: 2.5rem;
+          --base-size: 2.75rem;
         }
       }
 
@@ -246,7 +247,11 @@
         color: inherit;
         -webkit-text-decoration-color: var(--color-link-decoration);
         text-decoration-color: var(--color-link-decoration);
-        white-space: nowrap;
+      }
+      @media (min-width: 50rem) {
+        a {
+          white-space: nowrap;
+        }
       }
 
       footer {
@@ -262,6 +267,7 @@
         background-image: linear-gradient(
           to right,
           hsl(0, 100%, 50%),
+          hsl(45deg, 100%, 50%),
           hsl(90deg, 100%, 50%)
         );
         height: calc(var(--base-size) / 4);
@@ -271,11 +277,11 @@
         top: 0;
         z-index: 1;
       }
-
       .border-right {
         background-image: linear-gradient(
           to bottom,
           hsl(90deg, 100%, 50%),
+          hsl(135deg, 100%, 50%),
           hsl(180deg, 100%, 50%)
         );
         bottom: 0;
@@ -285,11 +291,11 @@
         width: calc(var(--base-size) / 4);
         z-index: 1;
       }
-
       .border-bottom {
         background-image: linear-gradient(
           to left,
           hsl(180deg, 100%, 50%),
+          hsl(225deg, 100%, 50%),
           hsl(270deg, 100%, 50%)
         );
         bottom: 0;
@@ -299,11 +305,11 @@
         right: 0;
         z-index: 1;
       }
-
       .border-left {
         background-image: linear-gradient(
           to top,
           hsl(270deg, 100%, 50%),
+          hsl(315deg, 100%, 50%),
           hsl(0, 100%, 50%)
         );
         bottom: 0;
@@ -315,16 +321,22 @@
       }
 
       .rainbow-link {
-        --color-rotation: 0;
-        --color-segments: 8;
+        --rainbow-link-rotation: 0;
+        --rainbow-link-segments: 8;
         transition: color 0.1s ease;
         -webkit-text-decoration-color: hsl(
-          calc(calc(var(--color-rotation) / var(--color-segments)) * 180deg),
+          calc(
+            calc(var(--rainbow-link-rotation) / var(--rainbow-link-segments)) *
+              180deg
+          ),
           var(--rainbow-link-saturation),
           50%
         );
         text-decoration-color: hsl(
-          calc(calc(var(--color-rotation) / var(--color-segments)) * 180deg),
+          calc(
+            calc(var(--rainbow-link-rotation) / var(--rainbow-link-segments)) *
+              180deg
+          ),
           var(--rainbow-link-saturation),
           50%
         );
@@ -334,44 +346,47 @@
       .rainbow-link:focus,
       .rainbow-link:hover {
         color: hsl(
-          calc(calc(var(--color-rotation) / var(--color-segments)) * 180deg),
+          calc(
+            calc(var(--rainbow-link-rotation) / var(--rainbow-link-segments)) *
+              180deg
+          ),
           var(--rainbow-link-saturation),
           50%
         );
       }
 
       .rainbow-link-1 {
-        --color-rotation: 1;
+        --rainbow-link-rotation: 1;
       }
 
       .rainbow-link-2 {
-        --color-rotation: 2;
+        --rainbow-link-rotation: 2;
       }
 
       .rainbow-link-3 {
-        --color-rotation: 3;
+        --rainbow-link-rotation: 3;
         --rainbow-link-saturation: 50%;
       }
 
       .rainbow-link-4 {
-        --color-rotation: 4;
+        --rainbow-link-rotation: 4;
         --rainbow-link-saturation: 50%;
       }
 
       .rainbow-link-5 {
-        --color-rotation: 5;
+        --rainbow-link-rotation: 5;
       }
 
       .rainbow-link-6 {
-        --color-rotation: 6;
+        --rainbow-link-rotation: 6;
       }
 
       .rainbow-link-7 {
-        --color-rotation: 7;
+        --rainbow-link-rotation: 7;
       }
 
       .rainbow-link-8 {
-        --color-rotation: 7;
+        --rainbow-link-rotation: 7;
       }
     </style>
 
