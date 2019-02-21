@@ -1,7 +1,7 @@
 {
   "version": 2,
-  "name": "wesley-so",
-  "alias": ["wesley.so"],
+  "name": "wes-so",
+  "alias": ["wes.dev", "wesley.so"],
   "builds": [
     {
       "src": "package.json",

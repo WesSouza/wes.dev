@@ -1,7 +1,7 @@
 {
-  "name": "wesley.so",
+  "name": "wes.dev",
   "version": "2019.0.0",
-  "description": "https://wesley.so/",
+  "description": "https://wes.dev/",
   "main": "src/index.ts",
   "scripts": {
     "build": "parcel build src/index.html",
@@ -10,16 +10,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/WesleydeSouza/wesley.so.git"
+    "url": "git+https://github.com/WesSouza/wes.dev.git"
   },
   "keywords": [
     "personal website",
     "wes souza",
-    "wesley de souza"
+    "Wes Souza"
   ],
-  "author": "Wes Souza <me@wesley.so>",
+  "author": "Wes Souza <hey@wes.dev>",
   "license": "MIT",
-  "homepage": "https://wesley.so/",
+  "homepage": "https://wes.dev/",
   "dependencies": {
     "parcel-bundler": "^1.11.0"
   },

@@ -1,4 +1,4 @@
-# Wesley.so website
+# wes.dev website
 
 Installation:
 

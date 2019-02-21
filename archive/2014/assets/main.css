@@ -1,7 +1,7 @@
 /**
  * Hi there! Glad you found me.
  *
- * @author Wesley de Souza <dev@wesley.so>
+ * @author Wes Souza <hey@wes.dev>
  */
 * {
   -moz-box-sizing: border-box;
@@ -12,7 +12,8 @@ body [hidden] {
   display: none;
 }
 
-html, body {
+html,
+body {
   margin: 0;
   -webkit-text-size-adjust: 100%;
   -webkit-font-smoothing: antialiased;
@@ -32,16 +33,18 @@ body {
   }
 }
 
-body, a {
+body,
+a {
   color: #000;
 }
 
-strong, b {
+strong,
+b {
   font-weight: 700;
 }
 
 hr {
-  background-color: #FFF;
+  background-color: #fff;
   height: 1px;
   width: 100%;
   border-width: 0;
@@ -86,7 +89,8 @@ body .no-wrap {
   padding: 0;
 }
 
-.list-linear, .list-linear li {
+.list-linear,
+.list-linear li {
   display: inline-block;
 }
 
@@ -108,17 +112,22 @@ body .no-wrap {
   border-radius: 4px;
 }
 
-.wrapper, .grid {
+.wrapper,
+.grid {
   zoom: 1;
   clear: both;
 }
 
-.wrapper:before, .wrapper:after, .grid:before, .grid:after {
-  content: "";
+.wrapper:before,
+.wrapper:after,
+.grid:before,
+.grid:after {
+  content: '';
   display: table;
 }
 
-.wrapper:after, .grid:after {
+.wrapper:after,
+.grid:after {
   clear: both;
 }
 
@@ -187,7 +196,7 @@ body .no-wrap {
 }
 
 .width-5-6 {
-  width: 83,33333%;
+  width: 83, 33333%;
 }
 
 @media only screen and (min-width: 768px) {
@@ -225,7 +234,7 @@ body .no-wrap {
     width: 80%;
   }
   .width-md-5-6 {
-    width: 83,33333%;
+    width: 83, 33333%;
   }
 }
 
@@ -264,7 +273,7 @@ body .no-wrap {
     width: 80%;
   }
   .width-lg-5-6 {
-    width: 83,33333%;
+    width: 83, 33333%;
   }
 }
 
@@ -319,13 +328,14 @@ body .no-wrap {
   }
 }
 
-.input-text, body a.btn,
+.input-text,
+body a.btn,
 body .btn {
   padding: 12px;
   font-size: 0.75em;
-  border: 1px solid #DDD;
+  border: 1px solid #ddd;
   border-radius: 4px;
-  background-color: #FFF;
+  background-color: #fff;
   color: #000;
   transition: all 0.15s ease;
 }
@@ -345,33 +355,92 @@ body .btn:-ms-input-placeholder {
   color: rgba(0, 0, 0, 0.5);
 }
 
-body .content-highlight-1 .input-text, body .content-highlight-1 a.btn, body .content-highlight-1 .btn, body .content-highlight-2 .input-text, body .content-highlight-2 a.btn, body .content-highlight-2 .btn, body .content-highlight-3 .input-text, body .content-highlight-3 a.btn, body .content-highlight-3 .btn, body .content-highlight-1 a.btn-primary, body .content-highlight-1 .btn-primary, body .content-highlight-2 a.btn-primary, body .content-highlight-2 .btn-primary, body .content-highlight-3 a.btn-primary, body .content-highlight-3 .btn-primary {
-  border-color: #FFF;
-  color: #FFF;
+body .content-highlight-1 .input-text,
+body .content-highlight-1 a.btn,
+body .content-highlight-1 .btn,
+body .content-highlight-2 .input-text,
+body .content-highlight-2 a.btn,
+body .content-highlight-2 .btn,
+body .content-highlight-3 .input-text,
+body .content-highlight-3 a.btn,
+body .content-highlight-3 .btn,
+body .content-highlight-1 a.btn-primary,
+body .content-highlight-1 .btn-primary,
+body .content-highlight-2 a.btn-primary,
+body .content-highlight-2 .btn-primary,
+body .content-highlight-3 a.btn-primary,
+body .content-highlight-3 .btn-primary {
+  border-color: #fff;
+  color: #fff;
   background-color: transparent;
 }
 
-body .content-highlight-1 .input-text::-webkit-input-placeholder, body .content-highlight-1 .btn::-webkit-input-placeholder, body .content-highlight-2 .input-text::-webkit-input-placeholder, body .content-highlight-2 .btn::-webkit-input-placeholder, body .content-highlight-3 .input-text::-webkit-input-placeholder, body .content-highlight-3 .btn::-webkit-input-placeholder, body .content-highlight-1 .btn-primary::-webkit-input-placeholder, body .content-highlight-2 .btn-primary::-webkit-input-placeholder, body .content-highlight-3 .btn-primary::-webkit-input-placeholder {
+body .content-highlight-1 .input-text::-webkit-input-placeholder,
+body .content-highlight-1 .btn::-webkit-input-placeholder,
+body .content-highlight-2 .input-text::-webkit-input-placeholder,
+body .content-highlight-2 .btn::-webkit-input-placeholder,
+body .content-highlight-3 .input-text::-webkit-input-placeholder,
+body .content-highlight-3 .btn::-webkit-input-placeholder,
+body .content-highlight-1 .btn-primary::-webkit-input-placeholder,
+body .content-highlight-2 .btn-primary::-webkit-input-placeholder,
+body .content-highlight-3 .btn-primary::-webkit-input-placeholder {
   color: rgba(255, 255, 255, 0.5);
 }
 
-body .content-highlight-1 .input-text::-moz-placeholder, body .content-highlight-1 .btn::-moz-placeholder, body .content-highlight-2 .input-text::-moz-placeholder, body .content-highlight-2 .btn::-moz-placeholder, body .content-highlight-3 .input-text::-moz-placeholder, body .content-highlight-3 .btn::-moz-placeholder, body .content-highlight-1 .btn-primary::-moz-placeholder, body .content-highlight-2 .btn-primary::-moz-placeholder, body .content-highlight-3 .btn-primary::-moz-placeholder {
+body .content-highlight-1 .input-text::-moz-placeholder,
+body .content-highlight-1 .btn::-moz-placeholder,
+body .content-highlight-2 .input-text::-moz-placeholder,
+body .content-highlight-2 .btn::-moz-placeholder,
+body .content-highlight-3 .input-text::-moz-placeholder,
+body .content-highlight-3 .btn::-moz-placeholder,
+body .content-highlight-1 .btn-primary::-moz-placeholder,
+body .content-highlight-2 .btn-primary::-moz-placeholder,
+body .content-highlight-3 .btn-primary::-moz-placeholder {
   color: rgba(255, 255, 255, 0.5);
 }
 
-body .content-highlight-1 .input-text:-ms-input-placeholder, body .content-highlight-1 .btn:-ms-input-placeholder, body .content-highlight-2 .input-text:-ms-input-placeholder, body .content-highlight-2 .btn:-ms-input-placeholder, body .content-highlight-3 .input-text:-ms-input-placeholder, body .content-highlight-3 .btn:-ms-input-placeholder, body .content-highlight-1 .btn-primary:-ms-input-placeholder, body .content-highlight-2 .btn-primary:-ms-input-placeholder, body .content-highlight-3 .btn-primary:-ms-input-placeholder {
+body .content-highlight-1 .input-text:-ms-input-placeholder,
+body .content-highlight-1 .btn:-ms-input-placeholder,
+body .content-highlight-2 .input-text:-ms-input-placeholder,
+body .content-highlight-2 .btn:-ms-input-placeholder,
+body .content-highlight-3 .input-text:-ms-input-placeholder,
+body .content-highlight-3 .btn:-ms-input-placeholder,
+body .content-highlight-1 .btn-primary:-ms-input-placeholder,
+body .content-highlight-2 .btn-primary:-ms-input-placeholder,
+body .content-highlight-3 .btn-primary:-ms-input-placeholder {
   color: rgba(255, 255, 255, 0.5);
 }
 
-body .content-highlight-1 .btn:hover, body .content-highlight-2 .btn:hover, body .content-highlight-3 .btn:hover, body .content-highlight-1 .input-text:focus, body .content-highlight-1 .btn:focus, body .content-highlight-2 .input-text:focus, body .content-highlight-2 .btn:focus, body .content-highlight-3 .input-text:focus, body .content-highlight-3 .btn:focus, body .content-highlight-1 .btn-primary:focus, body .content-highlight-2 .btn-primary:focus, body .content-highlight-3 .btn-primary:focus, body .content-highlight-1 .input-text:active, body .content-highlight-1 .btn:active, body .content-highlight-2 .input-text:active, body .content-highlight-2 .btn:active, body .content-highlight-3 .input-text:active, body .content-highlight-3 .btn:active, body .content-highlight-1 .btn-primary:active, body .content-highlight-2 .btn-primary:active, body .content-highlight-3 .btn-primary:active {
+body .content-highlight-1 .btn:hover,
+body .content-highlight-2 .btn:hover,
+body .content-highlight-3 .btn:hover,
+body .content-highlight-1 .input-text:focus,
+body .content-highlight-1 .btn:focus,
+body .content-highlight-2 .input-text:focus,
+body .content-highlight-2 .btn:focus,
+body .content-highlight-3 .input-text:focus,
+body .content-highlight-3 .btn:focus,
+body .content-highlight-1 .btn-primary:focus,
+body .content-highlight-2 .btn-primary:focus,
+body .content-highlight-3 .btn-primary:focus,
+body .content-highlight-1 .input-text:active,
+body .content-highlight-1 .btn:active,
+body .content-highlight-2 .input-text:active,
+body .content-highlight-2 .btn:active,
+body .content-highlight-3 .input-text:active,
+body .content-highlight-3 .btn:active,
+body .content-highlight-1 .btn-primary:active,
+body .content-highlight-2 .btn-primary:active,
+body .content-highlight-3 .btn-primary:active {
   border-color: transparent;
-  color: #FFF;
-  box-shadow: 0 0 0 2px #FFF;
+  color: #fff;
+  box-shadow: 0 0 0 2px #fff;
   outline: 0;
 }
 
-.input-text:focus, .input-text:active {
-  border-color: #FFF;
+.input-text:focus,
+.input-text:active {
+  border-color: #fff;
   outline: none;
   box-shadow: 0 0 0 2px #666;
 }
@@ -396,7 +465,9 @@ body .btn:hover {
   text-decoration: none;
 }
 
-body a.btn:hover, body a.btn:focus, body a.btn:active,
+body a.btn:hover,
+body a.btn:focus,
+body a.btn:active,
 body .btn:hover,
 body .btn:focus,
 body .btn:active {
@@ -420,38 +491,40 @@ body .btn[disabled] {
 
 body a.btn-primary,
 body .btn-primary {
-  border-color: #59B200;
-  background-color: #59B200;
-  color: #FFF;
+  border-color: #59b200;
+  background-color: #59b200;
+  color: #fff;
 }
 
-body a.btn-primary:focus, body a.btn-primary:active,
+body a.btn-primary:focus,
+body a.btn-primary:active,
 body .btn-primary:focus,
 body .btn-primary:active {
-  border-color: #FFF;
-  background-color: #FFF;
-  color: #59B200;
+  border-color: #fff;
+  background-color: #fff;
+  color: #59b200;
   outline: none;
-  box-shadow: 0 0 0 2px #59B200;
+  box-shadow: 0 0 0 2px #59b200;
 }
 
 body a.btn-primary:hover,
 body .btn-primary:hover {
-  box-shadow: 0 0 0 2px #59B200;
+  box-shadow: 0 0 0 2px #59b200;
 }
 
 body a.btn-info,
 body .btn-info {
   border-color: #666;
   background-color: #666;
-  color: #FFF;
+  color: #fff;
 }
 
-body a.btn-info:focus, body a.btn-info:active,
+body a.btn-info:focus,
+body a.btn-info:active,
 body .btn-info:focus,
 body .btn-info:active {
-  border-color: #FFF;
-  background-color: #FFF;
+  border-color: #fff;
+  background-color: #fff;
   color: #666;
   outline: none;
   box-shadow: 0 0 0 2px #666;
@@ -502,65 +575,137 @@ body .btn-sm {
   }
 }
 
-.content-alternate, .content-highlight-1, .content-highlight-2, .content-highlight-3, .content {
+.content-alternate,
+.content-highlight-1,
+.content-highlight-2,
+.content-highlight-3,
+.content {
   padding: 40px 0;
-  background-color: #FFF;
+  background-color: #fff;
   color: #666;
   font-size: 1em;
   text-align: center;
 }
 
-.content-alternate h1, .content-highlight-1 h1, .content-highlight-2 h1, .content-highlight-3 h1, .content-alternate h2, .content-highlight-1 h2, .content-highlight-2 h2, .content-highlight-3 h2, .content-alternate h3, .content-highlight-1 h3, .content-highlight-2 h3, .content-highlight-3 h3, .content h1, .content h2, .content h3 {
+.content-alternate h1,
+.content-highlight-1 h1,
+.content-highlight-2 h1,
+.content-highlight-3 h1,
+.content-alternate h2,
+.content-highlight-1 h2,
+.content-highlight-2 h2,
+.content-highlight-3 h2,
+.content-alternate h3,
+.content-highlight-1 h3,
+.content-highlight-2 h3,
+.content-highlight-3 h3,
+.content h1,
+.content h2,
+.content h3 {
   font-size: 1.875em;
   font-weight: 700;
   color: #000;
   margin: 0 0 20px 0;
 }
 
-.content-alternate h1 a, .content-highlight-1 h1 a, .content-highlight-2 h1 a, .content-highlight-3 h1 a, .content-alternate h2 a, .content-highlight-1 h2 a, .content-highlight-2 h2 a, .content-highlight-3 h2 a, .content-alternate h3 a, .content-highlight-1 h3 a, .content-highlight-2 h3 a, .content-highlight-3 h3 a, .content h1 a, .content h2 a, .content h3 a {
+.content-alternate h1 a,
+.content-highlight-1 h1 a,
+.content-highlight-2 h1 a,
+.content-highlight-3 h1 a,
+.content-alternate h2 a,
+.content-highlight-1 h2 a,
+.content-highlight-2 h2 a,
+.content-highlight-3 h2 a,
+.content-alternate h3 a,
+.content-highlight-1 h3 a,
+.content-highlight-2 h3 a,
+.content-highlight-3 h3 a,
+.content h1 a,
+.content h2 a,
+.content h3 a {
   color: #000;
 }
 
-.content-alternate h1, .content-highlight-1 h1, .content-highlight-2 h1, .content-highlight-3 h1, .content h1 {
+.content-alternate h1,
+.content-highlight-1 h1,
+.content-highlight-2 h1,
+.content-highlight-3 h1,
+.content h1 {
   font-weight: 300;
 }
 
-.content-alternate h2, .content-highlight-1 h2, .content-highlight-2 h2, .content-highlight-3 h2, .content h2 {
+.content-alternate h2,
+.content-highlight-1 h2,
+.content-highlight-2 h2,
+.content-highlight-3 h2,
+.content h2 {
   font-size: 1.5em;
 }
 
 @media only screen and (max-width: 767px) {
-  .content-alternate h2, .content-highlight-1 h2, .content-highlight-2 h2, .content-highlight-3 h2, .content h2 {
+  .content-alternate h2,
+  .content-highlight-1 h2,
+  .content-highlight-2 h2,
+  .content-highlight-3 h2,
+  .content h2 {
     font-size: 1.125em;
   }
 }
 
-.content-alternate h3, .content-highlight-1 h3, .content-highlight-2 h3, .content-highlight-3 h3, .content h3 {
+.content-alternate h3,
+.content-highlight-1 h3,
+.content-highlight-2 h3,
+.content-highlight-3 h3,
+.content h3 {
   font-size: 1.25em;
 }
 
 @media only screen and (max-width: 767px) {
-  .content-alternate h3, .content-highlight-1 h3, .content-highlight-2 h3, .content-highlight-3 h3, .content h3 {
+  .content-alternate h3,
+  .content-highlight-1 h3,
+  .content-highlight-2 h3,
+  .content-highlight-3 h3,
+  .content h3 {
     font-size: 0.875em;
   }
 }
 
-.content-alternate input, .content-highlight-1 input, .content-highlight-2 input, .content-highlight-3 input, .content input {
+.content-alternate input,
+.content-highlight-1 input,
+.content-highlight-2 input,
+.content-highlight-3 input,
+.content input {
   color: #666;
 }
 
-.content-alternate a, .content-highlight-1 a, .content-highlight-2 a, .content-highlight-3 a, .content a {
+.content-alternate a,
+.content-highlight-1 a,
+.content-highlight-2 a,
+.content-highlight-3 a,
+.content a {
   color: #666;
 }
 
 @media only screen and (max-width: 767px) {
-  .content-alternate, .content-highlight-1, .content-highlight-2, .content-highlight-3, .content {
+  .content-alternate,
+  .content-highlight-1,
+  .content-highlight-2,
+  .content-highlight-3,
+  .content {
     padding: 20px 0;
   }
-  .content-alternate h1, .content-highlight-1 h1, .content-highlight-2 h1, .content-highlight-3 h1, .content h1 {
+  .content-alternate h1,
+  .content-highlight-1 h1,
+  .content-highlight-2 h1,
+  .content-highlight-3 h1,
+  .content h1 {
     font-size: 1.375em;
   }
-  .content-alternate h2, .content-highlight-1 h2, .content-highlight-2 h2, .content-highlight-3 h2, .content h2 {
+  .content-alternate h2,
+  .content-highlight-1 h2,
+  .content-highlight-2 h2,
+  .content-highlight-3 h2,
+  .content h2 {
     font-size: 1em;
   }
 }
@@ -572,23 +717,40 @@ body .btn-sm {
 .content-alternate {
   border: 1px solid #d6d6d6;
   border-width: 1px 0;
-  background-color: #EFEFEF;
+  background-color: #efefef;
 }
 
-.content-highlight-1, .content-highlight-2, .content-highlight-3 {
-  color: #FFF;
+.content-highlight-1,
+.content-highlight-2,
+.content-highlight-3 {
+  color: #fff;
   background-color: #666;
 }
 
-.content-highlight-1 h1, .content-highlight-1 h2, .content-highlight-1 a, .content-highlight-2 h1, .content-highlight-2 h2, .content-highlight-2 a, .content-highlight-3 h1, .content-highlight-3 h2, .content-highlight-3 a {
-  color: #FFF;
+.content-highlight-1 h1,
+.content-highlight-1 h2,
+.content-highlight-1 a,
+.content-highlight-2 h1,
+.content-highlight-2 h2,
+.content-highlight-2 a,
+.content-highlight-3 h1,
+.content-highlight-3 h2,
+.content-highlight-3 a {
+  color: #fff;
 }
 
-.content-highlight-1 a, .content-highlight-2 a, .content-highlight-3 a {
-  color: #FFF;
+.content-highlight-1 a,
+.content-highlight-2 a,
+.content-highlight-3 a {
+  color: #fff;
 }
 
-body .content-highlight-1 a.btn-primary, body .content-highlight-1 .btn-primary, body .content-highlight-2 a.btn-primary, body .content-highlight-2 .btn-primary, body .content-highlight-3 a.btn-primary, body .content-highlight-3 .btn-primary {
+body .content-highlight-1 a.btn-primary,
+body .content-highlight-1 .btn-primary,
+body .content-highlight-2 a.btn-primary,
+body .content-highlight-2 .btn-primary,
+body .content-highlight-3 a.btn-primary,
+body .content-highlight-3 .btn-primary {
   border-color: #000;
   background-color: #000;
 }
@@ -618,15 +780,18 @@ body .content-highlight-1 a.btn-primary, body .content-highlight-1 .btn-primary,
 .box {
   display: block;
   padding: 20px 20px 0;
-  border: 1px solid #DDD;
+  border: 1px solid #ddd;
   border-radius: 4px;
 }
 
-.box header, .box .box-content, .box footer {
+.box header,
+.box .box-content,
+.box footer {
   margin-bottom: 20px;
 }
 
-.box h1, .box h2 {
+.box h1,
+.box h2 {
   margin: 0 0 20px 0;
   font-size: 0.875em;
   font-weight: 700;
@@ -681,9 +846,10 @@ body .content-highlight-1 a.btn-primary, body .content-highlight-1 .btn-primary,
   outline: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.main-nav, .main-nav a {
+.main-nav,
+.main-nav a {
   text-decoration: none;
-  color: #FFF;
+  color: #fff;
 }
 
 .main-nav a:hover {
@@ -729,7 +895,8 @@ body .content-highlight-1 a.btn-primary, body .content-highlight-1 .btn-primary,
   .scroll-on-top.transparent .main-nav {
     background: none;
   }
-  .scroll-on-top.transparent .main-nav, .scroll-on-top.transparent .main-nav a {
+  .scroll-on-top.transparent .main-nav,
+  .scroll-on-top.transparent .main-nav a {
     color: rgba(255, 255, 255, 0.8);
   }
   .main-nav li {
@@ -764,7 +931,7 @@ body .content-highlight-1 a.btn-primary, body .content-highlight-1 .btn-primary,
     margin-top: -3px;
     letter-spacing: 0.28em;
   }
-  html[lang=en] .main-nav h1 small {
+  html[lang='en'] .main-nav h1 small {
     margin-top: -2px;
     letter-spacing: 0.245em;
   }
@@ -777,8 +944,8 @@ body .content-highlight-1 a.btn-primary, body .content-highlight-1 .btn-primary,
     line-height: 35px;
     font-size: 0.875em;
     letter-spacing: 0.00625em;
-    color: #FFF;
-    border-color: #FFF;
+    color: #fff;
+    border-color: #fff;
   }
   .main-nav .nav-btn-dropdown-close {
     display: none;
@@ -792,11 +959,12 @@ body .content-highlight-1 a.btn-primary, body .content-highlight-1 .btn-primary,
     display: none;
     line-height: 20px;
     clear: both;
-    background: #FFF;
+    background: #fff;
     overflow: scroll;
     -webkit-overflow-scrolling: touch;
   }
-  .main-nav .nav-ul-menu a, .main-nav .nav-ul-menu h2 {
+  .main-nav .nav-ul-menu a,
+  .main-nav .nav-ul-menu h2 {
     display: block;
     margin: 0;
     font-size: 1.125em;
@@ -812,7 +980,7 @@ body .content-highlight-1 a.btn-primary, body .content-highlight-1 .btn-primary,
     text-transform: uppercase;
   }
   .main-nav .nav-ul-menu li {
-    border-top: 1px solid #DDD;
+    border-top: 1px solid #ddd;
     font-weight: 300;
     margin-left: 1.125em;
   }
@@ -822,14 +990,15 @@ body .content-highlight-1 a.btn-primary, body .content-highlight-1 .btn-primary,
   .main-nav .nav-ul-menu .nav-ul-category {
     margin-left: 0;
     padding-left: 1.125em;
-    background-color: #EFEFEF;
-    border: 1px solid #DDD;
+    background-color: #efefef;
+    border: 1px solid #ddd;
     border-width: 1px 0;
   }
   .main-nav .nav-ul-menu .nav-ul-category + li {
     border-top: 0;
   }
-  .main-nav .nav-ul-menu li, .main-nav .nav-ul-menu a {
+  .main-nav .nav-ul-menu li,
+  .main-nav .nav-ul-menu a {
     color: #000;
   }
   html.nav-open .main-nav {
@@ -846,7 +1015,8 @@ body .content-highlight-1 a.btn-primary, body .content-highlight-1 .btn-primary,
 }
 
 @media only screen and (max-width: 767px) {
-  html.nav-open, html.nav-open body {
+  html.nav-open,
+  html.nav-open body {
     overflow: hidden;
     height: 100%;
   }
@@ -854,13 +1024,16 @@ body .content-highlight-1 a.btn-primary, body .content-highlight-1 .btn-primary,
 
 .main-footer {
   background-color: #666;
-  color: #DDD;
+  color: #ddd;
 }
 
 .main-footer a {
   text-decoration: none;
   display: inline-block;
-  text-shadow: -2px -2px 0 #666, -2px -1px 0 #666, -2px 0px 0 #666, -1px -2px 0 #666, -1px -1px 0 #666, -1px 0px 0 #666, 1px -2px 0 #666, 1px -1px 0 #666, 1px 0px 0 #666, 2px -2px 0 #666, 2px -1px 0 #666, 2px 0px 0 #666;
+  text-shadow: -2px -2px 0 #666, -2px -1px 0 #666, -2px 0px 0 #666,
+    -1px -2px 0 #666, -1px -1px 0 #666, -1px 0px 0 #666, 1px -2px 0 #666,
+    1px -1px 0 #666, 1px 0px 0 #666, 2px -2px 0 #666, 2px -1px 0 #666,
+    2px 0px 0 #666;
 }
 
 .main-footer a:after {
@@ -868,13 +1041,13 @@ body .content-highlight-1 a.btn-primary, body .content-highlight-1 .btn-primary,
   display: block;
   width: 100%;
   height: 1px;
-  background-color: #FFF;
+  background-color: #fff;
   margin-top: -2px;
   margin-bottom: -7px;
 }
 
 .main-footer a {
-  color: #FFF;
+  color: #fff;
 }
 
 /*
@@ -1044,7 +1217,13 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 .home-contact li a {
   text-decoration: none;
   display: inline-block;
-  text-shadow: -3px -3px 0 #333, -3px -2px 0 #333, -3px -1px 0 #333, -3px 0px 0 #333, -2px -3px 0 #333, -2px -2px 0 #333, -2px -1px 0 #333, -2px 0px 0 #333, -1px -3px 0 #333, -1px -2px 0 #333, -1px -1px 0 #333, -1px 0px 0 #333, 1px -3px 0 #333, 1px -2px 0 #333, 1px -1px 0 #333, 1px 0px 0 #333, 2px -3px 0 #333, 2px -2px 0 #333, 2px -1px 0 #333, 2px 0px 0 #333, 3px -3px 0 #333, 3px -2px 0 #333, 3px -1px 0 #333, 3px 0px 0 #333;
+  text-shadow: -3px -3px 0 #333, -3px -2px 0 #333, -3px -1px 0 #333,
+    -3px 0px 0 #333, -2px -3px 0 #333, -2px -2px 0 #333, -2px -1px 0 #333,
+    -2px 0px 0 #333, -1px -3px 0 #333, -1px -2px 0 #333, -1px -1px 0 #333,
+    -1px 0px 0 #333, 1px -3px 0 #333, 1px -2px 0 #333, 1px -1px 0 #333,
+    1px 0px 0 #333, 2px -3px 0 #333, 2px -2px 0 #333, 2px -1px 0 #333,
+    2px 0px 0 #333, 3px -3px 0 #333, 3px -2px 0 #333, 3px -1px 0 #333,
+    3px 0px 0 #333;
 }
 
 .home-contact li a:after {
@@ -1052,7 +1231,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
   display: block;
   width: 100%;
   height: 1px;
-  background-color: #FFF;
+  background-color: #fff;
   margin-top: -2px;
   margin-bottom: -7px;
 }
@@ -1110,7 +1289,10 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 .home-skills .home-skills-all li a {
   text-decoration: none;
   display: inline-block;
-  text-shadow: -2px -2px 0 #EFEFEF, -2px -1px 0 #EFEFEF, -2px 0px 0 #EFEFEF, -1px -2px 0 #EFEFEF, -1px -1px 0 #EFEFEF, -1px 0px 0 #EFEFEF, 1px -2px 0 #EFEFEF, 1px -1px 0 #EFEFEF, 1px 0px 0 #EFEFEF, 2px -2px 0 #EFEFEF, 2px -1px 0 #EFEFEF, 2px 0px 0 #EFEFEF;
+  text-shadow: -2px -2px 0 #efefef, -2px -1px 0 #efefef, -2px 0px 0 #efefef,
+    -1px -2px 0 #efefef, -1px -1px 0 #efefef, -1px 0px 0 #efefef,
+    1px -2px 0 #efefef, 1px -1px 0 #efefef, 1px 0px 0 #efefef,
+    2px -2px 0 #efefef, 2px -1px 0 #efefef, 2px 0px 0 #efefef;
 }
 
 .home-skills .home-skills-all li a:after {
@@ -1126,7 +1308,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 .home-skills .home-skills-all li:before {
   display: inline-block;
   padding-right: 8px;
-  content: "\f00c";
+  content: '\f00c';
   font-family: 'FontAwesome';
   font-size: 15px;
 }
@@ -1143,7 +1325,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
   left: 50%;
   width: 1px;
   height: 100%;
-  background-color: #EFEFEF;
+  background-color: #efefef;
   z-index: 1;
 }
 
@@ -1156,9 +1338,9 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
   background-image: url(./sprite.png);
   background-size: 490px 314px;
   display: inline-block;
-  border: 1px solid #EFEFEF;
+  border: 1px solid #efefef;
   border-radius: 50%;
-  background-color: #FFF;
+  background-color: #fff;
   background-repeat: no-repeat;
   text-indent: -99999px;
 }
@@ -1167,7 +1349,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
   display: block;
   padding: 5px 0;
   margin-bottom: 20px;
-  background-color: #FFF;
+  background-color: #fff;
   font-size: 0.875em;
 }
 
@@ -1175,11 +1357,12 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
   display: block;
 }
 
-.home-company header aside .dtstart, .home-company header aside .dtend {
+.home-company header aside .dtstart,
+.home-company header aside .dtend {
   font-weight: 700;
 }
 
-.home-company-wesley header a {
+.home-company-wes header a {
   width: 130px;
   height: 130px;
   background-position: -260px 0px;
@@ -1220,9 +1403,9 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
   width: 400px;
   margin: 0 auto 50px auto;
   padding: 20px 40px;
-  border: 1px solid #EFEFEF;
+  border: 1px solid #efefef;
   border-radius: 4px;
-  background-color: #FFF;
+  background-color: #fff;
 }
 
 @media only screen and (max-width: 767px) {
@@ -1251,7 +1434,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
     display: block;
     width: 300px;
     height: 100%;
-    border: 1px solid #EFEFEF;
+    border: 1px solid #efefef;
     border-top-left-radius: 4px;
     border-bottom-left-radius: 4px;
     background: url(./page-home-hero.jpg) no-repeat center center;
@@ -1268,7 +1451,10 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 .home-project h1 a {
   text-decoration: none;
   display: inline-block;
-  text-shadow: -2px -2px 0 #FFF, -2px -1px 0 #FFF, -2px 0px 0 #FFF, -1px -2px 0 #FFF, -1px -1px 0 #FFF, -1px 0px 0 #FFF, 1px -2px 0 #FFF, 1px -1px 0 #FFF, 1px 0px 0 #FFF, 2px -2px 0 #FFF, 2px -1px 0 #FFF, 2px 0px 0 #FFF;
+  text-shadow: -2px -2px 0 #fff, -2px -1px 0 #fff, -2px 0px 0 #fff,
+    -1px -2px 0 #fff, -1px -1px 0 #fff, -1px 0px 0 #fff, 1px -2px 0 #fff,
+    1px -1px 0 #fff, 1px 0px 0 #fff, 2px -2px 0 #fff, 2px -1px 0 #fff,
+    2px 0px 0 #fff;
 }
 
 .home-project h1 a:after {
@@ -1367,7 +1553,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
   margin: 0;
   font-size: 14px;
   border-radius: 5px 5px 0 0;
-  background-color: #DDD;
+  background-color: #ddd;
 }
 
 #unwex h1 i {
@@ -1378,26 +1564,28 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
   vertical-align: -1px;
 }
 
-#unwex h1 .window-buttons, #unwex h1 .window-buttons:before, #unwex h1 .window-buttons:after {
+#unwex h1 .window-buttons,
+#unwex h1 .window-buttons:before,
+#unwex h1 .window-buttons:after {
   content: ' ';
   position: absolute;
   top: 6px;
   left: 22px;
   display: block;
-  background-color: #FFD24D;
+  background-color: #ffd24d;
   width: 10px;
   height: 10px;
   border-radius: 50%;
 }
 
 #unwex h1 .window-buttons:before {
-  background-color: #FF7373;
+  background-color: #ff7373;
   top: 0;
   left: -15px;
 }
 
 #unwex h1 .window-buttons:after {
-  background-color: #6DD900;
+  background-color: #6dd900;
   top: 0;
   left: 15px;
 }
@@ -1410,7 +1598,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
   font-family: 'Droid Sans Mono', monospace;
   font-size: 12px;
   text-align: left;
-  color: #93FF26;
+  color: #93ff26;
   overflow-y: auto;
   word-break: break-word;
 }
@@ -1444,7 +1632,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 
 body.bsod {
   color: white;
-  background-color: #00009D;
+  background-color: #00009d;
   padding: 20px;
   font-family: 'Droid Sans Mono', monospace;
   font-weight: bold;
@@ -1475,30 +1663,40 @@ body.bsod {
   }
 }
 
-.blog-header, .blog-body, .blog-posts {
+.blog-header,
+.blog-body,
+.blog-posts {
   text-align: left;
 }
 
 @media only screen and (min-width: 768px) and (max-width: 1279px) {
-  .blog-header, .blog-body, .blog-posts {
+  .blog-header,
+  .blog-body,
+  .blog-posts {
     font-size: 1.125em;
   }
 }
 
 @media only screen and (min-width: 1280px) {
-  .blog-header, .blog-body, .blog-posts {
+  .blog-header,
+  .blog-body,
+  .blog-posts {
     font-size: 1.375em;
   }
 }
 
 @media only screen and (min-width: 768px) and (max-width: 1279px) {
-  .blog-header .wrapper, .blog-body .wrapper, .blog-posts .wrapper {
+  .blog-header .wrapper,
+  .blog-body .wrapper,
+  .blog-posts .wrapper {
     width: 600px;
   }
 }
 
 @media only screen and (min-width: 1280px) {
-  .blog-header .wrapper, .blog-body .wrapper, .blog-posts .wrapper {
+  .blog-header .wrapper,
+  .blog-body .wrapper,
+  .blog-posts .wrapper {
     width: 800px;
   }
 }
@@ -1511,7 +1709,9 @@ body.bsod {
   margin: 10px 0;
 }
 
-.blog-header a, .blog-header h1, .blog-header h2 {
+.blog-header a,
+.blog-header h1,
+.blog-header h2 {
   text-decoration: none;
 }
 
@@ -1537,13 +1737,17 @@ body.bsod {
   background-position: center;
 }
 
-.blog-header.-hero, .blog-header.-hero a, .blog-header.-hero h1, .blog-header.-hero h2 {
-  color: #FFF;
+.blog-header.-hero,
+.blog-header.-hero a,
+.blog-header.-hero h1,
+.blog-header.-hero h2 {
+  color: #fff;
   text-shadow: 0px 1px 0 rgba(0, 0, 0, 0.7);
 }
 
-.blog-header.-hero .blog-hat, .blog-header.-hero .blog-hat a {
-  color: #EFEFEF;
+.blog-header.-hero .blog-hat,
+.blog-header.-hero .blog-hat a {
+  color: #efefef;
 }
 
 @media only screen and (max-width: 767px) {
@@ -1588,7 +1792,7 @@ body.bsod {
 
 .blog-posts .blog-post {
   padding: 40px 0;
-  border-top: 1px solid #DDD;
+  border-top: 1px solid #ddd;
 }
 
 .blog-posts .blog-post:first-child {
@@ -1600,11 +1804,13 @@ body.bsod {
   padding-bottom: 0;
 }
 
-.blog-posts .blog-post, .blog-posts .blog-post a {
+.blog-posts .blog-post,
+.blog-posts .blog-post a {
   text-decoration: none;
 }
 
-.blog-posts .blog-post h1, .blog-posts .blog-post p {
+.blog-posts .blog-post h1,
+.blog-posts .blog-post p {
   margin: 0 0 5px 0;
 }
 

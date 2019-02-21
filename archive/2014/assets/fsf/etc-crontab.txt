@@ -2,8 +2,8 @@ SHELL=/bin/sh
 PATH=/bin
 
 # m  h   dom mon dow  user      command
-0    8    *   *   *   wesley    wake up
-0   10    *   *  1-5  wesley    goto work
-0   22    *   *   6   wesley    goto party
-*    *    *   *   7   wesley    sleep
+0    8    *   *   *   wes    wake up
+0   10    *   *  1-5  wes    goto work
+0   22    *   *   6   wes    goto party
+*    *    *   *   7   wes    sleep
 
