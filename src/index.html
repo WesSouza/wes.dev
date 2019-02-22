@@ -18,10 +18,17 @@
     <link rel="icon" type="image/png" href="./images/Icon@1x.png" />
     <link rel="apple-touch-icon" href="./images/Icon@1x.png" />
 
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=UA-96789-16"
+    ></script>
     <script>
-      const ga = (...args) => ga.q.push(args);
-      ga.q = [];
-      ga.l = Date.now();
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
+      gtag('config', 'UA-96789-16');
     </script>
   </head>
   <body>
@@ -387,13 +394,5 @@
         --rainbow-link-rotation: 7;
       }
     </style>
-
-    <script src="//www.google-analytics.com/analytics.js" async></script>
-    <script>
-      window.GoogleAnalyticsObject = 'ga';
-      window.ga = ga;
-      ga('create', 'UA-96789-16', 'wes.dev');
-      ga('send', 'pageview');
-    </script>
   </body>
 </html>
