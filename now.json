@@ -4,12 +4,16 @@
   "alias": ["wes.dev"],
   "builds": [
     {
-      "src": "package.json",
-      "use": "@now/static-build"
-    },
-    {
       "src": "archive/**/*",
       "use": "@now/static"
+    },
+    {
+      "src": "LICENSE.txt",
+      "use": "@now/static"
+    },
+    {
+      "src": "package.json",
+      "use": "@now/static-build"
     }
   ],
   "routes": []
