@@ -21,10 +21,10 @@
   "license": "MIT",
   "homepage": "https://wes.dev/",
   "dependencies": {
-    "parcel-bundler": "^1.12.3"
+    "parcel-bundler": "^1.12.4"
   },
   "devDependencies": {
-    "parcel-bundler": "^1.12.3",
+    "parcel-bundler": "^1.12.4",
     "tslint": "^5.20.0",
     "typescript": "^3.6.4"
   }
