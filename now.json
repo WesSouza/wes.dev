@@ -1,7 +1,9 @@
 {
   "version": 2,
-  "name": "wes-so",
-  "alias": ["wes.dev"],
+  "name": "wes-dev",
+  "alias": [
+    "wes.dev"
+  ],
   "builds": [
     {
       "src": "archive/**/*",
