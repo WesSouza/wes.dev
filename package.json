@@ -23,7 +23,7 @@
   "dependencies": {},
   "devDependencies": {
     "parcel-bundler": "^1.12.4",
-    "tslint": "^5.20.1",
+    "tslint": "^6.0.0",
     "typescript": "^3.7.5"
   }
 }
