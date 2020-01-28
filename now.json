@@ -14,8 +14,8 @@
       "use": "@now/static"
     },
     {
-      "src": "package.json",
-      "use": "@now/static-build"
+      "src": "resume.html",
+      "use": "@now/static"
     }
   ],
   "routes": []
