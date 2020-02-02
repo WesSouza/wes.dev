@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 
+import { Apps } from '~/constants/Apps';
 import { Colors, ZIndexes } from '~/constants/Styles';
 import { useHostSize } from '~/hooks/useHostSize';
 import { useSelector } from '~/hooks/useSelector';
@@ -7,6 +8,7 @@ import {
   windowFocus,
   windowGetAll,
   windowGetFocusedId,
+  windowOpen,
   windowSetDesktopSize,
   windowStore,
 } from '~/state';
@@ -31,6 +33,10 @@ export function WesExplorer() {
     const desktopSize = getBoundingClientRect(desktop.current);
     windowSetDesktopSize(desktopSize);
   }, [size]);
+
+  useEffect(() => {
+    windowOpen(Apps.notepad, 'hello-world.txt');
+  }, []);
 
   const focused = focusedId === null;
   const handleFocus = useCallback(

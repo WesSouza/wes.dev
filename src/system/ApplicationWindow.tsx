@@ -1,11 +1,14 @@
 import React, { useCallback } from 'react';
 
 import { Window } from '~/components';
+import { Apps } from '~/constants/Apps';
 import { ObjectPosition } from '~/constants/CommonTypes';
 import { useCollectionItem } from '~/hooks/useCollectionItem';
 import { useSelector } from '~/hooks/useSelector';
 import { Modal } from '~/program-files/Modal/Modal';
 import { ModalController } from '~/program-files/Modal/ModalController';
+import { Notepad } from '~/program-files/Notepad/Notepad';
+import { NotepadController } from '~/program-files/Notepad/NotepadController';
 import {
   Window as WindowType,
   windowClose,
@@ -21,6 +24,10 @@ const ComponentMap = {
   [Apps.modal]: {
     component: Modal,
     controller: ModalController,
+  },
+  [Apps.notepad]: {
+    component: Notepad,
+    controller: NotepadController,
   },
 };
 
