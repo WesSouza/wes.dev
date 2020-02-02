@@ -4,18 +4,28 @@ import { ReactNode } from 'react';
 
 import {
   Colors,
-  Paddings,
-  PaddingValues,
   ObjectBoxColors,
   ObjectBoxShapes,
+  Paddings,
+  PaddingValues,
 } from '~/constants/Styles';
 import { propsToCss, RenderingProps } from '~/utils/rendering';
 
 const PaddingsMatrix: Record<Paddings, [number, number]> = {
-  [Paddings.large]: [PaddingValues.medium, PaddingValues.large],
-  [Paddings.medium]: [PaddingValues.medium, PaddingValues.medium],
-  [Paddings.small]: [PaddingValues.small, PaddingValues.small],
-  [Paddings.none]: [PaddingValues.none, PaddingValues.none],
+  [Paddings.box]: [PaddingValues[Paddings.box], PaddingValues[Paddings.box]],
+  [Paddings.large]: [
+    PaddingValues[Paddings.large],
+    PaddingValues[Paddings.large],
+  ],
+  [Paddings.none]: [PaddingValues[Paddings.none], PaddingValues[Paddings.none]],
+  [Paddings.medium]: [
+    PaddingValues[Paddings.medium],
+    PaddingValues[Paddings.medium],
+  ],
+  [Paddings.small]: [
+    PaddingValues[Paddings.small],
+    PaddingValues[Paddings.small],
+  ],
 };
 
 export enum BoxTypes {
@@ -42,8 +52,9 @@ export function Box({
   const isFrame = type === BoxTypes.frame;
   const isWindow = type === BoxTypes.window;
 
-  const paddingInline = PaddingsMatrix[padding][1] + 6;
-  const paddingBlock = PaddingsMatrix[padding][0] + 6;
+  const paddingInline =
+    PaddingsMatrix[padding][1] + PaddingValues[Paddings.box];
+  const paddingBlock = PaddingsMatrix[padding][0] + PaddingValues[Paddings.box];
 
   return (
     <div

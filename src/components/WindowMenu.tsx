@@ -1,22 +1,15 @@
 /** @jsx jsx */
-import { CSSObject, jsx } from '@emotion/core';
-import { ReactNode } from 'react';
+import { jsx } from '@emotion/core';
 
-import { Frame } from './Frame';
-
-interface Props {
-  children?: ReactNode;
-  css?: CSSObject;
+interface Menu {
+  [name: string]: string | Menu;
 }
 
-export function WindowMenu({ children, css }: Props) {
-  return (
-    <Frame
-      css={{
-        ...css,
-      }}
-    >
-      {children}
-    </Frame>
-  );
+interface Props {
+  menu: Menu;
+  onMenuSelect: () => void;
+}
+
+export function WindowMenu({}: Props) {
+  return <div></div>;
 }

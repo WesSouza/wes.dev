@@ -1,6 +1,6 @@
 import { CSSObject } from '@emotion/core';
 
-import { Colors, Flows } from '~/constants/Styles';
+import { Colors, Flows, FlowValues } from '~/constants/Styles';
 
 export interface RenderingProps {
   bold?: boolean;
@@ -17,14 +17,14 @@ function numericValue(value?: number): number | undefined {
 export function propsToCss({
   bold,
   disabled,
-  flow,
+  flow = Flows.block,
   height,
   width,
 }: RenderingProps): CSSObject {
   return {
     color: disabled ? Colors.darkGray : undefined,
     fontWeight: bold ? 'bold' : undefined,
-    flexDirection: flow ?? 'column',
+    flexDirection: FlowValues[flow],
     height: numericValue(height),
     width: numericValue(width),
   };

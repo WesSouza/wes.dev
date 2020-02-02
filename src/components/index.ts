@@ -1,4 +1,3 @@
-export * from './Bitmap';
 export * from './Box';
 export * from './Button';
 export * from './Desktop';
@@ -6,8 +5,9 @@ export * from './Frame';
 export * from './Icon';
 export * from './Select';
 export * from './StatusBar';
+export * from './Symbol';
+export * from './Tab';
 export * from './Tabs';
 export * from './Toolbar';
 export * from './Window';
 export * from './WindowMenu';
-export * from './WindowTitle';

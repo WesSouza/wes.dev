@@ -1,4 +1,7 @@
 import { CSSObject } from '@emotion/core';
+import { FlexDirectionProperty } from 'csstype';
+
+export const Scale = 2;
 
 export const Colors = {
   black: '#000000',
@@ -11,9 +14,14 @@ export const Colors = {
 };
 
 export enum Flows {
-  block = 'column',
-  inline = 'row',
+  block,
+  inline,
 }
+
+export const FlowValues: Record<Flows, FlexDirectionProperty> = {
+  [Flows.block]: 'column',
+  [Flows.inline]: 'row',
+};
 
 export const ObjectBoxColors: Record<string, CSSObject> = {
   box: {
@@ -50,40 +58,40 @@ export const ObjectBoxShapes: Record<string, CSSObject> = {
   square: {
     backgroundColor: 'var(--background-color)',
     boxShadow: `
-      inset -1px -1px 0 1px var(--bottom-outer-color),
-      inset 0 0 0 2px var(--top-outer-color),
-      inset -1px -1px 0 3px var(--bottom-inner-color),
-      inset 0 0 0 4px var(--top-inner-color);
+      inset -${Scale / 2}px -${Scale / 2}px 0 ${Scale / 2}px
+        var(--bottom-outer-color),
+      inset 0 0 0 ${Scale}px var(--top-outer-color),
+      inset -${Scale / 2}px -${Scale / 2}px 0 3px var(--bottom-inner-color),
+      inset 0 0 0 ${Scale * 2}px var(--top-inner-color);
     `,
   },
-  rounded: {
+  roundedTab: {
     backgroundColor: 'var(--background-color)',
     boxShadow: `
-      0 -2px 0 0 var(--top-inner-color),
-      -2px 0 0 0 var(--top-inner-color),
-      0 -4px 0 0 var(--top-outer-color),
-      -4px 0 0 0 var(--top-outer-color),
-      -2px -2px 0 0 var(--top-outer-color),
-      1px -1px 0 1px var(--bottom-inner-color),
-      0 2px 0 0 var(--bottom-inner-color),
-      4px 0 0 0 var(--bottom-outer-color),
-      2px 2px 0 0 var(--bottom-outer-color),
-      -2px 2px 0 0 var(--background-color),
-      0 4px 0 0 var(--bottom-outer-color);
+      0 -{${Scale * 3}}px 0 -${Scale * 2}px var(--top-inner-color),
+      0 -${Scale * 4}px 0 -${Scale * 2}px var(--top-outer-color),
+      -${Scale}px -{${Scale * 3}}px 0 -${Scale * 2}px var(--top-outer-color),
+      ${Scale}px -{${Scale * 3}}px 0 -${Scale * 2}px var(--bottom-outer-color),
+      inset ${Scale}px 0 0 0 var(--top-outer-color),
+      inset ${Scale * 2}px 0 0 0 var(--top-inner-color),
+      inset -${Scale}px 0 0 0 var(--bottom-outer-color),
+      inset -${Scale * 2}px 0 0 0 var(--bottom-inner-color);
     `,
   },
 };
 
 export enum Paddings {
-  large = 'large',
-  medium = 'medium',
-  none = 'none',
-  small = 'small',
+  box,
+  large,
+  medium,
+  none,
+  small,
 }
 
 export const PaddingValues = {
-  large: 12,
-  medium: 6,
-  small: 2,
-  none: 0,
+  [Paddings.box]: 3 * Scale,
+  [Paddings.large]: 6 * Scale,
+  [Paddings.medium]: 3 * Scale,
+  [Paddings.none]: 0,
+  [Paddings.small]: 1 * Scale,
 };

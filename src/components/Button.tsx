@@ -1,16 +1,19 @@
-/** @jsx jsx */
-import { jsx } from '@emotion/core';
-import { ReactNode } from 'react';
-import useBoolean from 'react-hanger/useBoolean';
+import React, { MouseEvent, ReactNode } from 'react';
 
-import { ObjectBoxColors, ObjectBoxShapes } from '~/constants/Styles';
-import { propsToCss, RenderingProps } from '~/utils/rendering';
+import {
+  Colors,
+  ObjectBoxColors,
+  ObjectBoxShapes,
+  Paddings,
+  PaddingValues,
+} from '~/constants/Styles';
+import { Pressable, ViewLayoutProps, ViewStyleProps } from '~/ui';
 
-interface Props extends RenderingProps {
+interface Props extends ViewLayoutProps, ViewStyleProps {
   children?: ReactNode;
-  onPress?: () => {};
-  onPressDown?: () => {};
-  onPressUp?: () => {};
+  onPress?: (event: MouseEvent<HTMLButtonElement>) => void;
+  onPressDown?: (event: MouseEvent<HTMLButtonElement>) => void;
+  onPressUp?: (event: MouseEvent<HTMLButtonElement>) => void;
 }
 
 export function Button({
@@ -18,41 +21,32 @@ export function Button({
   onPress,
   onPressDown,
   onPressUp,
-  ...renderingProps
+  ...props
 }: Props) {
-  const isPressed = useBoolean(false);
-
-  const paddingInline = 6;
-  const paddingBlock = 6;
+  const paddingInline = PaddingValues[Paddings.box];
+  const paddingBlock = PaddingValues[Paddings.box];
 
   return (
-    <button
-      css={{
-        ...propsToCss(renderingProps),
-        ...(isPressed.value
-          ? {
-              ...ObjectBoxColors.boxPressed,
-              paddingBottom: paddingInline - 2,
-              paddingLeft: paddingBlock + 2,
-              paddingRight: paddingBlock - 2,
-              paddingTop: paddingInline + 2,
-            }
-          : {
-              ...ObjectBoxColors.box,
-              paddingTop: paddingBlock,
-              paddingBottom: paddingBlock,
-              paddingLeft: paddingInline,
-              paddingRight: paddingInline,
-            }),
+    <Pressable
+      UNSTABLE_css={{
+        color: Colors.black,
+        ...ObjectBoxColors.box,
+        paddingTop: paddingBlock,
+        paddingBottom: paddingBlock,
+        paddingLeft: paddingInline,
+        paddingRight: paddingInline,
+        ':active': {
+          ...ObjectBoxColors.boxPressed,
+          paddingBottom: paddingInline - 2,
+          paddingLeft: paddingBlock + 2,
+          paddingRight: paddingBlock - 2,
+          paddingTop: paddingInline + 2,
+        },
         ...ObjectBoxShapes.square,
-        display: 'flex',
-        margin: 0,
-        border: 0,
       }}
-      onMouseDown={isPressed.setTrue}
-      onMouseUp={isPressed.setFalse}
+      {...props}
     >
       {children}
-    </button>
+    </Pressable>
   );
 }
