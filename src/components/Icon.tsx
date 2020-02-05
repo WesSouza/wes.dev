@@ -18,9 +18,10 @@ export function Icon({ icon, size, ...props }: Props) {
   const widthHeight = SizeMap[size];
   return (
     <Image
-      src={IconSrcs[icon][size]}
-      width={widthHeight}
       height={widthHeight}
+      width={widthHeight}
+      shrink={0}
+      src={IconSrcs[icon][size]}
       {...props}
     />
   );
