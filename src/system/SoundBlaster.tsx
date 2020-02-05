@@ -15,11 +15,8 @@ export class SoundBlasterController {
       return;
     }
 
-    // this.el.currentTime = 0;
-    this.el
-      .play()
-      .then(console.log)
-      .catch(console.error);
+    this.el.currentTime = 0;
+    this.el.play();
   }
 
   pause() {
