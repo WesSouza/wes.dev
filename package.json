@@ -4,8 +4,8 @@
   "description": "https://wes.dev/",
   "main": "src/index.html",
   "scripts": {
-    "build": "parcel build src/index.html src/resume.html",
-    "dev": "parcel src/index.html src/resume.html",
+    "build": "parcel build src/index.html",
+    "dev": "parcel src/index.html",
     "now-build": "yarn run build"
   },
   "repository": {
