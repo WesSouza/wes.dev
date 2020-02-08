@@ -22,5 +22,34 @@
       "use": "@now/static-build"
     }
   ],
-  "routes": []
+  "routes": [
+    {
+      "src": "/go/components-talk",
+      "status": 301,
+      "headers": {
+        "Location": "https://dev.to/wes/bringing-components-to-legacy-code-2m00"
+      }
+    },
+    {
+      "src": "/go/web-developer",
+      "status": 301,
+      "headers": {
+        "Location": "https://dev.to/wes/why-i-became-and-still-am-a-web-developer-1k3"
+      }
+    },
+    {
+      "src": "/go/front-end",
+      "status": 301,
+      "headers": {
+        "Location": "https://dev.to/wes/keeping-control-of-the-front-end-ag7"
+      }
+    },
+    {
+      "src": "/go/cool-things",
+      "status": 301,
+      "headers": {
+        "Location": "https://dev.to/wes/cool-things-make-people-happy-3pci"
+      }
+    }
+  ]
 }
