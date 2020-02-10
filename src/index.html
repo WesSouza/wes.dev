@@ -85,10 +85,82 @@
       }
 
       @font-face {
-        font-family: 'Windows Regular';
+        font-family: 'WindowsRegular';
         src: url('./assets/WindowsRegular.ttf');
       }
+
+      @font-face {
+        font-family: 'PerfectDOS';
+        src: url('./assets/PerfectDOS.ttf');
+      }
+
+      #bsod {
+        background-color: #0000a8;
+        bottom: 0;
+        color: #fff;
+        display: flex;
+        flex-direction: column;
+        font-family: 'PerfectDOS', monospace;
+        justify-content: center;
+        align-items: center;
+        left: 0;
+        padding: 3em;
+        position: fixed;
+        right: 0;
+        top: 0;
+        z-index: 9876543210;
+      }
+      #bsod > * {
+        max-width: 1024px;
+      }
+      #bsod h1 {
+        align-self: center;
+        background-color: #a8a8a8;
+        color: #0000a8;
+        display: inline-block;
+        font-size: inherit;
+        font-weight: normal;
+        padding: 0 1em;
+      }
+      #bsod ul {
+        list-style: none;
+        position: relative;
+      }
+      #bsod li::before {
+        content: '*';
+        left: 0;
+        position: absolute;
+      }
+      #bsod .center {
+        align-self: center;
+      }
+      @media screen and (max-width: 500px) {
+        #bsod {
+          font-size: 0.4em;
+        }
+      }
+      blink {
+        animation: blinkingText 0.4s infinite;
+      }
+      @keyframes blinkingText {
+        0% {
+          color: inherit;
+        }
+        49% {
+          color: inherit;
+        }
+        50% {
+          color: transparent;
+        }
+        99% {
+          color: transparent;
+        }
+        100% {
+          color: inherit;
+        }
+      }
     </style>
-    <script src="./autoexec.bat.ts"></script>
+    <script async src="./autoexec.bat.ts"></script>
+    <script async src="./config.sys.ts"></script>
   </body>
 </html>
