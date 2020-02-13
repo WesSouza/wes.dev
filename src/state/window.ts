@@ -6,6 +6,8 @@ import { Icons } from '~/constants/Icons';
 import { Scale } from '~/constants/Styles';
 import { StateManager } from '~/utils/StateManager';
 
+import { modalWindowClosed } from './modal';
+
 let i = 1;
 function uuid() {
   return String(i++);
@@ -77,7 +79,7 @@ export function windowClose(id: string) {
   const { all } = windowStore.state;
   const window = all.get(id);
   if (!window) {
-    throw new Error(`Window ${id} does not exist`);
+    return;
   }
 
   windowStore.mutate(state => {
@@ -93,6 +95,10 @@ export function windowClose(id: string) {
 
     state.lastZIndex = windowGetPenultimateZIndexNonMinimizedId(state);
   });
+
+  if (window.app === Apps.modal) {
+    modalWindowClosed(window.id);
+  }
 }
 
 export function windowFocus(id: string | null) {

@@ -4,6 +4,8 @@ import { Window } from '~/components';
 import { ObjectPosition } from '~/constants/CommonTypes';
 import { useCollectionItem } from '~/hooks/useCollectionItem';
 import { useSelector } from '~/hooks/useSelector';
+import { Modal } from '~/program-files/Modal/Modal';
+import { ModalController } from '~/program-files/Modal/ModalController';
 import {
   Window as WindowType,
   windowClose,
@@ -15,7 +17,12 @@ import {
   windowStore,
 } from '~/state';
 
-const ComponentMap = {};
+const ComponentMap = {
+  [Apps.modal]: {
+    component: Modal,
+    controller: ModalController,
+  },
+};
 
 export interface ApplicationWindowProps {
   window: WindowType;

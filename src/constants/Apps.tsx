@@ -1,1 +1,3 @@
-export enum Apps {}
+export enum Apps {
+  modal = 'modal',
+}
