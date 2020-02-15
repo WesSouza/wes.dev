@@ -5,6 +5,8 @@ import { Apps } from '~/constants/Apps';
 import { ObjectPosition } from '~/constants/CommonTypes';
 import { useCollectionItem } from '~/hooks/useCollectionItem';
 import { useSelector } from '~/hooks/useSelector';
+import { Instagram } from '~/program-files/Instagram/Instagram';
+import { InstagramController } from '~/program-files/Instagram/InstagramController';
 import { Modal } from '~/program-files/Modal/Modal';
 import { ModalController } from '~/program-files/Modal/ModalController';
 import { Notepad } from '~/program-files/Notepad/Notepad';
@@ -21,6 +23,10 @@ import {
 } from '~/state';
 
 const ComponentMap = {
+  [Apps.instagram]: {
+    component: Instagram,
+    controller: InstagramController,
+  },
   [Apps.modal]: {
     component: Modal,
     controller: ModalController,

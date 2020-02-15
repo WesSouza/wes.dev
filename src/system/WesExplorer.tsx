@@ -35,6 +35,7 @@ export function WesExplorer() {
   }, [size]);
 
   useEffect(() => {
+    windowOpen(Apps.instagram);
     windowOpen(Apps.notepad, 'hello-world.txt');
   }, []);
 
