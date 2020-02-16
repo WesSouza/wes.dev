@@ -11,6 +11,8 @@ import { Modal } from '~/program-files/Modal/Modal';
 import { ModalController } from '~/program-files/Modal/ModalController';
 import { Notepad } from '~/program-files/Notepad/Notepad';
 import { NotepadController } from '~/program-files/Notepad/NotepadController';
+import { Spotify } from '~/program-files/Spotify/Spotify';
+import { SpotifyController } from '~/program-files/Spotify/SpotifyController';
 import {
   Window as WindowType,
   windowClose,
@@ -34,6 +36,10 @@ const ComponentMap = {
   [Apps.notepad]: {
     component: Notepad,
     controller: NotepadController,
+  },
+  [Apps.spotify]: {
+    component: Spotify,
+    controller: SpotifyController,
   },
 };
 
