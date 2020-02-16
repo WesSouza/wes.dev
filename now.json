@@ -1,27 +1,5 @@
 {
   "version": 2,
-  "name": "wes-dev",
-  "alias": [
-    "wes.dev"
-  ],
-  "builds": [
-    {
-      "src": "archive/**/*",
-      "use": "@now/static"
-    },
-    {
-      "src": "LICENSE.txt",
-      "use": "@now/static"
-    },
-    {
-      "src": "resume.html",
-      "use": "@now/static"
-    },
-    {
-      "src": "package.json",
-      "use": "@now/static-build"
-    }
-  ],
   "routes": [
     {
       "src": "/go/components-talk",

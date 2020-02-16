@@ -1,6 +1,9 @@
+# Zeit
+.now
+
 # Build
 .cache
-dist
+public
 
 # Node
 node_modules

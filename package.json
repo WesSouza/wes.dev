@@ -4,9 +4,9 @@
   "description": "https://wes.dev/",
   "main": "src/index.html",
   "scripts": {
-    "build": "parcel build src/index.html",
-    "dev": "parcel src/index.html",
-    "now-build": "yarn run build"
+    "build": "./scripts/build.sh",
+    "clean": "./scripts/clean.sh",
+    "dev": "./scripts/dev.sh"
   },
   "repository": {
     "type": "git",
@@ -22,7 +22,6 @@
   "homepage": "https://wes.dev/",
   "dependencies": {},
   "devDependencies": {
-    "parcel-bundler": "^1.12.4",
-    "typescript": "^3.7.5"
+    "parcel-bundler": "^1.12.4"
   }
 }
