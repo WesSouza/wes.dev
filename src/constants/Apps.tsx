@@ -3,4 +3,5 @@ export enum Apps {
   modal = 'modal',
   notepad = 'notepad',
   spotify = 'spotify',
+  twitter = 'twitter',
 }

@@ -13,6 +13,8 @@ import { Notepad } from '~/program-files/Notepad/Notepad';
 import { NotepadController } from '~/program-files/Notepad/NotepadController';
 import { Spotify } from '~/program-files/Spotify/Spotify';
 import { SpotifyController } from '~/program-files/Spotify/SpotifyController';
+import { Twitter } from '~/program-files/Twitter/Twitter';
+import { TwitterController } from '~/program-files/Twitter/TwitterController';
 import {
   Window as WindowType,
   windowClose,
@@ -40,6 +42,10 @@ const ComponentMap = {
   [Apps.spotify]: {
     component: Spotify,
     controller: SpotifyController,
+  },
+  [Apps.twitter]: {
+    component: Twitter,
+    controller: TwitterController,
   },
 };
 

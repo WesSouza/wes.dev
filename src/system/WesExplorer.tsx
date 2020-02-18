@@ -35,9 +35,10 @@ export function WesExplorer() {
   }, [size]);
 
   useEffect(() => {
-    windowOpen(Apps.spotify);
-    windowOpen(Apps.instagram);
-    windowOpen(Apps.notepad, 'hello-world.txt');
+    windowOpen(Apps.twitter);
+    // windowOpen(Apps.spotify);
+    // windowOpen(Apps.instagram);
+    // windowOpen(Apps.notepad, 'hello-world.txt');
   }, []);
 
   const focused = focusedId === null;
