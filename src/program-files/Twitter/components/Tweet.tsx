@@ -30,7 +30,12 @@ function TweetComponent({}: Props) {
         alignment={HorizontalAlignments.leading}
         UNSTABLE_css={{ minWidth: 0 }}
       >
-        <HStack UNSTABLE_css={{ minWidth: 0 }}>
+        <HStack UNSTABLE_css={{
+          width: "100%",
+          display: "block",
+          overflow: "hidden",
+          textOverflow: "ellipsis"
+        }}>
           <Text bold={true}>Wes.dev</Text>
           <Text>@__WesSouza</Text>
           <Text>&sdot;</Text>
