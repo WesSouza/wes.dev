@@ -1,5 +1,6 @@
-# Zeit
+# Vercel
 .now
+.vercel
 
 # Build
 .cache
