@@ -28,6 +28,20 @@
       "headers": {
         "Location": "https://dev.to/wes/cool-things-make-people-happy-3pci"
       }
+    },
+    {
+      "src": "/go/pull-request",
+      "status": 301,
+      "headers": {
+        "Location": "https://dev.to/wes/opening-a-pr-a-primer-4kgc"
+      }
+    },
+    {
+      "src": "/go/immer-state",
+      "status": 301,
+      "headers": {
+        "Location": "https://dev.to/wes/simple-react-state-management-29g"
+      }
     }
   ]
 }
