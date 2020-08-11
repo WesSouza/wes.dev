@@ -1,11 +1,10 @@
 # Vercel
-.now
 .vercel
 
 # Build
-.cache
+.parcel-cache
 public
 
 # Node
 node_modules
-npm-debug.log
+*.log*
