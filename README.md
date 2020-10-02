@@ -1,4 +1,6 @@
 # wes.dev website
+This is a personal website WES.DEV 
+THANKS
 
 Installation:
 
