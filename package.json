@@ -22,5 +22,8 @@
   "dependencies": {},
   "devDependencies": {
     "parcel": "^2.0.1"
+  },
+  "resolutions": {
+    "json-schema": "^0.4.0"
   }
 }
