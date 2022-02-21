@@ -1,6 +1,6 @@
 {
   "name": "wes.dev",
-  "version": "2019.0.0",
+  "version": "2022.2.21",
   "description": "https://wes.dev/",
   "scripts": {
     "build": "./scripts/build.sh",
@@ -21,9 +21,6 @@
   "homepage": "https://wes.dev/",
   "dependencies": {},
   "devDependencies": {
-    "parcel": "^2.0.1"
-  },
-  "resolutions": {
-    "json-schema": "^0.4.0"
+    "parcel": "^2.3.2"
   }
 }
