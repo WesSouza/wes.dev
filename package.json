@@ -21,6 +21,6 @@
   "homepage": "https://wes.dev/",
   "dependencies": {},
   "devDependencies": {
-    "parcel": "^2.4.1"
+    "parcel": "^2.7.0"
   }
 }
