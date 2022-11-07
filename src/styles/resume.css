@@ -1,0 +1,147 @@
+html {
+  hyphens: auto;
+  margin: 0 1em;
+}
+
+body {
+  font-family: 'Helvetica Neue', sans-serif;
+  margin: 1em auto;
+  max-width: 60em;
+  line-height: 1.5;
+}
+
+.resume a {
+  color: #8a2be2;
+}
+
+address {
+  font-style: normal;
+}
+
+blockquote,
+h1,
+h2,
+h3,
+p,
+ul {
+  font-weight: 300;
+  margin: 0 0 0.5em 0;
+}
+
+h1 {
+  font-weight: 400;
+  font-size: 32rem;
+}
+
+h2 {
+  font-weight: 400;
+  font-size: 24rem;
+}
+
+h3 {
+  font-weight: 400;
+  font-size: 18rem;
+}
+
+ul {
+  list-style-type: square;
+  margin-bottom: 1.5em;
+  padding-inline-start: 1.2em;
+}
+
+li {
+  margin-bottom: 0.3em;
+}
+
+.name,
+.section .title {
+  margin-bottom: 1.2rem;
+}
+
+section,
+.section {
+  margin-bottom: 2em;
+}
+
+.info,
+.info-right {
+  font-weight: 300;
+}
+
+.info {
+  display: block;
+}
+
+.info-right {
+  float: right;
+}
+
+.no-bullets {
+  list-style-type: none;
+  padding: 0;
+}
+
+.link {
+  text-decoration: underline;
+}
+
+.no-wrap {
+  white-space: nowrap;
+}
+
+.print-only {
+  display: none;
+}
+
+@media (min-width: 40em), print {
+  body {
+    display: flex;
+  }
+
+  aside {
+    margin-right: 3em;
+    width: 60em;
+  }
+}
+
+@media print {
+  html {
+    font-size: 0.0546875rem !important;
+  }
+
+  body {
+    margin: 0;
+    line-height: 1.3;
+  }
+
+  .resume a {
+    color: inherit;
+    text-decoration: none;
+    font-weight: 400;
+  }
+
+  blockquote,
+  h1,
+  h2,
+  h3,
+  p,
+  ul {
+    margin: 0 0 0.7em 0;
+  }
+
+  h2 {
+    margin-top: 1em;
+  }
+
+  ul {
+    margin-bottom: 1em;
+  }
+
+  aside {
+    margin-left: 1em;
+  }
+
+  .print-only {
+    display: block;
+  }
+}

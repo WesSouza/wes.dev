@@ -1,0 +1,40 @@
+---
+import HeadMeta from '../components/HeadMeta.astro';
+---
+
+<!DOCTYPE html>
+<!-- Source code available at https://github.com/WesSouza/wes.dev/ -->
+<html lang="en">
+  <head>
+    <HeadMeta title={'Not Found'} />
+  </head>
+  <body>
+    <main class="Center">
+      <h1>Not Found</h1>
+      <a href="/">Return to home page</a>
+    </main>
+
+    <style>
+      html {
+        height: 100%;
+      }
+
+      body {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        align-items: center;
+        justify-content: center;
+        padding: 50px;
+        background-color: #000;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+          sans-serif;
+        color: #fff;
+      }
+
+      .Center h1 {
+        margin-bottom: 20px;
+      }
+    </style>
+  </body>
+</html>

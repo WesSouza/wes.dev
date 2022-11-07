@@ -1,0 +1,30 @@
+*,
+*:after,
+*:before {
+  box-sizing: inherit;
+}
+
+html {
+  box-sizing: border-box;
+  font-size: 0.0625em;
+}
+
+body {
+  font-size: 16rem;
+}
+
+a {
+  color: inherit;
+}
+
+figure {
+  margin: 0;
+}
+
+.-Sprite {
+  position: absolute;
+  pointer-events: none;
+  opacity: 0;
+  top: 0;
+  left: 0;
+}
