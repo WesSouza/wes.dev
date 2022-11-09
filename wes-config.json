@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "dependencies": [
+    "core",
+    "eslint",
+    "eslint-typescript",
+    "github-vercel-deploy",
+    "prettier",
+    "typescript",
+    "typescript-node",
+    "vscode"
+  ],
+  "localOverrides": [
+    "tsconfig.json"
+  ]
+}
