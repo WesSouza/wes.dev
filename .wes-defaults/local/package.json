@@ -1,6 +1,6 @@
 {
   "name": "wes.dev",
-  "version": "2022.2.21",
+  "version": "2022.11.12",
   "description": "https://wes.dev/",
   "scripts": {
     "astro": "astro",
