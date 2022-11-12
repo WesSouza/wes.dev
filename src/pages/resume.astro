@@ -1,0 +1,222 @@
+---
+import '../styles/resume.css';
+
+import HeadMeta from '../components/HeadMeta.astro';
+---
+
+<!DOCTYPE html>
+<!-- Source code available at https://github.com/WesSouza/wes.dev/ -->
+<html lang="en">
+  <head>
+    <HeadMeta
+      title="Wes Souza’s Resume"
+      description="Printable resume for Wes Souza."
+    />
+  </head>
+  <body class="resume">
+    <aside class="sidebar">
+      <h1 class="name">Wes Souza</h1>
+
+      <div class="section">
+        <p>
+          Staff software developer working on projects for the web platform
+          since 2006, and mobile since 2016.
+        </p>
+        <p>
+          JavaScript is my career’s main driver, together with technologies such
+          as React, React Native, Node.js and GraphQL. I&nbsp;thrive on building
+          great products, while caring deeply about the developer experience of
+          my team.
+        </p>
+      </div>
+
+      <address class="section">
+        <h3>Contact</h3>
+        <ul>
+          <li>
+            <a href="mailto:hey@wes.dev">hey@wes.dev</a> &sdot;
+            <a href="https://wes.dev/" target="_blank">wes.dev</a>
+          </li>
+          <li>
+            <a href="https://dev.to/wes/" target="_blank">dev.to/wes</a>
+          </li>
+          <li>
+            <a href="https://github.com/WesSouza/" target="_blank"
+              >github.com/WesSouza</a
+            >
+          </li>
+          <li>
+            <a href="https://twitter.com/__WesSouza/" target="_blank"
+              >twitter.com/__WesSouza</a
+            >
+          </li>
+        </ul>
+      </address>
+
+      <div class="section">
+        <h3 class="title">Articles & Talks</h3>
+        <ul>
+          <li>
+            <a
+              href="https://dev.to/wes/trpc-move-fast-and-break-nothing-usereactnyc-3g08"
+              target="_blank">tRPC: Move Fast and Break Nothing</a
+            >, useReactNYC, Auguest 2022<br />
+            <div class="print-only link">wes.dev/go/trpc-talk</div>
+          </li>
+          <li>
+            <a
+              href="https://dev.to/wes/simple-react-state-management-29g"
+              target="_blank">Simple React State Management</a
+            >, DEV Community, June 2020<br />
+            <div class="print-only link">wes.dev/go/immer-state</div>
+          </li>
+          <li>
+            <a
+              href="https://dev.to/wes/opening-a-pr-a-primer-4kgc"
+              target="_blank">Pull Requests: A Primer</a
+            >, DEV Community, February 2020<br />
+            <div class="print-only link">wes.dev/go/pull-request</div>
+          </li>
+          <li>
+            <a
+              href="https://dev.to/wes/why-i-became-and-still-am-a-web-developer-1k3"
+              target="_blank">Why I Became, and still am, a Web Developer</a
+            >, DEV Community, May 2019<br />
+            <div class="print-only link">wes.dev/go/web-developer</div>
+          </li>
+          <li>
+            <a
+              href="https://dev.to/wes/bringing-components-to-legacy-code-2m00"
+              target="_blank">Bringing Components to Legacy Code</a
+            >, ReactNYC, September 2017<br />
+            <div class="print-only link">wes.dev/go/components-talk</div>
+          </li>
+          <li>
+            <a
+              href="https://dev.to/wes/keeping-control-of-the-front-end-ag7"
+              target="_blank">Keeping Control of the Front-end</a
+            >, DEV Community, February 2016<br />
+            <div class="print-only link">wes.dev/go/front-end</div>
+          </li>
+          <li>
+            <a
+              href="https://dev.to/wes/cool-things-make-people-happy-3pci"
+              target="_blank">Cool Things Make People Happy</a
+            >, DEV Community, March 2015<br />
+            <div class="print-only link">wes.dev/go/cool-things</div>
+          </li>
+        </ul>
+      </div>
+    </aside>
+
+    <main>
+      <section class="section">
+        <h2 class="title">Experience</h2>
+
+        <ul class="no-bullets">
+          <li>
+            <h3>
+              <a href="https://unqork.com/" target="_blank" rel="nofollow"
+                >Unqork</a
+              ><span class="info-right"
+                >Staff Software Engineer, Sep 2020&ndash;present</span
+              >
+            </h3>
+          </li>
+
+          <li>
+            <h3>
+              <a href="https://work.co/" target="_blank" rel="nofollow"
+                >Work & Co</a
+              ><span class="info-right"
+                >Staff Developer, Sep 2016&ndash;Aug 2020</span
+              >
+            </h3>
+
+            <ul>
+              <li>
+                Led the state data modeling, overall state management and
+                project architecture on a React project building a touch-screen
+                based project.
+              </li>
+              <li>
+                Led the API contract, state data modeling, and overall state
+                management on a React Native project for a large restaurant
+                chain, using RESTful endpoints, Redux and Redux Saga.
+              </li>
+              <li>
+                Built a component-based solution compatible with the constraints
+                of the client’s CMS and e-commerce platform, allowing use of
+                modern React for Aesop’s redesigned web experience.
+              </li>
+              <li>
+                Contributed with React component development, modern CSS styling
+                using PostCSS and state management using Redux or GraphQL on a
+                handful of projects.
+              </li>
+              <li>
+                Mentored teammates on back end development and best practices
+                while developing mock API services using Node.js.
+              </li>
+              <li>
+                Created and managed an internal email newsletter to highlight
+                people’s work, learnings, and shared content, and promote a
+                better community.
+              </li>
+            </ul>
+          </li>
+
+          <li>
+            <h3>
+              <a href="https://www.booking.com/" target="_blank" rel="nofollow"
+                >Booking.com</a
+              >
+              <span class="info-right"
+                >Client-side developer, May 2014&ndash;Sep 2016</span
+              >
+            </h3>
+            <ul>
+              <li>
+                Led a complete refactor of the website search boxes, including
+                libraries used to autocomplete locations, aiming to reduce
+                complexity and dependency on outdated jQuery UI plugins.
+              </li>
+              <li>
+                Developed the design system components used on the Booking.com
+                for Business application.
+              </li>
+              <li>
+                Designed and developed a component-based system that aimed to
+                better organize the scattered HTML, CSS and JavaScript files the
+                website was based on, improving the developer experience and
+                velocity.
+              </li>
+              <li>
+                Provided mentoring for development interns on career development
+                inside the company.
+              </li>
+            </ul>
+          </li>
+
+          <li>
+            <h3 class="title">Previously</h3>
+            <p>
+              <a href="https://scup.com/" target="_blank" rel="nofollow"
+                >Scup.com</a
+              >,
+              <a
+                href="https://www.univision.com/"
+                target="_blank"
+                rel="nofollow">Univision</a
+              >,
+              <a href="https://www.mtv.com.br/" target="_blank" rel="nofollow"
+                >MTV Brasil</a
+              >
+              &amp; others.
+            </p>
+          </li>
+        </ul>
+      </section>
+    </main>
+  </body>
+</html>

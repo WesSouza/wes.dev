@@ -1,0 +1,214 @@
+<section class="Card Card-Talks" aria-label="Talks">
+  <a
+    class="Talk Primary"
+    href="https://www.youtube.com/watch?v=WVvwWsVjm-Y&list=PLqJ3kgVkiKjmrTwaRqawcZxKIOPtDtlNG"
+    target="_blank"
+    rel="nofollow noopener"
+  >
+    <svg class="Controls" aria-label="Fake video player controls"
+      ><use href="#VideoControls"></use>
+    </svg>
+
+    <span class="Title">tRPC: Move Fast and Break Nothing</span>
+
+    <picture>
+      <source
+        srcset="/images/Video1.avif 1x, /images/Video1@2x.avif 2x, /images/Video1@3x.avif 3x"
+        type="image/avif"
+      />
+      <source
+        srcset="/images/Video1.webp 1x, /images/Video1@2x.webp 2x, /images/Video1@3x.webp 3x"
+        type="image/webp"
+      />
+      <img
+        class="Cover"
+        srcset="/images/Video1.jpg 1x, /images/Video1@2x.jpg 2x, /images/Video1@3x.jpg 3x"
+        alt="Photo of Wes doing jazz hands wearing a pink t-shirt against a beige wall"
+      />
+    </picture>
+  </a>
+
+  <a
+    class="Talk Secondary"
+    href="https://www.youtube.com/watch?v=_v0ghxbncoY&list=PLqJ3kgVkiKjmrTwaRqawcZxKIOPtDtlNG&index=2"
+    target="_blank"
+    rel="nofollow noopener"
+  >
+    <span class="Title">Bringing Components to Legacy Code</span>
+    <picture>
+      <source
+        srcset="/images/Video2.avif 1x, /images/Video2@2x.avif 2x, /images/Video2@3x.avif 3x"
+        type="image/avif"
+      />
+      <source
+        srcset="/images/Video2.webp 1x, /images/Video2@2x.webp 2x, /images/Video2@3x.webp 3x"
+        type="image/webp"
+      />
+      <img
+        class="Cover"
+        srcset="/images/Video2.jpg 1x, /images/Video2@2x.jpg 2x, /images/Video2@3x.jpg 3x"
+        alt="Photo of Wes wearing a black t-shirt casting a very dark shadow against a beige wall"
+      />
+    </picture>
+  </a>
+</section>
+
+<style>
+  .Card-Talks {
+    grid-area: Talks;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .Talk,
+  .Controls,
+  .Cover {
+    display: block;
+  }
+
+  .Controls,
+  .Cover {
+    width: 100%;
+    height: 100%;
+    border-radius: 6px;
+  }
+
+  .Cover {
+    z-index: 1;
+    filter: brightness(0.9);
+    box-shadow: var(--box-shadow);
+  }
+
+  .Controls,
+  .Title {
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .Title {
+    font-size: 14px;
+    padding: 10px;
+    color: #fff;
+    text-shadow: 0 0 15px #000;
+  }
+
+  .Talk {
+    position: relative;
+    aspect-ratio: 2.301369863;
+  }
+
+  .Primary {
+    width: 100%;
+    z-index: 2;
+    order: 2;
+  }
+
+  .Secondary {
+    width: 70%;
+    z-index: 1;
+    order: 1;
+    margin-bottom: -10%;
+  }
+
+  .Secondary .Title {
+    font-size: 12px;
+  }
+
+  @media (max-width: 934px) {
+    .Primary {
+      width: 80%;
+    }
+
+    .Secondary {
+      width: 50%;
+    }
+  }
+
+  @media (min-width: 935px) {
+    .Title {
+      opacity: 0.8;
+    }
+
+    .Cover {
+      filter: brightness(0.6);
+    }
+  }
+</style>
+
+<div class="-Sprite">
+  <svg xmlns="http://www.w3.org/2000/svg">
+    <symbol id="VideoControls" viewBox="0 0 336 146">
+      <g filter="url(#filter0_b_35_1809)">
+        <path
+          d="M190 69.5359C192.667 71.0755 192.667 74.9245 190 76.4641L160 93.7846C157.333 95.3242 154 93.3997 154 90.3205L154 55.6795C154 52.6003 157.333 50.6758 160 52.2154L190 69.5359Z"
+          fill="white"
+          fill-opacity="0.7"></path>
+      </g>
+      <g filter="url(#filter1_b_35_1809)">
+        <rect
+          x="10"
+          y="133"
+          width="317"
+          height="5"
+          rx="2.5"
+          fill="white"
+          fill-opacity="0.5"></rect>
+      </g>
+      <path
+        d="M10 135.5C10 134.119 11.1193 133 12.5 133H68.5C69.8807 133 71 134.119 71 135.5V135.5C71 136.881 69.8807 138 68.5 138H12.5C11.1193 138 10 136.881 10 135.5V135.5Z"
+        fill="white"
+        fill-opacity="0.6"></path>
+      <defs>
+        <filter
+          id="filter0_b_35_1809"
+          x="148"
+          y="45.6735"
+          width="50"
+          height="54.653"
+          filterUnits="userSpaceOnUse"
+          color-interpolation-filters="sRGB"
+        >
+          <feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood>
+          <feGaussianBlur in="BackgroundImageFix" stdDeviation="3"
+          ></feGaussianBlur>
+          <feComposite
+            in2="SourceAlpha"
+            operator="in"
+            result="effect1_backgroundBlur_35_1809"></feComposite>
+          <feBlend
+            mode="normal"
+            in="SourceGraphic"
+            in2="effect1_backgroundBlur_35_1809"
+            result="shape"></feBlend>
+        </filter>
+        <filter
+          id="filter1_b_35_1809"
+          x="4"
+          y="127"
+          width="329"
+          height="17"
+          filterUnits="userSpaceOnUse"
+          color-interpolation-filters="sRGB"
+        >
+          <feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood>
+          <feGaussianBlur in="BackgroundImageFix" stdDeviation="3"
+          ></feGaussianBlur>
+          <feComposite
+            in2="SourceAlpha"
+            operator="in"
+            result="effect1_backgroundBlur_35_1809"></feComposite>
+          <feBlend
+            mode="normal"
+            in="SourceGraphic"
+            in2="effect1_backgroundBlur_35_1809"
+            result="shape"></feBlend>
+        </filter>
+      </defs>
+    </symbol>
+  </svg>
+</div>
