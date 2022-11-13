@@ -1,15 +1,19 @@
-# wes.dev website
+# Wes.dev Website
 
-Installation:
+This is the source code for my website since 2014.
 
-```sh
-npm install
-```
+The current version uses [Astro](https://astro.build/).
 
-Development:
+The 1999 version is a parody and was created in modern times.
 
-```sh
-npm run parcel-watch
-```
+## Development
 
-Server listens at http://localhost:1234/
+This project uses `wes-cli`, which simplifies configuration setup. Instead of
+using `yarn install`, you should use `npx wes-cli install`, which will create
+all configuration files and run `yarn install`.
+
+[Read more about `wes-cli`.](https://github.com/WesSouza/wes-cli/#wes-install)
+
+## LICENSE
+
+MIT, https://wes.dev/LICENSE.txt
