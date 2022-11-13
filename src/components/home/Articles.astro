@@ -46,8 +46,24 @@ import Article from './Article.astro';
   }
 
   @media (min-width: 1301px) {
-    .Card-Articles.Card-Articles {
+    .Card-Articles {
       padding-block: 38px;
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @media (min-width: 935px) and (max-width: 1300px) {
+      .Card-Articles {
+        --animation-translate-x: var(--animation-from-left);
+        animation-delay: 0.4s;
+      }
+    }
+
+    @media (min-width: 1301px) {
+      .Card-Articles {
+        --animation-translate-x: var(--animation-from-right);
+        animation-delay: 0.2s;
+      }
     }
   }
 

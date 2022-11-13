@@ -62,6 +62,22 @@
     justify-content: center;
   }
 
+  @media (prefers-reduced-motion: no-preference) {
+    @media (min-width: 935px) and (max-width: 1300px) {
+      .Card-Talks {
+        --animation-translate-x: var(--animation-from-left);
+        animation-delay: 0.2s;
+      }
+    }
+
+    @media (min-width: 1301px) {
+      .Card-Talks {
+        --animation-translate-x: var(--animation-from-right);
+        animation-delay: 0s;
+      }
+    }
+  }
+
   .Talk,
   .Controls,
   .Cover {

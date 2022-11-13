@@ -42,15 +42,27 @@
     grid-template-rows: 2fr 4.5em 1em 1fr;
     text-align: center;
     place-items: center;
+    padding: 28px 20px;
   }
 
-  .Card-Info.Card-Info {
-    padding-block: 28px;
+  @media (prefers-reduced-motion: no-preference) {
+    @media (min-width: 935px) and (max-width: 1300px) {
+      .Card-Info {
+        --animation-translate-x: var(--animation-from-right);
+        animation-delay: 0s;
+      }
+    }
+
+    @media (min-width: 1301px) {
+      .Card-Info {
+        animation-delay: 0.4s;
+      }
+    }
   }
 
   @media (max-width: 934px) {
-    .Card-Info:not(.Card-Wide) {
-      padding-inline: 12px !important;
+    .Card-Info {
+      padding-inline: 12px;
     }
   }
 

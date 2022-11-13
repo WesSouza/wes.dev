@@ -83,6 +83,21 @@
     padding-inline: 20px;
   }
 
+  @media (prefers-reduced-motion: no-preference) {
+    @media (min-width: 935px) {
+      .Card-Work {
+        --animation-translate-x: var(--animation-from-left);
+        animation-delay: 0.5s;
+      }
+    }
+
+    @media (min-width: 1301px) {
+      .Card-Work {
+        animation-delay: 0.8s;
+      }
+    }
+  }
+
   .List {
     padding: 0;
     flex-grow: 1;
