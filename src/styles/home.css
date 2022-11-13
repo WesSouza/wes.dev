@@ -1,6 +1,9 @@
 :root {
   --font-color: #fff;
   --underline-color: #fff4;
+  --accent-color: #7c2f88;
+  --focus-color: #fff;
+  --focus-color-dark: #421949;
   --box-shadow: 0 2px 0 0 rgba(0, 0, 0, 0.15);
   --text-shadow: 0 2px 0 rgba(0, 0, 0, 0.15);
   --animation-duration: 0.8s;
@@ -9,10 +12,22 @@
   --animation-from-right: 25px;
 }
 
+* {
+  transition: box-shadow 0.15s, border-radius 0.15s, background-color 0.15s;
+}
+
+*:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 6px var(--focus-color, #fff);
+  background-color: var(--focus-color, #fff);
+  color: var(--accent-color);
+  border-radius: 4px;
+}
+
 html {
   height: 100%;
   color: var(--font-color);
-  background: #7c2f88;
+  background: var(--accent-color);
 }
 
 body {

@@ -9,30 +9,42 @@ const { title, href, rowWidths = [] } = Astro.props;
 ---
 
 <a class="Article" href={href} target="_blank" rel="nofollow noopener">
-  {title}
+  <span class="Page">
+    {title}
 
-  <figure class="Text">
-    {
-      rowWidths.map((rowWidth) => (
-        <span
-          class="Text-Row"
-          style={`--width: ${rowWidth}px; --spacing: ${
-            rowWidth === 0 ? '1' : '0'
-          }; `}
-        />
-      ))
-    }
-  </figure>
+    <figure class="Text">
+      {
+        rowWidths.map((rowWidth) => (
+          <span
+            class="Text-Row"
+            style={`--width: ${rowWidth}px; --spacing: ${
+              rowWidth === 0 ? '1' : '0'
+            }; `}
+          />
+        ))
+      }
+    </figure>
+  </span>
 </a>
 
 <style>
   .Article {
+    --focus-color: var(--focus-color-dark);
     display: block;
     width: 100%;
     height: 100%;
+    text-decoration: none;
+  }
+
+  .Page {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: #fff;
+    border-radius: 5px;
+    box-shadow: var(--box-shadow);
     padding: 16px 12px;
     color: #000;
-    text-decoration: none;
     font-size: 12rem;
   }
 
