@@ -1,7 +1,7 @@
 ---
 const grid = [
-  [0, 0, 0, 2, 2, 0, 2, 2, 0, 2, 2, 0, 0, 0],
-  [1, 0, 0, 2, 2, 0, 2, 2, 0, 2, 2, 0, 1, 0],
+  [0, 0, 0, 3, 3, 0, 3, 3, 0, 3, 3, 0, 0, 0],
+  [1, 0, 0, 3, 3, 0, 3, 3, 0, 3, 3, 0, 1, 0],
   [0, 0, 0, 4, 4, 2, 4, 4, 2, 4, 4, 0, 0, 0],
   [0, 0, 1, 4, 4, 4, 4, 4, 4, 4, 1, 0, 0, 0],
   [0, 1, 0, 4, 4, 4, 4, 4, 4, 3, 0, 0, 1, 1],
@@ -55,7 +55,7 @@ const grid = [
     grid-template-columns: repeat(14, 18px);
     gap: 6px;
     grid-auto-rows: 18px;
-    background-image: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='18' height='18' rx='2' fill='black' fill-opacity='0.15'/%3E%3Crect x='1' y='1' width='16' height='16' rx='1' stroke='black' stroke-opacity='0.03' stroke-width='2'/%3E%3C/svg%3E%0A");
+    background-image: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='18' height='18' rx='2' fill='black' fill-opacity='0.1'/%3E%3Crect x='1' y='1' width='16' height='16' rx='1' stroke='black' stroke-opacity='0.03' stroke-width='2'/%3E%3C/svg%3E%0A");
     background-repeat: repeat;
     background-position-x: calc(50% - 9px);
     width: 100%;
@@ -64,7 +64,7 @@ const grid = [
 
   .Cell {
     display: inline-block;
-    border: 2px solid rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(135, 36, 153, 0.15);
     border-radius: 2px;
   }
 
@@ -73,18 +73,18 @@ const grid = [
   }
 
   .Cell1 {
-    background: #0e4429;
+    background: #c661e7;
   }
 
   .Cell2 {
-    background: #006d32;
+    background: #b62be3;
   }
 
   .Cell3 {
-    background: #26a641;
+    background: #9223bf;
   }
 
   .Cell4 {
-    background: #39d353;
+    background: #63207e;
   }
 </style>
