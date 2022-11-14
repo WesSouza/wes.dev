@@ -99,6 +99,46 @@ ul {
     inset 0 0 0 1px rgba(255, 255, 255, 0.2);
   border: 1px solid #0005;
   background-color: rgba(255, 255, 255, 0.15);
+  transform: perspective(2000px) rotateX(var(--tilt-y, 0deg))
+    rotateY(var(--tilt-x, 0deg)) scale3d(1, 1, 1);
+  transform-style: preserve-3d;
+}
+
+.Card.-WithTilt * {
+  transform-style: preserve-3d;
+}
+
+.Card.-WithTransition {
+  transition: transform 0.25s;
+}
+
+.Card.-WithTilt
+  :where(.-Card-Lowered-1, .-Card-Raised-1, .-Card-Raised-2, .-Card-Raised-3, .-Card-Raised-4, .-Card-Raised-5) {
+  transition: transform 0.25s;
+}
+
+.Card.-WithTilt .-Card-Lowered-1 {
+  transform: translateZ(-20px);
+}
+
+.Card.-WithTilt .-Card-Raised-1 {
+  transform: translateZ(20px);
+}
+
+.Card.-WithTilt .-Card-Raised-2 {
+  transform: translateZ(30px);
+}
+
+.Card.-WithTilt .-Card-Raised-3 {
+  transform: translateZ(40px);
+}
+
+.Card.-WithTilt .-Card-Raised-4 {
+  transform: translateZ(50px);
+}
+
+.Card.-WithTilt .-Card-Raised-5 {
+  transform: translateZ(50px);
 }
 
 .Card-Wide {

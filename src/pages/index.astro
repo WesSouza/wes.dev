@@ -91,5 +91,91 @@ const year = new Date().getFullYear();
         }
       }
     </style>
+    <script>
+      const max = 10;
+      function tiltOnMouseMove(element: HTMLElement) {
+        let width = 0;
+        let height = 0;
+        let left = 0;
+        let top = 0;
+
+        let calculatePositionTimer: number;
+        function scheduleCalculatePosition() {
+          cancelAnimationFrame(calculatePositionTimer);
+          calculatePositionTimer = requestAnimationFrame(() =>
+            calculatePosition(),
+          );
+        }
+
+        function calculatePosition() {
+          let rect = element.getBoundingClientRect();
+
+          width = element.offsetWidth;
+          height = element.offsetHeight;
+          left = rect.left;
+          top = rect.top;
+        }
+
+        let tiltTimer: number;
+        function scheduleTilt(event: MouseEvent) {
+          cancelAnimationFrame(tiltTimer);
+          tiltTimer = requestAnimationFrame(() => tilt(event));
+        }
+
+        let startTiltTimer: number;
+        function startTilt() {
+          clearTimeout(startTiltTimer);
+          element.classList.add('-WithTransition');
+          element.classList.add('-WithTilt');
+          startTiltTimer = window.setTimeout(() => {
+            element.classList.remove('-WithTransition');
+          }, 250);
+        }
+
+        function tilt(event: MouseEvent) {
+          let x = (event.clientX - left) / width;
+          let y = (event.clientY - top) / height;
+
+          x = Math.min(Math.max(x, 0), 1);
+          y = Math.min(Math.max(y, 0), 1);
+
+          let tiltX = (max - x * max * 2).toFixed(2);
+          let tiltY = (y * max * 2 - max).toFixed(2);
+          let angle =
+            Math.atan2(
+              event.clientX - (left + width / 2),
+              -(event.clientY - (top + height / 2)),
+            ) *
+            (180 / Math.PI);
+
+          element.style.setProperty('--tilt-x', `${tiltX}deg`);
+          element.style.setProperty('--tilt-y', `${tiltY}deg`);
+          element.style.setProperty('--angle', `${angle}deg`);
+        }
+
+        function resetTilt() {
+          clearTimeout(startTiltTimer);
+          cancelAnimationFrame(tiltTimer);
+
+          element.style.setProperty('--tilt-x', `0deg`);
+          element.style.setProperty('--tilt-y', `0deg`);
+          element.style.setProperty('--angle', `0deg`);
+          element.classList.add('-WithTransition');
+          element.classList.add('-WithTilt');
+        }
+
+        element.addEventListener('mousemove', scheduleTilt);
+        element.addEventListener('mouseenter', startTilt);
+        element.addEventListener('mouseleave', resetTilt);
+        window.addEventListener('resize', scheduleCalculatePosition);
+        calculatePosition();
+      }
+
+      window.addEventListener('DOMContentLoaded', () => {
+        document
+          .querySelectorAll('.Card')
+          .forEach((element: HTMLElement) => tiltOnMouseMove(element));
+      });
+    </script>
   </body>
 </html>
