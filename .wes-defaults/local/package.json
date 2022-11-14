@@ -23,7 +23,7 @@
     "@astrojs/rss": "^1.0.3",
     "@astrojs/sitemap": "^1.0.0",
     "@astrojs/vercel": "^2.3.3",
-    "astro": "^1.6.7"
+    "astro": "^1.6.8"
   },
   "devDependencies": {}
 }
