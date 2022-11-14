@@ -19,11 +19,11 @@
   "license": "MIT",
   "homepage": "https://wes.dev/",
   "dependencies": {
-    "@astrojs/mdx": "^0.11.5",
+    "@astrojs/mdx": "^0.11.6",
     "@astrojs/rss": "^1.0.3",
     "@astrojs/sitemap": "^1.0.0",
     "@astrojs/vercel": "^2.3.3",
-    "astro": "^1.6.0"
+    "astro": "^1.6.7"
   },
   "devDependencies": {}
 }
