@@ -1,0 +1,19 @@
+{
+  "formatter": {
+    "ignore": ["frontend/public/archive/*"],
+    "indentSize": 2,
+    "indentStyle": "space"
+  },
+  "javascript": {
+    "formatter": {
+      "quoteStyle": "single"
+    }
+  },
+  "linter": {
+    "enabled": true,
+    "ignore": ["frontend/public/archive/*"],
+    "rules": {
+      "recommended": true
+    }
+  }
+}

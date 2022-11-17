@@ -1,0 +1,43 @@
+{
+  "private": true,
+  "name": "wes-dev",
+  "version": "2022.11.19",
+  "description": "https://wes.dev/",
+  "homepage": "https://wes.dev/",
+  "repository": "github:WesSouza/wes.dev",
+  "author": "Wes Souza <hey@wes.dev>",
+  "license": "MIT",
+  "keywords": [
+    "personal website",
+    "Wes Souza",
+    "Wesley de Souza"
+  ],
+  "type": "module",
+  "scripts": {
+    "astro": "astro",
+    "build": "astro build",
+    "check": "astro check && tsc --noEmit && rome ci src",
+    "dev": "astro dev",
+    "preview": "astro preview",
+    "start": "astro dev"
+  },
+  "engines": {
+    "node": ">=18",
+    "pnpm": ">=7"
+  },
+  "packageManager": "pnpm@7.16.1",
+  "dependencies": {
+    "@astrojs/mdx": "^0.11.6",
+    "@astrojs/rss": "^1.0.3",
+    "@astrojs/sitemap": "^1.0.0",
+    "@astrojs/vercel": "^2.3.4",
+    "astro": "^1.6.10",
+    "rollup": "^3.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "^18.11.9",
+    "rome": "^10.0.1",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.9.3"
+  }
+}
