@@ -27,6 +27,7 @@ export const get: APIRoute = async function get({ params, redirect, request }) {
         'https://www.w3.org/ns/activitystreams',
         'https://w3id.org/security/v1',
         {
+          manuallyApprovesFollowers: 'as:manuallyApprovesFollowers',
           toot: 'http://joinmastodon.org/ns#',
           schema: 'http://schema.org#',
           discoverable: 'toot:discoverable',
@@ -44,7 +45,8 @@ export const get: APIRoute = async function get({ params, redirect, request }) {
         '\u003cp\u003eStaff Software Engineer, creator. He/him.\u003c/p\u003e',
       url: `https://${SITE_DOMAIN}/t/@wes`,
       discoverable: true,
-      published: '1986-10-14T00:00:00Z',
+      manuallyApprovesFollowers: true,
+      published: '1986-10-14T14:00:00Z',
       publicKey: {
         id: `https://${SITE_DOMAIN}/t/users/wes#main-key`,
         owner: `https://${SITE_DOMAIN}/t/users/wes`,
