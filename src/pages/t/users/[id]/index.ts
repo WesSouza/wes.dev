@@ -1,11 +1,11 @@
 import type { APIRoute } from 'astro';
 
-export const get: APIRoute = async function get({
-  params,
-  redirect,
-  request: { headers },
-}) {
+import { SITE_DOMAIN } from '../../../../config';
+
+export const get: APIRoute = async function get({ params, redirect, request }) {
   const { id } = params;
+
+  console.log(request.url, request.headers);
 
   if (id !== 'wes') {
     return new Response(null, {
@@ -14,7 +14,7 @@ export const get: APIRoute = async function get({
     });
   }
 
-  const acceptList = (headers.get('Accept') ?? '').split(/\s*,\s*/);
+  const acceptList = (request.headers.get('Accept') ?? '').split(/\s*,\s*/);
   if (
     !acceptList.some((accept) => accept.startsWith('application/activity+json'))
   ) {
@@ -32,22 +32,22 @@ export const get: APIRoute = async function get({
           discoverable: 'toot:discoverable',
         },
       ],
-      id: 'https://wes.dev/t/users/wes',
+      id: `https://${SITE_DOMAIN}/t/users/wes`,
       type: 'Person',
-      following: 'https://wes.dev/t/users/wes/following',
-      followers: 'https://wes.dev/t/users/wes/followers',
-      inbox: 'https://wes.dev/t/users/wes/inbox',
-      outbox: 'https://wes.dev/t/users/wes/outbox',
+      following: `https://${SITE_DOMAIN}/t/users/wes/following`,
+      followers: `https://${SITE_DOMAIN}/t/users/wes/followers`,
+      inbox: `https://${SITE_DOMAIN}/t/users/wes/inbox`,
+      outbox: `https://${SITE_DOMAIN}/t/users/wes/outbox`,
       preferredUsername: 'wes',
       name: 'Wes Souza',
       summary:
         '\u003cp\u003eStaff Software Engineer, creator. He/him.\u003c/p\u003e',
-      url: 'https://wes.dev/t/@wes',
+      url: `https://${SITE_DOMAIN}/t/@wes`,
       discoverable: true,
-      published: '2022-04-26T00:00:00Z',
+      published: '1986-10-14T00:00:00Z',
       publicKey: {
-        id: 'https://wes.dev/t/users/wes#main-key',
-        owner: 'https://wes.dev/t/users/wes',
+        id: `https://${SITE_DOMAIN}/t/users/wes#main-key`,
+        owner: `https://${SITE_DOMAIN}/t/users/wes`,
         publicKeyPem:
           '-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtzLZkjwZ8LlQ/j670bvt\njl1C8somfEY4ZewdpCUEcI5e3GmJSN/uI4Mx9LC5vnaR0SUmOTPWyeF/Unl0CAX/\n7ZlA319ZUAEx5tLhGF9uNQxtQCoYJqdPeMXXPp011pGPnpe3oQx7mfZB2Ggem4o/\nP3Mn+XqS5tMw+p7BHE9IDLoYOBydiGLATmOtcXoTDbTmcy03t1h+/1F+Wzq6wSfS\nGu+blYRV3OxJ/crFYSZvTQMBPgYPko7tZHu6QfQgIEIt/Sx/M8MIDXzFefvcQDr1\ngA8JYafYAcv2uJ2PVf3fDC0BYpFFSBFg/S1I1KUEjxfhJrg7kgUDlow6bGYeYw4p\n+QIDAQAB\n-----END PUBLIC KEY-----\n',
       },

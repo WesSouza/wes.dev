@@ -1,5 +1,6 @@
 ---
-import '../styles/global.css';
+import { SITE_DOMAIN } from "../config";
+import "../styles/global.css";
 
 export interface Props {
   title: string;
@@ -9,8 +10,8 @@ export interface Props {
 
 const {
   title,
-  description = '',
-  image = '/images/Wes-Square.jpg',
+  description = "",
+  image = "/images/Wes-Square.jpg",
 } = Astro.props;
 ---
 
@@ -42,5 +43,8 @@ const {
 <meta property="twitter:description" content={description} />
 <meta property="twitter:image" content={new URL(image, Astro.url)} />
 
-<script defer data-domain="wes.dev" src="https://plausible.io/js/plausible.js"
+<script
+  defer
+  data-domain={SITE_DOMAIN}
+  src="https://plausible.io/js/plausible.js"
 ></script>

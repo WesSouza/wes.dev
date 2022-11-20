@@ -1,12 +1,14 @@
 import type { APIRoute } from 'astro';
 
-export const get: APIRoute = async function get({
-  request: { url: urlString },
-}) {
-  const url = new URL(urlString);
+import { SITE_DOMAIN } from '../../config';
+
+export const get: APIRoute = async function get({ request }) {
+  const url = new URL(request.url);
   const resource = url.searchParams.get('resource');
 
-  if (resource !== 'acct:wes@wes.dev') {
+  console.log(request.url, request.headers);
+
+  if (resource !== `acct:wes@${SITE_DOMAIN}`) {
     return new Response(null, {
       status: 404,
       statusText: 'Not Found',
@@ -15,22 +17,25 @@ export const get: APIRoute = async function get({
 
   return new Response(
     JSON.stringify({
-      subject: 'acct:wes@wes.dev',
-      aliases: ['https://wes.dev/t/@wes', 'https://wes.dev/t/users/wes'],
+      subject: `acct:wes@${SITE_DOMAIN}`,
+      aliases: [
+        `https://${SITE_DOMAIN}/t/@wes`,
+        `https://${SITE_DOMAIN}/t/users/wes`,
+      ],
       links: [
         {
           rel: 'http://webfinger.net/rel/profile-page',
           type: 'text/html',
-          href: 'https://wes.dev/t/@wes',
+          href: `https://${SITE_DOMAIN}/t/@wes`,
         },
         {
           rel: 'self',
           type: 'application/activity+json',
-          href: 'https://wes.dev/t/users/wes',
+          href: `https://${SITE_DOMAIN}/t/users/wes`,
         },
         {
           rel: 'http://ostatus.org/schema/1.0/subscribe',
-          template: 'https://wes.dev/t/authorize_interaction?uri={uri}',
+          template: `https://${SITE_DOMAIN}/t/authorize_interaction?uri={uri}`,
         },
       ],
     }),
