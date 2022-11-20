@@ -5,6 +5,8 @@ import { emptyOrderedCollection } from './_placeholders';
 export const get: APIRoute = async function get({ params, redirect, request }) {
   const { id } = params;
 
+  console.log(request.url, request.headers);
+
   if (id !== 'wes') {
     return new Response(null, {
       status: 404,
