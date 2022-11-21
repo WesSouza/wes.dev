@@ -1,38 +1,46 @@
 ---
-import Article from './Article.astro';
+import { SITE_ARTICLES } from "../../config";
+import Article from "./Article.astro";
+
+const articles = [
+  {
+    ...SITE_ARTICLES[1],
+    rowWidths: [
+      74, 82, 80, 74, 0, 80, 78, 83, 74, 77, 0, 85, 80, 80, 0, 80, 74,
+    ],
+  },
+  {
+    ...SITE_ARTICLES[0],
+    rowWidths: [
+      74, 82, 80, 74, 80, 62, 0, 88, 74, 77, 0, 85, 80, 0, 80, 88, 74, 0, 88,
+      80,
+    ],
+  },
+  {
+    ...SITE_ARTICLES[2],
+    rowWidths: [74, 82, 16, 0, 80, 62, 0, 80, 77, 74, 0, 85, 80, 0, 80, 73, 32],
+  },
+];
 ---
 
 <section class="Card Card-Wide Card-Articles" aria-label="Articles">
   <div class="Card-Clip">
     <ul class="List">
-      <li class="ListItem">
-        <Article
-          title="Writing Good Pull Requests: A Primer"
-          href="https://dev.to/wes/opening-a-pr-a-primer-4kgc"
-          rowWidths={[
-            74, 82, 80, 74, 0, 80, 78, 83, 74, 77, 0, 85, 80, 80, 0, 80, 74,
-          ]}
-        />
-      </li>
-      <li class="ListItem">
-        <Article
-          title="Simple React State Management"
-          href="https://dev.to/wes/simple-react-state-management-29g"
-          rowWidths={[
-            74, 82, 80, 74, 80, 62, 0, 88, 74, 77, 0, 85, 80, 0, 80, 88, 74, 0,
-            88, 80,
-          ]}
-        />
-      </li>
-      <li class="ListItem">
-        <Article
-          title="Why I Became a Web Developer"
-          href="https://dev.to/wes/why-i-became-and-still-am-a-web-developer-1k3"
-          rowWidths={[
-            74, 82, 16, 0, 80, 62, 0, 80, 77, 74, 0, 85, 80, 0, 80, 73, 32,
-          ]}
-        />
-      </li>
+      {
+        articles.map(
+          (article) =>
+            article.title &&
+            article.href && (
+              <li class="ListItem">
+                <Article
+                  title={article.title}
+                  href={article.href}
+                  rowWidths={article.rowWidths}
+                />
+              </li>
+            )
+        )
+      }
     </ul>
   </div>
 </section>

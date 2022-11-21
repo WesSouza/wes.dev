@@ -46,7 +46,7 @@ h3 {
 ul {
   list-style-type: square;
   margin-bottom: 1.5em;
-  padding-inline-start: 1.2em;
+  padding-inline-start: 0;
 }
 
 li {

@@ -1,7 +1,9 @@
 ---
-import '../styles/resume.css';
+import "../styles/resume.css";
 
-import HeadMeta from '../components/HeadMeta.astro';
+import HeadMeta from "../components/HeadMeta.astro";
+import Article from "../components/resume/Article.astro";
+import { SITE_ARTICLES } from "../config";
 ---
 
 <!DOCTYPE html>
@@ -56,69 +58,18 @@ import HeadMeta from '../components/HeadMeta.astro';
       <div class="section">
         <h3 class="title">Articles & Talks</h3>
         <ul>
-          <li>
-            <a
-              href="https://dev.to/wes/trpc-move-fast-and-break-nothing-usereactnyc-3g08"
-              target="_blank">tRPC: Move Fast and Break Nothing</a
-            ><br />
-            <span class="no-wrap">useReactNYC</span>, <span class="no-wrap"
-            ></span>August 2022<br />
-            <div class="print-only link">wes.dev/go/trpc-talk</div>
-          </li>
-          <li>
-            <a
-              href="https://dev.to/wes/simple-react-state-management-29g"
-              target="_blank">Simple React State Management</a
-            ><br />
-            <span class="no-wrap">DEV Community</span>, <span class="no-wrap"
-            ></span>June 2020<br />
-            <div class="print-only link">wes.dev/go/immer-state</div>
-          </li>
-          <li>
-            <a
-              href="https://dev.to/wes/opening-a-pr-a-primer-4kgc"
-              target="_blank">Pull Requests: A Primer</a
-            ><br />
-            <span class="no-wrap">DEV Community</span>, <span class="no-wrap"
-            ></span>February 2020<br />
-            <div class="print-only link">wes.dev/go/pull-request</div>
-          </li>
-          <li>
-            <a
-              href="https://dev.to/wes/why-i-became-and-still-am-a-web-developer-1k3"
-              target="_blank">Why I Became, and still am, a Web Developer</a
-            ><br />
-            <span class="no-wrap">DEV Community</span>, <span class="no-wrap"
-            ></span>May 2019<br />
-            <div class="print-only link">wes.dev/go/web-developer</div>
-          </li>
-          <li>
-            <a
-              href="https://dev.to/wes/bringing-components-to-legacy-code-2m00"
-              target="_blank">Bringing Components to Legacy Code</a
-            ><br />
-            <span class="no-wrap">ReactNYC</span>, <span class="no-wrap"
-            ></span>September 2017<br />
-            <div class="print-only link">wes.dev/go/components-talk</div>
-          </li>
-          <li>
-            <a
-              href="https://dev.to/wes/keeping-control-of-the-front-end-ag7"
-              target="_blank">Keeping Control of the Front-end</a
-            ><br />
-            <span class="no-wrap">DEV Community</span>, <span class="no-wrap"
-            ></span>February 2016<br />
-            <div class="print-only link">wes.dev/go/front-end</div>
-          </li>
-          <li>
-            <a
-              href="https://dev.to/wes/cool-things-make-people-happy-3pci"
-              target="_blank">Cool Things Make People Happy</a
-            ><br />
-            <span class="no-wrap">DEV Community</span>, <span class="no-wrap"
-            ></span>March 2015<br />
-            <div class="print-only link">wes.dev/go/cool-things</div>
-          </li>
+          <ul>
+            {
+              SITE_ARTICLES.map((article) => (
+                <Article
+                  goSlug={article.goSlug}
+                  href={article.href}
+                  subtitle={article.subtitle}
+                  title={article.title}
+                />
+              ))
+            }
+          </ul>
         </ul>
       </div>
 
@@ -199,7 +150,7 @@ import HeadMeta from '../components/HeadMeta.astro';
                 >Booking.com</a
               >
               <span class="info-right"
-                >Client-side developer, May 2014&ndash;Sept 2016</span
+                >Client-side developer, May 2014&ndash;Sep 2016</span
               >
             </h3>
             <ul>

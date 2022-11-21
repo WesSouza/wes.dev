@@ -1,0 +1,16 @@
+---
+export interface Props {
+  title: string;
+  subtitle: string;
+  href: string;
+  goSlug: string;
+}
+
+const { title, href, subtitle, goSlug } = Astro.props;
+---
+
+<li>
+  <a href={href} target="_blank" rel="nofollow noopener">{title}</a>,
+  <span class="no-wrap">{subtitle}</span>
+  <div class="print-only link">wes.dev/go/{goSlug}</div>
+</li>

@@ -1,7 +1,9 @@
 ---
-import '../styles/resume.css';
+import "../styles/resume.css";
 
-import HeadMeta from '../components/HeadMeta.astro';
+import HeadMeta from "../components/HeadMeta.astro";
+import Article from "../components/resume/Article.astro";
+import { SITE_ARTICLES } from "../config";
 ---
 
 <!DOCTYPE html>
@@ -56,55 +58,16 @@ import HeadMeta from '../components/HeadMeta.astro';
       <div class="section">
         <h3 class="title">Articles & Talks</h3>
         <ul>
-          <li>
-            <a
-              href="https://dev.to/wes/trpc-move-fast-and-break-nothing-usereactnyc-3g08"
-              target="_blank">tRPC: Move Fast and Break Nothing</a
-            >, useReactNYC, August 2022<br />
-            <div class="print-only link">wes.dev/go/trpc-talk</div>
-          </li>
-          <li>
-            <a
-              href="https://dev.to/wes/simple-react-state-management-29g"
-              target="_blank">Simple React State Management</a
-            >, DEV Community, June 2020<br />
-            <div class="print-only link">wes.dev/go/immer-state</div>
-          </li>
-          <li>
-            <a
-              href="https://dev.to/wes/opening-a-pr-a-primer-4kgc"
-              target="_blank">Pull Requests: A Primer</a
-            >, DEV Community, February 2020<br />
-            <div class="print-only link">wes.dev/go/pull-request</div>
-          </li>
-          <li>
-            <a
-              href="https://dev.to/wes/why-i-became-and-still-am-a-web-developer-1k3"
-              target="_blank">Why I Became, and still am, a Web Developer</a
-            >, DEV Community, May 2019<br />
-            <div class="print-only link">wes.dev/go/web-developer</div>
-          </li>
-          <li>
-            <a
-              href="https://dev.to/wes/bringing-components-to-legacy-code-2m00"
-              target="_blank">Bringing Components to Legacy Code</a
-            >, ReactNYC, September 2017<br />
-            <div class="print-only link">wes.dev/go/components-talk</div>
-          </li>
-          <li>
-            <a
-              href="https://dev.to/wes/keeping-control-of-the-front-end-ag7"
-              target="_blank">Keeping Control of the Front-end</a
-            >, DEV Community, February 2016<br />
-            <div class="print-only link">wes.dev/go/front-end</div>
-          </li>
-          <li>
-            <a
-              href="https://dev.to/wes/cool-things-make-people-happy-3pci"
-              target="_blank">Cool Things Make People Happy</a
-            >, DEV Community, March 2015<br />
-            <div class="print-only link">wes.dev/go/cool-things</div>
-          </li>
+          {
+            SITE_ARTICLES.slice(0, 7).map((article) => (
+              <Article
+                goSlug={article.goSlug}
+                href={article.href}
+                subtitle={article.subtitle}
+                title={article.title}
+              />
+            ))
+          }
         </ul>
       </div>
     </aside>
@@ -116,8 +79,10 @@ import HeadMeta from '../components/HeadMeta.astro';
         <ul class="no-bullets">
           <li>
             <h3>
-              <a href="https://unqork.com/" target="_blank" rel="nofollow"
-                >Unqork</a
+              <a
+                href="https://unqork.com/"
+                target="_blank"
+                rel="nofollow noopener">Unqork</a
               ><span class="info-right"
                 >Staff Software Engineer, Sep 2020&ndash;present</span
               >
@@ -126,7 +91,7 @@ import HeadMeta from '../components/HeadMeta.astro';
 
           <li>
             <h3>
-              <a href="https://work.co/" target="_blank" rel="nofollow"
+              <a href="https://work.co/" target="_blank" rel="nofollow noopener"
                 >Work & Co</a
               ><span class="info-right"
                 >Staff Developer, Sep 2016&ndash;Aug 2020</span
@@ -168,8 +133,10 @@ import HeadMeta from '../components/HeadMeta.astro';
 
           <li>
             <h3>
-              <a href="https://www.booking.com/" target="_blank" rel="nofollow"
-                >Booking.com</a
+              <a
+                href="https://www.booking.com/"
+                target="_blank"
+                rel="nofollow noopener">Booking.com</a
               >
               <span class="info-right"
                 >Client-side developer, May 2014&ndash;Sep 2016</span
@@ -201,16 +168,20 @@ import HeadMeta from '../components/HeadMeta.astro';
           <li>
             <h3 class="title">Previously</h3>
             <p>
-              <a href="https://scup.com/" target="_blank" rel="nofollow"
-                >Scup.com</a
+              <a
+                href="https://scup.com/"
+                target="_blank"
+                rel="nofollow noopener">Scup.com</a
               >,
               <a
                 href="https://www.univision.com/"
                 target="_blank"
-                rel="nofollow">Univision</a
+                rel="nofollow noopener">Univision</a
               >,
-              <a href="https://www.mtv.com.br/" target="_blank" rel="nofollow"
-                >MTV Brasil</a
+              <a
+                href="https://www.mtv.com.br/"
+                target="_blank"
+                rel="nofollow noopener">MTV Brasil</a
               >
               &amp; others.
             </p>
