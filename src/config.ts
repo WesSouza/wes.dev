@@ -9,6 +9,12 @@ export const SITE_DOMAIN = 'wes.dev';
 
 export const SITE_ARTICLES = [
   {
+    href: 'https://dev.to/wes/the-next-twitter-20ij',
+    goSlug: 'next-twitter',
+    title: 'The Next Twitter',
+    subtitle: 'DEV Community, November 2022',
+  },
+  {
     href: 'https://dev.to/wes/trpc-move-fast-and-break-nothing-usereactnyc-3g08',
     goSlug: 'trpc-talk',
     title: 'tRPC: Move Fast and Break Nothing',
