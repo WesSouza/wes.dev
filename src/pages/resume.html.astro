@@ -3,7 +3,16 @@ import "../styles/resume.css";
 
 import HeadMeta from "../components/HeadMeta.astro";
 import Article from "../components/resume/Article.astro";
-import { SITE_ARTICLES } from "../config";
+import { SITE_GO_LINKS } from "../config";
+
+const articles = SITE_GO_LINKS.filter(
+  (article) => article.subtitle && article.title
+) as {
+  goSlug: string;
+  href: string;
+  subtitle: string;
+  title: string;
+}[];
 ---
 
 <!DOCTYPE html>
@@ -59,14 +68,16 @@ import { SITE_ARTICLES } from "../config";
         <h3 class="title">Articles & Talks</h3>
         <ul>
           {
-            SITE_ARTICLES.slice(0, 7).map((article) => (
-              <Article
-                goSlug={article.goSlug}
-                href={article.href}
-                subtitle={article.subtitle}
-                title={article.title}
-              />
-            ))
+            articles
+              .slice(0, 7)
+              .map((article) => (
+                <Article
+                  goSlug={article.goSlug}
+                  href={article.href}
+                  subtitle={article.subtitle}
+                  title={article.title}
+                />
+              ))
           }
         </ul>
       </div>

@@ -7,7 +7,8 @@ export const SITE_DESCRIPTION =
 
 export const SITE_DOMAIN = 'wes.dev';
 
-export const SITE_ARTICLES = [
+export const SITE_GO_LINKS = [
+  // Listed Articles
   {
     href: 'https://dev.to/wes/the-next-twitter-20ij',
     goSlug: 'next-twitter',
@@ -55,5 +56,11 @@ export const SITE_ARTICLES = [
     goSlug: 'cool-things',
     title: 'Cool Things Make People Happy',
     subtitle: 'DEV Community, March 2015',
+  },
+
+  // Other "go" redirects
+  {
+    href: 'https://mastodon.social/@wessouza',
+    goSlug: 'mastodon',
   },
 ];

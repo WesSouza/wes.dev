@@ -13,7 +13,9 @@ export const get: APIRoute = async function get({ params, redirect, request }) {
   const userAgent = request.headers.get('user-agent');
   if (userAgent?.startsWith('Twitterbot/')) {
     // Go suck a sugar cane field of dick, Twitter bot
-    return { body: '<title>Continue reading on Mastodon</title>' };
+    return {
+      body: `<title>Continue on Mastodon</title><a href="https://mastodon.social/@wessouza/${id}">https://mastodon.social/@wessouza/${id}</a>`,
+    };
   }
 
   return redirect(`https://mastodon.social/@wessouza/${id}`, 302);
