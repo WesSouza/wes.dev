@@ -27,17 +27,14 @@
   },
   "packageManager": "pnpm@7.16.1",
   "dependencies": {
-    "@astrojs/mdx": "^0.11.6",
-    "@astrojs/rss": "^1.0.3",
-    "@astrojs/sitemap": "^1.0.0",
-    "@astrojs/vercel": "^2.3.4",
-    "astro": "^1.6.10",
-    "rollup": "^3.3.0"
+    "@astrojs/vercel": "^3.1.2",
+    "astro": "^2.0.14",
+    "rollup": "^3.17.2"
   },
   "devDependencies": {
-    "@types/node": "^18.11.9",
-    "rome": "^10.0.1",
+    "@types/node": "18.14.0",
+    "rome": "^11.0.0",
     "ts-node": "^10.9.1",
-    "typescript": "^4.9.3"
+    "typescript": "^4.9.5"
   }
 }
