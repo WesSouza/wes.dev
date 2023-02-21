@@ -2,17 +2,7 @@
 import "../styles/resume.css";
 
 import HeadMeta from "../components/HeadMeta.astro";
-import Article from "../components/resume/Article.astro";
-import { SITE_GO_LINKS } from "../config";
-
-const articles = SITE_GO_LINKS.filter(
-  (article) => article.subtitle && article.title
-) as {
-  goSlug: string;
-  href: string;
-  subtitle: string;
-  title: string;
-}[];
+import Sidebar from "../components/resume/Sidebar.astro";
 ---
 
 <!DOCTYPE html>
@@ -25,76 +15,7 @@ const articles = SITE_GO_LINKS.filter(
     />
   </head>
   <body class="resume">
-    <aside class="sidebar">
-      <h1 class="name">Wes Souza</h1>
-
-      <div class="section">
-        <p>
-          Staff software developer working on projects for the web platform
-          since 2006, and mobile since 2016.
-        </p>
-        <p>
-          JavaScript is my career’s main driver, together with technologies such
-          as React, React Native, Node.js and GraphQL. I&nbsp;thrive on building
-          great products, while caring deeply about the developer experience of
-          my team.
-        </p>
-      </div>
-
-      <address class="section">
-        <h3>Contact</h3>
-        <ul>
-          <li>
-            <a href="mailto:hey@wes.dev">hey@wes.dev</a> &sdot;
-            <a href="https://wes.dev/" target="_blank">wes.dev</a>
-          </li>
-          <li>
-            <a href="https://dev.to/wes/" target="_blank">dev.to/wes</a>
-          </li>
-          <li>
-            <a href="https://github.com/WesSouza/" target="_blank"
-              >github.com/WesSouza</a
-            >
-          </li>
-          <li>
-            <a href="https://twitter.com/__WesSouza/" target="_blank"
-              >twitter.com/__WesSouza</a
-            >
-          </li>
-        </ul>
-      </address>
-
-      <div class="section">
-        <h3 class="title">Articles & Talks</h3>
-        <ul>
-          <ul>
-            {
-              articles.map((article) => (
-                <Article
-                  goSlug={article.goSlug}
-                  href={article.href}
-                  subtitle={article.subtitle}
-                  title={article.title}
-                />
-              ))
-            }
-          </ul>
-        </ul>
-      </div>
-
-      <div class="section">
-        <h3 class="title">Education</h3>
-
-        <ul class="no-bullets">
-          <li>
-            <h3>
-              Bachelors in Computer Engineering, 2010
-              <span class="info">Universidade Metodista de São Paulo</span>
-            </h3>
-          </li>
-        </ul>
-      </div>
-    </aside>
+    <Sidebar />
 
     <main>
       <section class="section">
@@ -102,21 +23,54 @@ const articles = SITE_GO_LINKS.filter(
 
         <ul class="no-bullets">
           <li>
-            <h3>
-              <a href="https://unqork.com/" target="_blank" rel="nofollow"
-                >Unqork</a
+            <h3 class="flex-space-between">
+              <a
+                class="no-wrap"
+                href="https://unqork.com/"
+                target="_blank"
+                rel="nofollow noopener">Unqork</a
               ><span class="info-right"
-                >Staff Software Engineer, Sep 2020&ndash;present</span
+                >Staff Software Engineer, <span class="no-wrap"
+                  >Sep 2020&ndash;present</span
+                ></span
               >
             </h3>
+
+            <ul>
+              <li>
+                Led teams and collaborated with stakeholders to plan and deliver
+                new products and improvements to existing areas of the platform.
+              </li>
+              <li>
+                Led the refactor of a real time analysis tool, bringing
+                performance to both front end &ndash; with effective React state
+                management &ndash;, and back end &ndash; with a simplified
+                algorithm written for Node.js, exposing a GraphQL service.
+              </li>
+              <li>
+                Delivered new components, changes and complex refactors to the
+                company&rsquo;s design system library, utilizing React,
+                Storybook and AG Grid.
+              </li>
+              <li>
+                Led multiple internal task forces to improve the
+                platform&rsquo;s development experience and its build quality,
+                with Yarn and Webpack and overall documentation.
+              </li>
+            </ul>
           </li>
 
           <li>
-            <h3>
-              <a href="https://work.co/" target="_blank" rel="nofollow"
-                >Work & Co</a
+            <h3 class="flex-space-between">
+              <a
+                class="no-wrap"
+                href="https://work.co/"
+                target="_blank"
+                rel="nofollow">Work & Co</a
               ><span class="info-right"
-                >Staff Developer, Sep 2016&ndash;Aug 2020</span
+                >Senior Developer, <span class="no-wrap"
+                  >Sep 2016&ndash;Aug 2020</span
+                ></span
               >
             </h3>
 
@@ -154,12 +108,17 @@ const articles = SITE_GO_LINKS.filter(
           </li>
 
           <li>
-            <h3>
-              <a href="https://www.booking.com/" target="_blank" rel="nofollow"
-                >Booking.com</a
+            <h3 class="flex-space-between">
+              <a
+                class="no-wrap"
+                href="https://www.booking.com/"
+                target="_blank"
+                rel="nofollow">Booking.com</a
               >
               <span class="info-right"
-                >Client-side developer, May 2014&ndash;Sep 2016</span
+                >Client-side developer, <span class="no-wrap"
+                  >May 2014&ndash;Sep 2016</span
+                ></span
               >
             </h3>
             <ul>
@@ -179,61 +138,77 @@ const articles = SITE_GO_LINKS.filter(
                 velocity.
               </li>
               <li>
-                Provided mentoring for development interns on career development
-                inside the company.
+                Mentored interns on career development inside the company.
               </li>
             </ul>
           </li>
 
           <li>
-            <h3>
-              <a href="https://www.scup.com/" target="_blank" rel="nofollow"
-                >Scup.com</a
+            <h3 class="flex-space-between">
+              <a
+                class="no-wrap"
+                href="https://sprinklr.com/"
+                target="_blank"
+                rel="nofollow noopener">Sprinklr</a
               >
               <span class="info-right"
-                >Front-end engineer, May 2013&ndash;April 2014</span
+                >Front-end engineer, <span class="no-wrap"
+                  >May 2013&ndash;April 2014</span
+                ></span
               >
             </h3>
           </li>
 
           <li>
-            <h3>
+            <h3 class="flex-space-between">
               <a
+                class="no-wrap"
                 href="https://www.univision.com/"
                 target="_blank"
                 rel="nofollow">Univision.com</a
               >
               <span class="info-right"
-                >Lead PHP Developer, July 2012&ndash;May 2013</span
+                >Lead PHP Developer, <span class="no-wrap"
+                  >July 2012&ndash;May 2013</span
+                ></span
               >
             </h3>
           </li>
 
           <li>
-            <h3>
-              <a href="https://www.mtv.com.br/" target="_blank" rel="nofollow"
-                >MTV Brasil</a
+            <h3 class="flex-space-between">
+              <a
+                class="no-wrap"
+                href="https://www.mtv.com.br/"
+                target="_blank"
+                rel="nofollow">MTV Brasil</a
               >
               <span class="info-right"
-                >PHP Developer, April 2010&ndash;July 2012</span
-              >
-            </h3>
-          </li>
-
-          <li>
-            <h3>
-              Connix
-              <span class="info-right"
-                >PHP Developer, April 2008&ndash;February 2010</span
+                >PHP Developer, <span class="no-wrap"
+                  >April 2010&ndash;July 2012</span
+                ></span
               >
             </h3>
           </li>
 
           <li>
-            <h3>
-              Netcash
+            <h3 class="flex-space-between">
+              <span>Connix</span>
               <span class="info-right"
-                >Junior PHP Developer, April 2006&ndash;April 2008</span
+                >PHP Developer, <span class="no-wrap"
+                  >April 2008&ndash;February 2010</span
+                ></span
+              >
+            </h3>
+          </li>
+
+          <li>
+            <h3 class="flex-space-between">
+              <span>Netcash</span>
+              <span class="info-right"
+                >Junior PHP Developer, <span class="no-wrap"
+                  >April 2006&ndash;April 2008</span
+                ></span
               >
             </h3>
           </li>

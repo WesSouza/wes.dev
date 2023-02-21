@@ -2,17 +2,7 @@
 import "../styles/resume.css";
 
 import HeadMeta from "../components/HeadMeta.astro";
-import Article from "../components/resume/Article.astro";
-import { SITE_GO_LINKS } from "../config";
-
-const articles = SITE_GO_LINKS.filter(
-  (article) => article.subtitle && article.title
-) as {
-  goSlug: string;
-  href: string;
-  subtitle: string;
-  title: string;
-}[];
+import Sidebar from "../components/resume/Sidebar.astro";
 ---
 
 <!DOCTYPE html>
@@ -25,63 +15,7 @@ const articles = SITE_GO_LINKS.filter(
     />
   </head>
   <body class="resume">
-    <aside class="sidebar">
-      <h1 class="name">Wes Souza</h1>
-
-      <div class="section">
-        <p>
-          Staff software developer working on projects for the web platform
-          since 2006, and mobile since 2016.
-        </p>
-        <p>
-          JavaScript is my career’s main driver, together with technologies such
-          as React, React Native, Node.js and GraphQL. I&nbsp;thrive on building
-          great products, while caring deeply about the developer experience of
-          my team.
-        </p>
-      </div>
-
-      <address class="section">
-        <h3>Contact</h3>
-        <ul>
-          <li>
-            <a href="mailto:hey@wes.dev">hey@wes.dev</a> &sdot;
-            <a href="https://wes.dev/" target="_blank">wes.dev</a>
-          </li>
-          <li>
-            <a href="https://dev.to/wes/" target="_blank">dev.to/wes</a>
-          </li>
-          <li>
-            <a href="https://github.com/WesSouza/" target="_blank"
-              >github.com/WesSouza</a
-            >
-          </li>
-          <li>
-            <a href="https://twitter.com/__WesSouza/" target="_blank"
-              >twitter.com/__WesSouza</a
-            >
-          </li>
-        </ul>
-      </address>
-
-      <div class="section">
-        <h3 class="title">Articles & Talks</h3>
-        <ul>
-          {
-            articles
-              .slice(0, 7)
-              .map((article) => (
-                <Article
-                  goSlug={article.goSlug}
-                  href={article.href}
-                  subtitle={article.subtitle}
-                  title={article.title}
-                />
-              ))
-          }
-        </ul>
-      </div>
-    </aside>
+    <Sidebar />
 
     <main>
       <section class="section">
@@ -89,23 +23,54 @@ const articles = SITE_GO_LINKS.filter(
 
         <ul class="no-bullets">
           <li>
-            <h3>
+            <h3 class="flex-space-between">
               <a
+                class="no-wrap"
                 href="https://unqork.com/"
                 target="_blank"
                 rel="nofollow noopener">Unqork</a
               ><span class="info-right"
-                >Staff Software Engineer, Sep 2020&ndash;present</span
+                >Staff Software Engineer, <span class="no-wrap"
+                  >Sep 2020&ndash;present</span
+                ></span
               >
             </h3>
+
+            <ul>
+              <li>
+                Led teams and collaborated with stakeholders to plan and deliver
+                new products and improvements to existing areas of the platform.
+              </li>
+              <li>
+                Led the refactor of a real time analysis tool, bringing
+                performance to both front end &ndash; with effective React state
+                management &ndash;, and back end &ndash; with a simplified
+                algorithm written for Node.js, exposing a GraphQL service.
+              </li>
+              <li>
+                Delivered new components, changes and complex refactors to the
+                company&rsquo;s design system library, utilizing React,
+                Storybook and AG Grid.
+              </li>
+              <li>
+                Led multiple internal task forces to improve the
+                platform&rsquo;s development experience and its build quality,
+                with Yarn and Webpack and overall documentation.
+              </li>
+            </ul>
           </li>
 
           <li>
-            <h3>
-              <a href="https://work.co/" target="_blank" rel="nofollow noopener"
-                >Work & Co</a
+            <h3 class="flex-space-between">
+              <a
+                class="no-wrap"
+                href="https://work.co/"
+                target="_blank"
+                rel="nofollow">Work & Co</a
               ><span class="info-right"
-                >Staff Developer, Sep 2016&ndash;Aug 2020</span
+                >Senior Developer, <span class="no-wrap"
+                  >Sep 2016&ndash;Aug 2020</span
+                ></span
               >
             </h3>
 
@@ -143,14 +108,17 @@ const articles = SITE_GO_LINKS.filter(
           </li>
 
           <li>
-            <h3>
+            <h3 class="flex-space-between">
               <a
+                class="no-wrap"
                 href="https://www.booking.com/"
                 target="_blank"
-                rel="nofollow noopener">Booking.com</a
+                rel="nofollow">Booking.com</a
               >
               <span class="info-right"
-                >Client-side developer, May 2014&ndash;Sep 2016</span
+                >Client-side developer, <span class="no-wrap"
+                  >May 2014&ndash;Sep 2016</span
+                ></span
               >
             </h3>
             <ul>
@@ -170,8 +138,7 @@ const articles = SITE_GO_LINKS.filter(
                 velocity.
               </li>
               <li>
-                Provided mentoring for development interns on career development
-                inside the company.
+                Mentored interns on career development inside the company.
               </li>
             </ul>
           </li>
@@ -180,21 +147,11 @@ const articles = SITE_GO_LINKS.filter(
             <h3 class="title">Previously</h3>
             <p>
               <a
-                href="https://scup.com/"
+                href="https://www.linkedin.com/in/wessouza/details/experience/"
                 target="_blank"
-                rel="nofollow noopener">Scup.com</a
-              >,
-              <a
-                href="https://www.univision.com/"
-                target="_blank"
-                rel="nofollow noopener">Univision</a
-              >,
-              <a
-                href="https://www.mtv.com.br/"
-                target="_blank"
-                rel="nofollow noopener">MTV Brasil</a
-              >
-              &amp; others.
+                rel="nofollow noopener"
+                >Developer at Sprinklr, Univision, MTV Brasil &amp; others.
+              </a>
             </p>
           </li>
         </ul>

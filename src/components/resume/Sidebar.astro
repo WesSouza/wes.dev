@@ -1,0 +1,87 @@
+---
+import { SITE_GO_LINKS } from "../../config";
+import SidebarLink, { Props as SidebarLinkProps } from "./SidebarLink.astro";
+
+const articles = SITE_GO_LINKS.filter(
+  (link) => link.type === "article" && link.showOnResume
+) as SidebarLinkProps["link"][];
+
+const projects = SITE_GO_LINKS.filter(
+  (link) => link.type === "project" && link.showOnResume
+) as SidebarLinkProps["link"][];
+
+const yearsOfExperience = new Date().getFullYear() - 2006;
+---
+
+<aside>
+  <h1 class="name">Wes Souza</h1>
+
+  <div class="section">
+    <p>
+      Staff software engineer with {yearsOfExperience} years of experience working
+      on web and mobile applications.
+    </p>
+    <p>
+      Focused on delivering great and accessible experiences for the end user,
+      as well as promoting good architecture towards team effectiveness.
+    </p>
+    <p>
+      Recently worked with React, React Native, Storybook, GraphQL, Node.js and
+      TypeScript.
+    </p>
+  </div>
+
+  <address class="section">
+    <h3 class="title">Contact &amp; Links</h3>
+    <ul class="no-bullets inline-list-items">
+      <li>
+        <a href="mailto:hey@wes.dev">hey@wes.dev</a>
+      </li>
+      <li>
+        <a href="https://wes.dev/" target="_blank">wes.dev</a>
+      </li>
+      <li>
+        <a
+          href="https://twitter.com/__WesSouza/"
+          target="_blank"
+          rel="nofollow noopener">@__WesSouza</a
+        >
+      </li>
+      <li>
+        <a
+          href="https://mastodon.social/@wessouza"
+          target="_blank"
+          rel="nofollow noopener">@wessouza@mastodon.social</a
+        >
+      </li>
+      <li>
+        <a
+          href="https://github.com/WesSouza/"
+          target="_blank"
+          rel="nofollow noopener">github.com/WesSouza</a
+        >
+      </li>
+      <li>
+        <a
+          href="https://www.linkedin.com/in/wessouza/"
+          target="_blank"
+          rel="nofollow noopener">linkedin.com/in/wessouza</a
+        >
+      </li>
+    </ul>
+  </address>
+
+  <div class="section">
+    <h3 class="title">Articles &amp; Talks</h3>
+    <ul>
+      {articles.slice(0, 7).map((link) => <SidebarLink link={link} />)}
+    </ul>
+  </div>
+
+  <div class="section">
+    <h3 class="title">Projects</h3>
+    <ul>
+      {projects.slice(0, 7).map((link) => <SidebarLink link={link} />)}
+    </ul>
+  </div>
+</aside>
