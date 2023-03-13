@@ -1,6 +1,7 @@
 ---
 import { SITE_GO_LINKS } from "../../config";
-import SidebarLink, { Props as SidebarLinkProps } from "./SidebarLink.astro";
+import type { Props as SidebarLinkProps } from "./SidebarLink.astro";
+import SidebarLink from "./SidebarLink.astro";
 
 const articles = SITE_GO_LINKS.filter(
   (link) => link.type === "article" && link.showOnResume

@@ -7,7 +7,7 @@ specifiers:
   rollup: ^3.19.1
   rome: ^11.0.0
   ts-node: ^10.9.1
-  typescript: ^4.9.5
+  typescript: 5.0.1-rc
 
 dependencies:
   '@astrojs/vercel': 3.2.0_astro@2.1.2
@@ -17,8 +17,8 @@ dependencies:
 devDependencies:
   '@types/node': 18.15.0
   rome: 11.0.0
-  ts-node: 10.9.1_lwgqdwokjtwlohdqtbb6s252kq
-  typescript: 4.9.5
+  ts-node: 10.9.1_cxklm75j4v3v34y2567hv4mxtu
+  typescript: 5.0.1-rc
 
 packages:
 
@@ -3150,7 +3150,7 @@ packages:
     resolution: {integrity: sha512-AqTiAOLcj85xS7vQ8QkAV41hPDIJ71XJB4RCUrzo/1GM2CQwhkJGaf9Hgr7BOugMRpgGUrqRg/DrBDl4H40+8g==}
     dev: false
 
-  /ts-node/10.9.1_lwgqdwokjtwlohdqtbb6s252kq:
+  /ts-node/10.9.1_cxklm75j4v3v34y2567hv4mxtu:
     resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
     hasBin: true
     peerDependencies:
@@ -3176,7 +3176,7 @@ packages:
       create-require: 1.1.1
       diff: 4.0.2
       make-error: 1.3.6
-      typescript: 4.9.5
+      typescript: 5.0.1-rc
       v8-compile-cache-lib: 3.0.1
       yn: 3.1.1
     dev: true
@@ -3210,6 +3210,13 @@ packages:
     resolution: {integrity: sha512-1FXk9E2Hm+QzZQ7z+McJiHL4NW1F2EzMu9Nq9i3zAaGqibafqYwCVU6WyWAuyQRRzOlxou8xZSyXLEN8oKj24g==}
     engines: {node: '>=4.2.0'}
     hasBin: true
+    dev: false
+
+  /typescript/5.0.1-rc:
+    resolution: {integrity: sha512-zh75jY8gPo/y7fpmlTVN2bb2MigoLx4hGk+Cla9pY6lgSTvzJrmQQrRt5S80VTsEt6biWPZJgLK2nm6f0Ya+mA==}
+    engines: {node: '>=4.2.0'}
+    hasBin: true
+    dev: true
 
   /undici/5.20.0:
     resolution: {integrity: sha512-J3j60dYzuo6Eevbawwp1sdg16k5Tf768bxYK4TUJRH7cBM4kFCbf3mOnM/0E3vQYXvpxITbbWmBafaDbxLDz3g==}

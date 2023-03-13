@@ -11,8 +11,6 @@
     "exactOptionalPropertyTypes": true,
     "forceConsistentCasingInFileNames": true,
     "importHelpers": true,
-    "importsNotUsedAsValues": "error",
-    "isolatedModules": true,
     "lib": ["DOM", "ESNext"],
     "module": "ESNext",
     "moduleResolution": "Node",
@@ -32,15 +30,11 @@
     "strictFunctionTypes": true,
     "strictNullChecks": true,
     "strictPropertyInitialization": true,
-    "target": "ESNext"
+    "target": "ESNext",
+    "verbatimModuleSyntax": true
   },
-  "exclude": [
-    ".vercel",
-    "node_modules"
-  ],
-  "include": [
-    "**/*.ts"
-  ],
+  "exclude": [".vercel", "node_modules"],
+  "include": ["**/*.ts"],
   "ts-node": {
     "esm": true
   }
