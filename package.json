@@ -28,6 +28,7 @@
   },
   "packageManager": "pnpm@8.6.1",
   "dependencies": {
+    "@astrojs/solid-js": "^2.1.0",
     "@astrojs/vercel": "^3.6.0",
     "@vercel/edge-config": "^0.1.1",
     "astro": "^2.7.3",
@@ -35,6 +36,7 @@
     "ical.js": "^1.5.0",
     "ics": "^3.1.0",
     "rollup": "^3.26.0",
+    "solid-js": "^1.4.3",
     "tsdav": "^2.0.3",
     "zod": "^3.21.4"
   },

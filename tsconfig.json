@@ -1,5 +1,4 @@
 {
-  "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
     "allowJs": true,
     "allowUnreachableCode": false,
@@ -11,6 +10,8 @@
     "exactOptionalPropertyTypes": true,
     "forceConsistentCasingInFileNames": true,
     "importHelpers": true,
+    "jsx": "preserve",
+    "jsxImportSource": "solid-js",
     "lib": ["DOM", "ESNext"],
     "module": "ESNext",
     "moduleResolution": "Node",
@@ -34,7 +35,7 @@
     "verbatimModuleSyntax": true
   },
   "exclude": [".vercel", "node_modules"],
-  "include": ["**/*.ts"],
+  "include": ["**/*.ts", "**/*.tsx"],
   "ts-node": {
     "esm": true
   }
