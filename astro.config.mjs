@@ -8,5 +8,10 @@ export default defineConfig({
   site: 'https://wes.dev',
   output: 'server',
   adapter: vercel(),
-  integrations: [solidJs()]
+  integrations: [solidJs()],
+  vite: {
+    ssr: {
+      noExternal: ['rrule'],
+    },
+  },
 });

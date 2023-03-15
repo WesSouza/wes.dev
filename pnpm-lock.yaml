@@ -29,6 +29,9 @@ dependencies:
   rollup:
     specifier: ^3.26.0
     version: 3.26.0
+  rrule:
+    specifier: ^2.7.2
+    version: 2.7.2
   solid-js:
     specifier: ^1.4.3
     version: 1.4.3
@@ -3852,6 +3855,12 @@ packages:
     hasBin: true
     optionalDependencies:
       fsevents: 2.3.2
+    dev: false
+
+  /rrule@2.7.2:
+    resolution: {integrity: sha512-NkBsEEB6FIZOZ3T8frvEBOB243dm46SPufpDckY/Ap/YH24V1zLeMmDY8OA10lk452NdrF621+ynDThE7FQU2A==}
+    dependencies:
+      tslib: 2.6.0
     dev: false
 
   /run-applescript@5.0.0:
