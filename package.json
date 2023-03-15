@@ -16,7 +16,7 @@
   "scripts": {
     "astro": "astro",
     "build": "astro build",
-    "check": "astro check && tsc --noEmit && rome ci src",
+    "check": "astro check && tsc --noEmit",
     "dev": "astro dev",
     "preview": "astro preview",
     "start": "astro dev"
@@ -33,7 +33,6 @@
   },
   "devDependencies": {
     "@types/node": "18.15.0",
-    "rome": "^11.0.0",
     "ts-node": "^10.9.1",
     "typescript": "5.0.1-rc"
   }
