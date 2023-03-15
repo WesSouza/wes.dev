@@ -1,0 +1,110 @@
+---
+import { MeetWindow } from "../../components/meet/MeetWindow";
+import HeadMeta from "../../components/HeadMeta.astro";
+
+const minHour = 7;
+const maxHour = 22;
+const maxDays = 14;
+
+const year = new Date().getFullYear();
+const timeFormatter = new Intl.DateTimeFormat("en-US", {
+  hour: "numeric",
+});
+const dayFormatter = new Intl.DateTimeFormat("en-US", {
+  weekday: "short",
+  day: "numeric",
+});
+
+const hours = Array.from({ length: maxHour - minHour + 1 }, (_, index) =>
+  timeFormatter.format(new Date(2000, 0, 1, minHour + index, 0, 0))
+);
+const now = new Date();
+const firstDayOfWeek = now.getUTCDate() - now.getUTCDay();
+const today = new Date(
+  Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), 0, 0, 0)
+);
+const days = Array.from({ length: maxDays }, (_, index) => {
+  const day = new Date(
+    Date.UTC(
+      now.getUTCFullYear(),
+      now.getUTCMonth(),
+      firstDayOfWeek + index,
+      12,
+      0,
+      0
+    )
+  );
+  return {
+    disabled: day < today,
+    weekend: day.getUTCDay() % 6 === 0,
+    label: dayFormatter.format(day),
+    from: new Date(
+      day.getUTCFullYear(),
+      day.getUTCMonth(),
+      day.getUTCDate(),
+      0,
+      0,
+      0
+    ),
+    until: new Date(
+      day.getUTCFullYear(),
+      day.getUTCMonth(),
+      day.getUTCDate(),
+      23,
+      59,
+      59
+    ),
+  };
+});
+---
+
+<!DOCTYPE html>
+<!-- Source code available at https://github.com/WesSouza/wes.dev/ -->
+<html lang="en" class="-PurpleBackground">
+  <head>
+    <HeadMeta
+      title="My Availability – Wes Souza"
+      description="Check when I am free for a meeting."
+    />
+  </head>
+  <body>
+    <MeetWindow client:load days={days} hours={hours} />
+
+    <footer class="Footer">
+      <abbr title="Copyright">&copy;</abbr>
+      {year} Wes Souza
+    </footer>
+
+    <style>
+      html {
+        height: 100%;
+        color: var(--font-color);
+      }
+
+      body {
+        display: flex;
+        flex-direction: column;
+        min-height: 100%;
+        align-items: center;
+        justify-content: center;
+        margin: 0;
+        padding: 50px;
+        font-family: -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+      }
+
+      .Calendar {
+      }
+
+      .Column {
+      }
+
+      .Footer {
+        border-top: 0.5px solid rgba(255, 255, 255, 0.1);
+        margin-top: 50px;
+        padding: 5px 10px;
+        color: rgba(255, 255, 255, 0.65);
+        font-size: 13rem;
+      }
+    </style>
+  </body>
+</html>
