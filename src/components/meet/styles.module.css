@@ -1,0 +1,146 @@
+.Window {
+  display: flex;
+  flex-direction: column;
+  width: min(800px, 100%);
+  height: min(600px, 100vh);
+
+  background: #ffffff;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.25),
+    0px 0px 0px 1px rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
+}
+
+.WindowTitle {
+  display: flex;
+}
+
+.WindowSemaphore {
+  display: flex;
+  gap: 8px;
+}
+
+.WindowSemaphore,
+.WindowAntiSemaphore {
+  margin: 13px 0 0 13px;
+  width: 52px;
+  height: 12px;
+}
+
+.WindowSemaphore .WindowSemaphoreIcon {
+  display: none;
+}
+
+.WindowSemaphore:hover .WindowSemaphoreIcon {
+  display: block;
+}
+
+.WindowSemaphoreButton {
+  appearance: none;
+  display: block;
+  width: 12px;
+  height: 12px;
+  display: grid;
+  place-content: center;
+  border: 1px solid;
+  padding: 0;
+  border-radius: 6px;
+}
+
+.WindowSemaphoreButton:active {
+  filter: brightness(0.75);
+}
+
+.CloseWindowButton {
+  border-color: #cd513e;
+  background-color: #ea6e5d;
+}
+
+.MinimizeWindowButton {
+  border-color: #d39e32;
+  background-color: #f2c047;
+}
+
+.FullScreenWindowButton {
+  border-color: #4fa331;
+  background-color: #63c44e;
+}
+
+.WindowTitleText {
+  flex-grow: 1;
+  margin: 10px 0;
+  text-align: center;
+  font-size: 0.875em;
+}
+
+.WindowContents {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.MonthText {
+  margin: 10px 14px;
+  font-weight: normal;
+  font-size: 2em;
+}
+
+.Calendar {
+  display: grid;
+  margin-left: 14px;
+  grid-template-columns: 60px repeat(7, 1fr);
+  flex-grow: 1;
+}
+
+.Column {
+  display: flex;
+  flex-direction: column;
+}
+
+.Column.-Hours {
+}
+
+.Hour {
+  z-index: 1;
+  margin-top: -0.7em;
+  padding-right: 7px;
+  text-align: right;
+  font-size: 0.5625em;
+  color: #898989;
+  flex-grow: 1;
+}
+
+.HourLane {
+  flex-grow: 1;
+}
+
+.HourLane:not(.-Last) {
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.Column.-AfterFirst .HourLane {
+  border-left: 1px solid #e5e5e5;
+}
+
+.DayHeader {
+  background-color: #fff;
+  z-index: 2;
+  height: calc(1.15em + 12px);
+  margin: 0;
+  padding: 6px 0;
+  text-align: center;
+  font-size: 1em;
+  font-weight: normal;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.Availability {
+  z-index: 1;
+  position: absolute;
+  margin: calc(1.15em + 12px) 0 0 0;
+  list-style-type: none;
+  padding: 0;
+}
+
+.BusyEvent {
+  position: absolute;
+}

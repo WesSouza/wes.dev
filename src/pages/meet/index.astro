@@ -1,27 +1,27 @@
 ---
-import { MeetWindow } from "../../components/meet/MeetWindow";
-import HeadMeta from "../../components/HeadMeta.astro";
+import { MeetWindow } from '../../components/meet/MeetWindow';
+import HeadMeta from '../../components/HeadMeta.astro';
 
 const minHour = 7;
 const maxHour = 22;
-const maxDays = 14;
+const maxDays = 7;
 
 const year = new Date().getFullYear();
-const timeFormatter = new Intl.DateTimeFormat("en-US", {
-  hour: "numeric",
+const timeFormatter = new Intl.DateTimeFormat('en-US', {
+  hour: 'numeric',
 });
-const dayFormatter = new Intl.DateTimeFormat("en-US", {
-  weekday: "short",
-  day: "numeric",
+const dayFormatter = new Intl.DateTimeFormat('en-US', {
+  weekday: 'short',
+  day: 'numeric',
 });
 
 const hours = Array.from({ length: maxHour - minHour + 1 }, (_, index) =>
-  timeFormatter.format(new Date(2000, 0, 1, minHour + index, 0, 0))
+  timeFormatter.format(new Date(2000, 0, 1, minHour + index, 0, 0)),
 );
 const now = new Date();
 const firstDayOfWeek = now.getUTCDate() - now.getUTCDay();
 const today = new Date(
-  Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), 0, 0, 0)
+  Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), 0, 0, 0),
 );
 const days = Array.from({ length: maxDays }, (_, index) => {
   const day = new Date(
@@ -31,8 +31,8 @@ const days = Array.from({ length: maxDays }, (_, index) => {
       firstDayOfWeek + index,
       12,
       0,
-      0
-    )
+      0,
+    ),
   );
   return {
     disabled: day < today,
@@ -44,7 +44,7 @@ const days = Array.from({ length: maxDays }, (_, index) => {
       day.getUTCDate(),
       0,
       0,
-      0
+      0,
     ),
     until: new Date(
       day.getUTCFullYear(),
@@ -52,7 +52,7 @@ const days = Array.from({ length: maxDays }, (_, index) => {
       day.getUTCDate(),
       23,
       59,
-      59
+      59,
     ),
   };
 });
