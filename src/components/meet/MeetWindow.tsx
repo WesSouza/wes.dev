@@ -1,4 +1,4 @@
-import { For, createResource, type Resource } from 'solid-js';
+import { For, createResource, type Resource, createSignal } from 'solid-js';
 import { z } from 'zod';
 
 import { classList } from '../../utils/jsx';
@@ -40,13 +40,114 @@ type Day = {
   label: string;
   from: Date;
   until: Date;
+  availableFrom: Date;
+  availableUntil: Date;
 };
 
-export function MeetWindow({ days, hours }: { days: Day[]; hours: string[] }) {
+const daysPerPage = 7;
+
+export function MeetWindow({
+  minHour,
+  maxHour,
+  maxDays,
+}: {
+  minHour: number;
+  maxHour: number;
+  maxDays: number;
+}) {
+  const timeFormatter = new Intl.DateTimeFormat('en-US', {
+    hour: 'numeric',
+  });
+  const dayFormatter = new Intl.DateTimeFormat('en-US', {
+    weekday: 'short',
+    day: 'numeric',
+  });
+
+  const hours = Array.from({ length: maxHour - minHour + 1 }, (_, index) =>
+    timeFormatter.format(new Date(2000, 0, 1, minHour + index, 0, 0)),
+  );
+  const now = new Date(Date.now() + 0 * 24 * 60 * 60 * 1000);
+  const firstDayOfWeek = now.getDate() - now.getDay();
+  const today = new Date(
+    now.getFullYear(),
+    now.getMonth(),
+    now.getDate(),
+    0,
+    0,
+    0,
+  );
+  const allDays = Array.from({ length: maxDays }, (_, index) => {
+    const day = new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      firstDayOfWeek + index,
+      12,
+      0,
+      0,
+    );
+    return {
+      disabled: day < today,
+      weekend: day.getDay() % 6 === 0,
+      label: dayFormatter.format(day),
+      from: new Date(day.getFullYear(), day.getMonth(), day.getDate(), 0, 0, 0),
+      until: new Date(
+        day.getFullYear(),
+        day.getMonth(),
+        day.getDate(),
+        23,
+        59,
+        59,
+      ),
+      availableFrom: new Date(
+        day.getFullYear(),
+        day.getMonth(),
+        day.getDate(),
+        minHour,
+        0,
+        0,
+      ),
+      availableUntil: new Date(
+        day.getFullYear(),
+        day.getMonth(),
+        day.getDate(),
+        maxHour,
+        59,
+        59,
+      ),
+    };
+  });
   const [busyTimes] = createResource(getBusyTimes);
+  const [page, setPage] = createSignal(0);
+  const pages = Math.ceil(allDays.length / daysPerPage);
 
   const goHome = () => {
     location.href = '/';
+  };
+
+  const days = () =>
+    allDays.filter((_, index) => Math.floor(index / daysPerPage) === page());
+
+  const navigateDays = ({
+    delta,
+    page: toPage,
+  }: {
+    delta?: number;
+    page?: number;
+  }) => {
+    let navigateToPage = toPage;
+    if (delta !== undefined) {
+      navigateToPage = page() + delta;
+    }
+
+    if (
+      navigateToPage === undefined ||
+      navigateToPage < 0 ||
+      navigateToPage >= pages
+    ) {
+      return;
+    }
+
+    setPage(navigateToPage);
   };
 
   return (
@@ -114,9 +215,53 @@ export function MeetWindow({ days, hours }: { days: Day[]; hours: string[] }) {
         <div class={Styles.WindowAntiSemaphore}></div>
       </div>
       <div class={Styles.WindowContents}>
-        <h2 class={Styles.MonthText}>
-          <strong>March</strong> 2023
-        </h2>
+        <div class={Styles.CalendarTitle}>
+          <h2 class={Styles.MonthText}>
+            <strong>March</strong> 2023
+          </h2>
+          <div class={Styles.NavigationButtons}>
+            <button
+              class={Styles.NavigationButton}
+              onClick={() => navigateDays({ delta: -1 })}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="7"
+                height="11"
+                viewBox="0 0 7 11"
+                fill="none"
+              >
+                <path
+                  fill="#000"
+                  d="M.5 5.5 6 0h1v1L2.5 5.5 7 10v1H6L.5 5.5Z"
+                />
+              </svg>
+            </button>
+            <button
+              class={Styles.NavigationButton}
+              onClick={() => navigateDays({ page: 0 })}
+            >
+              Today
+            </button>
+            <button
+              class={Styles.NavigationButton}
+              onClick={() => navigateDays({ delta: 1 })}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="7"
+                height="11"
+                viewBox="0 0 7 11"
+                fill="none"
+              >
+                <path
+                  fill="currentColor"
+                  d="M6.5 5.5 1 11H0v-1l4.5-4.5L0 1V0h1l5.5 5.5Z"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
         <div class={Styles.Calendar}>
           <div
             classList={classList([Styles.Column, Styles['-Hours']])}
@@ -127,7 +272,7 @@ export function MeetWindow({ days, hours }: { days: Day[]; hours: string[] }) {
               {(hour) => <div class={Styles.Hour}>{hour}</div>}
             </For>
           </div>
-          <For each={days}>
+          <For each={days()}>
             {(day, index) => (
               <DayColumn
                 afterFirst={index() > 0}
@@ -186,17 +331,24 @@ function DayColumn({
       </For>
       <ul class={Styles.Availability}>
         <For each={busyTimesThisDay()}>
-          {(busyTime) => <Event interval={busyTime} />}
+          {(busyTime) => <Event day={day} interval={busyTime} />}
         </For>
       </ul>
     </div>
   );
 }
 
-function Event({ interval }: { interval: BusyTimes[number] }) {
+function Event({ day, interval }: { day: Day; interval: BusyTimes[number] }) {
+  const fromTime = interval.from.getTime();
+  const untilTime = interval.until.getTime();
+  const totalTime = day.availableUntil.getTime() - day.availableFrom.getTime();
+  const offset = ((fromTime - day.availableFrom.getTime()) * 100) / totalTime;
+  const height = ((untilTime - fromTime) * 100) / totalTime;
+
   return (
-    <li class={Styles.BusyEvent}>
-      {interval.from.toTimeString()} - {interval.until.toTimeString()}
-    </li>
+    <li
+      class={Styles.BusyEvent}
+      style={{ '--height': `${height}%`, '--offset': `${offset}%` }}
+    ></li>
   );
 }

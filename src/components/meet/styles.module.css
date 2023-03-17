@@ -78,10 +78,39 @@
   flex-grow: 1;
 }
 
-.MonthText {
+.CalendarTitle {
   margin: 10px 14px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+.MonthText {
+  margin: 0;
   font-weight: normal;
   font-size: 2em;
+}
+
+.NavigationButtons {
+  padding-bottom: 6px;
+}
+
+.NavigationButton {
+  display: inline-block;
+  padding: 0 8px;
+  appearance: none;
+  background-color: #fff;
+  line-height: 23px;
+  font-size: 0.875em;
+  margin: 0 1px;
+  border: none;
+  box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.07),
+    0px 1px 0px rgba(0, 0, 0, 0.18);
+  border-radius: 5px;
+}
+
+.NavigationButton:active {
+  filter: brightness(0.85);
 }
 
 .Calendar {
@@ -92,6 +121,7 @@
 }
 
 .Column {
+  position: relative;
   display: flex;
   flex-direction: column;
 }
@@ -136,11 +166,23 @@
 .Availability {
   z-index: 1;
   position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
   margin: calc(1.15em + 12px) 0 0 0;
   list-style-type: none;
   padding: 0;
 }
 
 .BusyEvent {
+  cursor: not-allowed;
   position: absolute;
+  top: calc(var(--offset) - 1px);
+  margin: 1px 2px 0 1px;
+  width: calc(100% - 2px);
+  height: var(--height);
+  background: rgba(198, 198, 198, 0.75);
+  backdrop-filter: blur(1.5px);
+  border-radius: 3px;
 }
