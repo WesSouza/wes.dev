@@ -1,6 +1,12 @@
-import { For, createResource, type Resource, createSignal } from 'solid-js';
+import { For, createResource, createSignal, type Resource } from 'solid-js';
 import { z } from 'zod';
 
+import type { CalendarDayMeta } from '../../modules/wescal/schema';
+import {
+  createCalendarGridData,
+  dateToDay,
+  equalDays,
+} from '../../modules/wescal/utils';
 import { classList } from '../../utils/jsx';
 import Styles from './styles.module.css';
 
@@ -34,88 +40,16 @@ async function getBusyTimes() {
   }
 }
 
-type Day = {
-  disabled: boolean;
-  weekend: boolean;
-  label: string;
-  from: Date;
-  until: Date;
-  availableFrom: Date;
-  availableUntil: Date;
-};
-
 const daysPerPage = 7;
 
-export function MeetWindow({
-  minHour,
-  maxHour,
-  maxDays,
-}: {
-  minHour: number;
-  maxHour: number;
-  maxDays: number;
+export function MeetWindow(options: {
+  freeHoursByWeekday: Record<number, { from: number; until: number }>;
+  maxDaysFromToday: number;
+  staringAtWeekday?: number;
+  today?: Date | undefined;
 }) {
-  const timeFormatter = new Intl.DateTimeFormat('en-US', {
-    hour: 'numeric',
-  });
-  const dayFormatter = new Intl.DateTimeFormat('en-US', {
-    weekday: 'short',
-    day: 'numeric',
-  });
+  const { days: allDays, hourLabels } = createCalendarGridData(options);
 
-  const hours = Array.from({ length: maxHour - minHour + 1 }, (_, index) =>
-    timeFormatter.format(new Date(2000, 0, 1, minHour + index, 0, 0)),
-  );
-  const now = new Date(Date.now() + 0 * 24 * 60 * 60 * 1000);
-  const firstDayOfWeek = now.getDate() - now.getDay();
-  const today = new Date(
-    now.getFullYear(),
-    now.getMonth(),
-    now.getDate(),
-    0,
-    0,
-    0,
-  );
-  const allDays = Array.from({ length: maxDays }, (_, index) => {
-    const day = new Date(
-      now.getFullYear(),
-      now.getMonth(),
-      firstDayOfWeek + index,
-      12,
-      0,
-      0,
-    );
-    return {
-      disabled: day < today,
-      weekend: day.getDay() % 6 === 0,
-      label: dayFormatter.format(day),
-      from: new Date(day.getFullYear(), day.getMonth(), day.getDate(), 0, 0, 0),
-      until: new Date(
-        day.getFullYear(),
-        day.getMonth(),
-        day.getDate(),
-        23,
-        59,
-        59,
-      ),
-      availableFrom: new Date(
-        day.getFullYear(),
-        day.getMonth(),
-        day.getDate(),
-        minHour,
-        0,
-        0,
-      ),
-      availableUntil: new Date(
-        day.getFullYear(),
-        day.getMonth(),
-        day.getDate(),
-        maxHour,
-        59,
-        59,
-      ),
-    };
-  });
   const [busyTimes] = createResource(getBusyTimes);
   const [page, setPage] = createSignal(0);
   const pages = Math.ceil(allDays.length / daysPerPage);
@@ -268,7 +202,7 @@ export function MeetWindow({
             aria-hidden="true"
           >
             <div class={Styles.DayHeader} />
-            <For each={hours}>
+            <For each={hourLabels}>
               {(hour) => <div class={Styles.Hour}>{hour}</div>}
             </For>
           </div>
@@ -278,7 +212,7 @@ export function MeetWindow({
                 afterFirst={index() > 0}
                 day={day}
                 busyTimes={busyTimes}
-                hours={hours}
+                hours={hourLabels}
               />
             )}
           </For>
@@ -296,17 +230,14 @@ function DayColumn({
 }: {
   afterFirst: boolean;
   busyTimes: Resource<BusyTimes>;
-  day: Day;
+  day: CalendarDayMeta;
   hours: string[];
 }) {
-  const intervalFrom = new Date(day.from);
-  const intervalUntil = new Date(day.until);
-
   const busyTimesThisDay = () =>
     busyTimes()?.filter(
       ({ from, until }) =>
-        (from >= intervalFrom && from <= intervalUntil) ||
-        (until <= intervalUntil && until >= intervalUntil),
+        equalDays(day.day, dateToDay(from)) ||
+        equalDays(day.day, dateToDay(until)),
     );
 
   return (
@@ -338,11 +269,17 @@ function DayColumn({
   );
 }
 
-function Event({ day, interval }: { day: Day; interval: BusyTimes[number] }) {
+function Event({
+  day,
+  interval,
+}: {
+  day: CalendarDayMeta;
+  interval: BusyTimes[number];
+}) {
   const fromTime = interval.from.getTime();
   const untilTime = interval.until.getTime();
-  const totalTime = day.availableUntil.getTime() - day.availableFrom.getTime();
-  const offset = ((fromTime - day.availableFrom.getTime()) * 100) / totalTime;
+  const totalTime = day.until.getTime() - day.from.getTime();
+  const offset = ((fromTime - day.from.getTime()) * 100) / totalTime;
   const height = ((untilTime - fromTime) * 100) / totalTime;
 
   return (

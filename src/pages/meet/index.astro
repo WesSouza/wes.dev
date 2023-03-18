@@ -2,9 +2,16 @@
 import { MeetWindow } from '../../components/meet/MeetWindow';
 import HeadMeta from '../../components/HeadMeta.astro';
 
-const minHour = 7;
-const maxHour = 22;
-const maxDays = 14;
+const freeHoursByWeekday = {
+  0: { from: 8, until: 22 },
+  1: { from: 8, until: 22 },
+  2: { from: 8, until: 22 },
+  3: { from: 8, until: 22 },
+  4: { from: 8, until: 22 },
+  5: { from: 8, until: 22 },
+  6: { from: 8, until: 22 },
+};
+const maxDaysFromToday = 14;
 
 const year = new Date().getFullYear();
 ---
@@ -21,9 +28,8 @@ const year = new Date().getFullYear();
   <body>
     <MeetWindow
       client:load
-      minHour={minHour}
-      maxHour={maxHour}
-      maxDays={maxDays}
+      freeHoursByWeekday={freeHoursByWeekday}
+      maxDaysFromToday={maxDaysFromToday}
     />
 
     <footer class="Footer">

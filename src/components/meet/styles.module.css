@@ -179,7 +179,7 @@
   cursor: not-allowed;
   position: absolute;
   top: calc(var(--offset) - 1px);
-  margin: 1px 2px 0 1px;
+  margin: 2px 2px 0 1px;
   width: calc(100% - 2px);
   height: var(--height);
   background: rgba(198, 198, 198, 0.75);
