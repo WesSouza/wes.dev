@@ -11,13 +11,13 @@ export function sortIntervals(left: TimeInterval, right: TimeInterval) {
 export function createCalendarGridData(options: {
   freeHoursByWeekday: Record<number, { from: number; until: number }>;
   maxDaysFromToday: number;
-  staringAtWeekday?: number;
+  startingAtWeekday?: number;
   today?: Date | undefined;
 }): { days: CalendarDayMeta[]; hourLabels: string[] } {
   const {
     freeHoursByWeekday,
     maxDaysFromToday,
-    staringAtWeekday = 0,
+    startingAtWeekday = 0,
     today = new Date(),
   } = options;
 
@@ -61,7 +61,7 @@ export function createCalendarGridData(options: {
     59,
   );
 
-  const firstDayOfWeek = today.getDate() - today.getDay() + staringAtWeekday;
+  const firstDayOfWeek = today.getDate() - today.getDay() + startingAtWeekday;
   const lastDayOfWeek =
     lastDayAtMidnight.getDate() + 7 - lastDayAtMidnight.getDay();
   console.log(lastDayAtMidnight);
@@ -155,6 +155,90 @@ function maxDate(left: Date, right: Date) {
     return right;
   }
   return left;
+}
+
+export function createUnavailableIntervals({
+  freeHoursByWeekday,
+  from,
+  until,
+}: {
+  freeHoursByWeekday: Record<number, { from: number; until: number } | false>;
+  from: Date;
+  until: Date;
+}): TimeInterval[] {
+  const unavailableTimes: TimeInterval[] = [];
+
+  let date = from;
+  while (date < until) {
+    const weekday = date.getDay();
+    const freeHours = freeHoursByWeekday[weekday];
+
+    if (!freeHours) {
+      continue;
+    }
+    const year = date.getFullYear();
+    const month = date.getMonth();
+    const day = date.getDate();
+
+    if (freeHours.from > 0) {
+      const busyTime: TimeInterval = {
+        from: new Date(year, month, day, 0, 0, 0),
+        until: new Date(year, month, day, freeHours.from - 1, 59, 59),
+      };
+      unavailableTimes.push(busyTime);
+    }
+    if (freeHours.until < 24) {
+      const busyTime: TimeInterval = {
+        from: new Date(year, month, day, freeHours.until, 0, 0),
+        until: new Date(year, month, day, 23, 59, 59),
+      };
+      unavailableTimes.push(busyTime);
+    }
+
+    date = new Date(year, month, day + 1, 12, 0, 0);
+  }
+
+  return unavailableTimes;
+}
+
+export function sliceIntervalsByDay(intervals: TimeInterval[]) {
+  const resultIntervals: TimeInterval[] = [];
+  intervals.forEach((interval) => {
+    if (interval.from.getDate() === interval.until.getDate()) {
+      resultIntervals.push(interval);
+      return;
+    }
+
+    const firstInterval: TimeInterval = {
+      from: interval.from,
+      until: new Date(
+        interval.from.getFullYear(),
+        interval.from.getMonth(),
+        interval.from.getDate(),
+        23,
+        59,
+        59,
+      ),
+    };
+    resultIntervals.push(firstInterval);
+
+    // TODO: Add possible intervals in between first and last
+
+    const lastInterval: TimeInterval = {
+      from: new Date(
+        interval.until.getFullYear(),
+        interval.until.getMonth(),
+        interval.until.getDate(),
+        0,
+        0,
+        0,
+      ),
+      until: interval.until,
+    };
+    resultIntervals.push(lastInterval);
+  });
+
+  return resultIntervals;
 }
 
 export function mergeIntervals(intervals: TimeInterval[]): TimeInterval[] {

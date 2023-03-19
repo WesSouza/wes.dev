@@ -25,6 +25,22 @@ export type CalendarDayMeta = {
   availableUntil: Date;
 };
 
+export const CalendarConfigSchema = z.discriminatedUnion('type', [
+  z.object({
+    type: z.literal('caldav'),
+    serverUrl: z.string(),
+    calendarId: z.string(),
+    auth: BasicCredentialsSchema,
+  }),
+  z.object({
+    type: z.literal('googlecalendar'),
+    calendarId: z.string(),
+    auth: GoogleCredentialsSchema,
+  }),
+]);
+
+export type CalendarConfig = z.infer<typeof CalendarConfigSchema>;
+
 export const TimeIntervalSchema = z.object({
   from: z.date(),
   until: z.date(),
@@ -33,21 +49,7 @@ export const TimeIntervalSchema = z.object({
 export type TimeInterval = z.infer<typeof TimeIntervalSchema>;
 
 export const WesCalConfigSchema = z.object({
-  calendars: z.array(
-    z.discriminatedUnion('type', [
-      z.object({
-        type: z.literal('caldav'),
-        serverUrl: z.string(),
-        calendarId: z.string(),
-        auth: BasicCredentialsSchema,
-      }),
-      z.object({
-        type: z.literal('googlecalendar'),
-        calendarId: z.string(),
-        auth: GoogleCredentialsSchema,
-      }),
-    ]),
-  ),
+  calendars: z.array(CalendarConfigSchema),
 });
 
 export type WesCalConfig = z.infer<typeof WesCalConfigSchema>;

@@ -40,7 +40,7 @@ export const get: APIRoute = async function get() {
   });
 
   const busyTimes = await getBusyTimes({
-    config: config.data,
+    calendars: config.data.calendars,
     google: {
       clientId: import.meta.env.WESCAL_GOOGLE_CALENDAR_CLIENT_ID,
       clientSecret: import.meta.env.WESCAL_GOOGLE_CALENDAR_CLIENT_SECRET,
