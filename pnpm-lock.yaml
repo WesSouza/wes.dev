@@ -35,6 +35,9 @@ dependencies:
   solid-js:
     specifier: ^1.4.3
     version: 1.4.3
+  temporal-polyfill:
+    specifier: ^0.1.1
+    version: 0.1.1
   tsdav:
     specifier: ^2.0.3
     version: 2.0.3
@@ -4114,6 +4117,16 @@ packages:
       minizlib: 2.1.2
       mkdirp: 1.0.4
       yallist: 4.0.0
+    dev: false
+
+  /temporal-polyfill@0.1.1:
+    resolution: {integrity: sha512-/5e4EVRA0wBI/bEhWLirSjwUg1lELhQyTXxw9zNbVhqjKvI9BLczs+3wtsoD9sn3HN2ImAMW5XJQwAiXgWT+GA==}
+    dependencies:
+      temporal-spec: 0.1.0
+    dev: false
+
+  /temporal-spec@0.1.0:
+    resolution: {integrity: sha512-sMNggMeS6trCgMQuudgFHhX1gtBK3e+AT1zGrMsFYG1wlqtRT5E9rcvm3I1iNlvHpJX/3DO6L4qtWAuEl/T04Q==}
     dev: false
 
   /text-table@0.2.0:

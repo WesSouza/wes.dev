@@ -38,6 +38,7 @@
     "rollup": "^3.26.0",
     "rrule": "^2.7.2",
     "solid-js": "^1.4.3",
+    "temporal-polyfill": "^0.1.1",
     "tsdav": "^2.0.3",
     "zod": "^3.21.4"
   },
