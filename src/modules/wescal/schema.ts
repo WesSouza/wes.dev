@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { GoogleCredentialsSchema } from './calendars/google-calendar';
+import type { Temporal } from 'temporal-polyfill';
 
 export const BasicCredentialsSchema = z.object({
   username: z.string(),
@@ -8,21 +9,13 @@ export const BasicCredentialsSchema = z.object({
 
 export type BasicCredentials = z.infer<typeof BasicCredentialsSchema>;
 
-export type CalendarDay = {
-  year: number;
-  month: number;
-  day: number;
-};
-
 export type CalendarDayMeta = {
+  availableFrom: Temporal.PlainTime | undefined;
+  availableUntil: Temporal.PlainTime | undefined;
+  day: Temporal.PlainDate;
   disabled: boolean;
-  weekend: boolean;
   label: string;
-  day: CalendarDay;
-  from: Date;
-  until: Date;
-  availableFrom: Date;
-  availableUntil: Date;
+  weekend: boolean;
 };
 
 export const CalendarConfigSchema = z.discriminatedUnion('type', [
@@ -41,12 +34,20 @@ export const CalendarConfigSchema = z.discriminatedUnion('type', [
 
 export type CalendarConfig = z.infer<typeof CalendarConfigSchema>;
 
-export const TimeIntervalSchema = z.object({
-  from: z.date(),
-  until: z.date(),
-});
+export type DateTimeInterval = {
+  from: Temporal.ZonedDateTime;
+  until: Temporal.ZonedDateTime;
+};
 
-export type TimeInterval = z.infer<typeof TimeIntervalSchema>;
+export type PlainTimeInterval = {
+  from: Temporal.PlainTime;
+  until: Temporal.PlainTime;
+};
+
+export type TimeInterval = {
+  from: Date;
+  until: Date;
+};
 
 export const WesCalConfigSchema = z.object({
   calendars: z.array(CalendarConfigSchema),

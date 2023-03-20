@@ -1,6 +1,8 @@
 import { google } from 'googleapis';
+import { Temporal } from 'temporal-polyfill';
 import { z } from 'zod';
-import type { TimeInterval } from '../schema';
+
+import type { DateTimeInterval } from '../schema';
 
 export const GoogleCredentialsSchema = z.object({
   access_token: z.string(),
@@ -48,8 +50,8 @@ export function GoogleCalendar(options: GoogleCalendarProps) {
   }
 
   async function getBusyIntervals(
-    interval: TimeInterval,
-  ): Promise<TimeInterval[]> {
+    interval: DateTimeInterval,
+  ): Promise<DateTimeInterval[]> {
     const auth = await getAuth();
 
     const gcal = google.calendar({
@@ -60,8 +62,8 @@ export function GoogleCalendar(options: GoogleCalendarProps) {
     const eventsResponse = await gcal.events.list({
       calendarId: options.calendarId,
       singleEvents: true,
-      timeMin: interval.from.toISOString(),
-      timeMax: interval.until.toISOString(),
+      timeMin: interval.from.toInstant().toString(),
+      timeMax: interval.until.toInstant().toString(),
     });
 
     if (!eventsResponse.data || !eventsResponse.data.items) {
@@ -84,8 +86,12 @@ export function GoogleCalendar(options: GoogleCalendarProps) {
               ?.responseStatus !== 'declined'),
       )
       .map((event) => ({
-        from: new Date(event.start?.dateTime as string),
-        until: new Date(event.end?.dateTime as string),
+        from: Temporal.Instant.from(
+          event.start?.dateTime as string,
+        ).toZonedDateTimeISO(event.start?.timeZone as string),
+        until: Temporal.Instant.from(
+          event.end?.dateTime as string,
+        ).toZonedDateTimeISO(event.end?.timeZone as string),
       }));
   }
 

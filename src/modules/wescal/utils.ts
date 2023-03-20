@@ -1,24 +1,34 @@
-import type { CalendarDay, CalendarDayMeta, TimeInterval } from './schema';
+import { Temporal } from 'temporal-polyfill';
+import type {
+  CalendarDayMeta,
+  DateTimeInterval,
+  PlainTimeInterval,
+} from './schema';
 
-export function sortIntervals(left: TimeInterval, right: TimeInterval) {
-  const fromSort = left.from.valueOf() - right.from.valueOf();
+export function sortIntervals(left: DateTimeInterval, right: DateTimeInterval) {
+  const fromSort = Temporal.ZonedDateTime.compare(left.from, right.from);
   if (fromSort !== 0) {
     return fromSort;
   }
-  return left.until.valueOf() - right.until.valueOf();
+  return Temporal.ZonedDateTime.compare(left.until, right.until);
 }
 
 export function createCalendarGridData(options: {
-  freeHoursByWeekday: Record<number, { from: number; until: number }>;
+  freeTimeByWeekday: Record<number, PlainTimeInterval>;
   maxDaysFromToday: number;
-  startingAtWeekday?: number;
-  today?: Date | undefined;
-}): { days: CalendarDayMeta[]; hourLabels: string[] } {
+  startingAtWeekday?: number | undefined;
+  today?: Temporal.ZonedDateTime | undefined;
+}): {
+  days: CalendarDayMeta[];
+  hourLabels: string[];
+  overallInterval: PlainTimeInterval;
+  today: Temporal.ZonedDateTime;
+} {
   const {
-    freeHoursByWeekday,
+    freeTimeByWeekday,
     maxDaysFromToday,
     startingAtWeekday = 0,
-    today = new Date(),
+    today = Temporal.Now.zonedDateTimeISO(),
   } = options;
 
   const timeFormatter = new Intl.DateTimeFormat('en-US', {
@@ -30,13 +40,13 @@ export function createCalendarGridData(options: {
     day: 'numeric',
   });
 
-  const minHour = Object.values(freeHoursByWeekday).reduce(
-    (previous, freeHours) => Math.min(freeHours.from, previous),
+  const minHour = Object.values(freeTimeByWeekday).reduce(
+    (previous, freeHours) => Math.min(freeHours.from.hour, previous),
     24,
   );
 
-  const maxHour = Object.values(freeHoursByWeekday).reduce(
-    (previous, freeHours) => Math.max(freeHours.until, previous),
+  const maxHour = Object.values(freeTimeByWeekday).reduce(
+    (previous, freeHours) => Math.max(freeHours.until.hour, previous),
     0,
   );
 
@@ -44,205 +54,155 @@ export function createCalendarGridData(options: {
     timeFormatter.format(new Date(2000, 0, 1, minHour + index, 0, 0)),
   );
 
-  const todayAtMidnight = new Date(
-    today.getFullYear(),
-    today.getMonth(),
-    today.getDate(),
-    0,
-    0,
-    0,
-  );
-  const lastDayAtMidnight = new Date(
-    today.getFullYear(),
-    today.getMonth(),
-    today.getDate() + maxDaysFromToday - 1,
-    23,
-    59,
-    59,
-  );
-
-  const firstDayOfWeek = today.getDate() - today.getDay() + startingAtWeekday;
-  const lastDayOfWeek =
-    lastDayAtMidnight.getDate() + 7 - lastDayAtMidnight.getDay();
-  console.log(lastDayAtMidnight);
-
-  const days = Array.from(
-    { length: lastDayOfWeek - firstDayOfWeek },
-    (_, index) => {
-      const dayDate = new Date(
-        today.getFullYear(),
-        today.getMonth(),
-        firstDayOfWeek + index,
-        12,
-        0,
-        0,
-      );
-      const day = {
-        year: dayDate.getFullYear(),
-        month: dayDate.getMonth(),
-        day: dayDate.getDate(),
-      };
-      const dayOfTheWeek = day.day;
-      return {
-        disabled: dayDate < todayAtMidnight || dayDate > lastDayAtMidnight,
-        weekend: dayOfTheWeek % 6 === 0,
-        label: dayFormatter.format(dayDate),
-        day,
-        from: new Date(
-          dayDate.getFullYear(),
-          dayDate.getMonth(),
-          dayDate.getDate(),
-          minHour,
-          0,
-          0,
-        ),
-        until: new Date(
-          dayDate.getFullYear(),
-          dayDate.getMonth(),
-          dayDate.getDate(),
-          maxHour,
-          59,
-          59,
-        ),
-        availableFrom: new Date(
-          dayDate.getFullYear(),
-          dayDate.getMonth(),
-          dayDate.getDate(),
-          freeHoursByWeekday[dayOfTheWeek]?.from,
-          0,
-          0,
-        ),
-        availableUntil: new Date(
-          dayDate.getFullYear(),
-          dayDate.getMonth(),
-          dayDate.getDate(),
-          freeHoursByWeekday[dayOfTheWeek]?.until,
-          59,
-          59,
-        ),
-      };
-    },
-  );
-
-  return { days, hourLabels };
-}
-
-export function dateToDay(date: Date): CalendarDay {
-  return {
-    year: date.getFullYear(),
-    month: date.getMonth(),
-    day: date.getDate(),
+  const overallInterval = {
+    from: Temporal.PlainTime.from({ hour: minHour, minute: 0, second: 0 }),
+    until: Temporal.PlainTime.from({ hour: maxHour, minute: 59, second: 59 }),
   };
-}
 
-export function equalDays(left: CalendarDay, right: CalendarDay) {
-  return (
-    left.year === right.year &&
-    left.month === right.month &&
-    left.day === right.day
-  );
-}
+  const days = createWeekDays({
+    maxDaysFromToday,
+    startingAtWeekday,
+    today,
+  }).map((date) => ({
+    availableFrom: freeTimeByWeekday[date.dayOfWeek]?.from,
+    availableUntil: freeTimeByWeekday[date.dayOfWeek]?.until,
+    day: date,
+    disabled: date < today.toPlainDate(),
+    label: dayFormatter.format(
+      date.toZonedDateTime({
+        plainTime: '00:00:00',
+        timeZone: today.timeZone,
+      }).epochMilliseconds,
+    ),
+    weekend: (date.dayOfWeek - 1) % 6 === 0,
+  }));
 
-function minDate(left: Date, right: Date) {
-  if (right < left) {
-    return right;
-  }
-  return left;
-}
-
-function maxDate(left: Date, right: Date) {
-  if (right > left) {
-    return right;
-  }
-  return left;
+  return { days, hourLabels, overallInterval, today };
 }
 
 export function createUnavailableIntervals({
-  freeHoursByWeekday,
+  freeTimeByWeekday,
   from,
+  timeZone,
   until,
 }: {
-  freeHoursByWeekday: Record<number, { from: number; until: number } | false>;
-  from: Date;
-  until: Date;
-}): TimeInterval[] {
-  const unavailableTimes: TimeInterval[] = [];
+  freeTimeByWeekday: Record<number, PlainTimeInterval>;
+  from: Temporal.PlainDate;
+  timeZone: Temporal.TimeZone;
+  until: Temporal.PlainDate;
+}): DateTimeInterval[] {
+  const unavailableTimes: DateTimeInterval[] = [];
 
   let date = from;
-  while (date < until) {
-    const weekday = date.getDay();
-    const freeHours = freeHoursByWeekday[weekday];
+  while (date <= until) {
+    const weekday = date.dayOfWeek;
+    const freeTime = freeTimeByWeekday[weekday];
 
-    if (!freeHours) {
+    if (!freeTime) {
+      unavailableTimes.push({
+        from: date.toPlainDateTime('00:00:00').toZonedDateTime(timeZone),
+        until: date.toPlainDateTime('23:59:59').toZonedDateTime(timeZone),
+      });
       continue;
     }
-    const year = date.getFullYear();
-    const month = date.getMonth();
-    const day = date.getDate();
 
-    if (freeHours.from > 0) {
-      const busyTime: TimeInterval = {
-        from: new Date(year, month, day, 0, 0, 0),
-        until: new Date(year, month, day, freeHours.from - 1, 59, 59),
-      };
-      unavailableTimes.push(busyTime);
+    if (!freeTime.from.equals('00:00:00')) {
+      unavailableTimes.push({
+        from: date.toZonedDateTime({ timeZone, plainTime: '00:00:00' }),
+        until: freeTime.from.toZonedDateTime({ timeZone, plainDate: date }),
+      });
     }
-    if (freeHours.until < 24) {
-      const busyTime: TimeInterval = {
-        from: new Date(year, month, day, freeHours.until, 0, 0),
-        until: new Date(year, month, day, 23, 59, 59),
-      };
-      unavailableTimes.push(busyTime);
+    if (!freeTime.from.equals('23:59:59')) {
+      unavailableTimes.push({
+        from: freeTime.until.toZonedDateTime({ timeZone, plainDate: date }),
+        until: date.toZonedDateTime({ timeZone, plainTime: '23:59:59' }),
+      });
     }
 
-    date = new Date(year, month, day + 1, 12, 0, 0);
+    date = date.add({ days: 1 });
   }
 
   return unavailableTimes;
 }
 
-export function sliceIntervalsByDay(intervals: TimeInterval[]) {
-  const resultIntervals: TimeInterval[] = [];
+export function createWeekDays(options: {
+  maxDaysFromToday: number;
+  startingAtWeekday: number;
+  today: Temporal.ZonedDateTime;
+}): Temporal.PlainDate[] {
+  const { maxDaysFromToday, startingAtWeekday, today } = options;
+  const subtractFromToday = today.dayOfWeek - 1;
+  const addToToday = startingAtWeekday;
+  const addToLastDay =
+    maxDaysFromToday - today.dayOfWeek - startingAtWeekday - 7;
+
+  let date = today.toPlainDate();
+  if (subtractFromToday > 0) {
+    date = date.subtract({ days: subtractFromToday });
+  }
+  if (addToToday > 0) {
+    date = date.add({ days: addToToday });
+  }
+
+  let lastDay = today.toPlainDate();
+  if (addToLastDay > 0) {
+    lastDay = lastDay.add({ days: addToLastDay });
+  }
+
+  const days: Temporal.PlainDate[] = [];
+  while (date < lastDay) {
+    days.push(date);
+    date = date.add({ days: 1 });
+  }
+
+  return days;
+}
+
+export function sliceIntervalsByDay(intervals: DateTimeInterval[]) {
+  const resultIntervals: DateTimeInterval[] = [];
   intervals.forEach((interval) => {
-    if (interval.from.getDate() === interval.until.getDate()) {
+    if (interval.from.toPlainDate().equals(interval.until.toPlainDate())) {
       resultIntervals.push(interval);
       return;
     }
 
-    const firstInterval: TimeInterval = {
+    resultIntervals.push({
       from: interval.from,
-      until: new Date(
-        interval.from.getFullYear(),
-        interval.from.getMonth(),
-        interval.from.getDate(),
-        23,
-        59,
-        59,
-      ),
-    };
-    resultIntervals.push(firstInterval);
+      until: interval.from.withPlainTime('23:59:59'),
+    });
 
-    // TODO: Add possible intervals in between first and last
+    const inBetweenDays = interval.until
+      .until(interval.from)
+      .round({ largestUnit: 'day', smallestUnit: 'day' }).days;
+    for (let index = 1; index < inBetweenDays; index++) {
+      const from = interval.from
+        .toPlainDate()
+        .add({ days: index })
+        .toZonedDateTime({
+          plainTime: '00:00:00',
+          timeZone: interval.from.timeZone,
+        });
+      const until = from.withPlainTime('23:59:59');
 
-    const lastInterval: TimeInterval = {
-      from: new Date(
-        interval.until.getFullYear(),
-        interval.until.getMonth(),
-        interval.until.getDate(),
-        0,
-        0,
-        0,
-      ),
+      resultIntervals.push({
+        from,
+        until,
+      });
+    }
+
+    resultIntervals.push({
+      from: interval.until.withPlainTime('00:00:00'),
       until: interval.until,
-    };
-    resultIntervals.push(lastInterval);
+    });
   });
 
   return resultIntervals;
 }
 
-export function mergeIntervals(intervals: TimeInterval[]): TimeInterval[] {
-  const mergedIntervals: TimeInterval[] = [];
+export function mergeIntervals(
+  intervals: DateTimeInterval[],
+): DateTimeInterval[] {
+  const mergedIntervals: DateTimeInterval[] = [];
 
   structuredClone(intervals)
     // Sort busy times by from then until
@@ -280,12 +240,18 @@ export function mergeIntervals(intervals: TimeInterval[]): TimeInterval[] {
 
       // Update the left interval to start at the current interval
       if (leftInterval && !rightInterval) {
-        leftInterval.until = maxDate(leftInterval.until, interval.until);
+        leftInterval.until =
+          leftInterval.until > interval.until
+            ? leftInterval.until
+            : interval.until;
       }
 
       // Update the right interval to end at the current interval
       else if (!leftInterval && rightInterval) {
-        rightInterval.from = minDate(rightInterval.from, interval.from);
+        rightInterval.from =
+          rightInterval.from < interval.from
+            ? rightInterval.from
+            : interval.from;
       }
 
       // If different intervals intersections were found, merge them

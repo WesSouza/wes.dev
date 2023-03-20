@@ -1,31 +1,22 @@
 import type { APIRoute } from 'astro';
+import { Temporal } from 'temporal-polyfill';
 
 import { getBusyTimes } from '../../modules/wescal';
 import { WesCalConfigSchema } from '../../modules/wescal/schema';
 import { VercelConfig } from '../../utils/vercel-edgeconfig-encrypted';
 
-export const get: APIRoute = async function get() {
-  const now = new Date();
-  // Roughly midnight in EST if the server is in UTC
-  const from = new Date(
-    now.getUTCFullYear(),
-    now.getUTCMonth(),
-    now.getUTCDate(),
-    4,
-    0,
-    0,
-  );
-  // Roughly one second to midnight + 14 days in EDT if the server is in UTC
-  const until = new Date(
-    now.getUTCFullYear(),
-    now.getUTCMonth(),
-    now.getUTCDate() + 15,
-    4,
-    59,
-    59,
-  );
+const timeZone = 'America/New_York';
+const maxDays = 14;
 
-  const freeInterval = {
+export const get: APIRoute = async function get() {
+  const today = Temporal.Now.instant().toZonedDateTimeISO(timeZone);
+  const from = today;
+  const until = today
+    .toPlainDate()
+    .add({ days: maxDays })
+    .toZonedDateTime({ plainTime: '23:59:59', timeZone });
+
+  const interval = {
     from,
     until,
   };
@@ -54,7 +45,7 @@ export const get: APIRoute = async function get() {
         await config.set(config.data);
       },
     },
-    interval: freeInterval,
+    interval,
   });
 
   return new Response(

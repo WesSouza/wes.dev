@@ -1,19 +1,19 @@
-import { For, createResource, createSignal, type Resource } from 'solid-js';
+import { For, createResource, createSignal } from 'solid-js';
+import { Temporal } from 'temporal-polyfill';
 import { z } from 'zod';
 
-import type { CalendarDayMeta } from '../../modules/wescal/schema';
+import type {
+  CalendarDayMeta,
+  DateTimeInterval,
+  PlainTimeInterval,
+} from '../../modules/wescal/schema';
 import {
   createCalendarGridData,
-  dateToDay,
-  equalDays,
+  createUnavailableIntervals,
+  mergeIntervals,
 } from '../../modules/wescal/utils';
 import { classList } from '../../utils/jsx';
 import Styles from './styles.module.css';
-
-type BusyTimes = {
-  from: Date;
-  until: Date;
-}[];
 
 async function getBusyTimes() {
   try {
@@ -30,8 +30,8 @@ async function getBusyTimes() {
       })
       .parse(busyTimesData)
       .busyTimes.map((busyTime) => ({
-        from: new Date(busyTime.from),
-        until: new Date(busyTime.until),
+        from: Temporal.ZonedDateTime.from(busyTime.from),
+        until: Temporal.ZonedDateTime.from(busyTime.until),
       }));
     return busyTimes;
   } catch (e) {
@@ -43,16 +43,55 @@ async function getBusyTimes() {
 const daysPerPage = 7;
 
 export function MeetWindow(options: {
-  freeHoursByWeekday: Record<number, { from: number; until: number }>;
+  freeTimeByWeekday: Record<number, PlainTimeInterval>;
   maxDaysFromToday: number;
-  staringAtWeekday?: number;
-  today?: Date | undefined;
+  startingAtWeekday?: number | undefined;
+  today?: Temporal.ZonedDateTime | undefined;
 }) {
-  const { days: allDays, hourLabels } = createCalendarGridData(options);
+  const {
+    days: allDays,
+    hourLabels,
+    overallInterval,
+    today,
+  } = createCalendarGridData(options);
 
-  const [busyTimes] = createResource(getBusyTimes);
+  const [busyTimesResource] = createResource(getBusyTimes);
   const [page, setPage] = createSignal(0);
   const pages = Math.ceil(allDays.length / daysPerPage);
+
+  const busyTimesByDay = () => {
+    const unavailableIntervals = createUnavailableIntervals({
+      freeTimeByWeekday: options.freeTimeByWeekday,
+      from: allDays.at(0)?.day as Temporal.PlainDate,
+      until: allDays.at(-1)?.day as Temporal.PlainDate,
+      timeZone: today.timeZone as Temporal.TimeZone,
+    });
+
+    const calendarBusyIntervals = busyTimesResource();
+    if (!calendarBusyIntervals) {
+      return {};
+    }
+
+    const busyIntervals = mergeIntervals([
+      ...unavailableIntervals,
+      ...calendarBusyIntervals,
+    ]);
+
+    return busyIntervals.reduce<Record<string, DateTimeInterval[]>>(
+      (busyIntervalsByDay, interval) => {
+        const day = interval.from.toPlainDate().toString();
+
+        if (!busyIntervalsByDay[day]) {
+          busyIntervalsByDay[day] = [];
+        }
+
+        busyIntervalsByDay[day]?.push(interval);
+
+        return busyIntervalsByDay;
+      },
+      {},
+    );
+  };
 
   const goHome = () => {
     location.href = '/';
@@ -211,8 +250,9 @@ export function MeetWindow(options: {
               <DayColumn
                 afterFirst={index() > 0}
                 day={day}
-                busyTimes={busyTimes}
+                busyTimes={busyTimesByDay()[day.day.toString()]}
                 hours={hourLabels}
+                overallInterval={overallInterval}
               />
             )}
           </For>
@@ -227,19 +267,14 @@ function DayColumn({
   busyTimes,
   day,
   hours,
+  overallInterval,
 }: {
   afterFirst: boolean;
-  busyTimes: Resource<BusyTimes>;
+  busyTimes: DateTimeInterval[] | undefined;
   day: CalendarDayMeta;
   hours: string[];
+  overallInterval: PlainTimeInterval;
 }) {
-  const busyTimesThisDay = () =>
-    busyTimes()?.filter(
-      ({ from, until }) =>
-        equalDays(day.day, dateToDay(from)) ||
-        equalDays(day.day, dateToDay(until)),
-    );
-
   return (
     <div
       classList={{
@@ -261,8 +296,10 @@ function DayColumn({
         )}
       </For>
       <ul class={Styles.Availability}>
-        <For each={busyTimesThisDay()}>
-          {(busyTime) => <Event day={day} interval={busyTime} />}
+        <For each={busyTimes}>
+          {(busyTime) => (
+            <Event interval={busyTime} overallInterval={overallInterval} />
+          )}
         </For>
       </ul>
     </div>
@@ -270,16 +307,22 @@ function DayColumn({
 }
 
 function Event({
-  day,
   interval,
+  overallInterval,
 }: {
-  day: CalendarDayMeta;
-  interval: BusyTimes[number];
+  interval: DateTimeInterval;
+  overallInterval: PlainTimeInterval;
 }) {
-  const fromTime = interval.from.getTime();
-  const untilTime = interval.until.getTime();
-  const totalTime = day.until.getTime() - day.from.getTime();
-  const offset = ((fromTime - day.from.getTime()) * 100) / totalTime;
+  const fromTime = interval.from.epochSeconds;
+  const untilTime = interval.until.epochSeconds;
+  const overallIntervalFrom = interval.from.withPlainTime(
+    overallInterval.from,
+  ).epochSeconds;
+  const overallIntervalUntil = interval.from.withPlainTime(
+    overallInterval.until,
+  ).epochSeconds;
+  const totalTime = overallIntervalUntil - overallIntervalFrom;
+  const offset = ((fromTime - overallIntervalFrom) * 100) / totalTime;
   const height = ((untilTime - fromTime) * 100) / totalTime;
 
   return (

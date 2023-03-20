@@ -2,7 +2,8 @@ import ICAL from 'ical.js';
 import { RRule } from 'rrule';
 import { fetchCalendarObjects, getBasicAuthHeaders } from 'tsdav';
 
-import type { BasicCredentials, TimeInterval } from '../schema';
+import type { BasicCredentials, DateTimeInterval } from '../schema';
+import { Temporal } from 'temporal-polyfill';
 
 export function CalDavCalendar(options: {
   calendarId: string;
@@ -10,12 +11,12 @@ export function CalDavCalendar(options: {
   credentials: BasicCredentials;
 }) {
   async function getBusyIntervals(
-    interval: TimeInterval,
-  ): Promise<TimeInterval[]> {
-    const dateFrom = interval.from.toISOString();
-    const dateTo = interval.until.toISOString();
+    interval: DateTimeInterval,
+  ): Promise<DateTimeInterval[]> {
+    const dateFrom = interval.from.toInstant().toString();
+    const dateTo = interval.until.toInstant().toString();
 
-    const busyIntervals: TimeInterval[] = [];
+    const busyIntervals: DateTimeInterval[] = [];
 
     const headers = getBasicAuthHeaders(options.credentials);
 
@@ -64,17 +65,25 @@ export function CalDavCalendar(options: {
         const duration =
           (event.endDate.toUnixTime() - event.startDate.toUnixTime()) * 1000;
         rRule
-          .all((date) => date <= interval.until)
+          .all((date) => date.valueOf() <= interval.until.epochMilliseconds)
           .forEach((date) => {
             busyIntervals.push({
-              from: date,
-              until: new Date(date.getTime() + duration),
+              from: Temporal.Instant.fromEpochMilliseconds(
+                date.getTime(),
+              ).toZonedDateTimeISO(event.startDate.timezone),
+              until: Temporal.Instant.fromEpochMilliseconds(
+                date.getTime() + duration,
+              ).toZonedDateTimeISO(event.endDate.timezone),
             });
           });
       } else {
         busyIntervals.push({
-          from: event.startDate.toJSDate(),
-          until: event.endDate.toJSDate(),
+          from: Temporal.Instant.fromEpochSeconds(
+            event.startDate.toUnixTime(),
+          ).toZonedDateTimeISO(event.startDate.timezone),
+          until: Temporal.Instant.fromEpochSeconds(
+            event.endDate.toUnixTime(),
+          ).toZonedDateTimeISO(event.endDate.timezone),
         });
       }
     });

@@ -1,15 +1,35 @@
 ---
-import { MeetWindow } from '../../components/meet/MeetWindow';
+import { Temporal } from 'temporal-polyfill';
 import HeadMeta from '../../components/HeadMeta.astro';
+import { MeetWindow } from '../../components/meet/MeetWindow';
 
-const freeHoursByWeekday = {
-  0: { from: 8, until: 22 },
-  1: { from: 8, until: 22 },
-  2: { from: 8, until: 22 },
-  3: { from: 8, until: 22 },
-  4: { from: 8, until: 22 },
-  5: { from: 8, until: 22 },
-  6: { from: 8, until: 22 },
+console.log(Temporal.Now.zonedDateTimeISO().toString());
+
+const freeTimeByWeekday = {
+  1: {
+    from: Temporal.PlainTime.from('08:00:00'),
+    until: Temporal.PlainTime.from('22:59:59'),
+  },
+  2: {
+    from: Temporal.PlainTime.from('08:00:00'),
+    until: Temporal.PlainTime.from('22:59:59'),
+  },
+  3: {
+    from: Temporal.PlainTime.from('08:00:00'),
+    until: Temporal.PlainTime.from('22:59:59'),
+  },
+  4: {
+    from: Temporal.PlainTime.from('08:00:00'),
+    until: Temporal.PlainTime.from('22:59:59'),
+  },
+  5: {
+    from: Temporal.PlainTime.from('08:00:00'),
+    until: Temporal.PlainTime.from('22:59:59'),
+  },
+  6: {
+    from: Temporal.PlainTime.from('08:00:00'),
+    until: Temporal.PlainTime.from('22:59:59'),
+  },
 };
 const maxDaysFromToday = 14;
 
@@ -28,7 +48,7 @@ const year = new Date().getFullYear();
   <body>
     <MeetWindow
       client:load
-      freeHoursByWeekday={freeHoursByWeekday}
+      freeTimeByWeekday={freeTimeByWeekday}
       maxDaysFromToday={maxDaysFromToday}
     />
 
