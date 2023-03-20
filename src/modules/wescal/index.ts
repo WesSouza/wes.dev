@@ -1,4 +1,4 @@
-import { Temporal } from 'temporal-polyfill';
+import { Temporal } from '@js-temporal/polyfill';
 
 import { CalDavCalendar } from './calendars/caldav';
 import {
@@ -83,10 +83,13 @@ export async function getCalendarDays({
     startingAtWeekday: startingAt.dayOfWeek,
   });
   const unavailableTimes = createUnavailableIntervals({
+    calendarInterval: {
+      from: days.at(0) as Temporal.PlainDate,
+      until: days.at(-1) as Temporal.PlainDate,
+    },
     freeTimeByWeekday,
-    from: days.at(0) as Temporal.PlainDate,
-    until: days.at(-1) as Temporal.PlainDate,
     timeZone: today.timeZone as Temporal.TimeZone,
+    visibleInterval: interval,
   });
 
   const busyTimes = await getBusyTimes({ calendars, google, interval });

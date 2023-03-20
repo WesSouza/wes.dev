@@ -1,11 +1,18 @@
-import { For, createResource, createSignal } from 'solid-js';
-import { Temporal } from 'temporal-polyfill';
+import { Temporal } from '@js-temporal/polyfill';
+import {
+  For,
+  createMemo,
+  createResource,
+  createSignal,
+  type Accessor,
+} from 'solid-js';
 import { z } from 'zod';
 
 import type {
   CalendarDayMeta,
   DateTimeInterval,
   PlainTimeInterval,
+  StringTimeInterval,
 } from '../../modules/wescal/schema';
 import {
   createCalendarGridData,
@@ -17,21 +24,24 @@ import Styles from './styles.module.css';
 
 async function getBusyTimes() {
   try {
+    const timeZone = Temporal.Now.timeZone();
     const busyTimesResponse = await fetch('/meet/busy');
     const busyTimesData = await busyTimesResponse.json();
     const busyTimes = z
       .object({
         busyTimes: z.array(
           z.object({
-            from: z.string().datetime(),
-            until: z.string().datetime(),
+            from: z.string(),
+            until: z.string(),
           }),
         ),
       })
       .parse(busyTimesData)
       .busyTimes.map((busyTime) => ({
-        from: Temporal.ZonedDateTime.from(busyTime.from),
-        until: Temporal.ZonedDateTime.from(busyTime.until),
+        from: Temporal.ZonedDateTime.from(busyTime.from).withTimeZone(timeZone),
+        until: Temporal.ZonedDateTime.from(busyTime.until).withTimeZone(
+          timeZone,
+        ),
       }));
     return busyTimes;
   } catch (e) {
@@ -43,28 +53,40 @@ async function getBusyTimes() {
 const daysPerPage = 7;
 
 export function MeetWindow(options: {
-  freeTimeByWeekday: Record<number, PlainTimeInterval>;
+  freeTimeByWeekday: Record<number, StringTimeInterval>;
   maxDaysFromToday: number;
   startingAtWeekday?: number | undefined;
   today?: Temporal.ZonedDateTime | undefined;
 }) {
+  const freeTimeByWeekday = Object.entries(options.freeTimeByWeekday).reduce<
+    Record<number, PlainTimeInterval>
+  >((freeTimes, [dayOfWeek, interval]) => {
+    freeTimes[Number(dayOfWeek)] = {
+      from: Temporal.PlainTime.from(interval.from),
+      until: Temporal.PlainTime.from(interval.until),
+    };
+    return freeTimes;
+  }, {});
+
   const {
+    calendarInterval,
     days: allDays,
     hourLabels,
     overallInterval,
     today,
-  } = createCalendarGridData(options);
+    visibleInterval,
+  } = createCalendarGridData({ ...options, freeTimeByWeekday });
 
   const [busyTimesResource] = createResource(getBusyTimes);
   const [page, setPage] = createSignal(0);
   const pages = Math.ceil(allDays.length / daysPerPage);
 
-  const busyTimesByDay = () => {
+  const busyTimesByDay = createMemo(() => {
     const unavailableIntervals = createUnavailableIntervals({
-      freeTimeByWeekday: options.freeTimeByWeekday,
-      from: allDays.at(0)?.day as Temporal.PlainDate,
-      until: allDays.at(-1)?.day as Temporal.PlainDate,
+      calendarInterval,
+      freeTimeByWeekday,
       timeZone: today.timeZone as Temporal.TimeZone,
+      visibleInterval,
     });
 
     const calendarBusyIntervals = busyTimesResource();
@@ -91,7 +113,7 @@ export function MeetWindow(options: {
       },
       {},
     );
-  };
+  });
 
   const goHome = () => {
     location.href = '/';
@@ -250,7 +272,7 @@ export function MeetWindow(options: {
               <DayColumn
                 afterFirst={index() > 0}
                 day={day}
-                busyTimes={busyTimesByDay()[day.day.toString()]}
+                busyTimesByDay={busyTimesByDay}
                 hours={hourLabels}
                 overallInterval={overallInterval}
               />
@@ -264,17 +286,19 @@ export function MeetWindow(options: {
 
 function DayColumn({
   afterFirst,
-  busyTimes,
+  busyTimesByDay,
   day,
   hours,
   overallInterval,
 }: {
   afterFirst: boolean;
-  busyTimes: DateTimeInterval[] | undefined;
+  busyTimesByDay: Accessor<Record<string, DateTimeInterval[]>>;
   day: CalendarDayMeta;
   hours: string[];
   overallInterval: PlainTimeInterval;
 }) {
+  const busyTimes = () => busyTimesByDay()[day.day.toString()];
+
   return (
     <div
       classList={{
@@ -296,7 +320,7 @@ function DayColumn({
         )}
       </For>
       <ul class={Styles.Availability}>
-        <For each={busyTimes}>
+        <For each={busyTimes()}>
           {(busyTime) => (
             <Event interval={busyTime} overallInterval={overallInterval} />
           )}

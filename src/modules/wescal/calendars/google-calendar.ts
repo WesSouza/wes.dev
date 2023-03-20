@@ -1,5 +1,5 @@
 import { google } from 'googleapis';
-import { Temporal } from 'temporal-polyfill';
+import { Temporal } from '@js-temporal/polyfill';
 import { z } from 'zod';
 
 import type { DateTimeInterval } from '../schema';
@@ -73,6 +73,8 @@ export function GoogleCalendar(options: GoogleCalendarProps) {
       throw new Error('Invalid Google Calendar response');
     }
 
+    const timeZone = Temporal.Now.timeZone();
+
     return eventsResponse.data.items
       .filter(
         (event) =>
@@ -88,10 +90,10 @@ export function GoogleCalendar(options: GoogleCalendarProps) {
       .map((event) => ({
         from: Temporal.Instant.from(
           event.start?.dateTime as string,
-        ).toZonedDateTimeISO(event.start?.timeZone as string),
+        ).toZonedDateTimeISO(timeZone),
         until: Temporal.Instant.from(
           event.end?.dateTime as string,
-        ).toZonedDateTimeISO(event.end?.timeZone as string),
+        ).toZonedDateTimeISO(timeZone),
       }));
   }
 

@@ -173,6 +173,7 @@
   margin: calc(1.15em + 12px) 0 0 0;
   list-style-type: none;
   padding: 0;
+  overflow: hidden;
 }
 
 .BusyEvent {

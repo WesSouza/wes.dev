@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { GoogleCredentialsSchema } from './calendars/google-calendar';
-import type { Temporal } from 'temporal-polyfill';
+import type { Temporal } from '@js-temporal/polyfill';
 
 export const BasicCredentialsSchema = z.object({
   username: z.string(),
@@ -39,9 +39,19 @@ export type DateTimeInterval = {
   until: Temporal.ZonedDateTime;
 };
 
+export type PlainDateInterval = {
+  from: Temporal.PlainDate;
+  until: Temporal.PlainDate;
+};
+
 export type PlainTimeInterval = {
   from: Temporal.PlainTime;
   until: Temporal.PlainTime;
+};
+
+export type StringTimeInterval = {
+  from: string;
+  until: string;
 };
 
 export type TimeInterval = {

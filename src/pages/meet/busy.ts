@@ -1,5 +1,5 @@
 import type { APIRoute } from 'astro';
-import { Temporal } from 'temporal-polyfill';
+import { Temporal } from '@js-temporal/polyfill';
 
 import { getBusyTimes } from '../../modules/wescal';
 import { WesCalConfigSchema } from '../../modules/wescal/schema';

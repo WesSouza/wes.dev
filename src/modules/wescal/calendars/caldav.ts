@@ -3,7 +3,7 @@ import { RRule } from 'rrule';
 import { fetchCalendarObjects, getBasicAuthHeaders } from 'tsdav';
 
 import type { BasicCredentials, DateTimeInterval } from '../schema';
-import { Temporal } from 'temporal-polyfill';
+import { Temporal } from '@js-temporal/polyfill';
 
 export function CalDavCalendar(options: {
   calendarId: string;
@@ -33,6 +33,8 @@ export function CalDavCalendar(options: {
       },
     });
 
+    const timeZone = Temporal.Now.timeZone();
+
     davObjects.forEach((davObject) => {
       if (davObject.data === null || JSON.stringify(davObject.data) === '{}') {
         return;
@@ -49,6 +51,25 @@ export function CalDavCalendar(options: {
 
       const event = new ICAL.Event(vEvent);
 
+      const from = Temporal.ZonedDateTime.from({
+        day: event.startDate.day,
+        month: event.startDate.month,
+        year: event.startDate.year,
+        hour: event.startDate.hour,
+        minute: event.startDate.minute,
+        second: event.startDate.second,
+        timeZone: event.startDate.timezone,
+      }).withTimeZone(timeZone);
+      const until = Temporal.ZonedDateTime.from({
+        day: event.endDate.day,
+        month: event.endDate.month,
+        year: event.endDate.year,
+        hour: event.endDate.hour,
+        minute: event.endDate.minute,
+        second: event.endDate.second,
+        timeZone: event.endDate.timezone,
+      }).withTimeZone(timeZone);
+
       // ICAL is a mess, recurring rules are hell
       const vCalendarProperties = vCalendar.getAllProperties();
       const rRuleProperty = vCalendarProperties.find((property) => {
@@ -60,7 +81,7 @@ export function CalDavCalendar(options: {
         const options = RRule.parseString(
           rRuleProperty.getFirstValue().replace(/\\([;,])/g, '$1'),
         );
-        options.dtstart = event.startDate.toJSDate();
+        options.dtstart = new Date(from.epochMilliseconds);
         const rRule = new RRule(options);
         const duration =
           (event.endDate.toUnixTime() - event.startDate.toUnixTime()) * 1000;
@@ -70,20 +91,16 @@ export function CalDavCalendar(options: {
             busyIntervals.push({
               from: Temporal.Instant.fromEpochMilliseconds(
                 date.getTime(),
-              ).toZonedDateTimeISO(event.startDate.timezone),
+              ).toZonedDateTimeISO(timeZone),
               until: Temporal.Instant.fromEpochMilliseconds(
                 date.getTime() + duration,
-              ).toZonedDateTimeISO(event.endDate.timezone),
+              ).toZonedDateTimeISO(timeZone),
             });
           });
       } else {
         busyIntervals.push({
-          from: Temporal.Instant.fromEpochSeconds(
-            event.startDate.toUnixTime(),
-          ).toZonedDateTimeISO(event.startDate.timezone),
-          until: Temporal.Instant.fromEpochSeconds(
-            event.endDate.toUnixTime(),
-          ).toZonedDateTimeISO(event.endDate.timezone),
+          from,
+          until,
         });
       }
     });
