@@ -19,6 +19,7 @@ import type {
 import {
   createCalendarGridData,
   createUnavailableIntervals,
+  getEventRect,
   mergeIntervals,
 } from '../../modules/wescal/utils';
 import { classList } from '../../utils/jsx';
@@ -34,6 +35,10 @@ const timeFormatter = new Intl.DateTimeFormat('en-US', {
   hour: 'numeric',
   minute: 'numeric',
 });
+
+type NewEventData = DateTimeInterval & {
+  title: string;
+};
 
 async function getBusyTimes() {
   try {
@@ -70,6 +75,9 @@ export function MeetWindow(options: {
   timeZone: Temporal.TimeZoneLike;
   today?: Temporal.ZonedDateTime | undefined;
 }) {
+  let ICAL: typeof import('ical.js');
+  import('ical.js').then((module) => (ICAL = module));
+
   const freeTimeByWeekday = Object.entries(options.freeTimeByWeekday).reduce<
     Record<number, PlainTimeInterval>
   >((freeTimes, [dayOfWeek, interval]) => {
@@ -155,6 +163,152 @@ export function MeetWindow(options: {
     }
 
     setPage(navigateToPage);
+  };
+
+  const [newEventPopupVisible, setNewEventPopupVisible] = createSignal(false);
+  const [newEventDetails, setNewEventDetails] = createSignal<NewEventData>();
+
+  const handleSelectTime = (interval: DateTimeInterval) => {
+    setNewEventPopupVisible(true);
+    setNewEventDetails({
+      ...interval,
+      title: 'Virtual Coffee',
+    });
+  };
+
+  const handleICalClick = () => {
+    const newEvent = newEventDetails();
+    if (!newEvent || !ICAL) {
+      return;
+    }
+
+    const vCalendar = new ICAL.Component([
+      'vcalendar',
+      [
+        ['calscale', {}, 'text', 'GREGORIAN'],
+        ['x-wr-calname', {}, 'text', newEvent.title],
+        ['method', {}, 'text', 'PUBLISH'],
+        ['prodid', {}, 'text', '-//Wes.dev//WesCal//EN'],
+        ['version', {}, 'text', '1.0'],
+      ],
+      [
+        [
+          'vtimezone',
+          [['tzid', {}, 'text', 'America/New_York']],
+          [
+            [
+              'daylight',
+              [
+                ['dtstart', {}, 'date-time', '2007-03-11T02:00:00'],
+                [
+                  'rrule',
+                  {},
+                  'recur',
+                  {
+                    freq: 'YEARLY',
+                    byday: '2SU',
+                    bymonth: 3,
+                  },
+                ],
+                ['tzname', {}, 'text', 'EDT'],
+                ['tzoffsetfrom', {}, 'utc-offset', '-05:00'],
+                ['tzoffsetto', {}, 'utc-offset', '-04:00'],
+              ],
+              [],
+            ],
+            [
+              'standard',
+              [
+                ['dtstart', {}, 'date-time', '2007-11-04T02:00:00'],
+                [
+                  'rrule',
+                  {},
+                  'recur',
+                  {
+                    freq: 'YEARLY',
+                    byday: '1SU',
+                    bymonth: 11,
+                  },
+                ],
+                ['tzname', {}, 'text', 'EST'],
+                ['tzoffsetfrom', {}, 'utc-offset', '-04:00'],
+                ['tzoffsetto', {}, 'utc-offset', '-05:00'],
+              ],
+              [],
+            ],
+          ],
+        ],
+        [
+          'vevent',
+          [
+            [
+              'dtstart',
+              { tzid: 'America/New_York' },
+              'date-time',
+              newEvent.from
+                .withTimeZone('America/New_York')
+                .toPlainDateTime()
+                .toString(),
+            ],
+            [
+              'dtend',
+              { tzid: 'America/New_York' },
+              'date-time',
+              newEvent.until
+                .withTimeZone('America/New_York')
+                .toPlainDateTime()
+                .toString(),
+            ],
+            ['summary', {}, 'text', newEvent.title],
+            ['transp', {}, 'text', 'OPAQUE'],
+            ['sequence', {}, 'integer', 1],
+            ['attendee', {}, 'cal-address', 'tiredsoftwareengineer@gmail.com'],
+            ['description', {}, 'text', 'Ola bom dia!'],
+            ['uid', {}, 'text', `${Math.random()}@wes.dev`],
+          ],
+          [],
+        ],
+      ],
+    ]);
+
+    const blob = new Blob([vCalendar.toString()], { type: 'text/calendar' });
+    const url = URL.createObjectURL(blob);
+
+    const anchor = document.createElement('a');
+    anchor.download = 'Meet with Wes.ics';
+    anchor.href = url;
+    anchor.click();
+
+    URL.revokeObjectURL(url);
+  };
+
+  const handleGoogleClick = () => {
+    const newEvent = newEventDetails();
+    if (!newEvent) {
+      return;
+    }
+
+    const fromString = newEvent.from
+      .withTimeZone('America/New_York')
+      .toPlainDateTime()
+      .toString()
+      .replace(/[-:]/g, '');
+    const untilString = newEvent.until
+      .withTimeZone('America/New_York')
+      .toPlainDateTime()
+      .toString()
+      .replace(/[-:]/g, '');
+
+    const url = new URL(
+      'https://www.google.com/calendar/render?action=TEMPLATE',
+    );
+    url.searchParams.set('text', newEvent.title);
+    url.searchParams.set('dates', `${fromString}/${untilString}`);
+    url.searchParams.set('add', 'hey@wes.dev');
+    url.searchParams.set('ctz', 'America/New_York');
+    console.log(url.toString());
+
+    window.open(url);
   };
 
   return (
@@ -286,6 +440,7 @@ export function MeetWindow(options: {
                 day={day}
                 busyTimesByDay={busyTimesByDay}
                 hours={hourLabels}
+                onSelectTime={handleSelectTime}
                 overallInterval={overallInterval}
                 timeZone={options.timeZone}
               />
@@ -293,6 +448,44 @@ export function MeetWindow(options: {
           </For>
         </div>
       </div>
+      <Show when={newEventPopupVisible()}>
+        <form
+          class={Styles.NewEventForm}
+          onSubmit={(event) => event.preventDefault()}
+        >
+          <input
+            type="text"
+            name="title"
+            value={newEventDetails()?.title ?? ''}
+          />
+          <input
+            type="date"
+            name="fromDate"
+            value={newEventDetails()?.from.toPlainDate().toString() ?? ''}
+          />
+          <input
+            type="time"
+            name="fromTime"
+            value={newEventDetails()?.from.toPlainTime().toString() ?? ''}
+          />
+          <input
+            type="date"
+            name="untilDate"
+            value={newEventDetails()?.until.toPlainDate().toString() ?? ''}
+          />
+          <input
+            type="time"
+            name="untilTime"
+            value={newEventDetails()?.until.toPlainTime().toString() ?? ''}
+          />
+          <button type="button" onClick={handleICalClick}>
+            iCal
+          </button>
+          <button type="button" onClick={handleGoogleClick}>
+            Google
+          </button>
+        </form>
+      </Show>
     </main>
   );
 }
@@ -302,12 +495,14 @@ function DayColumn({
   busyTimesByDay,
   day,
   hours,
+  onSelectTime,
   overallInterval,
 }: {
   afterFirst: boolean;
   busyTimesByDay: Accessor<Record<string, DateTimeInterval[]>>;
   day: CalendarDayMeta;
   hours: string[];
+  onSelectTime: (interval: DateTimeInterval) => void;
   overallInterval: PlainTimeInterval;
   timeZone: Temporal.TimeZoneLike;
 }) {
@@ -350,7 +545,6 @@ function DayColumn({
             Temporal.ZonedDateTime.compare(interval.until, until) >= 0),
       ) === undefined;
 
-    console.log(from.toString(), until.toString());
     return { interval: { from, until }, visible };
   };
 
@@ -398,7 +592,42 @@ function DayColumn({
       target: Element;
     },
   ) => {
-    console.log(event.clientY);
+    const boundingRect = columnBoundingRect();
+    if (!boundingRect) {
+      return;
+    }
+
+    const cursorY = event.clientY - boundingRect.top;
+    const eventSlot = Math.floor(
+      (cursorY * totalTime()) / gridSlotDuration / boundingRect.height,
+    );
+
+    if (!day.availableFrom) {
+      return;
+    }
+
+    const timeZone = Temporal.Now.timeZone();
+    const fromSeconds = eventSlot * gridSlotDuration;
+    const from = day.availableFrom
+      .toZonedDateTime({ plainDate: day.day, timeZone })
+      .add({ seconds: fromSeconds });
+    const until = from.add({ seconds: eventDuration });
+
+    const visible =
+      eventSlot >= 0 &&
+      busyTimes()?.find(
+        (interval) =>
+          (Temporal.ZonedDateTime.compare(interval.from, from) <= 0 &&
+            Temporal.ZonedDateTime.compare(interval.until, from) > 0) ||
+          (Temporal.ZonedDateTime.compare(interval.from, until) < 0 &&
+            Temporal.ZonedDateTime.compare(interval.until, until) >= 0),
+      ) === undefined;
+
+    if (!visible) {
+      return;
+    }
+
+    onSelectTime({ from, until });
   };
 
   return (
@@ -453,23 +682,13 @@ function BusyInterval({
   interval: DateTimeInterval;
   overallInterval: PlainTimeInterval;
 }) {
-  const fromTime = interval.from.epochSeconds;
-  const untilTime = interval.until.epochSeconds;
-  const overallIntervalFrom = interval.from.withPlainTime(
-    overallInterval.from,
-  ).epochSeconds;
-  const overallIntervalUntil = interval.from.withPlainTime(
-    overallInterval.until,
-  ).epochSeconds;
-  const totalTime = overallIntervalUntil - overallIntervalFrom;
-  const offset = ((fromTime - overallIntervalFrom) * 100) / totalTime;
-  const height = ((untilTime - fromTime) * 100) / totalTime;
+  const { height, top } = getEventRect({ interval, overallInterval });
 
   return (
     <li
       data-type="BusyInterval"
       class={Styles.BusyEvent}
-      style={{ '--height': `${height}%`, '--offset': `${offset}%` }}
+      style={{ '--height': `${height}%`, '--offset': `${top}%` }}
     ></li>
   );
 }
@@ -483,18 +702,8 @@ function NewEvent({
 }) {
   const data = () => {
     const { interval } = event();
-    const fromTime = interval.from.epochSeconds;
-    const untilTime = interval.until.epochSeconds;
-    const overallIntervalFrom = interval.from.withPlainTime(
-      overallInterval.from,
-    ).epochSeconds;
-    const overallIntervalUntil = interval.from.withPlainTime(
-      overallInterval.until,
-    ).epochSeconds;
-    const totalTime = overallIntervalUntil - overallIntervalFrom;
-    const offset = ((fromTime - overallIntervalFrom) * 100) / totalTime;
-    const height = ((untilTime - fromTime) * 100) / totalTime;
-    return { offset, height, interval };
+    const { height, top } = getEventRect({ interval, overallInterval });
+    return { height, interval, top };
   };
 
   return (
@@ -502,16 +711,14 @@ function NewEvent({
       class={Styles.Event}
       style={{
         '--height': `${data().height}%`,
-        '--offset': `${data().offset}%`,
+        '--offset': `${data().top}%`,
       }}
     >
       <time
         class={Styles.EventTime}
         dateTime={data().interval.from.toPlainTime().toString()}
       >
-        {timeFormatter
-          .format(data().interval.from.epochMilliseconds)
-          .replace(':00 ', ' ')}
+        {timeFormatter.format(data().interval.from.epochMilliseconds)}
       </time>
     </li>
   );

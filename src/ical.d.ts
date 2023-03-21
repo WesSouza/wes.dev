@@ -121,7 +121,7 @@ declare module 'ical.js' {
     public minute: number;
     public second: number;
 
-    constructor(data?: TimeJsonData);
+    constructor(data?: TimeJsonData, zone?: Timezone);
     public compare(aOther: Time): number;
 
     public clone(): Time;

@@ -267,6 +267,28 @@ export function sliceIntervalsByDay(intervals: DateTimeInterval[]) {
   return resultIntervals;
 }
 
+export function getEventRect({
+  interval,
+  overallInterval,
+}: {
+  interval: DateTimeInterval;
+  overallInterval: PlainTimeInterval;
+}): { height: number; top: number } {
+  const fromTime = interval.from.epochSeconds;
+  const untilTime = interval.until.epochSeconds;
+  const overallIntervalFrom = interval.from.withPlainTime(
+    overallInterval.from,
+  ).epochSeconds;
+  const overallIntervalUntil = interval.from.withPlainTime(
+    overallInterval.until,
+  ).epochSeconds;
+  const totalTime = overallIntervalUntil - overallIntervalFrom;
+
+  const top = ((fromTime - overallIntervalFrom) * 100) / totalTime;
+  const height = ((untilTime - fromTime) * 100) / totalTime;
+  return { height, top };
+}
+
 export function mergeIntervals(
   intervals: DateTimeInterval[],
 ): DateTimeInterval[] {
