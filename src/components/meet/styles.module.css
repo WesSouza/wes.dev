@@ -187,3 +187,27 @@
   backdrop-filter: blur(1.5px);
   border-radius: 3px;
 }
+
+.Event {
+  position: absolute;
+  top: calc(var(--offset) - 1px);
+  margin: 2px 2px 0 1px;
+  width: calc(100% - 2px);
+  height: var(--height);
+  padding: 2px 4px;
+  background: #e2cdfd;
+  border-left: 3px solid #8b3cf9;
+  border-radius: 3px;
+  color: #7435c5;
+  cursor: pointer;
+}
+
+.EventTime {
+  display: block;
+  font-size: 0.5625em;
+}
+
+.EventTitle {
+  font-size: 0.75em;
+  font-weight: 600;
+}

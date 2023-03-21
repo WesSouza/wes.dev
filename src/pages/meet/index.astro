@@ -2,6 +2,7 @@
 import HeadMeta from '../../components/HeadMeta.astro';
 import { MeetWindow } from '../../components/meet/MeetWindow';
 
+const timeZone = 'America/New_York';
 const freeTimeByWeekday = {
   1: {
     from: '08:00:00',
@@ -51,6 +52,7 @@ const year = new Date().getFullYear();
       client:load
       freeTimeByWeekday={freeTimeByWeekday}
       maxDaysFromToday={maxDaysFromToday}
+      timeZone={timeZone}
     />
 
     <footer class="Footer">

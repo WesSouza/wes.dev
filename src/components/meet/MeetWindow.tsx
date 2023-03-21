@@ -1,9 +1,11 @@
 import { Temporal } from '@js-temporal/polyfill';
 import {
   For,
+  Show,
   createMemo,
   createResource,
   createSignal,
+  onMount,
   type Accessor,
 } from 'solid-js';
 import { z } from 'zod';
@@ -21,6 +23,17 @@ import {
 } from '../../modules/wescal/utils';
 import { classList } from '../../utils/jsx';
 import Styles from './styles.module.css';
+
+const daysPerPage = 7;
+const eventDuration = 1800;
+const gridSlotDuration = 900;
+
+const irrelevantDateTime = Temporal.Now.zonedDateTimeISO();
+
+const timeFormatter = new Intl.DateTimeFormat('en-US', {
+  hour: 'numeric',
+  minute: 'numeric',
+});
 
 async function getBusyTimes() {
   try {
@@ -50,12 +63,11 @@ async function getBusyTimes() {
   }
 }
 
-const daysPerPage = 7;
-
 export function MeetWindow(options: {
   freeTimeByWeekday: Record<number, StringTimeInterval>;
   maxDaysFromToday: number;
   startingAtWeekday?: number | undefined;
+  timeZone: Temporal.TimeZoneLike;
   today?: Temporal.ZonedDateTime | undefined;
 }) {
   const freeTimeByWeekday = Object.entries(options.freeTimeByWeekday).reduce<
@@ -275,6 +287,7 @@ export function MeetWindow(options: {
                 busyTimesByDay={busyTimesByDay}
                 hours={hourLabels}
                 overallInterval={overallInterval}
+                timeZone={options.timeZone}
               />
             )}
           </For>
@@ -296,8 +309,97 @@ function DayColumn({
   day: CalendarDayMeta;
   hours: string[];
   overallInterval: PlainTimeInterval;
+  timeZone: Temporal.TimeZoneLike;
 }) {
   const busyTimes = () => busyTimesByDay()[day.day.toString()];
+
+  const [columnBoundingRect, setColumnBoundingRect] = createSignal<DOMRect>();
+
+  const totalTime = createMemo(() => {
+    return overallInterval.from.until(overallInterval.until, {
+      smallestUnit: 'second',
+      largestUnit: 'second',
+    }).seconds;
+  });
+
+  const [newEventSlot, setNewEventSlot] = createSignal(-1);
+
+  const newEvent = () => {
+    const eventSlot = newEventSlot();
+    if (!day.availableFrom) {
+      return {
+        interval: { from: irrelevantDateTime, until: irrelevantDateTime },
+        visible: false,
+      };
+    }
+
+    const timeZone = Temporal.Now.timeZone();
+    const fromSeconds = eventSlot * gridSlotDuration;
+    const from = day.availableFrom
+      .toZonedDateTime({ plainDate: day.day, timeZone })
+      .add({ seconds: fromSeconds });
+    const until = from.add({ seconds: eventDuration });
+
+    const visible =
+      eventSlot >= 0 &&
+      busyTimes()?.find(
+        (interval) =>
+          (Temporal.ZonedDateTime.compare(interval.from, from) <= 0 &&
+            Temporal.ZonedDateTime.compare(interval.until, from) > 0) ||
+          (Temporal.ZonedDateTime.compare(interval.from, until) < 0 &&
+            Temporal.ZonedDateTime.compare(interval.until, until) >= 0),
+      ) === undefined;
+
+    console.log(from.toString(), until.toString());
+    return { interval: { from, until }, visible };
+  };
+
+  let ref: HTMLUListElement;
+
+  onMount(() => {
+    setColumnBoundingRect(ref.getBoundingClientRect());
+  });
+
+  const handleMouseMove = (
+    event: MouseEvent & {
+      currentTarget: HTMLUListElement;
+      target: Element;
+    },
+  ) => {
+    const boundingRect = columnBoundingRect();
+    if (!boundingRect) {
+      return;
+    }
+
+    const cursorY = event.clientY - boundingRect.top;
+    const newEventSlot = Math.floor(
+      (cursorY * totalTime()) / gridSlotDuration / boundingRect.height,
+    );
+
+    setNewEventSlot(newEventSlot);
+  };
+
+  const handleMouseLeave = (
+    event: MouseEvent & {
+      currentTarget: HTMLUListElement;
+      target: Element;
+    },
+  ) => {
+    if (event.currentTarget !== event.target) {
+      return;
+    }
+
+    setNewEventSlot(-1);
+  };
+
+  const handleClick = (
+    event: MouseEvent & {
+      currentTarget: HTMLUListElement;
+      target: Element;
+    },
+  ) => {
+    console.log(event.clientY);
+  };
 
   return (
     <div
@@ -319,18 +421,32 @@ function DayColumn({
           />
         )}
       </For>
-      <ul class={Styles.Availability}>
+      <ul
+        // @ts-expect-error Variable 'ref' is used before being assigned. ts(2454)
+        ref={ref}
+        class={Styles.Availability}
+        onMouseOver={handleMouseMove}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+        onClick={handleClick}
+      >
         <For each={busyTimes()}>
           {(busyTime) => (
-            <Event interval={busyTime} overallInterval={overallInterval} />
+            <BusyInterval
+              interval={busyTime}
+              overallInterval={overallInterval}
+            />
           )}
         </For>
+        <Show when={newEvent().visible}>
+          <NewEvent event={newEvent} overallInterval={overallInterval} />
+        </Show>
       </ul>
     </div>
   );
 }
 
-function Event({
+function BusyInterval({
   interval,
   overallInterval,
 }: {
@@ -351,8 +467,52 @@ function Event({
 
   return (
     <li
+      data-type="BusyInterval"
       class={Styles.BusyEvent}
       style={{ '--height': `${height}%`, '--offset': `${offset}%` }}
     ></li>
+  );
+}
+
+function NewEvent({
+  event: event,
+  overallInterval,
+}: {
+  event: Accessor<{ interval: DateTimeInterval }>;
+  overallInterval: PlainTimeInterval;
+}) {
+  const data = () => {
+    const { interval } = event();
+    const fromTime = interval.from.epochSeconds;
+    const untilTime = interval.until.epochSeconds;
+    const overallIntervalFrom = interval.from.withPlainTime(
+      overallInterval.from,
+    ).epochSeconds;
+    const overallIntervalUntil = interval.from.withPlainTime(
+      overallInterval.until,
+    ).epochSeconds;
+    const totalTime = overallIntervalUntil - overallIntervalFrom;
+    const offset = ((fromTime - overallIntervalFrom) * 100) / totalTime;
+    const height = ((untilTime - fromTime) * 100) / totalTime;
+    return { offset, height, interval };
+  };
+
+  return (
+    <li
+      class={Styles.Event}
+      style={{
+        '--height': `${data().height}%`,
+        '--offset': `${data().offset}%`,
+      }}
+    >
+      <time
+        class={Styles.EventTime}
+        dateTime={data().interval.from.toPlainTime().toString()}
+      >
+        {timeFormatter
+          .format(data().interval.from.epochMilliseconds)
+          .replace(':00 ', ' ')}
+      </time>
+    </li>
   );
 }

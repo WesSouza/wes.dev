@@ -1,6 +1,7 @@
-import { z } from 'zod';
-import { GoogleCredentialsSchema } from './calendars/google-calendar';
 import type { Temporal } from '@js-temporal/polyfill';
+import { z } from 'zod';
+
+import { GoogleCredentialsSchema } from './calendars/google-calendar';
 
 export const BasicCredentialsSchema = z.object({
   username: z.string(),
