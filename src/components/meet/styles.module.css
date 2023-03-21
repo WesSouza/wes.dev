@@ -1,4 +1,5 @@
 .Window {
+  position: relative;
   display: flex;
   flex-direction: column;
   width: min(800px, 100%);
@@ -184,6 +185,7 @@
   width: calc(100% - 2px);
   height: var(--height);
   background: rgba(198, 198, 198, 0.75);
+  -webkit-backdrop-filter: blur(1.5px);
   backdrop-filter: blur(1.5px);
   border-radius: 3px;
 }
@@ -210,4 +212,92 @@
 .EventTitle {
   font-size: 0.75em;
   font-weight: 600;
+}
+
+.NewEventForm {
+  position: absolute;
+  top: var(--top, 30px);
+  left: var(--left, 30px);
+  width: 300px;
+  background: rgba(230, 233, 233, 0.75);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border-radius: 10px;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.25),
+    0px 0px 0px 1px rgba(0, 0, 0, 0.15);
+  z-index: 2;
+}
+
+.NewEventTitle {
+  padding: 14px;
+}
+
+.NewEventTitleInput {
+  appearance: none;
+  border: none;
+  background: none;
+  font-size: 1em;
+  font-weight: 600;
+  width: 100%;
+}
+
+.NewEventDetails {
+  border-top: 1px solid #c5c8c8;
+  padding: 14px;
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.NewEventField {
+  display: flex;
+}
+
+.NewEventFieldLabel {
+  width: 20%;
+  font-size: 0.875em;
+  color: #615d62;
+  text-align: right;
+  padding-right: 10px;
+}
+
+.NewEventFieldControl {
+  display: flex;
+  flex-grow: 1;
+}
+
+.NewEventFieldDate,
+.NewEventFieldTime {
+  appearance: none;
+  border: none;
+  background: none;
+  font-size: 0.875em;
+  width: 50%;
+}
+
+.NewEventFieldDate {
+  display: block;
+  appearance: none;
+  width: 50%;
+}
+
+.NewEventFieldTime {
+  width: 50%;
+}
+
+.NewEventButtons {
+  padding: 14px;
+  border-top: 1px solid #c5c8c8;
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.NewEventButton {
+  cursor: pointer;
+  appearance: none;
+  border: none;
+  background-color: #cfcbcf;
+  color: #3d3c3e;
+  border-radius: 5px;
+  padding: 3px 12px;
+  font-size: 0.8125em;
 }

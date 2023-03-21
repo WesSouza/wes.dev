@@ -165,6 +165,13 @@ export function MeetWindow(options: {
     setPage(navigateToPage);
   };
 
+  /* const [newEventPopupVisible, setNewEventPopupVisible] = createSignal(true);
+  const [newEventDetails, setNewEventDetails] = createSignal<NewEventData>({
+    from: Temporal.Now.zonedDateTimeISO().withPlainTime('15:00:00'),
+    until: Temporal.Now.zonedDateTimeISO().withPlainTime('15:30:00'),
+    title: 'Virtual Coffee',
+  }); */
+
   const [newEventPopupVisible, setNewEventPopupVisible] = createSignal(false);
   const [newEventDetails, setNewEventDetails] = createSignal<NewEventData>();
 
@@ -453,37 +460,77 @@ export function MeetWindow(options: {
           class={Styles.NewEventForm}
           onSubmit={(event) => event.preventDefault()}
         >
-          <input
-            type="text"
-            name="title"
-            value={newEventDetails()?.title ?? ''}
-          />
-          <input
-            type="date"
-            name="fromDate"
-            value={newEventDetails()?.from.toPlainDate().toString() ?? ''}
-          />
-          <input
-            type="time"
-            name="fromTime"
-            value={newEventDetails()?.from.toPlainTime().toString() ?? ''}
-          />
-          <input
-            type="date"
-            name="untilDate"
-            value={newEventDetails()?.until.toPlainDate().toString() ?? ''}
-          />
-          <input
-            type="time"
-            name="untilTime"
-            value={newEventDetails()?.until.toPlainTime().toString() ?? ''}
-          />
-          <button type="button" onClick={handleICalClick}>
-            iCal
-          </button>
-          <button type="button" onClick={handleGoogleClick}>
-            Google
-          </button>
+          <div class={Styles.NewEventTitle}>
+            <input
+              aria-label="Event Title"
+              class={Styles.NewEventTitleInput}
+              type="text"
+              name="title"
+              value={newEventDetails()?.title ?? ''}
+            />
+          </div>
+          <div class={Styles.NewEventDetails}>
+            <div class={Styles.NewEventField}>
+              <label class={Styles.NewEventFieldLabel} for="fromDate">
+                starts:
+              </label>
+              <div class={Styles.NewEventFieldControl}>
+                <input
+                  class={Styles.NewEventFieldDate}
+                  id="fromDate"
+                  type="date"
+                  name="fromDate"
+                  value={newEventDetails()?.from.toPlainDate().toString() ?? ''}
+                />
+                <input
+                  class={Styles.NewEventFieldTime}
+                  type="time"
+                  name="fromTime"
+                  value={newEventDetails()?.from.toPlainTime().toString() ?? ''}
+                />
+              </div>
+            </div>
+            <div class={Styles.NewEventField}>
+              <label class={Styles.NewEventFieldLabel} for="untilDate">
+                ends:
+              </label>
+              <div class={Styles.NewEventFieldControl}>
+                <input
+                  class={Styles.NewEventFieldDate}
+                  id="untilDate"
+                  type="date"
+                  name="untilDate"
+                  value={
+                    newEventDetails()?.until.toPlainDate().toString() ?? ''
+                  }
+                />
+                <input
+                  class={Styles.NewEventFieldTime}
+                  type="time"
+                  name="untilTime"
+                  value={
+                    newEventDetails()?.until.toPlainTime().toString() ?? ''
+                  }
+                />
+              </div>
+            </div>
+          </div>
+          <div class={Styles.NewEventButtons}>
+            <button
+              type="button"
+              class={Styles.NewEventButton}
+              onClick={handleICalClick}
+            >
+              iCal
+            </button>
+            <button
+              type="button"
+              class={Styles.NewEventButton}
+              onClick={handleGoogleClick}
+            >
+              Google
+            </button>
+          </div>
         </form>
       </Show>
     </main>
