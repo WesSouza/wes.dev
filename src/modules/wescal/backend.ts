@@ -1,20 +1,20 @@
-import { Temporal } from '@js-temporal/polyfill';
+import { Temporal } from 'temporal-polyfill';
 
-import { CalDavCalendar } from './calendars/caldav';
+import { CalDavCalendar } from './lib/caldav';
 import {
   GoogleCalendar,
   type GoogleCalendarProps,
-} from './calendars/google-calendar';
+} from './lib/google-calendar';
 import type {
   CalendarConfig,
   DateTimeInterval,
   PlainTimeInterval,
-} from './schema';
+} from './lib/schema';
 import {
   createUnavailableIntervals,
   createWeekDays,
   mergeIntervals,
-} from './utils';
+} from './lib/utils';
 
 export async function getBusyTimes({
   calendars,

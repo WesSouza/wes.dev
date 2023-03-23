@@ -1,8 +1,8 @@
+import { Temporal } from 'temporal-polyfill';
 import type { APIRoute } from 'astro';
-import { Temporal } from '@js-temporal/polyfill';
 
-import { getBusyTimes } from '../../modules/wescal';
-import { WesCalConfigSchema } from '../../modules/wescal/schema';
+import { getBusyTimes } from '../../modules/wescal/backend';
+import { WesCalConfigSchema } from '../../modules/wescal/lib/schema';
 import { VercelConfig } from '../../utils/vercel-edgeconfig-encrypted';
 
 const timeZone = 'America/New_York';
@@ -53,7 +53,10 @@ export const get: APIRoute = async function get() {
       busyTimes,
     }),
     {
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Cache-Control': 's-maxage=60, stale-while-revalidate=600',
+        'Content-Type': 'application/json',
+      },
     },
   );
 };

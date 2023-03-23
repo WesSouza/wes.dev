@@ -2,8 +2,8 @@ import ICAL from 'ical.js';
 import { RRule } from 'rrule';
 import { fetchCalendarObjects, getBasicAuthHeaders } from 'tsdav';
 
-import type { BasicCredentials, DateTimeInterval } from '../schema';
-import { Temporal } from '@js-temporal/polyfill';
+import type { BasicCredentials, DateTimeInterval } from './schema';
+import { Temporal } from 'temporal-polyfill';
 
 export function CalDavCalendar(options: {
   calendarId: string;

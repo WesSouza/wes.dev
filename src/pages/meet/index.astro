@@ -1,8 +1,7 @@
 ---
 import HeadMeta from '../../components/HeadMeta.astro';
-import { MeetWindow } from '../../components/meet/MeetWindow';
+import { MeetWindow } from '../../modules/wescal/frontend';
 
-const timeZone = 'America/New_York';
 const freeTimeByWeekday = {
   1: {
     from: '08:00:00',
@@ -33,9 +32,18 @@ const freeTimeByWeekday = {
     until: '22:59:59',
   },
 };
+const inviteeEmail = 'hey@wes.dev';
+const inviteeName = 'Wes Souza';
+const inviteeTimeZone = 'America/New_York';
 const maxDaysFromToday = 14;
+const timeZone = 'America/New_York';
 
 const year = new Date().getFullYear();
+
+Astro.response.headers.set(
+  'Cache-Control',
+  's-maxage=60, stale-while-revalidate=3600',
+);
 ---
 
 <!DOCTYPE html>
@@ -50,6 +58,9 @@ const year = new Date().getFullYear();
   <body>
     <MeetWindow
       client:load
+      inviteeName={inviteeName}
+      inviteeEmail={inviteeEmail}
+      inviteeTimeZone={inviteeTimeZone}
       freeTimeByWeekday={freeTimeByWeekday}
       maxDaysFromToday={maxDaysFromToday}
       timeZone={timeZone}

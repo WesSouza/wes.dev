@@ -1,8 +1,9 @@
 import type { APIRoute } from 'astro';
 import { google } from 'googleapis';
+
+import { GoogleCredentialsSchema } from '../../modules/wescal/lib/google-calendar';
+import { WesCalConfigSchema } from '../../modules/wescal/lib/schema';
 import { VercelConfig } from '../../utils/vercel-edgeconfig-encrypted';
-import { WesCalConfigSchema } from '../../modules/wescal/schema';
-import { GoogleCredentialsSchema } from '../../modules/wescal/calendars/google-calendar';
 
 export const get: APIRoute = async function get({ url }) {
   const code = url.searchParams.get('code');

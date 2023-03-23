@@ -1,8 +1,8 @@
 import { google } from 'googleapis';
-import { Temporal } from '@js-temporal/polyfill';
+import { Temporal } from 'temporal-polyfill';
 import { z } from 'zod';
 
-import type { DateTimeInterval } from '../schema';
+import type { DateTimeInterval } from './schema';
 
 export const GoogleCredentialsSchema = z.object({
   access_token: z.string(),
