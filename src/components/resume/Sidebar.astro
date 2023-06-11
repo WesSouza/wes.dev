@@ -1,15 +1,15 @@
 ---
-import { SITE_GO_LINKS } from "../../config";
-import type { Props as SidebarLinkProps } from "./SidebarLink.astro";
-import SidebarLink from "./SidebarLink.astro";
+import { SITE_GO_LINKS } from '../../config';
+import type { Link } from './SidebarLink.astro';
+import SidebarLink from './SidebarLink.astro';
 
 const articles = SITE_GO_LINKS.filter(
-  (link) => link.type === "article" && link.showOnResume
-) as SidebarLinkProps["link"][];
+  (link) => link.type === 'article' && link.showOnResume,
+) as Link[];
 
 const projects = SITE_GO_LINKS.filter(
-  (link) => link.type === "project" && link.showOnResume
-) as SidebarLinkProps["link"][];
+  (link) => link.type === 'project' && link.showOnResume,
+) as Link[];
 
 const yearsOfExperience = new Date().getFullYear() - 2006;
 ---

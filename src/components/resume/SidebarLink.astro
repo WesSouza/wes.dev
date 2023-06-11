@@ -1,12 +1,14 @@
 ---
+export interface Link {
+  title: string;
+  subtitle?: string;
+  description?: string;
+  href: string;
+  goSlug: string;
+}
+
 export interface Props {
-  link: {
-    title: string;
-    subtitle?: string;
-    description?: string;
-    href: string;
-    goSlug: string;
-  };
+  link: Link;
 }
 
 const {
@@ -16,7 +18,7 @@ const {
 
 <li>
   <a href={href} target="_blank" rel="nofollow noopener">{title}</a>{
-    subtitle ? "," : ""
+    subtitle ? ',' : ''
   }
   <span class="no-wrap">{subtitle}</span>
   <p>{description}</p>
