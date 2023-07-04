@@ -27,7 +27,6 @@
 html {
   height: 100%;
   color: var(--font-color);
-  background: var(--accent-color);
 }
 
 body {
@@ -38,26 +37,10 @@ body {
   justify-content: center;
   margin: 0;
   padding: 50px;
-  background: radial-gradient(
-      100% 151.69% at 100% 0%,
-      rgba(255, 17, 245, 0.5) 0%,
-      rgba(255, 17, 245, 0) 100%
-    ),
-    radial-gradient(
-      100% 151.69% at 0% 0%,
-      rgba(255, 255, 255, 0.3) 0%,
-      rgba(255, 255, 255, 0) 100%
-    ),
-    radial-gradient(100% 231.95% at 0% 100%, #9628db 0%, #000000 100%);
-  background-attachment: fixed;
   font-family: -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
 }
 
 @media (max-width: 934px) {
-  html {
-    background-color: #7820af;
-  }
-
   body {
     padding: 20px;
     background: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
