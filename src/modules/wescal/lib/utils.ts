@@ -41,6 +41,7 @@ export function createCalendarGridData(options: {
   maxDaysFromToday: number;
   startingAtWeekday?: number | undefined;
   today?: Temporal.ZonedDateTime | undefined;
+  locale?: string | undefined;
 }): {
   calendarInterval: PlainDateInterval;
   days: CalendarDayMeta[];
@@ -54,13 +55,14 @@ export function createCalendarGridData(options: {
     maxDaysFromToday,
     startingAtWeekday = 0,
     today = Temporal.Now.zonedDateTimeISO(),
+    locale = 'en-US',
   } = options;
 
-  const timeFormatter = new Intl.DateTimeFormat('en-US', {
+  const timeFormatter = new Intl.DateTimeFormat(locale, {
     hour: 'numeric',
   });
 
-  const dayFormatter = new Intl.DateTimeFormat('en-US', {
+  const dayFormatter = new Intl.DateTimeFormat(locale, {
     weekday: 'short',
     day: 'numeric',
   });

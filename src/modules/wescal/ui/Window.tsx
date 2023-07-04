@@ -14,7 +14,6 @@ export function Window(props: {
     <div class={Styles.Window}>
       <div class={Styles.WindowTitle}>
         <div class={Styles.WindowSemaphore}>
-          {/* @ts-expect-error Type 'undefined' is not assignable to type 'EventHandlerUnion<HTMLButtonElement, MouseEvent>'. ts(2375) */}
           <button
             aria-label="Close Window"
             classList={classList([
@@ -41,7 +40,6 @@ export function Window(props: {
               />
             </svg>
           </button>
-          {/* @ts-expect-error Type 'undefined' is not assignable to type 'EventHandlerUnion<HTMLButtonElement, MouseEvent>'. ts(2375) */}
           <button
             aria-label="Minimize Window"
             classList={classList([
@@ -61,7 +59,6 @@ export function Window(props: {
               <path fill="currentColor" d="M2 5h8v2H2z" />
             </svg>
           </button>
-          {/* @ts-expect-error Type 'undefined' is not assignable to type 'EventHandlerUnion<HTMLButtonElement, MouseEvent>'. ts(2375) */}
           <button
             aria-label="Full Screen Window"
             classList={classList([

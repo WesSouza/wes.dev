@@ -53,6 +53,7 @@ export function Main(options: {
   inviteeEmail: string;
   inviteeTimeZone: string;
   freeTimeByWeekday: Record<number, StringTimeInterval>;
+  locale: string;
   maxDaysFromToday: number;
   startingAtWeekday?: number | undefined;
   timeZone: Temporal.TimeZoneLike;
@@ -299,6 +300,7 @@ export function Main(options: {
         gridSlotDuration={gridSlotDuration}
         handleSelectTime={handleSelectTime}
         hourLabels={hourLabels}
+        locale={options.locale}
         navigateDays={navigateDays}
         overallInterval={overallInterval}
         timeZone={options.timeZone}

@@ -4,11 +4,6 @@ import type { DateTimeInterval, PlainTimeInterval } from '../lib/schema';
 import { getEventRect } from '../lib/utils';
 import Styles from './Events.module.css';
 
-const timeFormatter = new Intl.DateTimeFormat('en-US', {
-  hour: 'numeric',
-  minute: 'numeric',
-});
-
 export function BusyInterval(props: {
   interval: DateTimeInterval;
   overallInterval: PlainTimeInterval;
@@ -26,8 +21,14 @@ export function BusyInterval(props: {
 
 export function NewEvent(props: {
   event: Accessor<{ interval: DateTimeInterval }>;
+  locale: string;
   overallInterval: PlainTimeInterval;
 }) {
+  const timeFormatter = new Intl.DateTimeFormat(props.locale, {
+    hour: 'numeric',
+    minute: 'numeric',
+  });
+
   const data = () => {
     const { interval } = props.event();
     return {

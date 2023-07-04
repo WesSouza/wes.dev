@@ -17,6 +17,7 @@ export function CalendarDay(props: {
   busyTimesByDay: Record<string, DateTimeInterval[]>;
   day: CalendarDayMeta;
   eventDuration: number;
+  locale: string;
   gridSlotDuration: number;
   hours: string[];
   onSelectTime: (interval: DateTimeInterval) => void;
@@ -187,7 +188,11 @@ export function CalendarDay(props: {
           )}
         </For>
         <Show when={newEvent().visible}>
-          <NewEvent event={newEvent} overallInterval={props.overallInterval} />
+          <NewEvent
+            event={newEvent}
+            locale={props.locale}
+            overallInterval={props.overallInterval}
+          />
         </Show>
       </ul>
     </div>

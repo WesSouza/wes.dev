@@ -1,5 +1,5 @@
-import type { Temporal } from 'temporal-polyfill';
 import { For, type Accessor } from 'solid-js';
+import { Temporal } from 'temporal-polyfill';
 
 import type {
   CalendarDayMeta,
@@ -17,15 +17,46 @@ export function Calendar(props: {
   gridSlotDuration: number;
   handleSelectTime: (interval: DateTimeInterval) => void;
   hourLabels: string[];
+  locale: string;
   navigateDays: (options: { delta?: number; page?: number }) => void;
   overallInterval: PlainTimeInterval;
   timeZone: Temporal.TimeZoneLike;
 }) {
+  const firstDay = props.days().at(0);
+  if (!firstDay) {
+    return null;
+  }
+
+  const dateFormatter = new Intl.DateTimeFormat(props.locale, {
+    month: 'long',
+    year: 'numeric',
+  });
+  const dateParts = dateFormatter.formatToParts(
+    firstDay.day.toZonedDateTime({
+      timeZone: Temporal.Now.zonedDateTimeISO(),
+      plainTime: '00:00:00',
+    }).epochMilliseconds,
+  );
+  const before: string[] = [];
+  const month: string[] = [];
+  const after: string[] = [];
+  dateParts.forEach((part) => {
+    if (part.type === 'month') {
+      month.push(part.value);
+    } else if (month.length === 0) {
+      before.push(part.value);
+    } else {
+      after.push(part.value);
+    }
+  });
+
   return (
     <>
       <div class={Styles.CalendarTitle}>
         <h2 class={Styles.MonthText}>
-          <strong>March</strong> 2023
+          {before.join('')}
+          <strong>{month.join('')}</strong>
+          {after.join('')}
         </h2>
         <div class={Styles.NavigationButtons}>
           <button
@@ -80,11 +111,12 @@ export function Calendar(props: {
         <For each={props.days()}>
           {(day, index) => (
             <CalendarDay
-              gridSlotDuration={props.gridSlotDuration}
-              eventDuration={props.eventDuration}
               afterFirst={index() > 0}
-              day={day}
               busyTimesByDay={props.busyTimesByDay}
+              day={day}
+              eventDuration={props.eventDuration}
+              gridSlotDuration={props.gridSlotDuration}
+              locale={props.locale}
               hours={props.hourLabels}
               onSelectTime={props.handleSelectTime}
               overallInterval={props.overallInterval}
