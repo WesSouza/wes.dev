@@ -28,32 +28,33 @@
   },
   "packageManager": "pnpm@8.6.1",
   "dependencies": {
-    "@astrojs/solid-js": "^2.2.0",
-    "@astrojs/vercel": "^3.6.0",
+    "@astrojs/solid-js": "^3.0.0",
+    "@astrojs/vercel": "^4.0.3",
     "@vercel/edge-config": "^0.2.1",
-    "astro": "^2.7.3",
-    "googleapis": "^120.0.0",
+    "astro": "^3.0.8",
+    "googleapis": "^126.0.1",
     "ical.js": "^1.5.0",
-    "ics": "^3.2.0",
-    "rollup": "^3.26.0",
+    "ics": "^3.4.0",
+    "rollup": "^3.28.1",
     "rrule": "^2.7.2",
-    "solid-js": "^1.7.7",
+    "solid-js": "^1.7.11",
     "temporal-polyfill": "^0.1.1",
     "tsdav": "^2.0.5",
-    "zod": "^3.21.4"
+    "zod": "^3.22.2"
   },
   "devDependencies": {
-    "@types/node": "20.3.3",
-    "@typescript-eslint/eslint-plugin": "^5.61.0",
-    "@typescript-eslint/parser": "^5.61.0",
+    "@astrojs/check": "^0.2.0",
+    "@types/node": "20.5.9",
+    "@typescript-eslint/eslint-plugin": "^6.5.0",
+    "@typescript-eslint/parser": "^6.5.0",
     "dotenv": "^16.3.1",
-    "eslint": "^8.44.0",
-    "eslint-config-prettier": "^8.8.0",
+    "eslint": "^8.48.0",
+    "eslint-config-prettier": "^9.0.0",
     "import-sort-style-wes": "^3.0.2",
-    "prettier": "2.8.8",
+    "prettier": "3.0.3",
     "prettier-plugin-import-sort": "^0.0.7",
     "ts-node": "^10.9.1",
-    "typescript": "5.1.6"
+    "typescript": "5.2.2"
   },
   "importSort": {
     ".js, .jsx": {

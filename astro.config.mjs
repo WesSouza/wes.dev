@@ -7,7 +7,9 @@ import solidJs from '@astrojs/solid-js';
 export default defineConfig({
   site: 'https://wes.dev',
   output: 'server',
-  adapter: vercel(),
+  adapter: vercel({
+    functionPerRoute: false,
+  }),
   integrations: [solidJs()],
   vite: {
     ssr: {
