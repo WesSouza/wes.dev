@@ -25,7 +25,8 @@
   margin: 0 1px;
   border: none;
   color: #000;
-  box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.07),
+  box-shadow:
+    0px 0px 0px 1px rgba(0, 0, 0, 0.07),
     0px 1px 0px rgba(0, 0, 0, 0.18);
   border-radius: 5px;
 }
