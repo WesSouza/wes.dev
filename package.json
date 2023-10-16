@@ -40,7 +40,7 @@
     "solid-js": "^1.7.11",
     "temporal-polyfill": "^0.1.1",
     "tsdav": "^2.0.5",
-    "zod": "^3.22.2"
+    "zod": "^3.22.3"
   },
   "devDependencies": {
     "@astrojs/check": "^0.2.0",
