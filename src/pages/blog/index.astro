@@ -1,0 +1,26 @@
+---
+import { getCollection } from 'astro:content';
+import HeadMeta from '../../components/HeadMeta.astro';
+
+const title = 'My Astro Learning Blog';
+const allPosts = await getCollection('blog');
+---
+
+<!doctype html>
+<!-- Source code available at https://github.com/WesSouza/wes.dev/ -->
+<html lang="en" class="-PurpleBackground">
+  <head>
+    <HeadMeta title={title} />
+  </head>
+  <body>
+    <ul>
+      {
+        allPosts.map((post) => (
+          <li>
+            <a href={`/blog/${post.slug}`}>{post.data.title}</a>
+          </li>
+        ))
+      }
+    </ul>
+  </body>
+</html>
