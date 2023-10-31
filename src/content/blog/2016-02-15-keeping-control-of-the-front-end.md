@@ -126,13 +126,13 @@ In this scenario, the class names are clear and specific, and the code will only
 
 ### Modularization
 
-Having multiple teams working independently at the same time allows different development styles across the codebase. One developer might like wrapping her own code on [IIFE](https://benalman.com/news/2010/11/immediately-invoked-function-expression/), and another might prefer the [prototype pattern](https://addyosmani.com/resources/essentialjsdesignpatterns/book/#prototypepatternjavascript).
+Having multiple teams working independently at the same time allows different development styles across the codebase. One developer might like wrapping her own code on [IIFE](https://benalman.com/news/2010/11/immediately-invoked-function-expression/), and another might prefer the [prototype pattern](https://www.patterns.dev/posts/prototype-pattern).
 
 While this is not a problem if the code is achieving a simple task, more complex solutions might become too big to understand, to manipulate, or to maintain.
 
 ```js
-function showTheGallery (hotelId) {
-/* Here goes 31415 lines of code involving all event handlers, the overlay behind the gallery, capturing the keyboard events to navigate and close the gallery, logic to preload the images, logic to center the main image relative to another element, scrolling of the thumbnails, obtaining the images from a specific variable in the code, showing the gallery, etc. */
+function showTheGallery(hotelId) {
+  /* Here goes 31415 lines of code involving all event handlers, the overlay behind the gallery, capturing the keyboard events to navigate and close the gallery, logic to preload the images, logic to center the main image relative to another element, scrolling of the thumbnails, obtaining the images from a specific variable in the code, showing the gallery, etc. */
 }
 
 showTheGallery(42);

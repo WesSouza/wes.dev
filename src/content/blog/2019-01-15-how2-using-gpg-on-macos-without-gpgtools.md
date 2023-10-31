@@ -111,7 +111,3 @@ killall gpg-agent
 # Run gpg-agent in daemon mode
 gpg-agent --daemon
 ```
-
----
-
-_Cover photo by <a href="https://unsplash.com/photos/lmFJOx7hPc4?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Micah Williams</a> on <a href="https://unsplash.com/search/photos/padlock?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Unsplash</a>._

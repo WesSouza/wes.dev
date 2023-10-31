@@ -7,7 +7,7 @@ tags: ['react', 'webdev', 'javascript', 'typescript']
 published: true
 ---
 
-A good state system aims to be concise, easy to scale, and easy to debug. State is very unique per project, so a "one size fits all" framework is very unlikely to ever exist. [Redux](https://redux.js.org/), [MobX](https://mobx.js.org/README.html), [XState](https://github.com/davidkpiano/xstate), [Apollo](https://www.apollographql.com/) and [Relay](https://relay.dev/) are some great frameworks, but they all have compromises.
+A good state system aims to be concise, easy to scale, and easy to debug. State is very unique per project, so a "one size fits all" framework is very unlikely to ever exist. [Redux](https://redux.js.org/), [MobX](https://mobx.js.org/README.html), [XState](https://github.com/statelyai/xstate), [Apollo](https://www.apollographql.com/) and [Relay](https://relay.dev/) are some great frameworks, but they all have compromises.
 
 Instead of utilizing a framework, we can use small libraries and apply strong concepts to guide our own code. The result is a robust and easy to debug codebase. Pure JavaScript.
 
@@ -20,7 +20,7 @@ Two concepts that go hand in hand are **action flow** and **immutability**. Acti
 [Immer](https://immerjs.github.io/immer) is a small library that helps us write object manipulations that look like traditional code, but preserve the original state of the object. Here's an example of an action updating state using Immer:
 
 ```js
-import produce from "immer";
+import produce from 'immer';
 
 let state = {
   isLoggedIn: false,
@@ -72,9 +72,9 @@ Hooks allows us to subscribe to the mutation events the state machine emits, usi
 Referencing our StateManager.ts example from before, combined with [hooks/useSelector.ts](https://github.com/WesSouza/immer-state/blob/master/src/hooks/useSelector.ts), we can read and mutate our state with ease:
 
 ```js
-import { userLogout } from "state/user/actions";
-import { getUser } from "state/user/selectors";
-import { userStore } from "state/user/store";
+import { userLogout } from 'state/user/actions';
+import { getUser } from 'state/user/selectors';
+import { userStore } from 'state/user/store';
 
 export function UserWelcome() {
   const user = useSelector(userStore, getUser);

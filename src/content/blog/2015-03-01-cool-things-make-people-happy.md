@@ -7,7 +7,7 @@ tags: ['code', 'webdev', 'css', 'scalability']
 published: true
 ---
 
-Working for a couple of big companies as [MTV](http://www.mtv.com.br/), [Univision](http://www.univision.com/) and [Booking.com](http://www.booking.com/) gave me a glimpse of what it is to deploy my code to a huge amount of users, and also share it with a lot of other developers and designers.
+Working for a couple of big companies as [MTV](https://www.mtv.com.br), [Univision](https://www.univision.com) and [Booking.com](https://www.booking.com) gave me a glimpse of what it is to deploy my code to a huge amount of users, and also share it with a lot of other developers and designers.
 
 It made me learn a lot, and I’ve compiled this list of small positive actions that can potentially improve everyone’s daily routine.
 
@@ -109,7 +109,9 @@ And big companies rarely have omnipresent design guidelines, so one \<button\> i
 
 ```css
 /* surprise interference! */
-button { padding-left: 20px !important; }
+button {
+  padding-left: 20px !important;
+}
 ```
 
 ### Lower Your Specificity
@@ -120,10 +122,12 @@ This also reduces the chances of CSS interference between teams, since generic c
 
 ```css
 /* what the specificity hell */
-body div#header ul.menu .item { }
+body div#header ul.menu .item {
+}
 
 /* hmm, peace */
-.header-menu__item { }
+.header-menu__item {
+}
 ```
 
 ### Prefix
@@ -132,13 +136,16 @@ Whenever you create a new component, try to prefix every class name with it. The
 
 ```css
 /* component */
-.searchbox { }
+.searchbox {
+}
 
 /* component + something */
-.searchbox-input { }
+.searchbox-input {
+}
 
 /* parent component + state */
-.searchbox.-active .searchbox-input { }
+.searchbox.-active .searchbox-input {
+}
 ```
 
 ### Template is Not Backend

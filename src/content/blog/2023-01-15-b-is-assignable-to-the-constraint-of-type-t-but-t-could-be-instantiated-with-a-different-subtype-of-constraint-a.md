@@ -1,5 +1,5 @@
 ---
-title: '''B'' is assignable to the constraint of type ''T'', but ''T'' could be instantiated with a different subtype of constraint ''A''.'
+title: "'B' is assignable to the constraint of type 'T', but 'T' could be instantiated with a different subtype of constraint 'A'."
 slug: b-is-assignable-to-the-constraint-of-type-t-but-t-could-be-instantiated-with-a-different-subtype-of-constraint-a
 description: 'This error has plagued me for years now. And thanks to Inigo I finally understood the...'
 date: '2023-01-15T21:23:12.893Z'
@@ -13,7 +13,7 @@ TL;DR: When you use `T extends A` in a generic declaration, you require `T` to b
 
 The problem arises when you want to _create_ an object that conforms to `T` thinking it can just conform to `A`. You can't, because `T` can require additional or more specific properties than `A`.
 
-This happens a lot when we create [React Hooks](https://beta.reactjs.org/learn/reusing-logic-with-custom-hooks) that handle generic objects and arrays.
+This happens a lot when we create [React Hooks](https://react.dev/learn/reusing-logic-with-custom-hooks) that handle generic objects and arrays.
 
 One solution is to pass a callback function to the generic that knows how to translate something like `A` to `T`, given what your generic function expects to handle.
 
@@ -40,7 +40,7 @@ function useComboboxFilter<T extends SelectOption>(props: {
 
   if (props.filterValue && !filteredOptions.length) {
     filteredOptions = [
-      { name: "No results found", value: null, disabled: true },
+      { name: 'No results found', value: null, disabled: true },
     ];
   }
 
@@ -59,13 +59,13 @@ function useComboboxFilter<T extends SelectOption>(props: {
   const filteredOptions = useMemo(() => {
     let filteredOptions = props.filterValue
       ? props.options.filter((option) =>
-          option.name.includes(props.filterValue)
+          option.name.includes(props.filterValue),
         )
       : props.options;
 
     if (props.filterValue && !filteredOptions.length) {
       filteredOptions = [
-        { name: "No results found", value: null, disabled: true },
+        { name: 'No results found', value: null, disabled: true },
       ];
     }
 
@@ -75,6 +75,7 @@ function useComboboxFilter<T extends SelectOption>(props: {
   return useMemo(() => ({ filteredOptions }), [filteredOptions]);
 }
 ```
+
 {% enddetails %}
 
 # The Problem
@@ -84,7 +85,7 @@ If you [check this code with the TypeScript compiler](https://www.typescriptlang
 ```
 Type '{ name: string; value: null; disabled: true; }'
 is not assignable to type 'T'.
-  '{ name: string; value: null; disabled: true; }' is 
+  '{ name: string; value: null; disabled: true; }' is
   assignable to the constraint of type 'T', but 'T' could
   be instantiated with a different subtype of constraint
   'SelectOption'. ts(2322)
@@ -119,7 +120,7 @@ Because inside `useComboboxFilter` you only know about `SelectOption`, and you o
 function useComboboxFilter<T extends SelectOption>(props: {
   options: T[];
   createOption: (
-    option: Pick<SelectOption, "name" | "value" | "disabled">
+    option: Pick<SelectOption, 'name' | 'value' | 'disabled'>,
   ) => T;
   filterValue: string;
 }): { filteredOptions: T[] } {
@@ -130,7 +131,7 @@ function useComboboxFilter<T extends SelectOption>(props: {
   if (props.filterValue && !filteredOptions.length) {
     filteredOptions = [
       props.createOption({
-        name: "No results found",
+        name: 'No results found',
         value: null,
         disabled: true,
       }),
@@ -158,7 +159,7 @@ const createOption = (option: SelectOption): SelectOptionWithId => ({
 const myFilter = useComboboxFilter({
   options: [],
   createOption,
-  filterValue: "bla",
+  filterValue: 'bla',
 });
 ```
 
