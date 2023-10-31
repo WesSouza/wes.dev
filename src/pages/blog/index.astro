@@ -3,7 +3,9 @@ import { getCollection } from 'astro:content';
 import HeadMeta from '../../components/HeadMeta.astro';
 
 const title = 'My Astro Learning Blog';
-const allPosts = await getCollection('blog');
+const allPosts = (await getCollection('blog')).filter(
+  (post) => post.data.published,
+);
 ---
 
 <!doctype html>
