@@ -441,7 +441,7 @@ body .content-highlight-3 .btn-primary:active {
 .input-text:focus,
 .input-text:active {
   border-color: #fff;
-  outline: none;
+  outline-color: transparent;
   box-shadow: 0 0 0 2px #666;
 }
 
@@ -503,7 +503,7 @@ body .btn-primary:active {
   border-color: #fff;
   background-color: #fff;
   color: #59b200;
-  outline: none;
+  outline-color: transparent;
   box-shadow: 0 0 0 2px #59b200;
 }
 
@@ -526,7 +526,7 @@ body .btn-info:active {
   border-color: #fff;
   background-color: #fff;
   color: #666;
-  outline: none;
+  outline-color: transparent;
   box-shadow: 0 0 0 2px #666;
 }
 
