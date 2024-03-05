@@ -8,7 +8,7 @@ import { VercelConfig } from '../../utils/vercel-edgeconfig-encrypted';
 const timeZone = 'America/New_York';
 const maxDays = 14;
 
-export const get: APIRoute = async function get() {
+export const GET: APIRoute = async function get() {
   const today = Temporal.Now.instant().toZonedDateTimeISO(timeZone);
   const from = today;
   const until = today

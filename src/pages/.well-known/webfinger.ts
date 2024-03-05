@@ -2,7 +2,7 @@ import type { APIRoute } from 'astro';
 
 import { SITE_DOMAIN } from '../../config';
 
-export const get: APIRoute = async function get({ request }) {
+export const GET: APIRoute = async function get({ request }) {
   const url = new URL(request.url);
   const resource = url.searchParams.get('resource');
 

@@ -2,7 +2,7 @@ import type { APIRoute } from 'astro';
 
 import { emptyOrderedCollection } from './_placeholders';
 
-export const get: APIRoute = async function get({ params, request }) {
+export const GET: APIRoute = async function get({ params, request }) {
   const { id } = params;
 
   console.log(request.url, request.headers);
@@ -27,7 +27,7 @@ export const get: APIRoute = async function get({ params, request }) {
   return emptyOrderedCollection('/t/users/wes/inbox', request);
 };
 
-export const post: APIRoute = async function post({ request }) {
+export const POST: APIRoute = async function post({ request }) {
   console.log(request.url, request.headers);
 
   return new Response(null, {

@@ -19,7 +19,7 @@ import { Window } from './Window';
 
 async function getBusyTimes() {
   try {
-    const timeZone = Temporal.Now.timeZone();
+    const timeZone = Temporal.Now.timeZoneId();
     const busyTimesResponse = await fetch('/meet/busy');
     const busyTimesData = await busyTimesResponse.json();
     const busyTimes = z
@@ -98,7 +98,7 @@ export function Main(options: {
     const unavailableIntervals = createUnavailableIntervals({
       calendarInterval,
       freeTimeByWeekday,
-      timeZone: today.timeZone as Temporal.TimeZone,
+      timeZone: today.timeZoneId,
       visibleInterval,
     });
 

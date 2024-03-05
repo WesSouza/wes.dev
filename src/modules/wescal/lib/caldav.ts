@@ -33,7 +33,7 @@ export function CalDavCalendar(options: {
       },
     });
 
-    const timeZone = Temporal.Now.timeZone();
+    const timeZone = Temporal.Now.timeZoneId();
 
     davObjects.forEach((davObject) => {
       if (davObject.data === null || JSON.stringify(davObject.data) === '{}') {

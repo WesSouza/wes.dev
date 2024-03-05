@@ -88,7 +88,7 @@ export async function getCalendarDays({
       until: days.at(-1) as Temporal.PlainDate,
     },
     freeTimeByWeekday,
-    timeZone: today.timeZone as Temporal.TimeZone,
+    timeZone: today.timeZoneId,
     visibleInterval: interval,
   });
 

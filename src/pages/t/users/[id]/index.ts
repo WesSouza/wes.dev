@@ -2,7 +2,7 @@ import type { APIRoute } from 'astro';
 
 import { SITE_DOMAIN } from '../../../../config';
 
-export const get: APIRoute = async function get({ params, redirect, request }) {
+export const GET: APIRoute = async function get({ params, redirect, request }) {
   const { id } = params;
 
   console.log(request.url, request.headers);

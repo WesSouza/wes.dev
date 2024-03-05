@@ -98,7 +98,7 @@ export function createCalendarGridData(options: {
     label: dayFormatter.format(
       date.toZonedDateTime({
         plainTime: '00:00:00',
-        timeZone: today.timeZone,
+        timeZone: today.timeZoneId,
       }).epochMilliseconds,
     ),
     weekend: (date.dayOfWeek - 1) % 6 === 0,
@@ -132,7 +132,7 @@ export function createUnavailableIntervals({
 }: {
   calendarInterval: PlainDateInterval;
   freeTimeByWeekday: Record<number, PlainTimeInterval>;
-  timeZone: Temporal.TimeZone;
+  timeZone: Temporal.TimeZoneLike;
   visibleInterval: DateTimeInterval;
 }): DateTimeInterval[] {
   const unavailableTimes: DateTimeInterval[] = [];
@@ -250,7 +250,7 @@ export function sliceIntervalsByDay(intervals: DateTimeInterval[]) {
         .add({ days: index })
         .toZonedDateTime({
           plainTime: '00:00:00',
-          timeZone: interval.from.timeZone,
+          timeZone: interval.from.timeZoneId,
         });
       const until = from.withPlainTime('23:59:59');
 
