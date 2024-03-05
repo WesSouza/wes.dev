@@ -1,0 +1,36 @@
+.BusyEvent,
+.Event {
+  position: absolute;
+  top: calc(var(--offset) - 1px);
+  margin: 2px 2px 0 1px;
+  width: calc(100% - 2px);
+  height: var(--height);
+  border-radius: 3px;
+}
+
+.BusyEvent {
+  cursor: not-allowed;
+  background: rgba(198, 198, 198, 0.75);
+  -webkit-backdrop-filter: blur(1.5px);
+  backdrop-filter: blur(1.5px);
+  border-radius: 3px;
+}
+
+.Event {
+  cursor: pointer;
+  padding: 2px 4px;
+  background: #e2cdfd;
+  border-left: 3px solid #8b3cf9;
+  border-radius: 3px;
+  color: #7435c5;
+}
+
+.EventTime {
+  display: block;
+  font-size: 0.5625em;
+}
+
+.EventTitle {
+  font-size: 0.75em;
+  font-weight: 600;
+}
