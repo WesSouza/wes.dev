@@ -5,7 +5,7 @@ import { GoogleCredentialsSchema } from '../../modules/wescal/lib/google-calenda
 import { WesCalConfigSchema } from '../../modules/wescal/lib/schema';
 import { VercelConfig } from '../../utils/vercel-edgeconfig-encrypted';
 
-export const get: APIRoute = async function get({ url }) {
+export const GET: APIRoute = async function get({ url }) {
   const code = url.searchParams.get('code');
   if (typeof code !== 'string') {
     throw new Error('Missing code query parameter');

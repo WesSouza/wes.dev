@@ -8,7 +8,7 @@ const scopes = [
   'https://www.googleapis.com/auth/calendar.events',
 ];
 
-export const get: APIRoute = async function get({ redirect }) {
+export const GET: APIRoute = async function get({ redirect }) {
   const oAuth2Client = new google.auth.OAuth2(
     import.meta.env.WESCAL_GOOGLE_CALENDAR_CLIENT_ID,
     import.meta.env.WESCAL_GOOGLE_CALENDAR_CLIENT_SECRET,

@@ -1,6 +1,6 @@
 import type { APIRoute } from 'astro';
 
-export const get: APIRoute = async function get({ params, redirect, request }) {
+export const GET: APIRoute = async function get({ params, redirect, request }) {
   const { id } = params;
 
   if (typeof id !== 'string' || !id.match(/^\d+$/)) {
@@ -13,9 +13,9 @@ export const get: APIRoute = async function get({ params, redirect, request }) {
   const userAgent = request.headers.get('user-agent');
   if (userAgent?.startsWith('Twitterbot/')) {
     // Go suck a sugar cane field of dick, Twitter bot
-    return {
-      body: `<title>Continue on Mastodon</title><a href="https://mastodon.social/@wessouza/${id}">https://mastodon.social/@wessouza/${id}</a>`,
-    };
+    return new Response(
+      `<title>Continue on Mastodon</title><a href="https://mastodon.social/@wessouza/${id}">https://mastodon.social/@wessouza/${id}</a>`,
+    );
   }
 
   return redirect(`https://mastodon.social/@wessouza/${id}`, 302);
