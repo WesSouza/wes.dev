@@ -73,7 +73,7 @@ export function GoogleCalendar(options: GoogleCalendarProps) {
       throw new Error('Invalid Google Calendar response');
     }
 
-    const timeZone = Temporal.Now.timeZone();
+    const timeZone = Temporal.Now.timeZoneId();
 
     return eventsResponse.data.items
       .filter(

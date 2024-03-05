@@ -46,7 +46,7 @@ export function CalendarDay(props: {
       };
     }
 
-    const timeZone = Temporal.Now.timeZone();
+    const timeZone = Temporal.Now.timeZoneId();
     const fromSeconds = eventSlot * props.gridSlotDuration;
     const from = props.day.availableFrom
       .toZonedDateTime({ plainDate: props.day.day, timeZone })
@@ -124,7 +124,7 @@ export function CalendarDay(props: {
       return;
     }
 
-    const timeZone = Temporal.Now.timeZone();
+    const timeZone = Temporal.Now.timeZoneId();
     const fromSeconds = eventSlot * props.gridSlotDuration;
     const from = props.day.availableFrom
       .toZonedDateTime({ plainDate: props.day.day, timeZone })
