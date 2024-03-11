@@ -1,7 +1,7 @@
+import db from '@astrojs/db';
+import solidJs from '@astrojs/solid-js';
 import vercel from '@astrojs/vercel/serverless';
 import { defineConfig } from 'astro/config';
-
-import solidJs from '@astrojs/solid-js';
 
 // https://astro.build/config
 export default defineConfig({
@@ -10,7 +10,7 @@ export default defineConfig({
   adapter: vercel({
     functionPerRoute: false,
   }),
-  integrations: [solidJs()],
+  integrations: [db(), solidJs()],
   vite: {
     ssr: {
       noExternal: ['rrule'],
