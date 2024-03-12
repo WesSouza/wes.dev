@@ -1,5 +1,4 @@
 import type { APIRoute } from 'astro';
-// @ts-expect-error eq is missing from astro:db
 import { Counter, db, eq } from 'astro:db';
 
 export const GET: APIRoute = async function get() {
