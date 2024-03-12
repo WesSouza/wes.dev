@@ -27,6 +27,8 @@ jobs:
             - args: [--frozen-lockfile, --strict-peer-dependencies]
 
       - name: Run Build & Checks
+        env:
+          ASTRO_STUDIO_APP_TOKEN: ${{secrets.ASTRO_STUDIO_APP_TOKEN }}
         run: |
           pnpm run build
           pnpm run check
