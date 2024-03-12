@@ -15,7 +15,7 @@
   "type": "module",
   "scripts": {
     "astro": "astro",
-    "build": "astro build",
+    "build": "astro build --remote",
     "check": "astro check && tsc --noEmit && eslint . && prettier --check src",
     "check:fix": "eslint --fix . && prettier --write src",
     "dev": "astro dev",
