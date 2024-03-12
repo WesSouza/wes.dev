@@ -1,6 +1,12 @@
-import { defineDb } from 'astro:db';
+import { column, defineDb, defineTable } from 'astro:db';
 
-// https://astro.build/db/config
+const Counter = defineTable({
+  columns: {
+    month: column.text({ primaryKey: true }),
+    count: column.number(),
+  },
+});
+
 export default defineDb({
-  tables: {},
+  tables: { Counter },
 });
