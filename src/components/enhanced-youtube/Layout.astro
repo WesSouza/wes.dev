@@ -1,0 +1,73 @@
+---
+import BaseHeadMeta from '../../components/BaseHeadMeta.astro';
+
+export interface Props {
+  title: string;
+  description?: string | undefined;
+  image?: string | undefined;
+  twitterCardType?: string | undefined;
+}
+
+const { title, description = '', image, twitterCardType } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHeadMeta
+      title={`${title} - Enhanced Youtube Safari Extension`}
+      description={description}
+      image={image}
+      twitterCardType={twitterCardType}
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/enhanced-youtube/Icon16.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/enhanced-youtube/Icon32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="256x256"
+      href="/enhanced-youtube/Icon256.png"
+    />
+
+    <style>
+      html {
+        font-family: system-ui;
+        background: #0f1112;
+        color: #fff;
+        min-height: 100vh;
+      }
+
+      *,
+      *::after,
+      *::before {
+        box-sizing: border-box;
+      }
+
+      a {
+        color: inherit;
+      }
+
+      body {
+        --colum-width: 50%;
+        margin: 0;
+        min-height: 100vh;
+      }
+
+      @media screen and (max-width: 760px) {
+      }
+    </style>
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>
