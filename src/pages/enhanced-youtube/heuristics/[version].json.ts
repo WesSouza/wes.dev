@@ -1,6 +1,6 @@
 import type { APIRoute } from 'astro';
 
-import { Heuristics_1 } from './_heuristics_1';
+import Heuristics_1 from './_heuristics_1.json';
 
 export const GET: APIRoute<
   Record<string, unknown>,
