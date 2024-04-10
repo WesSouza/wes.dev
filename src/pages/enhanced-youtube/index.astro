@@ -31,81 +31,10 @@ import BaseHeadMeta from '../../components/BaseHeadMeta.astro';
     />
 
     <style>
-      html {
-        font-family: system-ui;
-        background: #0f1112;
-        color: #fff;
-        min-height: 100vh;
-      }
-
-      *,
-      *::after,
-      *::before {
-        box-sizing: border-box;
-      }
-
-      a {
-        color: inherit;
-      }
-
-      body {
-        --colum-width: 50%;
-        align-items: center;
-        display: flex;
-        margin: 0;
-        min-height: 100vh;
-      }
-
-      .Leading {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding: 4.375rem;
-        gap: 4.375rem;
-      }
-
-      .Leading,
-      .Trailing {
-        width: var(--colum-width);
-        min-height: 100%;
-      }
-
-      .Logo {
-      }
-
-      .Download {
-      }
-
-      .Footer {
-        font-size: 0.875rem;
-        color: rgba(255, 255, 255, 0.5);
-      }
-
-      .Trailing {
-        display: flex;
-        align-items: center;
-        overflow: hidden;
-      }
-
-      @media screen and (max-width: 760px) {
-        body {
-          --colum-width: auto;
-          flex-direction: column;
-        }
-
-        .Trailing {
-          padding: 0 2rem 2rem 2rem;
-          align-self: flex-start;
-          width: 100%;
-        }
-
-        .Trailing img {
-          width: 100%;
-        }
-      }
+      @import '../../styles/enhanced-youtube.css';
     </style>
   </head>
-  <body>
+  <body class="Main">
     <div class="Leading">
       <svg
         aria-label="Enhanced YouTube Safari Extension"
