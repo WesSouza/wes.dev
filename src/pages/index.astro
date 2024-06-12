@@ -4,16 +4,16 @@ import '../styles/home.css';
 import HeadMeta from '../components/HeadMeta.astro';
 import Articles from '../components/home/Articles.astro';
 import Code from '../components/home/Code.astro';
+import Counter from '../components/home/Counter.astro';
 import Info from '../components/home/Info.astro';
 import Social from '../components/home/Social.astro';
 import Talks from '../components/home/Talks.astro';
-import Work from '../components/home/Work.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../config';
 
 const year = new Date().getFullYear();
 ---
 
-<!DOCTYPE html>
+<!doctype html>
 <!-- Source code available at https://github.com/WesSouza/wes.dev/ -->
 <html lang="en" class="-PurpleBackground">
   <head>
@@ -26,7 +26,7 @@ const year = new Date().getFullYear();
       <Talks />
       <Articles />
       <Code />
-      <Work />
+      <Counter />
     </main>
     <footer class="Footer">
       <abbr title="Copyright">&copy;</abbr>
@@ -40,13 +40,11 @@ const year = new Date().getFullYear();
       .CardWall {
         display: grid;
         grid-template:
-          'Talks Info Code' 35%
-          'Talks Info .' 50px
-          'Talks Info Social' 6.666666667%
-          '. Info Social' 50px
-          'Articles Info Social' 1.666666667%
+          'Talks Info Code' 47.91666667%
+          '. Info .' 50px
+          'Articles Info Social' 19.79166667%
           'Articles Info .' 50px
-          'Articles Info Work' 31.66666667%
+          'Articles Info Counter' 19.79166667%
           / 1fr 1fr 1fr;
         column-gap: 50px;
         min-height: 600px;
@@ -79,7 +77,7 @@ const year = new Date().getFullYear();
             'Info Talks' 260px
             'Info Social' 100px
             'Info Articles' 260px
-            'Code Work' 210px
+            'Code Counter' 210px
             / 1fr 1fr;
           gap: 50px;
         }
