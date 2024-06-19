@@ -26,28 +26,29 @@
     "node": ">=18",
     "pnpm": ">=8"
   },
-  "packageManager": "pnpm@8.6.1",
+  "packageManager": "pnpm@9.4.0",
   "dependencies": {
-    "@astrojs/db": "^0.10.3",
-    "@astrojs/solid-js": "^4.0.1",
-    "@astrojs/vercel": "^7.5.2",
-    "astro": "^4.5.18",
-    "rollup": "^4.14.1",
-    "solid-js": "^1.8.16"
+    "@astrojs/db": "^0.11.6",
+    "@astrojs/solid-js": "^4.4.0",
+    "@astrojs/vercel": "^7.7.1",
+    "astro": "^4.10.3",
+    "rollup": "^4.18.0",
+    "solid-js": "^1.8.17"
   },
   "devDependencies": {
-    "@astrojs/check": "^0.5.10",
-    "@types/node": "20.12.7",
-    "@typescript-eslint/eslint-plugin": "^7.6.0",
-    "@typescript-eslint/parser": "^7.6.0",
+    "@astrojs/check": "^0.7.0",
+    "@eslint/js": "^9.5.0",
+    "@types/node": "20.14.5",
     "dotenv": "^16.4.5",
-    "eslint": "^8.57.0",
+    "eslint": "^9.5.0",
     "eslint-config-prettier": "^9.1.0",
+    "globals": "^15.6.0",
     "import-sort-style-wes": "^3.0.2",
-    "prettier": "3.2.5",
+    "prettier": "3.3.2",
     "prettier-plugin-import-sort": "^0.0.7",
     "ts-node": "^10.9.2",
-    "typescript": "5.4.4"
+    "typescript": "5.4.5",
+    "typescript-eslint": "8.0.0-alpha.30"
   },
   "importSort": {
     ".js, .jsx": {

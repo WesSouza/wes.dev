@@ -17,5 +17,5 @@
     "strictPropertyInitialization": true,
     "verbatimModuleSyntax": true
   },
-  "exclude": [".vercel", "node_modules"]
+  "exclude": [".vercel", "node_modules", "public"]
 }
