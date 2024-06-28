@@ -63,7 +63,7 @@ export const SITE_GO_LINKS = [
     goSlug: 'front-end',
     title: 'Keeping Control of the Front-end',
     subtitle: 'DEV Community, February 2016',
-    showOnResume: true,
+    showOnResume: false,
   },
   {
     type: 'article',
@@ -71,28 +71,35 @@ export const SITE_GO_LINKS = [
     goSlug: 'cool-things',
     title: 'Small Things to Make Others Happy',
     subtitle: 'DEV Community, March 2015',
-    showOnResume: true,
+    showOnResume: false,
   },
 
   // Projects
+  {
+    type: 'project',
+    href: 'https://wes.dev/enhanced-youtube',
+    goSlug: 'enhanced-youtube',
+    title: 'Enhanced YouTube',
+    description:
+      "Safari Extension for visionOS that replaces the playback controls on youtube.com with a better user interface closer to Vision Pro's design language.",
+    showOnResume: true,
+  },
   {
     type: 'project',
     href: 'https://mastodon-flock.vercel.app',
     goSlug: 'mastodon-flock',
     title: 'Mastodon Flock',
     description:
-      'Web app that allows you to find your Twitter follows on Mastodon and other Fediverse compatible website, designed with a retro Windows 95 look.',
+      'Web app that allowed people to find their Twitter follows on Mastodon and other Fediverse compatible websites, designed with a retro Windows 95 look.',
     showOnResume: true,
   },
-
-  // Projects
   {
     type: 'project',
     href: 'https://watchmirror.app',
     goSlug: 'watch-mirror',
     title: 'Watch Mirror',
     description:
-      'Pair of Apple Watch app and Figma plugin that allow you to live preview designs and prototypes on the Apple Watch.',
+      'Pair of Apple Watch app and Figma plugin that allows designers to preview designs and prototypes live on Apple Watch.',
     showOnResume: true,
   },
 
