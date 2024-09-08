@@ -1,7 +1,7 @@
 import type { APIRoute } from 'astro';
 
-import Heuristics_1 from './_heuristics_1.json';
 import Heuristics_2 from './_heuristics_2.json';
+import Heuristics_3 from './_heuristics_3.json';
 
 export const GET: APIRoute<
   Record<string, unknown>,
@@ -14,9 +14,9 @@ export const GET: APIRoute<
   let heuristics: unknown;
 
   if (build >= 18) {
-    heuristics = Heuristics_2;
+    heuristics = Heuristics_3;
   } else {
-    heuristics = Heuristics_1;
+    heuristics = Heuristics_2;
   }
 
   return new Response(JSON.stringify(heuristics), {
