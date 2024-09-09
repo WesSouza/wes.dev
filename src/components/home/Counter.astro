@@ -1,0 +1,30 @@
+---
+import { ASolidCounter } from './ASolidCounter';
+---
+
+<section class="Card Card-Wide Card-Counter" aria-label="Counter">
+  <ASolidCounter client:only />
+</section>
+
+<style>
+  .Card-Counter {
+    grid-area: Counter;
+    padding-block: 0;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @media (min-width: 935px) and (max-width: 1300px) {
+      .Card-Counter {
+        --animation-translate-x: var(--animation-from-right);
+        animation-delay: 0.5s;
+      }
+    }
+
+    @media (min-width: 1301px) {
+      .Card-Counter {
+        --animation-translate-x: var(--animation-from-left);
+        animation-delay: 0.8s;
+      }
+    }
+  }
+</style>
