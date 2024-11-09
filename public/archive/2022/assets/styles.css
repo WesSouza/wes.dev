@@ -1,0 +1,593 @@
+:root {
+  --font-color: #fff;
+  --underline-color: #fff4;
+  --accent-color: #7c2f88;
+  --focus-color: #fff;
+  --focus-color-dark: #421949;
+  --box-shadow: 0 2px 0 0 rgba(0, 0, 0, 0.15);
+  --text-shadow: 0 2px 0 rgba(0, 0, 0, 0.15);
+  --animation-duration: 0.8s;
+  --animation-from-bottom: 50px;
+  --animation-from-left: -25px;
+  --animation-from-right: 25px;
+}
+
+* {
+  transition:
+    box-shadow 0.15s,
+    border-radius 0.15s,
+    background-color 0.15s;
+}
+
+* :focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 6px var(--focus-color, #fff);
+  background-color: var(--focus-color, #fff);
+  color: var(--accent-color);
+  border-radius: 4px;
+}
+
+html {
+  height: 100%;
+  color: var(--font-color);
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 50px;
+  font-family: -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+}
+
+@media (max-width: 934px) {
+  body {
+    padding: 20px;
+    background: linear-gradient(0deg, #0003, #0003),
+      radial-gradient(139.63% 80.46% at 0% 100%, #ff11f580, #ff11f500),
+      radial-gradient(106.15% 68.11% at 100% 100%, #ffffff4d, #fff0),
+      linear-gradient(180deg, #9628db, #000);
+  }
+}
+
+a {
+  text-decoration-color: var(--underline-color);
+  text-underline-offset: 2px;
+}
+
+h1,
+li,
+p,
+ul {
+  margin: 0;
+}
+
+.Card {
+  animation:
+    var(--animation-duration) backwards fade,
+    var(--animation-duration) backwards zoom;
+  border-radius: 25px;
+  position: relative;
+  min-width: 335px;
+  max-width: 400px;
+  padding: 40px;
+  box-shadow:
+    inset 0 0 500px -100px #ffffff4d,
+    inset 0 0 0 1px #fff3;
+  border: 1px solid #0005;
+  background-color: #ffffff26;
+}
+
+.Card-Wide {
+  padding-inline: 0;
+}
+
+.Card:before {
+  content: attr(aria-label);
+  position: absolute;
+  bottom: -1.5em;
+  left: 50%;
+  transform: translate(-50%);
+  text-transform: uppercase;
+  color: #ffffffa6;
+  font-size: 13rem;
+  font-weight: 700;
+}
+
+.Card-Clip {
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+@media (max-width: 934px) {
+  .Card {
+    width: 100%;
+  }
+
+  .Card:not(.Card-Wide) {
+    padding-inline: 30px;
+  }
+
+  .Card:before {
+    bottom: -2em;
+  }
+}
+
+@keyframes fade {
+  0% {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes zoom {
+    0% {
+      transform: scale(0.9) translate(var(--animation-translate-x, 0))
+        translateY(var(--animation-from-bottom));
+    }
+
+    to {
+      transform: scale(1) translate(0) translateY(0);
+    }
+  }
+}
+
+.Article[data-astro-cid-5j4wipzs] {
+  --focus-color: var(--focus-color-dark);
+  display: block;
+  width: 100%;
+  height: 100%;
+  text-decoration: none;
+}
+
+.Page[data-astro-cid-5j4wipzs] {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  border-radius: 5px;
+  box-shadow: var(--box-shadow);
+  padding: 16px 12px;
+  color: #000;
+  font-size: 12rem;
+}
+
+.Text[data-astro-cid-5j4wipzs] {
+  display: flex;
+  margin: 10px 0 0;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.Text-Row[data-astro-cid-5j4wipzs] {
+  width: var(--width);
+  height: 2px;
+  background: #0006;
+  border-radius: 4px;
+  margin-top: calc(var(--spacing) * 2px);
+}
+
+.Card-Articles[data-astro-cid-ixmmpzj7] {
+  grid-area: Articles;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (min-width: 936px) {
+  .Card-Articles[data-astro-cid-ixmmpzj7] {
+    padding-block: 26px;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @media (min-width: 935px) and(max-width: 1300px) {
+    .Card-Articles[data-astro-cid-ixmmpzj7] {
+      --animation-translate-x: var(--animation-from-left);
+      animation-delay: 0.4s;
+    }
+  }
+
+  @media (min-width: 1301px) {
+    .Card-Articles[data-astro-cid-ixmmpzj7] {
+      --animation-translate-x: var(--animation-from-right);
+      animation-delay: 0.2s;
+    }
+  }
+}
+
+.List[data-astro-cid-ixmmpzj7] {
+  list-style-type: none;
+  padding: 2px 0;
+  display: flex;
+  gap: 25px;
+}
+
+.ListItem[data-astro-cid-ixmmpzj7] {
+  display: block;
+  flex-shrink: 0;
+  height: 170px;
+  width: 140px;
+}
+
+.Card-Code[data-astro-cid-zolf3kvk] {
+  grid-area: Code;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @media (min-width: 935px) and(max-width: 1300px) {
+    .Card-Code[data-astro-cid-zolf3kvk] {
+      --animation-translate-x: var(--animation-from-right);
+      animation-delay: 0.5s;
+    }
+  }
+
+  @media (min-width: 1301px) {
+    .Card-Code[data-astro-cid-zolf3kvk] {
+      --animation-translate-x: var(--animation-from-left);
+      animation-delay: 0.6s;
+    }
+  }
+}
+
+.Grid[data-astro-cid-zolf3kvk] {
+  display: grid;
+  grid-template-columns: repeat(14, 18px);
+  gap: 6px;
+  grid-auto-rows: 18px;
+  background-image: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='18' height='18' rx='2' fill='black' fill-opacity='0.1'/%3E%3Crect x='1' y='1' width='16' height='16' rx='1' stroke='black' stroke-opacity='0.03' stroke-width='2'/%3E%3C/svg%3E%0A");
+  background-repeat: repeat;
+  background-position-x: calc(50% - 9px);
+  width: 100%;
+  justify-content: center;
+}
+
+.Cell[data-astro-cid-zolf3kvk] {
+  display: inline-block;
+  border: 2px solid rgba(135, 36, 153, 0.15);
+  border-radius: 2px;
+}
+
+.Cell0[data-astro-cid-zolf3kvk] {
+  opacity: 0;
+}
+
+.Cell1[data-astro-cid-zolf3kvk] {
+  background: #c661e7;
+}
+
+.Cell2[data-astro-cid-zolf3kvk] {
+  background: #b62be3;
+}
+
+.Cell3[data-astro-cid-zolf3kvk] {
+  background: #9223bf;
+}
+
+.Cell4[data-astro-cid-zolf3kvk] {
+  background: #63207e;
+}
+
+.Card-Info[data-astro-cid-syvccjvb] {
+  grid-area: Info;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 2fr 4.5em 1em 1fr;
+  text-align: center;
+  place-items: center;
+  padding: 28px 20px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @media (min-width: 935px) and(max-width: 1300px) {
+    .Card-Info[data-astro-cid-syvccjvb] {
+      --animation-translate-x: var(--animation-from-right);
+      animation-delay: 0s;
+    }
+  }
+
+  @media (min-width: 1301px) {
+    .Card-Info[data-astro-cid-syvccjvb] {
+      animation-delay: 0.4s;
+    }
+  }
+}
+
+@media (max-width: 934px) {
+  .Card-Info[data-astro-cid-syvccjvb] {
+    padding-inline: 12px;
+  }
+}
+
+.Diamond[data-astro-cid-syvccjvb] {
+  position: relative;
+  padding: 22px;
+}
+
+.Diamond-Mask[data-astro-cid-syvccjvb] {
+  display: block;
+  clip-path: url(#DiamondMask);
+  width: 262px;
+  height: 262px;
+  overflow: hidden;
+}
+
+.Diamond-Photo[data-astro-cid-syvccjvb] {
+  position: relative;
+  display: block;
+  width: 426px;
+  height: 320px;
+  left: -45px;
+  top: -6;
+}
+
+.Diamond-Border[data-astro-cid-syvccjvb] {
+  display: block;
+  pointer-events: none;
+  width: 305px;
+  height: 306px;
+  position: absolute;
+  inset: 0;
+}
+
+.Title[data-astro-cid-syvccjvb],
+.Subtitle[data-astro-cid-syvccjvb] {
+  white-space: nowrap;
+}
+
+.Title[data-astro-cid-syvccjvb] {
+  font-weight: 400;
+  font-size: 50rem;
+  text-shadow: var(--text-shadow);
+}
+
+.Subtitle[data-astro-cid-syvccjvb] {
+  font-size: 15rem;
+}
+
+.Tagline[data-astro-cid-syvccjvb] {
+  font-size: 23rem;
+  max-width: 280px;
+}
+
+.Card-Social[data-astro-cid-zogt7gxk] {
+  display: flex;
+  grid-area: Social;
+  padding-block: 30px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @media (min-width: 935px) and(max-width: 1300px) {
+    .Card-Social[data-astro-cid-zogt7gxk] {
+      --animation-translate-x: var(--animation-from-left);
+      animation-delay: 0.3s;
+    }
+  }
+
+  @media (min-width: 1301px) {
+    .Card-Social[data-astro-cid-zogt7gxk] {
+      --animation-translate-x: var(--animation-from-left);
+      animation-delay: 0.7s;
+    }
+  }
+}
+
+.List[data-astro-cid-zogt7gxk] {
+  flex: 1;
+  display: flex;
+  list-style-type: none;
+  padding: 0;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+}
+
+.App[data-astro-cid-zogt7gxk],
+.App-Icon[data-astro-cid-zogt7gxk] {
+  --focus-color: var(--focus-color-dark);
+  display: block;
+}
+
+.App-Icon[data-astro-cid-zogt7gxk] {
+  width: 50px;
+  height: 52px;
+  margin-bottom: -2px;
+}
+
+.Card-Talks[data-astro-cid-dbm2cupw] {
+  grid-area: Talks;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @media (min-width: 935px) and(max-width: 1300px) {
+    .Card-Talks[data-astro-cid-dbm2cupw] {
+      --animation-translate-x: var(--animation-from-left);
+      animation-delay: 0.2s;
+    }
+  }
+
+  @media (min-width: 1301px) {
+    .Card-Talks[data-astro-cid-dbm2cupw] {
+      --animation-translate-x: var(--animation-from-right);
+      animation-delay: 0s;
+    }
+  }
+}
+
+.Talk[data-astro-cid-dbm2cupw],
+.Controls[data-astro-cid-dbm2cupw],
+.Cover[data-astro-cid-dbm2cupw] {
+  display: block;
+}
+
+.Controls[data-astro-cid-dbm2cupw],
+.Cover[data-astro-cid-dbm2cupw] {
+  width: 100%;
+  height: 100%;
+  border-radius: 6px;
+}
+
+.Cover[data-astro-cid-dbm2cupw] {
+  z-index: 1;
+  filter: brightness(0.9);
+  box-shadow: var(--box-shadow);
+}
+
+.Controls[data-astro-cid-dbm2cupw],
+.Title[data-astro-cid-dbm2cupw] {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.Title[data-astro-cid-dbm2cupw] {
+  font-size: 14px;
+  padding: 10px;
+  color: #fff;
+  text-shadow: 0 0 15px #000;
+}
+
+.Talk[data-astro-cid-dbm2cupw] {
+  position: relative;
+  aspect-ratio: 2.301369863;
+}
+
+.Primary[data-astro-cid-dbm2cupw] {
+  width: 100%;
+  z-index: 2;
+  order: 2;
+}
+
+.Secondary[data-astro-cid-dbm2cupw] {
+  width: 70%;
+  z-index: 1;
+  order: 1;
+  margin-bottom: -10%;
+}
+
+.Secondary[data-astro-cid-dbm2cupw] .Title[data-astro-cid-dbm2cupw] {
+  font-size: 12px;
+}
+
+@media (max-width: 934px) {
+  .Primary[data-astro-cid-dbm2cupw] {
+    width: 80%;
+  }
+
+  .Secondary[data-astro-cid-dbm2cupw] {
+    width: 50%;
+  }
+}
+
+@media (min-width: 935px) {
+  .Title[data-astro-cid-dbm2cupw] {
+    opacity: 0.8;
+  }
+
+  .Cover[data-astro-cid-dbm2cupw] {
+    filter: brightness(0.6);
+  }
+}
+
+.Card-Work[data-astro-cid-p35cuy7o] {
+  grid-area: Work;
+  display: flex;
+  flex-direction: column;
+  padding-inline: 20px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @media (min-width: 935px) {
+    .Card-Work[data-astro-cid-p35cuy7o] {
+      --animation-translate-x: var(--animation-from-left);
+      animation-delay: 0.5s;
+    }
+  }
+
+  @media (min-width: 1301px) {
+    .Card-Work[data-astro-cid-p35cuy7o] {
+      animation-delay: 0.8s;
+    }
+  }
+}
+
+.List[data-astro-cid-p35cuy7o] {
+  padding: 0;
+  flex-grow: 1;
+  list-style-type: none;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: 1fr;
+  row-gap: 10px;
+  align-items: center;
+}
+
+.Workplace[data-astro-cid-p35cuy7o] {
+  font-weight: 400;
+  text-align: center;
+}
+
+.Link[data-astro-cid-p35cuy7o] {
+  white-space: nowrap;
+}
+
+.CardWall[data-astro-cid-j7pv25f6] {
+  display: grid;
+  grid-template: 'Talks Info Code' 35% 'Talks Info .' 50px 'Talks Info Social' 6.666666667% '. Info Social' 50px 'Articles Info Social' 1.666666667% 'Articles Info .' 50px 'Articles Info Work' 31.66666667% / 1fr 1fr 1fr;
+  column-gap: 50px;
+  min-height: 600px;
+  padding-bottom: 30px;
+}
+
+.Footer[data-astro-cid-j7pv25f6] {
+  animation: var(--animation-duration) both fade;
+  border-top: 0.5px solid rgba(255, 255, 255, 0.1);
+  margin-top: 50px;
+  padding: 5px 10px;
+  color: #ffffffa6;
+  font-size: 13rem;
+}
+
+@media (max-width: 934px) {
+  .CardWall[data-astro-cid-j7pv25f6] {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 80px;
+    max-width: 400px;
+  }
+}
+
+@media (min-width: 935px) and(max-width: 1300px) {
+  .CardWall[data-astro-cid-j7pv25f6] {
+    grid-template: 'Info Talks' 260px 'Info Social' 100px 'Info Articles' 260px 'Code Work' 210px / 1fr 1fr;
+    gap: 50px;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) and(min-width: 935px) {
+  .Footer[data-astro-cid-j7pv25f6] {
+    animation-delay: 0.4s;
+  }
+}
