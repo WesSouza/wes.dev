@@ -5,10 +5,9 @@ export interface Props {
   title: string;
   description?: string | undefined;
   image?: string | undefined;
-  twitterCardType?: string | undefined;
 }
 
-const { title, description = '', image, twitterCardType } = Astro.props;
+const { title, description = '', image } = Astro.props;
 ---
 
 <!doctype html>
@@ -18,7 +17,6 @@ const { title, description = '', image, twitterCardType } = Astro.props;
       title={`${title} - Enhanced Player Safari Extension`}
       description={description}
       image={image}
-      twitterCardType={twitterCardType}
     />
     <link
       rel="icon"
