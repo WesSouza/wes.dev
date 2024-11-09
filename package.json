@@ -28,7 +28,6 @@
   },
   "packageManager": "pnpm@9.4.0",
   "dependencies": {
-    "@astrojs/db": "^0.14.3",
     "@astrojs/solid-js": "^4.4.2",
     "@astrojs/vercel": "^7.8.2",
     "astro": "^4.16.10",
