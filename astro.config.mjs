@@ -11,9 +11,4 @@ export default defineConfig({
     functionPerRoute: false,
   }),
   integrations: [db(), solidJs()],
-  vite: {
-    ssr: {
-      noExternal: ['rrule'],
-    },
-  },
 });
