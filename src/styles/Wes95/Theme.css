@@ -1,0 +1,13 @@
+.ActiveWindow,
+.Button,
+.Grouping,
+.StatusField,
+.ThinButton,
+.Window {
+  color: var(--wes95-color-materialText);
+}
+
+.Field,
+.Well {
+  color: var(--wes95-color-canvasText);
+}

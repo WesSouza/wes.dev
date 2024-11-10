@@ -1,0 +1,32 @@
+.Button {
+  --wes95-button-padding-inline: calc(var(--wes95-scale-value) * 12);
+  --wes95-button-padding-shift: var(--wes95-scale-value);
+
+  min-height: var(--wes95-button-height);
+  padding-block: var(--wes95-border-padding);
+  padding-inline: calc(
+    var(--wes95-border-padding) + var(--wes95-button-padding-inline)
+  );
+  background-color: var(--wes95-color-material);
+
+  &:active {
+    padding-block: calc(
+        var(--wes95-border-padding) + var(--wes95-button-padding-shift)
+      )
+      calc(var(--wes95-border-padding) - var(--wes95-button-padding-shift));
+    padding-inline: calc(
+        var(--wes95-border-padding) + var(--wes95-button-padding-inline) +
+          var(--wes95-button-padding-shift)
+      )
+      calc(
+        var(--wes95-border-padding) + var(--wes95-button-padding-inline) -
+          var(--wes95-button-padding-shift)
+      );
+  }
+}
+
+button:is(.Button) {
+  display: inline-block;
+  appearance: none;
+  border: none;
+}

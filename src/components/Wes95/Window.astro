@@ -1,0 +1,29 @@
+---
+export interface Props {
+  title: string;
+  active?: boolean;
+}
+
+const { title, active } = Astro.props;
+---
+
+<section
+  class:list={{
+    Window: true,
+    '-active': active,
+  }}
+>
+  <div class="WindowTitleBar">
+    <div class="WindowTitleIcon"></div>
+    <div class="WindowTitleText">{title}</div>
+    <div class="WindowTitleButtons">
+      <button class="Button WindowTitleButton"></button>
+      <button class="Button WindowTitleButton"></button>
+      <button class="Button WindowTitleButton"></button>
+    </div>
+  </div>
+  <div class="WindowContent SmallSpacing">
+    <slot />
+  </div>
+  <div class="WindowResize"></div>
+</section>

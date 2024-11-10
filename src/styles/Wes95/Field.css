@@ -1,0 +1,10 @@
+.Field,
+.TextBox {
+  min-height: calc(var(--wes95-scale-value) * 21);
+  padding: var(--wes95-border-padding);
+  background-color: var(--wes95-color-canvas);
+
+  &:is(.SmallSpacing, .MediumSpacing, .LargeSpacing) {
+    padding: calc(var(--wes95-spacing-padding) + var(--wes95-border-padding));
+  }
+}
