@@ -1,0 +1,32 @@
+.Gap,
+.SmallGap,
+.SmallSpacing,
+.MediumGap,
+.MediumSpacing,
+.LargeGap,
+.LargeSpacing {
+  gap: var(--wes95-spacing-gap);
+}
+
+.Gap,
+.SmallGap,
+.SmallSpacing {
+  --wes95-spacing-gap: calc(var(--wes95-scale-value) * 6);
+}
+
+.MediumGap,
+.MediumSpacing {
+  --wes95-spacing-gap: calc(var(--wes95-scale-value) * 12);
+}
+
+.LargeGap,
+.LargeSpacing {
+  --wes95-spacing-gap: calc(var(--wes95-scale-value) * 18);
+}
+
+.SmallSpacing,
+.MediumSpacing,
+.LargeSpacing {
+  --wes95-spacing-padding: var(--wes95-spacing-gap);
+  padding: var(--wes95-spacing-gap);
+}

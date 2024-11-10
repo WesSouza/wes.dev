@@ -6,11 +6,7 @@
 
 html {
   box-sizing: border-box;
-  font-size: 0.0625em;
-}
-
-body {
-  font-size: 16rem;
+  font-size: 1em;
 }
 
 a {
@@ -21,48 +17,13 @@ figure {
   margin: 0;
 }
 
-.-PurpleBackground {
-  background: #7c2f88;
+button,
+input,
+select {
+  font: inherit;
 }
 
-.-PurpleBackground body {
-  background: radial-gradient(
-      100% 151.69% at 100% 0%,
-      rgba(255, 17, 245, 0.5) 0%,
-      rgba(255, 17, 245, 0) 100%
-    ),
-    radial-gradient(
-      100% 151.69% at 0% 0%,
-      rgba(255, 255, 255, 0.3) 0%,
-      rgba(255, 255, 255, 0) 100%
-    ),
-    radial-gradient(100% 231.95% at 0% 100%, #9628db 0%, #000000 100%);
-  background-attachment: fixed;
-}
-
-@media (max-width: 934px) {
-  .-PurpleBackground {
-    background-color: #7820af;
-  }
-
-  .-PurpleBackground body {
-    padding: 20px;
-    background: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
-      radial-gradient(
-        139.63% 80.46% at 0% 100%,
-        rgba(255, 17, 245, 0.5) 0%,
-        rgba(255, 17, 245, 0) 100%
-      ),
-      radial-gradient(
-        106.15% 68.11% at 100% 100%,
-        rgba(255, 255, 255, 0.3) 0%,
-        rgba(255, 255, 255, 0) 100%
-      ),
-      linear-gradient(180deg, #9628db 0%, #000000 100%);
-  }
-}
-
-.-Sprite {
+.Sprite {
   position: absolute;
   pointer-events: none;
   opacity: 0;

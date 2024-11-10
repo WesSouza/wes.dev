@@ -1,0 +1,32 @@
+.ThemeClassic {
+  --wes95-color-anchor: #1034a6;
+  --wes95-color-anchorVisited: #440381;
+  --wes95-color-borderDark: #848584;
+  --wes95-color-borderDarkest: #0a0a0a;
+  --wes95-color-borderLight: #dfdfdf;
+  --wes95-color-borderLightest: #fefefe;
+  --wes95-color-canvas: #ffffff;
+  --wes95-color-canvasText: #0a0a0a;
+  --wes95-color-canvasTextDisabled: #848584;
+  --wes95-color-canvasTextDisabledShadow: #fefefe;
+  --wes95-color-canvasTextInvert: #fefefe;
+  --wes95-color-checkmark: #0a0a0a;
+  --wes95-color-checkmarkDisabled: #848584;
+  --wes95-color-desktopBackground: #008080;
+  --wes95-color-flatDark: #9e9e9e;
+  --wes95-color-flatLight: #d8d8d8;
+  --wes95-color-focusSecondary: #fefe03;
+  --wes95-color-headerBackground: #060084;
+  --wes95-color-headerNotActiveBackground: #7f787f;
+  --wes95-color-headerNotActiveText: #c6c6c6;
+  --wes95-color-headerText: #fefefe;
+  --wes95-color-hoverBackground: #060084;
+  --wes95-color-material: #c6c6c6;
+  --wes95-color-materialDark: #9a9e9c;
+  --wes95-color-materialText: #0a0a0a;
+  --wes95-color-materialTextDisabled: #848584;
+  --wes95-color-materialTextDisabledShadow: #fefefe;
+  --wes95-color-materialTextInvert: #fefefe;
+  --wes95-color-progress: #060084;
+  --wes95-color-tooltip: #fefbcc;
+}

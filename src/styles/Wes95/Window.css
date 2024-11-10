@@ -1,0 +1,32 @@
+.Window {
+  background-color: var(--wes95-color-material);
+}
+
+.WindowContent {
+}
+
+.WindowTitleBar {
+  display: flex;
+
+  padding: calc(var(--wes95-scale-value) * 2);
+  color: var(--wes95-color-headerNotActiveText);
+  background-color: var(--wes95-color-headerNotActiveBackground);
+
+  .Window.-active & {
+    color: var(--wes95-color-headerText);
+    background-color: var(--wes95-color-headerBackground);
+  }
+}
+
+.WindowTitleButtons {
+  margin-inline-start: auto;
+}
+
+.WindowTitleButton {
+}
+
+.WindowTitleIcon {
+}
+
+.WindowTitleText {
+}

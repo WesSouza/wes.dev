@@ -1,95 +1,70 @@
 ---
-import '../styles/home.css';
+import '../styles/Wes95.css';
 
 import HeadMeta from '../components/HeadMeta.astro';
-import Articles from '../components/home/Articles.astro';
-import Code from '../components/home/Code.astro';
-import Info from '../components/home/Info.astro';
-import Social from '../components/home/Social.astro';
-import Talks from '../components/home/Talks.astro';
-import Work from '../components/home/Work.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../config';
+import Window from '../components/Wes95/Window.astro';
 
-const year = new Date().getFullYear();
+import { SITE_DESCRIPTION, SITE_TITLE } from '../config';
 ---
 
-<!DOCTYPE html>
+<!doctype html>
 <!-- Source code available at https://github.com/WesSouza/wes.dev/ -->
-<html lang="en" class="-PurpleBackground">
+<html lang="en" class="ThemeClassic">
   <head>
     <HeadMeta title={SITE_TITLE} description={SITE_DESCRIPTION} />
   </head>
   <body>
-    <main class="CardWall">
-      <Info />
-      <Social />
-      <Talks />
-      <Articles />
-      <Code />
-      <Work />
+    <main>
+      <Window title="Window" active>
+        <div class="Grouping Horizontal SmallSpacing">
+          <button class="Button">Button</button>
+          <input class="TextBox" />
+        </div>
+        <div class="Field SmallSpacing">Content</div>
+        <div class="Grouping Vertical SmallGap SmallSpacing">
+          <div class="Option">
+            <input id="option-1" name="option" value="1" type="radio" />
+            <label for="option-1">Option 1</label>
+          </div>
+          <div class="Option">
+            <input id="option-2" name="option" value="2" type="radio" />
+            <label for="option-2">Option 2</label>
+          </div>
+          <div class="Option">
+            <input id="option-3" name="option" value="3" type="radio" />
+            <label for="option-3">Option 3</label>
+          </div>
+        </div>
+        <div class="Grouping Vertical SmallGap SmallSpacing">
+          <div class="Checkbox">
+            <input
+              id="checkbox-1"
+              name="checkbox-1"
+              value="1"
+              type="checkbox"
+            />
+            <label for="checkbox-1">Check Box 1</label>
+          </div>
+          <div class="Checkbox">
+            <input
+              id="checkbox-2"
+              name="checkbox-2"
+              value="2"
+              type="checkbox"
+            />
+            <label for="checkbox-2">Check Box 2</label>
+          </div>
+          <div class="Checkbox">
+            <input
+              id="checkbox-3"
+              name="checkbox-3"
+              value="3"
+              type="checkbox"
+            />
+            <label for="checkbox-3">Check Box 3</label>
+          </div>
+        </div>
+      </Window>
     </main>
-    <footer class="Footer">
-      <abbr title="Copyright">&copy;</abbr>
-      <a href="/archive/1999/">1999</a>,
-      <a href="/archive/2014/">2014</a>,
-      <a href="/archive/2017/">2017</a>,
-      <a href="/archive/2019/">2019</a>, {year} Wes Souza
-    </footer>
-
-    <style>
-      .CardWall {
-        display: grid;
-        grid-template:
-          'Talks Info Code' 35%
-          'Talks Info .' 50px
-          'Talks Info Social' 6.666666667%
-          '. Info Social' 50px
-          'Articles Info Social' 1.666666667%
-          'Articles Info .' 50px
-          'Articles Info Work' 31.66666667%
-          / 1fr 1fr 1fr;
-        column-gap: 50px;
-        min-height: 600px;
-        padding-bottom: 30px;
-      }
-
-      .Footer {
-        animation: var(--animation-duration) both fade;
-        border-top: 0.5px solid rgba(255, 255, 255, 0.1);
-        margin-top: 50px;
-        padding: 5px 10px;
-        color: rgba(255, 255, 255, 0.65);
-        font-size: 13rem;
-      }
-
-      @media (max-width: 934px) {
-        .CardWall {
-          width: 100%;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: 80px;
-          max-width: 400px;
-        }
-      }
-
-      @media (min-width: 935px) and (max-width: 1300px) {
-        .CardWall {
-          grid-template:
-            'Info Talks' 260px
-            'Info Social' 100px
-            'Info Articles' 260px
-            'Code Work' 210px
-            / 1fr 1fr;
-          gap: 50px;
-        }
-      }
-
-      @media (prefers-reduced-motion: no-preference) and (min-width: 935px) {
-        .Footer {
-          animation-delay: 0.4s;
-        }
-      }
-    </style>
   </body>
 </html>
