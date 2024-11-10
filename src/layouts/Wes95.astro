@@ -1,0 +1,32 @@
+---
+import '../styles/Wes95.css';
+
+import HeadMeta from '../components/HeadMeta.astro';
+
+import { SITE_DESCRIPTION, SITE_TITLE } from '../config';
+
+export interface Props {
+  title?: string | undefined;
+  description?: string | undefined;
+  image?: string | undefined;
+}
+
+const {
+  title = SITE_TITLE,
+  description = SITE_DESCRIPTION,
+  image,
+} = Astro.props;
+---
+
+<!doctype html>
+<!-- Source code available at https://github.com/WesSouza/wes.dev/ -->
+<html lang="en" class="ThemeClassic">
+  <head>
+    <HeadMeta title={title} description={description} image={image} />
+  </head>
+  <body>
+    <main>
+      <slot />
+    </main>
+  </body>
+</html>
