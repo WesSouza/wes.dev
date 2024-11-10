@@ -1,0 +1,69 @@
+.Checkbox {
+  image-rendering: pixelated;
+
+  & > input {
+    box-sizing: border-box;
+    width: calc(var(--wes95-scale-value) * 13);
+    height: calc(var(--wes95-scale-value) * 13);
+    border: calc(var(--wes95-scale-value) * 3) solid transparent;
+    border-image: url("data:image/svg+xml,%3Csvg width='9' height='9' viewBox='0 0 9 9' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='9' height='9' fill='white'/%3E%3Cpath d='M9 9H0V8H8V0H9V9Z' fill='%23FEFEFE'/%3E%3Cpath d='M0 8V0H8V1H1V8H0Z' fill='%23848584'/%3E%3Cpath d='M1 7V1H7V2H2V7H1Z' fill='%230A0A0A'/%3E%3Cpath d='M7 7H1V8H8V1H7V7Z' fill='%23DFDFDF'/%3E%3C/svg%3E%0A")
+      3;
+    background-color: var(--wes95-color-canvas);
+    background-clip: content-box;
+    border-radius: 0;
+    appearance: none;
+    padding: 0;
+    margin: 0;
+
+    &:checked {
+      background-image: url("data:image/svg+xml,%3Csvg width='7' height='7' viewBox='0 0 7 7' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='7' height='7' fill='%23FEFEFE'/%3E%3Cpath d='M0 5V2H1V3H2V4H3V3H4V2H5V1H6V0H7V3H6V4H5V5H4V6H3V7H2V6H1V5H0Z' fill='%230A0A0A'/%3E%3C/svg%3E%0A");
+      background-size: contain;
+    }
+  }
+}
+
+.Option {
+  image-rendering: pixelated;
+  & > input {
+    box-sizing: border-box;
+    width: calc(var(--wes95-scale-value) * 12);
+    height: calc(var(--wes95-scale-value) * 12);
+    border: calc(var(--wes95-scale-value) * 4) solid transparent;
+    border-image: url("data:image/svg+xml,%3Csvg width='12' height='12' viewBox='0 0 12 12' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cg id='Radio'%3E%3Cg id='BottomRightOuter'%3E%3Cpath d='M11 2H10V4H11V2Z' fill='%23FEFEFE'/%3E%3Cpath d='M4 11H8V12H4V11Z' fill='%23FEFEFE'/%3E%3Cpath d='M10 8H11V10H10V8Z' fill='%23FEFEFE'/%3E%3Cpath d='M8 10H10V11H8V10Z' fill='%23FEFEFE'/%3E%3Cpath d='M2 10H4V11H2V10Z' fill='%23FEFEFE'/%3E%3Cpath d='M11 4H12V8H11V4Z' fill='%23FEFEFE'/%3E%3C/g%3E%3Cg id='BottomRightInner'%3E%3Cpath d='M9 3H10V4H9V3Z' fill='%23DFDFDF'/%3E%3Cpath d='M4 10H8V11H4V10Z' fill='%23DFDFDF'/%3E%3Cpath d='M2 9H4V10H2V9Z' fill='%23DFDFDF'/%3E%3Cpath d='M10 8H9V9H8V10H10V8Z' fill='%23DFDFDF'/%3E%3Cpath d='M10 4H11V8H10V4Z' fill='%23DFDFDF'/%3E%3C/g%3E%3Cg id='TopRightOuter'%3E%3Cpath d='M2 2V4H3V3H4V2H2Z' fill='%230A0A0A'/%3E%3Cpath d='M4 1H8V2H4V1Z' fill='%230A0A0A'/%3E%3Cpath d='M8 2H10V3H8V2Z' fill='%230A0A0A'/%3E%3Cpath d='M3 8H2V9H3V8Z' fill='%230A0A0A'/%3E%3Cpath d='M1 4H2V8H1V4Z' fill='%230A0A0A'/%3E%3C/g%3E%3Cg id='TopRightInner'%3E%3Cpath d='M0 4H1V8H0V4Z' fill='%23848584'/%3E%3Cpath d='M1 2H2V4H1V2Z' fill='%23848584'/%3E%3Cpath d='M2 1H4V2H2V1Z' fill='%23848584'/%3E%3Cpath d='M4 0H8V1H4V0Z' fill='%23848584'/%3E%3Cpath d='M8 1H10V2H8V1Z' fill='%23848584'/%3E%3Cpath d='M2 8H1V10H2V8Z' fill='%23848584'/%3E%3C/g%3E%3Cpath id='Fill' d='M2 8V4H3V3H4V2H8V3H9V4H10V8H9V9H8V10H4V9H3V8H2Z' fill='%23FEFEFE'/%3E%3C/g%3E%3C/svg%3E%0A")
+      4;
+    background-color: var(--wes95-color-canvas);
+    background-clip: content-box;
+    border-radius: 0;
+    appearance: none;
+    padding: 0;
+    margin: 0;
+
+    &:checked {
+      background-image: url("data:image/svg+xml,%3Csvg width='4' height='4' viewBox='0 0 4 4' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='4' height='4' fill='%23FEFEFE'/%3E%3Cpath d='M1 0H3V1H4V3H3V4H1V3H0V1H1V0Z' fill='%230A0A0A'/%3E%3C/svg%3E%0A");
+      background-size: contain;
+    }
+  }
+}
+
+.TextBox {
+  --wes95-input-padding-inline: calc(var(--wes95-scale-value) * 2);
+
+  padding-inline: calc(
+    var(--wes95-border-padding) + var(--wes95-input-padding-inline)
+  );
+
+  &:is(.SmallSpacing, .MediumSpacing, .LargeSpacing) {
+    padding-inline: calc(
+      var(--wes95-spacing-padding) + var(--wes95-input-padding-inline) +
+        var(--wes95-border-padding)
+    );
+  }
+}
+
+input.TextBox {
+  display: inline-block;
+  appearance: none;
+  border: none;
+  border-radius: 0;
+  caret-color: var(--wes95-color-materialText);
+}

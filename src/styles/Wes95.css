@@ -1,0 +1,14 @@
+@import './Wes95/Borders.css';
+@import './Wes95/Button.css';
+@import './Wes95/Field.css';
+@import './Wes95/Input.css';
+@import './Wes95/Layout.css';
+@import './Wes95/Spacing.css';
+@import './Wes95/StatusField.css';
+@import './Wes95/Theme.css';
+@import './Wes95/ThemeClassic.css';
+@import './Wes95/Window.css';
+
+:root {
+  --wes95-scale-value: 2px;
+}
