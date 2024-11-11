@@ -1,42 +1,8 @@
 ---
 import Wes95 from '../layouts/Wes95.astro';
-import Window from '../components/Wes95/Window.astro';
+import { Explorer } from '../Wes95/components/Explorer';
 ---
 
 <Wes95>
-  <Window title="Window" active>
-    <div class="Grouping Horizontal SmallSpacing">
-      <button class="Button">Button</button>
-      <input class="TextBox" />
-    </div>
-    <div class="Field SmallSpacing">Content</div>
-    <div class="Grouping Vertical SmallGap SmallSpacing">
-      <div class="Option">
-        <input id="option-1" name="option" value="1" type="radio" />
-        <label for="option-1">Option 1</label>
-      </div>
-      <div class="Option">
-        <input id="option-2" name="option" value="2" type="radio" />
-        <label for="option-2">Option 2</label>
-      </div>
-      <div class="Option">
-        <input id="option-3" name="option" value="3" type="radio" />
-        <label for="option-3">Option 3</label>
-      </div>
-    </div>
-    <div class="Grouping Vertical SmallGap SmallSpacing">
-      <div class="Checkbox">
-        <input id="checkbox-1" name="checkbox-1" value="1" type="checkbox" />
-        <label for="checkbox-1">Check Box 1</label>
-      </div>
-      <div class="Checkbox">
-        <input id="checkbox-2" name="checkbox-2" value="2" type="checkbox" />
-        <label for="checkbox-2">Check Box 2</label>
-      </div>
-      <div class="Checkbox">
-        <input id="checkbox-3" name="checkbox-3" value="3" type="checkbox" />
-        <label for="checkbox-3">Check Box 3</label>
-      </div>
-    </div>
-  </Window>
+  <Explorer client:only />
 </Wes95>
