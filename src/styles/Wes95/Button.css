@@ -9,7 +9,8 @@
   );
   background-color: var(--wes95-color-material);
 
-  &:active {
+  &:active,
+  .-down {
     padding-block: calc(
         var(--wes95-border-padding) + var(--wes95-button-padding-shift)
       )
