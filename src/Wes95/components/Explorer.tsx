@@ -1,42 +1,20 @@
-import { createStore, produce } from 'solid-js/store';
-import { createUniqueId, For } from 'solid-js';
-import type { WindowState } from '../models/WindowState';
+import { For } from 'solid-js';
+import { WindowManager } from '../lib/WindowManager';
 import { Window } from './Window';
 
+let i = 1;
+
 export const Explorer = () => {
-  const [state, setState] = createStore<{
-    activeWindow: string | null;
-    activeTaskWindow: string | null;
-    windows: WindowState[];
-  }>({
-    activeWindow: null,
-    activeTaskWindow: null,
-    windows: [],
-  });
+  const windowManager = WindowManager.shared;
+  const state = windowManager.state;
 
   const addWindow = () => {
-    setState(
-      produce((state) => {
-        const id = createUniqueId();
-        state.windows.push({
-          id,
-          title: 'Window',
-          url: `file://Window?id=${id}`,
-          showInTaskbar: true,
-        });
-        state.activeTaskWindow = id;
-        state.activeWindow = id;
-      }),
-    );
-  };
-
-  const setActiveWindow = (id: string) => {
-    setState(
-      produce((state) => {
-        state.activeTaskWindow = id;
-        state.activeWindow = id;
-      }),
-    );
+    windowManager.addWindow({
+      title: 'Window ' + i++,
+      url: `file://Window`,
+      showInTaskbar: true,
+      active: true,
+    });
   };
 
   return (
@@ -45,15 +23,15 @@ export const Explorer = () => {
         <For each={state.windows}>
           {(window) => (
             <Window
-              title={window.title}
-              active={state.activeWindow === window.id}
-              url={window.url}
+              active={windowManager.isWindowActive(window.id)}
+              window={window}
+              windowManager={windowManager}
             />
           )}
         </For>
       </main>
       <footer>
-        <button class="Button" onClick={addWindow}>
+        <button type="button" class="Button" onClick={addWindow}>
           Start
         </button>
         <For each={state.windows.filter((window) => window.showInTaskbar)}>
@@ -63,12 +41,18 @@ export const Explorer = () => {
                 Button: true,
                 '-down': state.activeTaskWindow === window.id,
               }}
-              onClick={() => setActiveWindow(window.id)}
+              onClick={() => windowManager.setActiveWindow(window)}
             >
               {window.title}
             </button>
           )}
         </For>
+        <p>Alt+Tab</p>
+        <ul>
+          <For each={windowManager.state.activeTaskWindowHistory}>
+            {(windowId) => <li>{windowManager.getWindow(windowId)?.title}</li>}
+          </For>
+        </ul>
       </footer>
     </div>
   );
