@@ -12,6 +12,8 @@
   color: var(--wes95-color-headerNotActiveText);
   background-color: var(--wes95-color-headerNotActiveBackground);
 
+  cursor: default;
+
   .Window.-active & {
     color: var(--wes95-color-headerText);
     background-color: var(--wes95-color-headerBackground);
@@ -19,7 +21,6 @@
 }
 
 .WindowTitleButtons {
-  margin-inline-start: auto;
 }
 
 .WindowTitleButton {
@@ -29,4 +30,5 @@
 }
 
 .WindowTitleText {
+  flex-grow: 1;
 }
