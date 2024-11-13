@@ -133,6 +133,24 @@ export class WindowManager {
     );
   };
 
+  setWindowPosition = (windowId: string, position: Point) => {
+    this.#setState(
+      produce((state) => {
+        state.windows = state.windows.map((window) =>
+          window.id === windowId
+            ? {
+                ...window,
+                rect: {
+                  ...window.rect,
+                  ...position,
+                },
+              }
+            : window,
+        );
+      }),
+    );
+  };
+
   setWindowTitle = (windowId: string, title: string) => {
     this.#setState(
       produce((state) => {

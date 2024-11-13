@@ -29,7 +29,6 @@ export function createZIndexMap(state: WindowManagerState) {
     }
     windowsChildren.push(window);
   }
-  console.log(windowsChildrenMap);
 
   let zIndex = 0;
 
