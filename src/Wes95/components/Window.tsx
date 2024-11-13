@@ -15,6 +15,19 @@ export function Window(p: {
   let clickOffset: Point | undefined;
   let windowRef!: HTMLElement;
 
+  const handleMaximize = () => {
+    if (p.window.parentId || !p.window.showInTaskbar) {
+      return;
+    }
+
+    const maximized = !p.window.maximized;
+    windowManager.setWindowMaximized(p.window.id, maximized);
+
+    if (!p.active && maximized) {
+      windowManager.setActiveWindow(p.window);
+    }
+  };
+
   const handleWindowPointerDown: JSX.EventHandler<HTMLElement, PointerEvent> = (
     event,
   ) => {
@@ -35,7 +48,6 @@ export function Window(p: {
       return;
     }
 
-    document.documentElement.style.setProperty('overflow', 'hidden');
     document.documentElement.style.setProperty('overscroll-behavior', 'none');
     document.documentElement.style.setProperty('touch-action', 'none');
 
@@ -67,7 +79,6 @@ export function Window(p: {
       'pointermove',
       handlePointerMove,
     );
-    document.documentElement.style.removeProperty('overflow');
     document.documentElement.style.removeProperty('overscroll-behavior');
     document.documentElement.style.removeProperty('touch-action');
   };
@@ -96,7 +107,11 @@ export function Window(p: {
     >
       <div class="WindowTitleBar">
         <div class="WindowTitleIcon"></div>
-        <div class="WindowTitleText" onPointerDown={handleTitlePointerDown}>
+        <div
+          class="WindowTitleText"
+          onPointerDown={handleTitlePointerDown}
+          onDblClick={handleMaximize}
+        >
           {p.window.title}
         </div>
         <div class="WindowTitleButtons">
@@ -111,12 +126,7 @@ export function Window(p: {
             <button
               type="button"
               class="Button WindowTitleButton"
-              onClick={() =>
-                windowManager.setWindowMaximized(
-                  p.window.id,
-                  !p.window.maximized,
-                )
-              }
+              onClick={handleMaximize}
             ></button>
           </Show>
           <button

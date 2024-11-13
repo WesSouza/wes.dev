@@ -3,6 +3,7 @@
 @import './Wes95/Field.css';
 @import './Wes95/Input.css';
 @import './Wes95/Layout.css';
+@import './Wes95/Screen.css';
 @import './Wes95/Spacing.css';
 @import './Wes95/StatusField.css';
 @import './Wes95/Theme.css';
@@ -11,4 +12,14 @@
 
 :root {
   --wes95-scale-value: 2px;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  margin: 0;
 }

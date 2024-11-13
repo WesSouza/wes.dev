@@ -3,6 +3,7 @@
 .Field,
 .Grouping,
 .StatusField,
+.Taskbar,
 .TextBox,
 .Well,
 .Window:not(.-maximized) {
@@ -12,19 +13,33 @@
   --border-width-double-negative: calc(var(--wes95-scale-value) * -2);
   --wes95-border-padding: calc(var(--border-width) * 3);
 
-  padding: var(--wes95-border-padding);
+  &:not(.Taskbar) {
+    padding: var(--wes95-border-padding);
 
-  box-shadow:
-    inset var(--border-width-negative) var(--border-width-negative)
-      var(--wes95-bottomRightOuter),
-    inset var(--border-width) var(--border-width) var(--wes95-topLeftOuter),
-    inset var(--border-width-double-negative)
-      var(--border-width-double-negative) var(--wes95-bottomRightInner),
-    inset var(--border-width-double) var(--border-width-double)
-      var(--wes95-topLeftInner);
+    box-shadow:
+      inset var(--border-width-negative) var(--border-width-negative)
+        var(--wes95-bottomRightOuter),
+      inset var(--border-width) var(--border-width) var(--wes95-topLeftOuter),
+      inset var(--border-width-double-negative)
+        var(--border-width-double-negative) var(--wes95-bottomRightInner),
+      inset var(--border-width-double) var(--border-width-double)
+        var(--wes95-topLeftInner);
 
-  &:is(.SmallSpacing, .MediumSpacing, .LargeSpacing) {
-    padding: calc(var(--wes95-border-padding) + var(--wes95-spacing-padding));
+    &:is(.SmallSpacing, .MediumSpacing, .LargeSpacing) {
+      padding: calc(var(--wes95-border-padding) + var(--wes95-spacing-padding));
+    }
+  }
+
+  &.Taskbar {
+    padding-inline: var(--wes95-spacing-padding);
+    padding-block-start: calc(
+      var(--wes95-border-padding) + var(--wes95-spacing-padding)
+    );
+    padding-block-end: var(--wes95-spacing-padding);
+
+    box-shadow:
+      inset 0 var(--border-width) var(--wes95-topLeftOuter),
+      inset 0 var(--border-width-double) var(--wes95-topLeftInner);
   }
 }
 
@@ -83,6 +98,7 @@
   --wes95-bottomRightOuter: var(--wes95-color-borderLightest);
 }
 
+.Taskbar,
 .Window {
   --wes95-topLeftOuter: var(--wes95-color-borderLight);
   --wes95-topLeftInner: var(--wes95-color-borderLightest);

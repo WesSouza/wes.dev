@@ -1,0 +1,23 @@
+.Screen {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.Desktop {
+  position: relative;
+  flex-grow: 1;
+  background-color: var(--wes95-color-desktopBackground);
+  z-index: 1;
+  overflow: hidden;
+}
+
+.Taskbar {
+  --wes95-spacing-padding: 4px;
+  position: relative;
+  display: flex;
+  background-color: var(--wes95-color-material);
+  gap: var(--wes95-spacing-padding);
+  z-index: 2;
+}
