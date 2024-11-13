@@ -3,6 +3,7 @@ import { createStore, produce, type SetStoreFunction } from 'solid-js/store';
 import type { Point, Size } from '../models/Geometry';
 import type { WindowState } from '../models/WindowState';
 import { handleActiveWindows } from '../utils/Windows';
+import { modifyById, modifyByIds } from '../utils/array';
 
 let shared: WindowManager | undefined;
 
@@ -48,7 +49,13 @@ export class WindowManager {
   addWindow = (
     windowInit: Pick<
       WindowState,
-      'parentId' | 'sizeConstraints' | 'showInTaskbar' | 'title' | 'url'
+      | 'maximized'
+      | 'minimized'
+      | 'parentId'
+      | 'sizeConstraints'
+      | 'showInTaskbar'
+      | 'title'
+      | 'url'
     > & {
       active?: boolean | undefined;
       position?: Point | undefined;
@@ -90,6 +97,8 @@ export class WindowManager {
       parentId,
       rect,
       title: windowInit.title,
+      maximized: windowInit.maximized,
+      minimized: windowInit.minimized,
       url: windowInit.url,
       showInTaskbar: windowInit.showInTaskbar,
     };
@@ -106,6 +115,28 @@ export class WindowManager {
     );
 
     return window;
+  };
+
+  closeWindow = (windowId: string) => {
+    this.#setState(
+      produce((state) => {
+        const windowIdsToRemove = [windowId].concat(
+          state.windows
+            .filter((window) => window.parentId === windowId)
+            .map((window) => window.id),
+        );
+        state.windows = state.windows.filter(
+          (window) => !windowIdsToRemove.includes(window.id),
+        );
+        state.activeTaskWindowHistory = state.activeTaskWindowHistory.filter(
+          (activeWindowId) => !windowIdsToRemove.includes(activeWindowId),
+        );
+        state.activeWindowHistory = state.activeWindowHistory.filter(
+          (activeWindowId) => !windowIdsToRemove.includes(activeWindowId),
+        );
+        handleActiveWindows(undefined, undefined, state);
+      }),
+    );
   };
 
   getWindow = (windowId: string | undefined) => {
@@ -128,7 +159,64 @@ export class WindowManager {
   setActiveWindow = (window: WindowState) => {
     this.#setState(
       produce((state) => {
+        const windowIdsToRestore = [window.id].concat(
+          state.windows
+            .filter(({ parentId }) => parentId === window.id)
+            .map((window) => window.id),
+        );
+
+        state.windows = modifyByIds(
+          windowIdsToRestore,
+          state.windows,
+          (window) => ({
+            ...window,
+            minimized: false,
+          }),
+        );
         handleActiveWindows(window, this.getWindow(window.parentId), state);
+      }),
+    );
+  };
+
+  setWindowMaximized = (windowId: string, maximized: boolean) => {
+    this.#setState(
+      produce((state) => {
+        state.windows = modifyById(windowId, state.windows, (window) => ({
+          ...window,
+          maximized,
+        }));
+      }),
+    );
+  };
+
+  setWindowMinimized = (windowId: string, minimized: boolean) => {
+    this.#setState(
+      produce((state) => {
+        const windowIdsToMinimize = [windowId].concat(
+          state.windows
+            .filter((window) => window.parentId === windowId)
+            .map((window) => window.id),
+        );
+
+        state.windows = modifyByIds(
+          windowIdsToMinimize,
+          state.windows,
+          (window) => ({
+            ...window,
+            minimized,
+          }),
+        );
+
+        if (minimized) {
+          if (state.activeTaskWindow === windowId) {
+            state.activeTaskWindow = null;
+            state.activeWindow = null;
+            handleActiveWindows(undefined, undefined, state);
+          } else if (state.activeWindow === windowId) {
+            state.activeWindow = null;
+            handleActiveWindows(undefined, undefined, state);
+          }
+        }
       }),
     );
   };
@@ -164,5 +252,17 @@ export class WindowManager {
         );
       }),
     );
+  };
+
+  toggleActiveWindow = (window: WindowState) => {
+    const windowOrParent = window.parentId
+      ? this.state.windows.find(({ id }) => id === window.parentId)!
+      : window;
+
+    if (this.state.activeTaskWindow === windowOrParent.id) {
+      this.setWindowMinimized(windowOrParent.id, true);
+    } else {
+      this.setActiveWindow(windowOrParent);
+    }
   };
 }

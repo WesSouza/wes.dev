@@ -2,6 +2,7 @@ import type { JSX } from 'solid-js/jsx-runtime';
 import type { WindowManager } from '../lib/WindowManager';
 import type { Point } from '../models/Geometry';
 import type { WindowState } from '../models/WindowState';
+import { Show } from 'solid-js';
 
 export function Window(p: {
   active: boolean;
@@ -14,10 +15,25 @@ export function Window(p: {
   let clickOffset: Point | undefined;
   let windowRef!: HTMLElement;
 
-  const handlePointerDown: JSX.EventHandler<HTMLDivElement, PointerEvent> = (
+  const handleWindowPointerDown: JSX.EventHandler<HTMLElement, PointerEvent> = (
     event,
   ) => {
+    if (p.active || event.target.closest('button')) {
+      return;
+    }
+
+    windowManager.setActiveWindow(p.window);
+  };
+
+  const handleTitlePointerDown: JSX.EventHandler<
+    HTMLDivElement,
+    PointerEvent
+  > = (event) => {
     event.preventDefault();
+
+    if (p.window.maximized) {
+      return;
+    }
 
     document.documentElement.style.setProperty('overflow', 'hidden');
     document.documentElement.style.setProperty('overscroll-behavior', 'none');
@@ -61,27 +77,53 @@ export function Window(p: {
       classList={{
         Window: true,
         '-active': p.active,
+        '-maximized': p.window.maximized,
+        '-minimized': p.window.minimized,
       }}
       ref={windowRef}
-      onPointerDown={() => windowManager.setActiveWindow(p.window)}
+      onPointerDown={handleWindowPointerDown}
       style={{
-        position: 'absolute',
-        top: `${p.window.rect.y}px`,
-        left: `${p.window.rect.x}px`,
-        width: `${p.window.rect.width}px`,
-        height: `${p.window.rect.height}px`,
+        ...(!p.window.maximized
+          ? {
+              top: `${p.window.rect.y}px`,
+              left: `${p.window.rect.x}px`,
+              width: `${p.window.rect.width}px`,
+              height: `${p.window.rect.height}px`,
+            }
+          : {}),
         'z-index': p.zIndex,
       }}
     >
       <div class="WindowTitleBar">
         <div class="WindowTitleIcon"></div>
-        <div class="WindowTitleText" onPointerDown={handlePointerDown}>
+        <div class="WindowTitleText" onPointerDown={handleTitlePointerDown}>
           {p.window.title}
         </div>
         <div class="WindowTitleButtons">
-          <button type="button" class="Button WindowTitleButton"></button>
-          <button type="button" class="Button WindowTitleButton"></button>
-          <button type="button" class="Button WindowTitleButton"></button>
+          <Show when={!p.window.parentId && p.window.showInTaskbar}>
+            <button
+              type="button"
+              class="Button WindowTitleButton"
+              onClick={() =>
+                windowManager.setWindowMinimized(p.window.id, true)
+              }
+            ></button>
+            <button
+              type="button"
+              class="Button WindowTitleButton"
+              onClick={() =>
+                windowManager.setWindowMaximized(
+                  p.window.id,
+                  !p.window.maximized,
+                )
+              }
+            ></button>
+          </Show>
+          <button
+            type="button"
+            class="Button WindowTitleButton"
+            onClick={() => windowManager.closeWindow(p.window.id)}
+          ></button>
         </div>
       </div>
       <div class="WindowContent SmallSpacing">
