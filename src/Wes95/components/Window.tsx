@@ -13,6 +13,7 @@ export function Window(p: {
   const { windowManager } = p;
 
   let clickOffset: Point | undefined;
+  const activePointers = new Set<number>();
   let windowRef!: HTMLElement;
 
   const handleMaximize = () => {
@@ -42,6 +43,11 @@ export function Window(p: {
     HTMLDivElement,
     PointerEvent
   > = (event) => {
+    activePointers.add(event.pointerId);
+    if (activePointers.size !== 1) {
+      return;
+    }
+
     event.preventDefault();
 
     if (p.window.maximized) {
@@ -62,11 +68,25 @@ export function Window(p: {
       handlePointerMove,
       { passive: false },
     );
+    document.documentElement.addEventListener(
+      'pointerdown',
+      handlePointerDown,
+      { passive: false },
+    );
     document.documentElement.addEventListener('pointerup', handlePointerUp);
   };
 
+  const handlePointerDown = (event: PointerEvent) => {
+    activePointers.add(event.pointerId);
+  };
+
   const handlePointerMove = (event: PointerEvent) => {
+    if (activePointers.size > 1) {
+      return;
+    }
+
     event.preventDefault();
+
     const position = {
       x: event.clientX - clickOffset!.x,
       y: event.clientY - clickOffset!.y,
@@ -74,13 +94,26 @@ export function Window(p: {
     windowManager.setWindowPosition(p.window.id, position);
   };
 
-  const handlePointerUp = () => {
+  const handlePointerUp = (event: PointerEvent) => {
+    activePointers.delete(event.pointerId);
+
     document.documentElement.removeEventListener(
       'pointermove',
       handlePointerMove,
     );
     document.documentElement.style.removeProperty('overscroll-behavior');
     document.documentElement.style.removeProperty('touch-action');
+
+    if (activePointers.size === 1) {
+      document.documentElement.removeEventListener(
+        'pointerdown',
+        handlePointerDown,
+      );
+      document.documentElement.removeEventListener(
+        'pointerup',
+        handlePointerUp,
+      );
+    }
   };
 
   return (
