@@ -5,12 +5,21 @@ export function Window(props: {
   active: boolean;
   window: WindowState;
   windowManager: WindowManager;
+  zIndex?: number | undefined;
 }) {
   return (
     <section
       classList={{
         Window: true,
         '-active': props.active,
+      }}
+      style={{
+        position: 'absolute',
+        top: `${props.window.rect.y}px`,
+        left: `${props.window.rect.x}px`,
+        width: `${props.window.rect.width}px`,
+        height: `${props.window.rect.height}px`,
+        'z-index': props.zIndex,
       }}
     >
       <div
