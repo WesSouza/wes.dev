@@ -5,7 +5,7 @@
 .StatusField,
 .TextBox,
 .Well,
-.Window {
+.Window:not(.-maximized) {
   --border-width: calc(var(--wes95-scale-value) * 1);
   --border-width-negative: calc(var(--wes95-scale-value) * -1);
   --border-width-double: calc(var(--wes95-scale-value) * 2);
