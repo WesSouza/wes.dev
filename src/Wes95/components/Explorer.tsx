@@ -26,6 +26,7 @@ export const Explorer = () => {
               active={windowManager.isWindowActive(window.id)}
               window={window}
               windowManager={windowManager}
+              zIndex={windowManager.getWindowZIndex(window.id)}
             />
           )}
         </For>
