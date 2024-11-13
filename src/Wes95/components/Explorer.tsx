@@ -18,8 +18,8 @@ export const Explorer = () => {
   };
 
   return (
-    <div>
-      <main>
+    <div class="Screen">
+      <main class="Desktop">
         <For each={state.windows}>
           {(window) => (
             <Window
@@ -31,7 +31,7 @@ export const Explorer = () => {
           )}
         </For>
       </main>
-      <footer>
+      <footer class="Taskbar">
         <button type="button" class="Button" onClick={addWindow}>
           Start
         </button>
@@ -48,12 +48,6 @@ export const Explorer = () => {
             </button>
           )}
         </For>
-        <p>Alt+Tab</p>
-        <ul>
-          <For each={windowManager.state.activeTaskWindowHistory}>
-            {(windowId) => <li>{windowManager.getWindow(windowId)?.title}</li>}
-          </For>
-        </ul>
       </footer>
     </div>
   );
