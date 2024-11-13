@@ -42,7 +42,7 @@ export const Explorer = () => {
                 Button: true,
                 '-down': state.activeTaskWindow === window.id,
               }}
-              onClick={() => windowManager.setActiveWindow(window)}
+              onClick={() => windowManager.toggleActiveWindow(window)}
             >
               {window.title}
             </button>

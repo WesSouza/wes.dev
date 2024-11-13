@@ -3,6 +3,8 @@ import { RectSchema, SizeSchema } from './Geometry';
 
 export const WindowStateSchema = z.object({
   id: z.string(),
+  maximized: z.boolean().optional(),
+  minimized: z.boolean().optional(),
   parentId: z.string().optional(),
   rect: RectSchema,
   sizeConstraints: z
