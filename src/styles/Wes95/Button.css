@@ -1,32 +1,17 @@
-.Button {
-  --wes95-button-padding-inline: calc(var(--wes95-scale-value) * 12);
-  --wes95-button-padding-shift: var(--wes95-scale-value);
+.Button,
+.ToolbarButton,
+.WindowTitleButton {
+  --wes95-padding-shift: var(--wes95-scale-value);
 
-  min-height: var(--wes95-button-height);
-  padding-block: var(--wes95-border-padding);
-  padding-inline: calc(
-    var(--wes95-border-padding) + var(--wes95-button-padding-inline)
-  );
-  background-color: var(--wes95-color-material);
-
-  &:active,
-  .-down {
-    padding-block: calc(
-        var(--wes95-border-padding) + var(--wes95-button-padding-shift)
-      )
-      calc(var(--wes95-border-padding) - var(--wes95-button-padding-shift));
-    padding-inline: calc(
-        var(--wes95-border-padding) + var(--wes95-button-padding-inline) +
-          var(--wes95-button-padding-shift)
-      )
-      calc(
-        var(--wes95-border-padding) + var(--wes95-button-padding-inline) -
-          var(--wes95-button-padding-shift)
-      );
+  &:is(.Button) {
+    --wes95-padding-inline: calc(var(--wes95-scale-value) * 12);
+    min-height: var(--wes95-button-height);
   }
+
+  background-color: var(--wes95-color-material);
 }
 
-button:is(.Button) {
+button:is(.Button, .ToolbarButton, .WindowTitleButton) {
   display: inline-block;
   appearance: none;
   border: none;

@@ -36,6 +36,13 @@
 }
 
 .WindowTitleButton {
+  --wes95-button-padding-inline: var(--wes95-scale-value);
+
+  svg {
+    display: block;
+    width: calc(var(--wes95-scale-value) * 9);
+    height: calc(var(--wes95-scale-value) * 9);
+  }
 }
 
 .WindowTitleIcon {
