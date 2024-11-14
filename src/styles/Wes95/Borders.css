@@ -5,16 +5,25 @@
 .StatusField,
 .Taskbar,
 .TextBox,
+.ToolbarButton,
 .Well,
-.Window:not(.-maximized) {
+.Window:not(.-maximized),
+.WindowTitleButton {
   --border-width: calc(var(--wes95-scale-value) * 1);
   --border-width-negative: calc(var(--wes95-scale-value) * -1);
   --border-width-double: calc(var(--wes95-scale-value) * 2);
   --border-width-double-negative: calc(var(--wes95-scale-value) * -2);
-  --wes95-border-padding: calc(var(--border-width) * 3);
+
+  --border-padding-block: calc(
+    var(--wes95-padding-block, 0px) + var(--border-width) * 3
+  );
+  --border-padding-inline: calc(
+    var(--wes95-padding-inline, 0px) + var(--border-width) * 3
+  );
 
   &:not(.Taskbar) {
-    padding: var(--wes95-border-padding);
+    padding-block: var(--border-padding-block);
+    padding-inline: var(--border-padding-inline);
 
     box-shadow:
       inset var(--border-width-negative) var(--border-width-negative)
@@ -26,16 +35,33 @@
         var(--wes95-topLeftInner);
 
     &:is(.SmallSpacing, .MediumSpacing, .LargeSpacing) {
-      padding: calc(var(--wes95-border-padding) + var(--wes95-spacing-padding));
+      padding-block: calc(
+        var(--border-padding-block) + var(--wes95-spacing-padding)
+      );
+      padding-inline: calc(
+        var(--border-padding-inline) + var(--wes95-spacing-padding)
+      );
     }
   }
 
+  &.Button:active,
+  &.Button.-down {
+    padding-block: calc(
+        var(--border-padding-block) + var(--wes95-button-padding-shift)
+      )
+      calc(var(--border-padding-block) - var(--wes95-button-padding-shift));
+    padding-inline: calc(
+        var(--border-padding-inline) + var(--wes95-button-padding-shift)
+      )
+      calc(var(--border-padding-inline) - var(--wes95-button-padding-shift));
+  }
+
   &.Taskbar {
-    padding-inline: var(--wes95-spacing-padding);
+    padding-inline: var(--wes95-spacing-padding-inline);
     padding-block-start: calc(
-      var(--wes95-border-padding) + var(--wes95-spacing-padding)
+      var(--border-padding-block) + var(--wes95-spacing-padding)
     );
-    padding-block-end: var(--wes95-spacing-padding);
+    padding-block-end: var(--wes95-spacing-padding-block);
 
     box-shadow:
       inset 0 var(--border-width) var(--wes95-topLeftOuter),
@@ -44,15 +70,15 @@
 }
 
 .Button,
-.Button.-up {
+.TaskbarButton,
+.WindowTitleButton {
   --wes95-topLeftOuter: var(--wes95-color-borderLightest);
   --wes95-topLeftInner: var(--wes95-color-borderLight);
   --wes95-bottomRightInner: var(--wes95-color-borderDark);
   --wes95-bottomRightOuter: var(--wes95-color-borderDarkest);
 }
 
-.Button:active,
-.Button.-down {
+:is(.Button, .TaskbarButton, .WindowTitleButton):is(:active, .-down) {
   --wes95-topLeftOuter: var(--wes95-color-borderDarkest);
   --wes95-topLeftInner: var(--wes95-color-borderDark);
   --wes95-bottomRightInner: var(--wes95-color-borderLight);
@@ -83,15 +109,17 @@
 }
 
 .Button.-thin,
-.Button.-thin.-up {
+.TaskbarButton.-thin {
   --wes95-topLeftOuter: var(--wes95-color-borderLightest);
   --wes95-topLeftInner: transparent;
   --wes95-bottomRightInner: transparent;
   --wes95-bottomRightOuter: var(--wes95-color-borderDark);
 }
 
-.Button.-thin:active,
-.Button.-thin.-down {
+:is(.Button, .TaskbarButton, .WindowTitleButton):is(.-thin):is(
+    :active,
+    .-down
+  ) {
   --wes95-topLeftOuter: var(--wes95-color-borderDark);
   --wes95-topLeftInner: transparent;
   --wes95-bottomRightInner: transparent;
