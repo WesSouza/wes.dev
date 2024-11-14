@@ -1,15 +1,25 @@
 export function modifyById<T extends { id: string }>(
   id: string,
   array: T[],
-  modifyFn: (item: T) => T,
+  modifyFn: (item: T) => void,
 ) {
-  return array.map((item) => (item.id === id ? modifyFn(item) : item));
+  for (let i = 0; i < array.length; i++) {
+    const item = array[i]!;
+    if (item.id === id) {
+      modifyFn(item);
+    }
+  }
 }
 
 export function modifyByIds<T extends { id: string }>(
   ids: string[],
   array: T[],
-  modifyFn: (item: T) => T,
+  modifyFn: (item: T) => void,
 ) {
-  return array.map((item) => (ids.includes(item.id) ? modifyFn(item) : item));
+  for (let i = 0; i < array.length; i++) {
+    const item = array[i]!;
+    if (ids.includes(item.id)) {
+      modifyFn(item);
+    }
+  }
 }

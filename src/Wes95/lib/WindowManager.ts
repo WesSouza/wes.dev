@@ -49,6 +49,7 @@ export class WindowManager {
   addWindow = (
     windowInit: Pick<
       WindowState,
+      | 'icon'
       | 'maximized'
       | 'minimized'
       | 'parentId'
@@ -89,13 +90,14 @@ export class WindowManager {
     const rect = {
       ...initialPosition,
       width: 300,
-      height: 150,
+      height: 180,
     };
 
     const window: WindowState = {
       id,
       parentId,
       rect,
+      icon: windowInit.icon,
       title: windowInit.title,
       maximized: windowInit.maximized,
       minimized: windowInit.minimized,
@@ -156,24 +158,36 @@ export class WindowManager {
     );
   };
 
-  setActiveWindow = (window: WindowState) => {
+  setActiveWindow = (window: WindowState | undefined) => {
     this.#setState(
       produce((state) => {
+        if (!window) {
+          state.activeTaskWindow = null;
+          state.activeWindow = null;
+          handleActiveWindows(undefined, undefined, state);
+          return;
+        }
+
         const windowIdsToRestore = [window.id].concat(
           state.windows
             .filter(({ parentId }) => parentId === window.id)
             .map((window) => window.id),
         );
 
-        state.windows = modifyByIds(
-          windowIdsToRestore,
-          state.windows,
-          (window) => ({
-            ...window,
-            minimized: false,
-          }),
-        );
+        modifyByIds(windowIdsToRestore, state.windows, (window) => {
+          window.minimized = false;
+        });
         handleActiveWindows(window, this.getWindow(window.parentId), state);
+      }),
+    );
+  };
+
+  setWindowIcon = (windowId: string, icon: string) => {
+    this.#setState(
+      produce((state) => {
+        modifyById(windowId, state.windows, (window) => {
+          window.icon = icon;
+        });
       }),
     );
   };
@@ -181,10 +195,9 @@ export class WindowManager {
   setWindowMaximized = (windowId: string, maximized: boolean) => {
     this.#setState(
       produce((state) => {
-        state.windows = modifyById(windowId, state.windows, (window) => ({
-          ...window,
-          maximized,
-        }));
+        modifyById(windowId, state.windows, (window) => {
+          window.maximized = maximized;
+        });
       }),
     );
   };
@@ -198,14 +211,9 @@ export class WindowManager {
             .map((window) => window.id),
         );
 
-        state.windows = modifyByIds(
-          windowIdsToMinimize,
-          state.windows,
-          (window) => ({
-            ...window,
-            minimized,
-          }),
-        );
+        modifyByIds(windowIdsToMinimize, state.windows, (window) => {
+          window.minimized = minimized;
+        });
 
         if (minimized) {
           if (state.activeTaskWindow === windowId) {
@@ -224,17 +232,10 @@ export class WindowManager {
   setWindowPosition = (windowId: string, position: Point) => {
     this.#setState(
       produce((state) => {
-        state.windows = state.windows.map((window) =>
-          window.id === windowId
-            ? {
-                ...window,
-                rect: {
-                  ...window.rect,
-                  ...position,
-                },
-              }
-            : window,
-        );
+        modifyById(windowId, state.windows, (window) => {
+          window.rect.x = position.x;
+          window.rect.y = position.y;
+        });
       }),
     );
   };
@@ -242,14 +243,9 @@ export class WindowManager {
   setWindowTitle = (windowId: string, title: string) => {
     this.#setState(
       produce((state) => {
-        state.windows = state.windows.map((window) =>
-          window.id === windowId
-            ? {
-                ...window,
-                title,
-              }
-            : window,
-        );
+        modifyById(windowId, state.windows, (window) => {
+          window.title = title;
+        });
       }),
     );
   };

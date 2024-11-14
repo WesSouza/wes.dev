@@ -7,6 +7,11 @@ export const SITE_DESCRIPTION =
 
 export const SITE_DOMAIN = 'wes.dev';
 
+export const WES95_PATH = '/C/Wes95';
+export const WES95_FONTS_PATH = `${WES95_PATH}/Fonts`;
+export const WES95_MEDIA_PATH = `${WES95_PATH}/Media`;
+export const WES95_SYSTEM_PATH = `${WES95_PATH}/System32`;
+
 export const SITE_GO_LINKS = [
   // Listed Articles
   {
