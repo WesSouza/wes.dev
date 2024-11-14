@@ -1,8 +1,10 @@
 ---
 import Wes95 from '../layouts/Wes95.astro';
 import { Explorer } from '../Wes95/components/Explorer';
+import { Symbols } from '../Wes95/components/Symbols';
 ---
 
 <Wes95>
   <Explorer client:only />
+  <Symbols client:load />
 </Wes95>

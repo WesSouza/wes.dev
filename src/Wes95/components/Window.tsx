@@ -3,6 +3,7 @@ import type { WindowManager } from '../lib/WindowManager';
 import type { Point } from '../models/Geometry';
 import type { WindowState } from '../models/WindowState';
 import { Show } from 'solid-js';
+import { Symbol } from './Symbol';
 
 export function Window(p: {
   active: boolean;
@@ -151,22 +152,30 @@ export function Window(p: {
           <Show when={!p.window.parentId && p.window.showInTaskbar}>
             <button
               type="button"
-              class="Button WindowTitleButton"
+              class="WindowTitleButton"
               onClick={() =>
                 windowManager.setWindowMinimized(p.window.id, true)
               }
-            ></button>
+            >
+              <Symbol symbol="windowMinimize" />
+            </button>
             <button
               type="button"
-              class="Button WindowTitleButton"
+              class="WindowTitleButton"
               onClick={handleMaximize}
-            ></button>
+            >
+              <Symbol
+                symbol={p.window.maximized ? 'windowRestore' : 'windowMaximize'}
+              />
+            </button>
           </Show>
           <button
             type="button"
-            class="Button WindowTitleButton"
+            class="WindowTitleButton"
             onClick={() => windowManager.closeWindow(p.window.id)}
-          ></button>
+          >
+            <Symbol symbol="windowClose" />
+          </button>
         </div>
       </div>
       <div class="WindowContent SmallSpacing">
@@ -174,14 +183,14 @@ export function Window(p: {
         <div class="Horizontal SmallSpacing">
           <button
             type="button"
-            class="Button WindowTitleButton"
+            class="Button"
             onClick={() => windowManager.setWindowTitle(p.window.id, 'Test')}
           >
             Set Title
           </button>
           <button
             type="button"
-            class="Button WindowTitleButton"
+            class="Button"
             onClick={() =>
               windowManager.addWindow({
                 showInTaskbar: false,
