@@ -44,8 +44,7 @@
     }
   }
 
-  &.Button:active,
-  &.Button.-down {
+  :is(.Button, .TaskbarButton, .WindowTitleButton):is(:active, .-down) {
     padding-block: calc(
         var(--border-padding-block) + var(--wes95-button-padding-shift)
       )
