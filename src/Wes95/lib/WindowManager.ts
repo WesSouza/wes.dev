@@ -253,16 +253,4 @@ export class WindowManager {
       }),
     );
   };
-
-  toggleActiveWindow = (window: WindowState) => {
-    const windowOrParent = window.parentId
-      ? this.state.windows.find(({ id }) => id === window.parentId)!
-      : window;
-
-    if (this.state.activeTaskWindow === windowOrParent.id) {
-      this.setWindowMinimized(windowOrParent.id, true);
-    } else {
-      this.setActiveWindow(windowOrParent);
-    }
-  };
 }
