@@ -4,6 +4,7 @@ import type { Point } from '../models/Geometry';
 import type { WindowState } from '../models/WindowState';
 import { Show } from 'solid-js';
 import { Symbol } from './Symbol';
+import { Icon } from './Icon';
 
 export function Window(p: {
   active: boolean;
@@ -45,7 +46,12 @@ export function Window(p: {
     PointerEvent
   > = (event) => {
     activePointers.add(event.pointerId);
-    if (activePointers.size !== 1) {
+    if (
+      activePointers.size !== 1 ||
+      event.button !== 0 ||
+      event.target.closest('button') ||
+      event.target.closest('img')
+    ) {
       return;
     }
 
@@ -139,15 +145,17 @@ export function Window(p: {
         'z-index': p.zIndex,
       }}
     >
-      <div class="WindowTitleBar">
-        <div class="WindowTitleIcon"></div>
-        <div
-          class="WindowTitleText"
-          onPointerDown={handleTitlePointerDown}
-          onDblClick={handleMaximize}
-        >
-          {p.window.title}
-        </div>
+      <div
+        class="WindowTitleBar"
+        onPointerDown={handleTitlePointerDown}
+        onDblClick={handleMaximize}
+      >
+        <Show when={p.window.icon}>
+          <div class="WindowTitleIcon">
+            <Icon icon={p.window.icon!} />
+          </div>
+        </Show>
+        <div class="WindowTitleText">{p.window.title}</div>
         <div class="WindowTitleButtons">
           <Show when={!p.window.parentId && p.window.showInTaskbar}>
             <button
@@ -180,7 +188,7 @@ export function Window(p: {
       </div>
       <div class="WindowContent SmallSpacing">
         {p.window.url}
-        <div class="Horizontal SmallSpacing">
+        <div class="Horizontal SmallGap">
           <button
             type="button"
             class="Button"
@@ -188,6 +196,15 @@ export function Window(p: {
           >
             Set Title
           </button>
+          <button
+            type="button"
+            class="Button"
+            onClick={() => windowManager.setWindowIcon(p.window.id, 'iconCD')}
+          >
+            Set Icon
+          </button>
+        </div>
+        <div class="Horizontal SmallGap">
           <button
             type="button"
             class="Button"
@@ -201,7 +218,7 @@ export function Window(p: {
               })
             }
           >
-            Add Sub Window
+            Add Child Window
           </button>
         </div>
       </div>
