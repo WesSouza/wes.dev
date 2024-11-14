@@ -1,4 +1,4 @@
-import { For } from 'solid-js';
+import { For, type JSX } from 'solid-js';
 import { WindowManager } from '../lib/WindowManager';
 import { Window } from './Window';
 
@@ -10,6 +10,7 @@ export const Explorer = () => {
 
   const addWindow = () => {
     windowManager.addWindow({
+      icon: 'iconWes',
       title: 'Window ' + i++,
       url: `file://Window`,
       showInTaskbar: true,
@@ -17,9 +18,19 @@ export const Explorer = () => {
     });
   };
 
+  const handleDesktopTaskbarClick: JSX.EventHandler<HTMLElement, MouseEvent> = (
+    event,
+  ) => {
+    if (event.target !== event.currentTarget) {
+      return;
+    }
+
+    windowManager.setActiveWindow(undefined);
+  };
+
   return (
     <div class="Screen">
-      <main class="Desktop">
+      <main class="Desktop" onClick={handleDesktopTaskbarClick}>
         <For each={state.windows}>
           {(window) => (
             <Window
@@ -31,7 +42,7 @@ export const Explorer = () => {
           )}
         </For>
       </main>
-      <footer class="Taskbar">
+      <footer class="Taskbar" onClick={handleDesktopTaskbarClick}>
         <button type="button" class="Button" onClick={addWindow}>
           Start
         </button>
