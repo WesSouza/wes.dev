@@ -1,7 +1,7 @@
 .Button,
 .ToolbarButton,
 .WindowTitleButton {
-  --wes95-padding-shift: var(--wes95-scale-value);
+  --wes95-button-padding-shift: var(--wes95-scale-value);
 
   &:is(.Button) {
     --wes95-padding-inline: calc(var(--wes95-scale-value) * 12);
