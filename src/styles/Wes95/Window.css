@@ -19,6 +19,7 @@
 
 .WindowTitleBar {
   display: flex;
+  align-items: center;
 
   padding: calc(var(--wes95-scale-value) * 2);
   color: var(--wes95-color-headerNotActiveText);
@@ -33,6 +34,7 @@
 }
 
 .WindowTitleButtons {
+  display: flex;
 }
 
 .WindowTitleButton {
@@ -50,4 +52,5 @@
 
 .WindowTitleText {
   flex-grow: 1;
+  font-size: 1.2em;
 }
