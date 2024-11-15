@@ -20,7 +20,7 @@ export function Symbol(p: {
     | 'windowRestore';
 }) {
   return (
-    <svg>
+    <svg class="Symbol">
       <use href={`#${p.symbol}`}></use>
     </svg>
   );

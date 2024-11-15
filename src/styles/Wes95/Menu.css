@@ -1,0 +1,24 @@
+.Menu {
+  --wes95-padding-block: calc(var(--wes95-scale-value) * 2);
+  --wes95-padding-inline: var(--wes95-scale-value);
+
+  position: absolute;
+  margin: 0;
+  border: 0;
+  background-color: var(--wes95-color-material);
+  list-style-type: none;
+}
+
+.MenuItem {
+  display: flex;
+  padding: calc(var(--wes95-scale-value) * 2) calc(var(--wes95-scale-value) * 6);
+}
+
+.MenuItemLabel {
+  flex-grow: 1;
+}
+
+.MenuChevron {
+  position: relative;
+  left: calc(var(--wes95-scale-value) * 4);
+}

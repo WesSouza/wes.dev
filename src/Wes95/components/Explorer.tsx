@@ -1,22 +1,26 @@
-import { For, Show, type JSX } from 'solid-js';
+import { createEffect, createSignal, For, Show, type JSX } from 'solid-js';
 import { WindowManager } from '../lib/WindowManager';
 import { Window } from './Window';
 import { Icon } from './Icon';
-
-let i = 1;
+import type { Anchor } from '../models/Geometry';
+import { Menu } from './Menu';
 
 export const Explorer = () => {
+  let startElement!: HTMLButtonElement;
   const windowManager = WindowManager.shared;
   const state = windowManager.state;
+  const [startAnchor, setStartAnchor] = createSignal<Anchor>();
+  const [startMenuOpen, setStartMenuOpen] = createSignal(false);
 
-  const addWindow = () => {
+  const addWindow = (id: string) => {
     windowManager.addWindow({
       icon: 'iconWes',
-      title: 'Window ' + i++,
-      url: `file://Window`,
+      title: 'Window ' + id,
+      url: `file://Window?id=${id}`,
       showInTaskbar: true,
       active: true,
     });
+    closeMenu();
   };
 
   const handleDesktopTaskbarClick: JSX.EventHandler<HTMLElement, MouseEvent> = (
@@ -28,6 +32,31 @@ export const Explorer = () => {
 
     windowManager.setActiveWindow(undefined);
   };
+
+  const toggleMenu = () => {
+    setStartMenuOpen((open) => !open);
+  };
+
+  const closeMenu = () => {
+    setStartMenuOpen(false);
+  };
+
+  createEffect(() => {
+    if (!startElement) {
+      setStartAnchor(undefined);
+      return;
+    }
+
+    const rect = startElement.getBoundingClientRect();
+
+    setStartAnchor({
+      x: rect.x,
+      y: rect.y,
+      width: rect.width,
+      height: rect.height,
+      direction: 'block-start',
+    });
+  });
 
   return (
     <div class="Screen">
@@ -44,7 +73,12 @@ export const Explorer = () => {
         </For>
       </main>
       <footer class="Taskbar" onClick={handleDesktopTaskbarClick}>
-        <button type="button" class="TaskbarButton" onClick={addWindow}>
+        <button
+          type="button"
+          class="TaskbarButton"
+          onClick={toggleMenu}
+          ref={startElement}
+        >
           <Icon icon="iconWes" />
           Start
         </button>
@@ -68,6 +102,42 @@ export const Explorer = () => {
           )}
         </For>
       </footer>
+      <Show when={startMenuOpen() && startAnchor()}>
+        <Menu
+          items={[
+            {
+              type: 'item',
+              id: '1',
+              label: 'One',
+            },
+            {
+              type: 'item',
+              id: '2',
+              label: 'Two',
+            },
+            {
+              type: 'item',
+              id: '3',
+              label: 'Three',
+              submenu: [
+                {
+                  type: 'item',
+                  id: '4',
+                  label: 'Four',
+                },
+                {
+                  type: 'item',
+                  id: '5',
+                  label: 'Five',
+                },
+              ],
+            },
+          ]}
+          anchor={startAnchor()!}
+          onClose={closeMenu}
+          onSelect={(id) => addWindow(id)}
+        />
+      </Show>
     </div>
   );
 };

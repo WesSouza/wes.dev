@@ -1,5 +1,6 @@
 .Border,
 .Button,
+.Menu,
 .Field,
 .Grouping,
 .StatusField,
@@ -146,6 +147,7 @@
   --wes95-bottomRightOuter: var(--wes95-color-borderLightest);
 }
 
+.Menu,
 .Taskbar,
 .Window {
   --wes95-topLeftOuter: var(--wes95-color-borderLight);
