@@ -11,14 +11,25 @@
 
 .MenuItem {
   display: flex;
+  align-items: center;
   padding: calc(var(--wes95-scale-value) * 2) calc(var(--wes95-scale-value) * 6);
+  gap: calc(var(--wes95-scale-value) * 2);
 }
 
-.MenuItemLabel {
+.MenuIcon {
+  width: calc(var(--wes95-scale-value) * 16);
+
+  &.-large {
+    width: calc(var(--wes95-scale-value) * 32);
+  }
+}
+
+.MenuLabel {
   flex-grow: 1;
 }
 
 .MenuChevron {
   position: relative;
   left: calc(var(--wes95-scale-value) * 4);
+  width: calc(var(--wes95-scale-value) * 9);
 }
