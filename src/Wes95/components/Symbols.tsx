@@ -62,29 +62,59 @@ export function Symbols() {
             <path d="m8 14h4v4h-4z" />
           </g>
         </symbol>
-        <symbol id="mediaNext" width="18" height="18" fill="none">
+        <symbol
+          id="mediaNext"
+          width="18"
+          viewBox="0 0 18 18"
+          height="18"
+          fill="none"
+        >
           <path
             d="M10 12V6h2v6h-2zM4 12V6h2v6H4zM8 14V4h2v10H8zM2 14V4h2v10H2zM12 10V8h2v2h-2zM6 10V8h2v2H6z"
             fill="currentColor"
           />
         </symbol>
-        <symbol id="mediaPause" width="18" height="18" fill="none">
+        <symbol
+          id="mediaPause"
+          width="18"
+          viewBox="0 0 18 18"
+          height="18"
+          fill="none"
+        >
           <path fill="currentColor" d="M4 2h4v14H4zM10 2h4v14h-4z" />
         </symbol>
-        <symbol id="mediaPlay" width="18" height="18" fill="none">
+        <symbol
+          id="mediaPlay"
+          width="18"
+          viewBox="0 0 18 18"
+          height="18"
+          fill="none"
+        >
           <path
             d="M5.5 2v.5h2v2h2v2h2v2h2v1h-2v2h-2v2h-2v2h-2v2h-1V.5h1V2z"
             fill="currentColor"
             stroke="currentColor"
           />
         </symbol>
-        <symbol id="mediaPrevious" width="18" height="18" fill="none">
+        <symbol
+          id="mediaPrevious"
+          width="18"
+          viewBox="0 0 18 18"
+          height="18"
+          fill="none"
+        >
           <path
             d="M6 6v6H4V6h2zM12 6v6h-2V6h2zM8 4v10H6V4h2zM14 4v10h-2V4h2zM4 8v2H2V8h2zM10 8v2H8V8h2z"
             fill="currentColor"
           />
         </symbol>
-        <symbol id="mediaRepeat" width="18" height="18" fill="none">
+        <symbol
+          id="mediaRepeat"
+          width="18"
+          viewBox="0 0 18 18"
+          height="18"
+          fill="none"
+        >
           <g clip-path="url(#clip0)" fill="currentColor">
             <path d="M16 6V4h-2V2h-2V0h-2v4H1v1H0v3h2V6h8v4h2V8h2V6h2z" />
             <path d="M2 12v2h2v2h2v2h2v-4h9v-1h1v-3h-2v2H8V8H6v2H4v2H2z" />
@@ -95,7 +125,13 @@ export function Symbols() {
             </clipPath>
           </defs>
         </symbol>
-        <symbol id="mediaShuffle" width="18" height="18" fill="none">
+        <symbol
+          id="mediaShuffle"
+          width="18"
+          viewBox="0 0 18 18"
+          height="18"
+          fill="none"
+        >
           <g clip-path="url(#clip1)" fill="currentColor">
             <path d="M4 4h-6v2h4v2h2v2h2v2h2v2h8v-2h-6v-2H8V8H6V6H4V4zM8 4h10v2H8V4z" />
             <path d="M16 2v6h-2V2h2zM14 0v18h-2V0h2zM16 10v6h-2v-6h2zM4 14h-6v-2h6v2z" />
@@ -107,16 +143,34 @@ export function Symbols() {
             </clipPath>
           </defs>
         </symbol>
-        <symbol id="mediaStop" width="18" height="18" fill="none">
+        <symbol
+          id="mediaStop"
+          width="18"
+          viewBox="0 0 18 18"
+          height="18"
+          fill="none"
+        >
           <path fill="currentColor" d="M2 2h14v14H2z" />
         </symbol>
-        <symbol id="twitterLike" width="18" height="18" fill="none">
+        <symbol
+          id="twitterLike"
+          width="18"
+          viewBox="0 0 18 18"
+          height="18"
+          fill="none"
+        >
           <path
             fill="currentColor"
             d="M2 7h14v2H2zM2 5h14v2H2zM4 9h10v2H4zM6 11h6v2H6zM8 13h2v2H8zM4 3h4v2H4zM10 3h4v2h-4z"
           />
         </symbol>
-        <symbol id="twitterRetweet" width="18" height="18" fill="none">
+        <symbol
+          id="twitterRetweet"
+          width="18"
+          viewBox="0 0 18 18"
+          height="18"
+          fill="none"
+        >
           <g clip-path="url(#clip2)" fill="currentColor">
             <path d="M16 6V4h-2V2h-2V0h-2v4H0v4h2V6h8v4h2V8h2V6h2z" />
             <path d="M2 12v2h2v2h2v2h2v-4h10v-4h-2v2H8V8H6v2H4v2H2z" />
