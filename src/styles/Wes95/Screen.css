@@ -14,10 +14,6 @@
 }
 
 .Taskbar {
-  --wes95-spacing-padding: 4px;
   position: relative;
-  display: flex;
-  background-color: var(--wes95-color-material);
-  gap: var(--wes95-spacing-padding);
   z-index: 2;
 }

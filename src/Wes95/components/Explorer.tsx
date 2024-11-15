@@ -1,6 +1,7 @@
-import { For, type JSX } from 'solid-js';
+import { For, Show, type JSX } from 'solid-js';
 import { WindowManager } from '../lib/WindowManager';
 import { Window } from './Window';
+import { Icon } from './Icon';
 
 let i = 1;
 
@@ -43,18 +44,25 @@ export const Explorer = () => {
         </For>
       </main>
       <footer class="Taskbar" onClick={handleDesktopTaskbarClick}>
-        <button type="button" class="Button" onClick={addWindow}>
+        <button type="button" class="TaskbarButton" onClick={addWindow}>
+          <Icon icon="iconWes" />
           Start
         </button>
+        <div class="VerticalSeparator" />
+        <div class="VerticalHandle" />
         <For each={state.windows.filter((window) => window.showInTaskbar)}>
           {(window) => (
             <button
               classList={{
-                Button: true,
+                TaskbarButton: true,
+                '-active': state.activeTaskWindow === window.id,
                 '-down': state.activeTaskWindow === window.id,
               }}
               onClick={() => windowManager.setActiveWindow(window)}
             >
+              <Show when={window.icon}>
+                <Icon icon={window.icon!} />
+              </Show>
               {window.title}
             </button>
           )}
