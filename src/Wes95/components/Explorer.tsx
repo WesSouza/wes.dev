@@ -107,32 +107,105 @@ export const Explorer = () => {
           items={[
             {
               type: 'item',
-              id: '1',
-              label: 'One',
-            },
-            {
-              type: 'item',
-              id: '2',
-              label: 'Two',
-            },
-            {
-              type: 'item',
-              id: '3',
-              label: 'Three',
+              id: 'Programs',
+              icon: 'iconProgramsFolder',
+              label: 'Programs',
               submenu: [
                 {
                   type: 'item',
-                  id: '4',
-                  label: 'Four',
+                  id: 'Accessories',
+                  icon: 'iconProgramsFolder',
+                  label: 'Accessories',
+                  submenu: [
+                    {
+                      type: 'item',
+                      id: 'Four',
+                      icon: 'iconProgramsFolder',
+                      label: 'Four',
+                    },
+                  ],
                 },
                 {
                   type: 'item',
-                  id: '5',
-                  label: 'Five',
+                  id: 'StartUp',
+                  icon: 'iconProgramsFolder',
+                  label: 'StartUp',
+                  submenu: [
+                    {
+                      type: 'item',
+                      id: 'StartUpEmpty',
+                      label: '(Empty)',
+                      disabled: true,
+                    },
+                  ],
+                },
+                {
+                  type: 'item',
+                  id: 'InternetExplorer',
+                  icon: 'iconIexplorer',
+                  label: 'Internet Explorer',
+                },
+                {
+                  type: 'item',
+                  id: 'DOS',
+                  icon: 'iconDos',
+                  label: 'MS-DOS Prompt',
+                },
+                {
+                  type: 'item',
+                  id: 'WindowsExplorer',
+                  icon: 'iconExplorer',
+                  label: 'Windows Explorer',
                 },
               ],
             },
+            {
+              type: 'item',
+              id: 'Documents',
+              icon: 'iconDocumentsFolder',
+              label: 'Documents',
+            },
+            {
+              type: 'item',
+              id: 'Settings',
+              icon: 'iconSettings',
+              label: 'Settings',
+            },
+            {
+              type: 'item',
+              id: 'Find',
+              icon: 'iconFind',
+              label: 'Find',
+            },
+            {
+              type: 'item',
+              id: 'Help',
+              icon: 'iconHelp',
+              label: 'Help',
+            },
+            {
+              type: 'item',
+              id: 'Run',
+              icon: 'iconRun',
+              label: 'Run',
+            },
+            {
+              type: 'separator',
+            },
+            {
+              type: 'item',
+              id: 'Suspend',
+              icon: 'iconSuspend',
+              label: 'Suspend',
+            },
+            {
+              type: 'item',
+              id: 'Shutdown',
+              icon: 'iconShutdown',
+              label: 'Shutdown',
+            },
           ]}
+          iconSizes="large"
           anchor={startAnchor()!}
           onClose={closeMenu}
           onSelect={(id) => addWindow(id)}

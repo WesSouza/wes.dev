@@ -1,6 +1,5 @@
 import {
   createEffect,
-  createMemo,
   createSignal,
   For,
   Match,
@@ -9,10 +8,10 @@ import {
   Switch,
   type JSX,
 } from 'solid-js';
+import { createStore } from 'solid-js/store';
 import type { Anchor } from '../models/Geometry';
 import { Icon } from './Icon';
 import { Symbol } from './Symbol';
-import { createStore } from 'solid-js/store';
 
 const InlineMenuOffsetBlock = -8;
 const InlineMenuOffsetInline = -6;
@@ -33,6 +32,7 @@ export type MenuItem = {
 
 export function Menu(p: {
   anchor: Anchor;
+  iconSizes?: 'small' | 'large' | undefined;
   items: (MenuItem | MenuSeparator)[];
   onClose?: () => void;
   onSelect: (itemId: string) => void;
@@ -50,18 +50,6 @@ export function Menu(p: {
 
   let menuElement!: HTMLMenuElement;
   const areaEl = document.documentElement;
-
-  const hasAnyIcons = createMemo(() =>
-    p.items.some(
-      (item) =>
-        item.type === 'item' &&
-        (item.icon !== undefined || item.checked !== undefined),
-    ),
-  );
-
-  const hasSubmenus = createMemo(() =>
-    p.items.some((item) => item.type === 'item' && item.submenu !== undefined),
-  );
 
   const handleClick = (item: MenuItem, element: HTMLElement) => {
     if (item.disabled) {
@@ -153,38 +141,34 @@ export function Menu(p: {
             <hr class="HorizontalSeparator" />
           ) : (
             <li
-              classList={{
-                MenuItem: true,
-                '-checkmark': item.checked === 'checkmark',
-                '-radio': item.checked === 'radio',
-                '-disabled': item.disabled,
-                '-submenu': item.submenu !== undefined,
-              }}
+              class="MenuItem"
               onClick={(event) => handleClick(item, event.currentTarget)}
             >
-              <Show when={hasAnyIcons}>
-                <span class="MenuIcon">
-                  <Switch>
-                    <Match when={item.checked === 'checkmark'}>
-                      <Symbol symbol="chevronRight" />
-                    </Match>
-                    <Match when={item.checked === 'radio'}>
-                      <Symbol symbol="chevronLeft" />
-                    </Match>
-                    <Match when={item.icon !== undefined}>
-                      <Icon icon={item.icon!} />
-                    </Match>
-                  </Switch>
-                </span>
-              </Show>
-              <span class="MenuLabel">{item.label}</span>
-              <Show when={hasSubmenus}>
-                <span class="MenuChevron">
-                  <Show when={item.submenu !== undefined}>
+              <span
+                classList={{
+                  MenuIcon: true,
+                  '-large': p.iconSizes === 'large',
+                }}
+              >
+                <Switch>
+                  <Match when={item.checked === 'checkmark'}>
                     <Symbol symbol="chevronRight" />
-                  </Show>
-                </span>
-              </Show>
+                  </Match>
+                  <Match when={item.checked === 'radio'}>
+                    <Symbol symbol="chevronLeft" />
+                  </Match>
+                  <Match when={item.icon !== undefined}>
+                    <Icon icon={item.icon!} size={p.iconSizes} />
+                  </Match>
+                </Switch>
+              </span>
+              <span class="MenuLabel">{item.label}</span>
+
+              <span class="MenuChevron">
+                <Show when={item.submenu !== undefined}>
+                  <Symbol symbol="chevronRight" />
+                </Show>
+              </span>
             </li>
           )
         }
