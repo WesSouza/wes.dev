@@ -1,0 +1,7 @@
+.Taskbar {
+  --wes95-spacing-padding: 4px;
+  display: flex;
+  align-items: center;
+  background-color: var(--wes95-color-material);
+  gap: var(--wes95-spacing-padding);
+}
