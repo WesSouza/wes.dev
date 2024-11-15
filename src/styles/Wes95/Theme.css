@@ -1,9 +1,11 @@
-.ActiveWindow,
 .Button,
 .Grouping,
 .StatusField,
+.TaskbarButton,
 .ThinButton,
-.Window {
+.ToolbarButton,
+.Window,
+.WindowTitleButton {
   color: var(--wes95-color-materialText);
 }
 

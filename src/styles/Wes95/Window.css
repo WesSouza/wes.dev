@@ -1,4 +1,7 @@
 .Window {
+  --wes95-padding-block: var(--wes95-scale-value);
+  --wes95-padding-inline: var(--wes95-scale-value);
+
   position: absolute;
   background-color: var(--wes95-color-material);
 
@@ -47,8 +50,8 @@
 }
 
 .WindowTitleButton {
-  --wes95-button-padding-block: var(--wes95-scale-value);
-  --wes95-button-padding-inline: calc(var(--wes95-scale-value) * 2);
+  --wes95-padding-block: var(--wes95-scale-value);
+  --wes95-padding-inline: calc(var(--wes95-scale-value) * 2);
 
   svg {
     display: block;

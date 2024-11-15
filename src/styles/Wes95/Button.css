@@ -1,18 +1,39 @@
 .Button,
+.TaskbarButton,
 .ToolbarButton,
 .WindowTitleButton {
   --wes95-button-padding-shift: var(--wes95-scale-value);
 
-  &:is(.Button) {
-    --wes95-padding-inline: calc(var(--wes95-scale-value) * 12);
-    min-height: var(--wes95-button-height);
+  display: flex;
+  align-items: center;
+  background-color: var(--wes95-color-material);
+  gap: calc(var(--wes95-scale-value) * 2);
+
+  &.Button {
+    --wes95-padding-inline: calc(var(--wes95-scale-value) * 8);
   }
 
-  background-color: var(--wes95-color-material);
+  &.TaskbarButton {
+    --wes95-padding-inline: calc(var(--wes95-scale-value) * 4);
+  }
+
+  &:is(.Button, .TaskbarButton) {
+    min-height: calc(var(--wes95-scale-value) * 18);
+  }
+
+  &.TaskbarButton.-active {
+    font-weight: bold;
+
+    background: repeating-conic-gradient(
+        var(--wes95-color-borderLightest) 0% 25%,
+        transparent 0% 50%
+      )
+      var(--wes95-scale-value) / calc(var(--wes95-scale-value) * 2)
+      calc(var(--wes95-scale-value) * 2);
+  }
 }
 
-button:is(.Button, .ToolbarButton, .WindowTitleButton) {
-  display: inline-block;
+button:is(.Button, .TaskbarButton, .ToolbarButton, .WindowTitleButton) {
   appearance: none;
   border: none;
 }
