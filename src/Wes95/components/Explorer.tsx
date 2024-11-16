@@ -1,16 +1,12 @@
-import { createEffect, createSignal, For, Show, type JSX } from 'solid-js';
+import { For, Show, type JSX } from 'solid-js';
 import { WindowManager } from '../lib/WindowManager';
-import { Window } from './Window';
 import { Icon } from './Icon';
-import type { Anchor } from '../models/Geometry';
-import { Menu } from './Menu';
+import { MenuButton } from './MenuButton';
+import { Window } from './Window';
 
 export const Explorer = () => {
-  let startElement!: HTMLButtonElement;
   const windowManager = WindowManager.shared;
   const state = windowManager.state;
-  const [startAnchor, setStartAnchor] = createSignal<Anchor>();
-  const [startMenuOpen, setStartMenuOpen] = createSignal(false);
 
   const addWindow = (id: string) => {
     windowManager.addWindow({
@@ -20,7 +16,6 @@ export const Explorer = () => {
       showInTaskbar: true,
       active: true,
     });
-    closeMenu();
   };
 
   const handleDesktopTaskbarClick: JSX.EventHandler<HTMLElement, MouseEvent> = (
@@ -32,31 +27,6 @@ export const Explorer = () => {
 
     windowManager.setActiveWindow(undefined);
   };
-
-  const toggleMenu = () => {
-    setStartMenuOpen((open) => !open);
-  };
-
-  const closeMenu = () => {
-    setStartMenuOpen(false);
-  };
-
-  createEffect(() => {
-    if (!startElement) {
-      setStartAnchor(undefined);
-      return;
-    }
-
-    const rect = startElement.getBoundingClientRect();
-
-    setStartAnchor({
-      x: rect.x,
-      y: rect.y,
-      width: rect.width,
-      height: rect.height,
-      direction: 'block-start',
-    });
-  });
 
   return (
     <div class="Screen">
@@ -73,37 +43,8 @@ export const Explorer = () => {
         </For>
       </main>
       <footer class="Taskbar" onClick={handleDesktopTaskbarClick}>
-        <button
-          type="button"
-          class="TaskbarButton"
-          onClick={toggleMenu}
-          ref={startElement}
-        >
-          <Icon icon="iconWes" />
-          Start
-        </button>
-        <div class="VerticalSeparator" />
-        <div class="VerticalHandle" />
-        <For each={state.windows.filter((window) => window.showInTaskbar)}>
-          {(window) => (
-            <button
-              classList={{
-                TaskbarButton: true,
-                '-active': state.activeTaskWindow === window.id,
-                '-down': state.activeTaskWindow === window.id,
-              }}
-              onClick={() => windowManager.setActiveWindow(window)}
-            >
-              <Show when={window.icon}>
-                <Icon icon={window.icon!} />
-              </Show>
-              {window.title}
-            </button>
-          )}
-        </For>
-      </footer>
-      <Show when={startMenuOpen() && startAnchor()}>
-        <Menu
+        <MenuButton
+          style="taskbar"
           items={[
             {
               type: 'item',
@@ -205,12 +146,31 @@ export const Explorer = () => {
               label: 'Shutdown',
             },
           ]}
-          iconSizes="large"
-          anchor={startAnchor()!}
-          onClose={closeMenu}
           onSelect={(id) => addWindow(id)}
-        />
-      </Show>
+        >
+          <Icon icon="iconWes" />
+          Start
+        </MenuButton>
+        <div class="VerticalSeparator" />
+        <div class="VerticalHandle" />
+        <For each={state.windows.filter((window) => window.showInTaskbar)}>
+          {(window) => (
+            <button
+              classList={{
+                TaskbarButton: true,
+                '-active': state.activeTaskWindow === window.id,
+                '-down': state.activeTaskWindow === window.id,
+              }}
+              onClick={() => windowManager.setActiveWindow(window)}
+            >
+              <Show when={window.icon}>
+                <Icon icon={window.icon!} />
+              </Show>
+              {window.title}
+            </button>
+          )}
+        </For>
+      </footer>
     </div>
   );
 };
