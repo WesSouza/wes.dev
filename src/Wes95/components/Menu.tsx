@@ -266,6 +266,7 @@ export function Menu(p: {
               classList={{
                 MenuItem: true,
                 '-active': activeIndex() === index(),
+                '-disabled': item.disabled,
               }}
               onClick={(event) => handleClick(index(), event.currentTarget)}
               onMouseEnter={(event) =>
