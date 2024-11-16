@@ -1,8 +1,7 @@
-import type { JSX } from 'solid-js/jsx-runtime';
 import type { WindowManager } from '../lib/WindowManager';
 import type { Point } from '../models/Geometry';
 import type { WindowState } from '../models/WindowState';
-import { Show } from 'solid-js';
+import { Show, type JSX } from 'solid-js';
 import { Symbol } from './Symbol';
 import { Icon } from './Icon';
 
