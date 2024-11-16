@@ -7,13 +7,20 @@
   border: 0;
   background-color: var(--wes95-color-material);
   list-style-type: none;
+  cursor: default;
 }
 
 .MenuItem {
   display: flex;
   align-items: center;
   padding: calc(var(--wes95-scale-value) * 2) calc(var(--wes95-scale-value) * 6);
-  gap: calc(var(--wes95-scale-value) * 2);
+  gap: calc(var(--wes95-scale-value) * 6);
+  min-height: calc(var(--wes95-scale-value) * 16);
+
+  &.-active {
+    color: var(--wes95-color-materialTextInvert);
+    background-color: var(--wes95-color-hoverBackground);
+  }
 }
 
 .MenuIcon {
@@ -30,6 +37,7 @@
 
 .MenuChevron {
   position: relative;
+  margin-inline-start: calc(var(--wes95-scale-value) * 11);
   left: calc(var(--wes95-scale-value) * 4);
   width: calc(var(--wes95-scale-value) * 9);
 }
