@@ -141,6 +141,15 @@ export function Menu(p: {
     }
 
     if (
+      axisPosition < 0 ||
+      axisPosition + rect[axisDimensionProp] > areaRect[axisDimensionProp]
+    ) {
+      axisPosition = !directionStart
+        ? areaRect[axisDimensionProp] - rect[axisDimensionProp]
+        : 0;
+    }
+
+    if (
       orthogonalAxisPosition + rect[orthogonalAxisDimensionProp] >
       areaRect[orthogonalAxisDimensionProp]
     ) {
@@ -213,17 +222,14 @@ export function Menu(p: {
     });
   });
 
-  const handleItemPointerEnter = (
-    event: PointerEvent & {
-      currentTarget: HTMLLIElement;
-      target: Element;
-    },
+  const handleItemMouseEnter = (
     index: number,
+    currentTarget: HTMLLIElement,
   ) => {
     setActiveIndex(index);
     const item = p.items[index];
     window.clearTimeout(timer);
-    const anchor = event.currentTarget.getBoundingClientRect();
+    const anchor = currentTarget.getBoundingClientRect();
     timer = window.setTimeout(() => {
       if (item && item.type === 'item' && item.submenu) {
         setSubmenu({
@@ -241,13 +247,7 @@ export function Menu(p: {
     }, 450);
   };
 
-  const handleItemPointerLeave = (
-    _event: PointerEvent & {
-      currentTarget: HTMLLIElement;
-      target: Element;
-    },
-    _index: number,
-  ) => {
+  const handleItemMouseLeave = () => {
     setActiveIndex(submenu.index !== undefined ? submenu.index : undefined);
     window.clearTimeout(timer);
   };
@@ -268,8 +268,10 @@ export function Menu(p: {
                 '-active': activeIndex() === index(),
               }}
               onClick={(event) => handleClick(index(), event.currentTarget)}
-              onPointerEnter={(event) => handleItemPointerEnter(event, index())}
-              onPointerLeave={(event) => handleItemPointerLeave(event, index())}
+              onMouseEnter={(event) =>
+                handleItemMouseEnter(index(), event.currentTarget)
+              }
+              onMouseLeave={handleItemMouseLeave}
               ref={(el) => (itemRefs[index()] = el)}
             >
               <span class="MenuIcon">
