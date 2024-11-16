@@ -29,7 +29,12 @@ export const Explorer = () => {
   };
 
   return (
-    <div class="Screen">
+    <div
+      classList={{
+        Screen: true,
+        '-maximized': windowManager.state.windowMaximized,
+      }}
+    >
       <main class="Desktop" onClick={handleDesktopTaskbarClick}>
         <For each={state.windows}>
           {(window) => (
@@ -44,7 +49,7 @@ export const Explorer = () => {
       </main>
       <footer class="Taskbar" onClick={handleDesktopTaskbarClick}>
         <MenuButton
-          style="taskbar"
+          appearance="taskbar-start"
           items={[
             {
               type: 'item',
@@ -166,7 +171,7 @@ export const Explorer = () => {
               <Show when={window.icon}>
                 <Icon icon={window.icon!} />
               </Show>
-              {window.title}
+              <span class="TaskbarButtonTitle">{window.title}</span>
             </button>
           )}
         </For>

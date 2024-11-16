@@ -17,18 +17,14 @@
   }
 }
 
-.WindowContent {
-}
-
 .WindowTitleBar {
-  display: flex;
   align-items: center;
-
-  padding: var(--wes95-scale-value) calc(var(--wes95-scale-value) * 2);
-  color: var(--wes95-color-headerNotActiveText);
   background-color: var(--wes95-color-headerNotActiveBackground);
-
+  color: var(--wes95-color-headerNotActiveText);
   cursor: default;
+  display: flex;
+  gap: calc(var(--wes95-scale-value) * 2);
+  padding: var(--wes95-scale-value) calc(var(--wes95-scale-value) * 2);
 
   .Window.-active & {
     color: var(--wes95-color-headerText);
@@ -37,12 +33,14 @@
 }
 
 .WindowTitleIcon {
-  padding-inline-end: calc(var(--wes95-scale-value) * 2);
 }
 
 .WindowTitleText {
   flex-grow: 1;
   font-size: 1.2em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .WindowTitleButtons {
@@ -62,4 +60,8 @@
   &:last-child {
     margin-inline-start: calc(var(--wes95-scale-value) * 2);
   }
+}
+
+.WindowContent {
+  overflow: hidden;
 }

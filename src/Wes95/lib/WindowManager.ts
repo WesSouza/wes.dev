@@ -16,6 +16,7 @@ export type WindowManagerState = {
   activeWindowHistory: string[];
   lastWindowPosition: Point;
   windows: WindowState[];
+  windowMaximized: boolean;
   windowZIndexMap: Map<string, number>;
 };
 
@@ -39,6 +40,7 @@ export class WindowManager {
       activeWindowHistory: [],
       lastWindowPosition: { x: 0, y: 0 },
       windows: [],
+      windowMaximized: false,
       windowZIndexMap: new Map(),
     });
 
@@ -90,7 +92,7 @@ export class WindowManager {
     const rect = {
       ...initialPosition,
       width: 300,
-      height: 180,
+      height: 150,
     };
 
     const window: WindowState = {
@@ -198,6 +200,9 @@ export class WindowManager {
         modifyById(windowId, state.windows, (window) => {
           window.maximized = maximized;
         });
+        state.windowMaximized = state.windows.some(
+          (window) => window.maximized,
+        );
       }),
     );
   };
