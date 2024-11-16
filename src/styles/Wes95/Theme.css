@@ -13,3 +13,13 @@
 .Well {
   color: var(--wes95-color-canvasText);
 }
+
+.Button:disabled,
+.MenuItem.-disabled {
+  color: var(--wes95-color-canvasTextDisabled);
+
+  &:not(.-active) {
+    text-shadow: var(--wes95-color-canvasTextDisabledShadow)
+      calc(var(--wes95-scale-value) / 2) calc(var(--wes95-scale-value) / 2);
+  }
+}
