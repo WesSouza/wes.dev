@@ -47,6 +47,7 @@ function menuItemBelow(items: (MenuItem | MenuSeparator)[], index: number) {
 }
 
 export function Menu(p: {
+  activeFirstItem?: boolean | undefined;
   anchor: Anchor;
   items: (MenuItem | MenuSeparator)[];
   onClose?: () => void;
@@ -54,7 +55,9 @@ export function Menu(p: {
 }) {
   let timer: number | undefined;
   const itemRefs: HTMLElement[] = [];
-  const [activeIndex, setActiveIndex] = createSignal<number | undefined>();
+  const [activeIndex, setActiveIndex] = createSignal<number | undefined>(
+    p.activeFirstItem ? menuItemBelow(p.items, -1) : undefined,
+  );
   const [style, setStyle] = createSignal<JSX.CSSProperties>({
     opacity: 0,
   });
@@ -62,10 +65,12 @@ export function Menu(p: {
     anchor: Anchor | undefined;
     index: number | undefined;
     items: (MenuItem | MenuSeparator)[] | undefined;
+    activeFirstItem: boolean;
   }>({
     anchor: undefined,
     index: undefined,
     items: undefined,
+    activeFirstItem: false,
   });
 
   let menuElement!: HTMLMenuElement;
@@ -197,6 +202,7 @@ export function Menu(p: {
           const itemRef = itemRefs[currentIndex!];
           if (item && item.type === 'item' && item.submenu && itemRef) {
             setSubmenu({
+              activeFirstItem: true,
               anchor: itemRef.getBoundingClientRect(),
               index: currentIndex,
               items: item.submenu,
@@ -301,6 +307,7 @@ export function Menu(p: {
       </For>
       <Show when={submenu.items && submenu.anchor}>
         <Menu
+          activeFirstItem={submenu.activeFirstItem}
           items={submenu.items!}
           anchor={submenu.anchor!}
           onSelect={p.onSelect}
