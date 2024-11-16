@@ -5,3 +5,22 @@
   background-color: var(--wes95-color-material);
   gap: var(--wes95-spacing-padding);
 }
+
+.TaskbarButton {
+  &:not(.-start) {
+    flex-basis: calc(var(--wes95-scale-value) * 120);
+    flex-grow: 0;
+    flex-shrink: 1;
+    min-width: 0;
+  }
+
+  &.-start {
+    font-weight: bold;
+  }
+}
+
+.TaskbarButtonTitle {
+  overflow-y: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

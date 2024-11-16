@@ -8,7 +8,6 @@
 .Desktop {
   position: relative;
   flex-grow: 1;
-  background-color: var(--wes95-color-desktopBackground);
   z-index: 1;
   overflow: hidden;
 }
@@ -16,4 +15,12 @@
 .Taskbar {
   position: relative;
   z-index: 2;
+}
+
+body {
+  background-color: var(--wes95-color-desktopBackground);
+
+  &:has(.Screen.-maximized) {
+    background-color: var(--wes95-color-headerBackground);
+  }
 }

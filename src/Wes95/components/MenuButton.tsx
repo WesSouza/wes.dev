@@ -3,12 +3,12 @@ import type { Anchor } from '../models/Geometry';
 import { Menu, type MenuItem, type MenuSeparator } from './Menu';
 
 export const MenuButton = (p: {
+  appearance?: 'menu' | 'taskbar' | 'taskbar-start' | undefined;
   children?: JSX.Element;
   items: (MenuItem | MenuSeparator)[];
   onClose?: () => void;
   onOpen?: () => void;
   onSelect: (itemId: string) => void;
-  style?: 'menu' | 'taskbar' | undefined;
 }) => {
   let element!: HTMLButtonElement;
   const [anchor, setAnchor] = createSignal<Anchor>();
@@ -56,9 +56,11 @@ export const MenuButton = (p: {
       <button
         type="button"
         classList={{
-          MenuButton: p.style !== 'taskbar',
-          TaskbarButton: p.style === 'taskbar',
+          MenuButton: p.appearance !== 'taskbar',
+          TaskbarButton:
+            p.appearance === 'taskbar' || p.appearance === 'taskbar-start',
           '-down': menuOpen(),
+          '-start': p.appearance === 'taskbar-start',
         }}
         onClick={toggleMenu}
         ref={element}
