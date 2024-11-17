@@ -1,9 +1,12 @@
-import { createUniqueId } from 'solid-js';
+import { createUniqueId, type JSX } from 'solid-js';
 import { createStore, produce, type SetStoreFunction } from 'solid-js/store';
+import type { z, ZodType } from 'zod';
 import type { Point, Size } from '../models/Geometry';
 import type { WindowState } from '../models/WindowState';
+import { NotepadEditorWindow } from '../programs/Notepad/EditorWindow';
 import { handleActiveWindows } from '../utils/Windows';
 import { modifyById, modifyByIds } from '../utils/array';
+import { FileSystemOpenWindow } from '../system/FileSystem/OpenWindow';
 
 let shared: WindowManager | undefined;
 
@@ -29,6 +32,20 @@ export class WindowManager {
     return shared;
   }
 
+  windowLibrary: {
+    [k: string]: {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      [k: string]: (p: { data: any; window: WindowState }) => JSX.Element;
+    };
+  } = {
+    Notepad: {
+      Editor: NotepadEditorWindow,
+    },
+    FileSystem: {
+      Open: FileSystemOpenWindow,
+    },
+  };
+
   state: WindowManagerState;
   #setState: SetStoreFunction<WindowManagerState>;
 
@@ -48,22 +65,27 @@ export class WindowManager {
     this.#setState = setState;
   }
 
+  // MARK: Window
+
   addWindow = (
-    windowInit: Pick<
-      WindowState,
-      | 'icon'
-      | 'maximized'
-      | 'minimized'
-      | 'parentId'
-      | 'sizeConstraints'
-      | 'showInTaskbar'
-      | 'title'
-      | 'url'
+    schema: z.AnyZodObject,
+    url: string,
+    windowInit: Partial<
+      Pick<
+        WindowState,
+        | 'icon'
+        | 'maximized'
+        | 'minimized'
+        | 'parentId'
+        | 'sizeConstraints'
+        | 'showInTaskbar'
+        | 'title'
+      >
     > & {
       active?: boolean | undefined;
       position?: Point | undefined;
       size?: Size | undefined;
-    },
+    } = {},
   ): WindowState => {
     const id = createUniqueId();
     let parentId = windowInit.parentId;
@@ -96,15 +118,16 @@ export class WindowManager {
     };
 
     const window: WindowState = {
+      dataSchema: schema,
       id,
       parentId,
       rect,
       icon: windowInit.icon,
-      title: windowInit.title,
+      title: windowInit.title ?? '',
       maximized: windowInit.maximized,
       minimized: windowInit.minimized,
-      url: windowInit.url,
-      showInTaskbar: windowInit.showInTaskbar,
+      url,
+      showInTaskbar: windowInit.showInTaskbar ?? parentId === undefined,
     };
 
     this.#setState(
@@ -154,11 +177,14 @@ export class WindowManager {
   };
 
   isWindowActive = (windowId: string) => {
-    return (
-      this.state.activeTaskWindow === windowId ||
-      this.state.activeWindow === windowId
-    );
+    return this.state.activeWindow === windowId;
   };
+
+  isWindowInTaskbar = (window: WindowState) => {
+    return window.showInTaskbar && !window.parentId;
+  };
+
+  // MARK: Editing
 
   setActiveWindow = (window: WindowState | undefined) => {
     this.#setState(
@@ -253,5 +279,62 @@ export class WindowManager {
         });
       }),
     );
+  };
+
+  // MARK: Events
+
+  handlers = new Map<string, Map<(event: unknown) => void, ZodType>>();
+
+  addHandler = <T extends z.ZodTypeAny>(
+    delegateId: string,
+    handler: (event: z.infer<T>) => void,
+    schema: T,
+  ) => {
+    let handlers = this.handlers.get(delegateId);
+    if (!handlers) {
+      handlers = new Map();
+      this.handlers.set(delegateId, handlers);
+    }
+
+    handlers.set(handler, schema);
+  };
+
+  handleOnce = <T extends z.ZodTypeAny>(
+    delegateId: string,
+    handler: (event: z.infer<T>) => void,
+    schema: T,
+  ) => {
+    const handleAndRemove = (event: unknown) => {
+      const parsedEvent = schema.safeParse(event);
+      if (parsedEvent.success) {
+        handler(parsedEvent.data);
+        this.removeHandler(delegateId, handleAndRemove);
+      }
+    };
+    this.addHandler(delegateId, handleAndRemove, schema);
+  };
+
+  removeHandler = (delegateId: string, handler: (event: unknown) => void) => {
+    let handlers = this.handlers.get(delegateId);
+    if (!handlers) {
+      handlers = new Map();
+      this.handlers.set(delegateId, handlers);
+    }
+
+    handlers.delete(handler);
+  };
+
+  delegate = (delegateId: string, event: unknown) => {
+    const handlers = this.handlers.get(delegateId);
+    if (!handlers) {
+      return;
+    }
+
+    for (const [handler, schema] of handlers) {
+      const parsedEvent = schema.safeParse(event);
+      if (parsedEvent.success) {
+        handler(parsedEvent.data);
+      }
+    }
   };
 }
