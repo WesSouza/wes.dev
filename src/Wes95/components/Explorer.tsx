@@ -1,21 +1,27 @@
 import { For, Show, type JSX } from 'solid-js';
+import { ProgramManager } from '../lib/ProgramManager';
 import { WindowManager } from '../lib/WindowManager';
 import { Icon } from './Icon';
 import { MenuButton } from './MenuButton';
 import { Window } from './Window';
+import { EditorDataSchema } from '../programs/Notepad/EditorWindow';
 
 export const Explorer = () => {
+  const programManager = ProgramManager.shared;
   const windowManager = WindowManager.shared;
   const state = windowManager.state;
 
   const addWindow = (id: string) => {
-    windowManager.addWindow({
-      icon: 'iconWes',
-      title: 'Window ' + id,
-      url: `file://Window?id=${id}`,
-      showInTaskbar: true,
-      active: true,
-    });
+    windowManager.addWindow(
+      EditorDataSchema,
+      `app://Notepad/Editor?file=File_${id}`,
+      {
+        icon: 'fileTypeText',
+        title: 'File_' + id + ' - Notepad',
+        showInTaskbar: true,
+        active: true,
+      },
+    );
   };
 
   const handleDesktopTaskbarClick: JSX.EventHandler<HTMLElement, MouseEvent> = (
@@ -158,7 +164,11 @@ export const Explorer = () => {
         </MenuButton>
         <div class="VerticalSeparator" />
         <div class="VerticalHandle" />
-        <For each={state.windows.filter((window) => window.showInTaskbar)}>
+        <For
+          each={state.windows.filter((window) =>
+            windowManager.isWindowInTaskbar(window),
+          )}
+        >
           {(window) => (
             <button
               classList={{

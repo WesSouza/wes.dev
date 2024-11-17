@@ -4,6 +4,7 @@ import type { WindowState } from '../models/WindowState';
 import { Show, type JSX } from 'solid-js';
 import { Symbol } from './Symbol';
 import { Icon } from './Icon';
+import { parseSearchParams } from 'zod-search-params';
 
 export function Window(p: {
   active: boolean;
@@ -122,6 +123,41 @@ export function Window(p: {
     }
   };
 
+  const windowContents = () => {
+    const url = new URL(p.window.url);
+    const programName = url.hostname;
+    const windowName = url.pathname.replace(/^\//, '').replace(/\\/g, '_');
+    // @ts-expect-error
+    const data: z.infer<p.window.dataSchema> = parseSearchParams(
+      // @ts-expect-error
+      p.window.dataSchema,
+      url.searchParams,
+    );
+
+    const program = windowManager.windowLibrary[programName];
+    if (!program || typeof program !== 'object') {
+      console.error(
+        `[Window] Missing program ${programName} for URL `,
+        url.toString(),
+      );
+      return;
+    }
+
+    const WindowContentComponent = program[windowName];
+    if (
+      !WindowContentComponent ||
+      typeof WindowContentComponent !== 'function'
+    ) {
+      console.error(
+        `[Window] Missing window ${windowName} for URL `,
+        url.toString(),
+      );
+      return;
+    }
+
+    return <WindowContentComponent data={data} window={p.window} />;
+  };
+
   return (
     <section
       classList={{
@@ -185,42 +221,7 @@ export function Window(p: {
           </button>
         </div>
       </div>
-      <div class="WindowContent SmallSpacing">
-        {p.window.url}
-        <div class="Horizontal SmallGap">
-          <button
-            type="button"
-            class="Button"
-            onClick={() => windowManager.setWindowTitle(p.window.id, 'Test')}
-          >
-            Set Title
-          </button>
-          <button
-            type="button"
-            class="Button"
-            onClick={() => windowManager.setWindowIcon(p.window.id, 'iconCD')}
-          >
-            Set Icon
-          </button>
-        </div>
-        <div class="Horizontal SmallGap">
-          <button
-            type="button"
-            class="Button"
-            onClick={() =>
-              windowManager.addWindow({
-                showInTaskbar: false,
-                title: 'Inner Window',
-                url: 'file://InnerWindow',
-                active: true,
-                parentId: p.window.id,
-              })
-            }
-          >
-            Add Child Window
-          </button>
-        </div>
-      </div>
+      <div class="WindowContent SmallSpacing">{windowContents()}</div>
       <div class="WindowResize"></div>
     </section>
   );
