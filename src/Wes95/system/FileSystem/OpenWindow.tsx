@@ -1,6 +1,6 @@
-import { WindowManager } from 'src/Wes95/lib/WindowManager';
-import type { WindowState } from 'src/Wes95/models/WindowState';
 import { z } from 'zod';
+import { WindowManager } from '../../lib/WindowManager';
+import type { WindowState } from '../../models/WindowState';
 
 export const FSOpenDataSchema = z.object({
   delegateId: z.string(),

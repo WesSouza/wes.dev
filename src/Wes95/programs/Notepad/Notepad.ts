@@ -1,4 +1,4 @@
-import { WindowManager } from '@/Wes95/lib/WindowManager';
+import { WindowManager } from '../../lib/WindowManager';
 import { NotepadEditorDataSchema } from './EditorWindow';
 
 export class NotepadProgram {

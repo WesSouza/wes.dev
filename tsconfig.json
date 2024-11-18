@@ -2,16 +2,12 @@
   "extends": "astro/tsconfigs/strictest",
   "compilerOptions": {
     "alwaysStrict": true,
-    "baseUrl": ".",
     "importHelpers": true,
     "jsx": "preserve",
     "jsxImportSource": "solid-js",
     "lib": ["DOM", "ESNext"],
     "noImplicitAny": true,
     "noImplicitThis": true,
-    "paths": {
-      "@/*": ["src/*"]
-    },
     "rootDir": ".",
     "skipLibCheck": true,
     "sourceMap": true,

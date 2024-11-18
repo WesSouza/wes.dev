@@ -1,11 +1,11 @@
-import { WindowManager } from '@/Wes95/lib/WindowManager';
-import type { WindowState } from '@/Wes95/models/WindowState';
+import { createSignal, createUniqueId } from 'solid-js';
+import { z } from 'zod';
+import { WindowManager } from '../../lib/WindowManager';
+import type { WindowState } from '../../models/WindowState';
 import {
   FSOpenDataSchema,
   FSOpenEventSchema,
-} from '@/Wes95/system/FileSystem/OpenWindow';
-import { createSignal, createUniqueId } from 'solid-js';
-import { z } from 'zod';
+} from '../../system/FileSystem/OpenWindow';
 
 export const NotepadEditorDataSchema = z.object({
   file: z.string().optional(),
