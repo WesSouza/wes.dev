@@ -20,7 +20,6 @@ export type WindowManagerState = {
   activeWindowHistory: string[];
   lastWindowPosition: Point;
   windows: WindowState[];
-  windowMaximized: boolean;
   windowZIndexMap: Map<string, number>;
 };
 
@@ -61,7 +60,6 @@ export class WindowManager {
       activeWindowHistory: [],
       lastWindowPosition: { x: 0, y: 0 },
       windows: [],
-      windowMaximized: false,
       windowZIndexMap: new Map(),
     });
 
@@ -180,6 +178,10 @@ export class WindowManager {
     return windowId ? this.state.windowZIndexMap.get(windowId) : undefined;
   };
 
+  isAnyWindowMaximized = () => {
+    return this.state.windows.some((window) => window.maximized);
+  };
+
   isWindowActive = (windowId: string) => {
     return this.state.activeWindow === windowId;
   };
@@ -230,9 +232,6 @@ export class WindowManager {
         modifyById(windowId, state.windows, (window) => {
           window.maximized = maximized;
         });
-        state.windowMaximized = state.windows.some(
-          (window) => window.maximized,
-        );
       }),
     );
   };
