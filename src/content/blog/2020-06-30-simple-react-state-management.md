@@ -5,6 +5,7 @@ description: 'A good state system aims to be concise, easy to scale, and easy to
 date: '2020-06-30T17:39:55.503Z'
 tags: ['react', 'webdev', 'javascript', 'typescript']
 published: true
+wes95_file: '/C/My_Documents/Blog/Simple React State Management.doc'
 ---
 
 A good state system aims to be concise, easy to scale, and easy to debug. State is very unique per project, so a "one size fits all" framework is very unlikely to ever exist. [Redux](https://redux.js.org/), [MobX](https://mobx.js.org/README.html), [XState](https://github.com/statelyai/xstate), [Apollo](https://www.apollographql.com/) and [Relay](https://relay.dev/) are some great frameworks, but they all have compromises.

@@ -5,13 +5,14 @@ description: 'Software development is not about how to write perfect, bug-free c
 date: '2019-10-08T16:45:10.047Z'
 tags: ['webdev', 'debug', 'css', 'javascript']
 published: false
+wes95_file: '/C/My_Documents/Blog/Something Broke! How do I fix it.doc'
 ---
 
 Software development is not about how to write perfect, bug-free code, but to be prepared to handle problems when they arise.
 
 The art of fighting a bug is usually referred as debugging, and most runtimes provide a way of helping that.
 
-Browsers offer the “developer tools” view, which allows you to inspect 
+Browsers offer the “developer tools” view, which allows you to inspect
 
 ---
 
@@ -38,7 +39,7 @@ Behavior issues indicates something is either not implemented, not connected to 
 - Before trying the interaction, is there any error that could prevent further interactions to function properly?
 - After trying the interactions, are there any new errors?
 - If there is no error, is the correct functions connected to the interaction event?
-- 
+-
 
 # The application crashes
 

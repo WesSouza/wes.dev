@@ -5,6 +5,7 @@ description: 'The world is not happy with Twitter. Lots of really bad decisions 
 date: '2022-11-20T23:50:59.836Z'
 tags: ['product', 'opinion', 'discuss']
 published: true
+wes95_file: '/C/My_Documents/Blog/The Next Twitter.doc'
 ---
 
 The world is not happy with Twitter. Lots of really bad decisions are being pushed by its arrogant new leadership, both in a hurry and in public. This it a unique opportunity to witness what bad management can do to teams and products on an entire company scale.
@@ -35,9 +36,7 @@ Twitter gives everyone an opportunity to write anything that can go viral. Posts
 
 This broadcast characteristic also attracts famous people to join the platform and bring their content and opinions, giving yet another reason for more people to engage. Large accounts can reach millions of people for free, and the common folk gets a direct communication channel. <sup><a name="note-3" href="#footnote-4">[3]</a></sup>
 
-
 ## But Wait, There’s More
-
 
 While I do believe that Twitter’s success can be associated with those two pillars, it is undenyable that many other factors played significant roles for the company to become as relevant as it is today.
 
@@ -49,8 +48,7 @@ What one can do from the start, and hopefully for the lifetime of the company, i
 
 ## The Next Twitter
 
-
-To me, *The Next Twitter* includes all of the above. It needs to provide a good amount of short-form content that can be expanded, important users that can raise engagement and bring more users to the platform, the best user experience possible on both the web and mobile devices, and good people making decisions guided by their users and their vision, not their guts.
+To me, _The Next Twitter_ includes all of the above. It needs to provide a good amount of short-form content that can be expanded, important users that can raise engagement and bring more users to the platform, the best user experience possible on both the web and mobile devices, and good people making decisions guided by their users and their vision, not their guts.
 
 It might be the case that Twitter itself collapses, ressurects and becomes its next self. Only time will tell.
 

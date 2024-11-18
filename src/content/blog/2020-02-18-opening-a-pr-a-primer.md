@@ -5,6 +5,7 @@ description: 'Pull Requests are the main path to add code to any open source pro
 date: '2020-02-18T23:00:00.000Z'
 tags: ['opensource', 'productivity', 'github', 'git']
 published: true
+wes95_file: '/C/My_Documents/Blog/Writing Good Pull Requests - A Primer.doc'
 ---
 
 Pull Requests are the main path to add code to any open source project, as well as many closed source ones. They are opportunities to add new features, fix bugs, or bring improvements to the quality of the project.
@@ -83,8 +84,8 @@ Sometimes extra assets can make a huge difference. If there is a visual change, 
 In our example, we could say:
 
     This fixes all cases where `binaryToString` stopped fooing, by making explicit
-    the need of the necessary encoding. 
-        
+    the need of the necessary encoding.
+
     It:
     - Fixes `binaryToString`, and adds a new encoding parameter
     - Updates usage of `binaryToString` across the code to pass the correct encoding

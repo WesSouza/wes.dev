@@ -1,19 +1,31 @@
-import { For, Show, type JSX } from 'solid-js';
-import { ProgramManager } from '../lib/ProgramManager';
+import { createEffect, For, Show, type JSX } from 'solid-js';
 import { WindowManager } from '../lib/WindowManager';
+import { NotepadEditorDataSchema } from '../programs/Notepad/EditorWindow';
 import { Icon } from './Icon';
 import { MenuButton } from './MenuButton';
 import { Window } from './Window';
-import { EditorDataSchema } from '../programs/Notepad/EditorWindow';
+import { WriteEditorDataSchema } from '../programs/Write/EditorWindow';
 
 export const Explorer = () => {
-  const programManager = ProgramManager.shared;
   const windowManager = WindowManager.shared;
   const state = windowManager.state;
 
+  createEffect(() => {
+    windowManager.addWindow(
+      WriteEditorDataSchema,
+      `app://Write/Editor?url=${encodeURIComponent('astro-content://documents/welcome')}`,
+      {
+        icon: 'fileTypeText',
+        title: 'Welcome! - Write',
+        showInTaskbar: true,
+        active: true,
+      },
+    );
+  });
+
   const addWindow = (id: string) => {
     windowManager.addWindow(
-      EditorDataSchema,
+      NotepadEditorDataSchema,
       `app://Notepad/Editor?file=File_${id}`,
       {
         icon: 'fileTypeText',

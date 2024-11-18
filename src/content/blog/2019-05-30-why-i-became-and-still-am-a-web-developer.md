@@ -5,6 +5,7 @@ description: 'Once upon a time, my young self opened Notepad, entered many chara
 date: '2019-05-30T20:05:32.074Z'
 tags: ['career', 'maker', 'javascript', 'webdev']
 published: true
+wes95_file: '/C/My_Documents/Blog/Why I Became, and still am, a Web Developer.doc'
 ---
 
 Once upon a time, my young self opened Notepad, entered many characters, saved as an `.html` file, opened it on Internet Explorer, and saw magic happen. It was life-changing.

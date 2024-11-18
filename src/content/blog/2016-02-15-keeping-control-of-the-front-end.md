@@ -5,6 +5,7 @@ description: 'At Booking.com, hundreds of developers and designers contribute da
 date: '2016-02-15T08:00:00.000Z'
 tags: ['components', 'development', 'jquery', 'javascript']
 published: true
+wes95_file: '/C/My_Documents/Blog/Keeping Control of the Front-end.doc'
 ---
 
 At Booking.com, hundreds of developers and designers contribute daily to our codebase, which leads to potential complications with code discoverability, maintenance, and reuse. In this post, we’re going to focus on the client-side aspect of these challenges, and introduce some of the techniques we use to tackle them.

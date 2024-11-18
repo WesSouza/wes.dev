@@ -5,6 +5,7 @@ description: 'This error has plagued me for years now. And thanks to Inigo I fin
 date: '2023-01-15T21:23:12.893Z'
 tags: ['typescript', 'generics', 'javascript']
 published: true
+wes95_file: '/C/My_Documents/Blog/B is assignable to the constraint of type T.doc'
 ---
 
 This error has plagued me for years now. And [thanks to Inigo I finally understood the problem](https://stackoverflow.com/a/70392066/572647).
