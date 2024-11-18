@@ -50,7 +50,7 @@ export const Explorer = () => {
     <div
       classList={{
         Screen: true,
-        '-maximized': windowManager.state.windowMaximized,
+        '-maximized': windowManager.isAnyWindowMaximized(),
       }}
     >
       <main class="Desktop" onClick={handleDesktopTaskbarClick}>
