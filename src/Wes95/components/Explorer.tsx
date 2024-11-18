@@ -1,16 +1,16 @@
-import { createEffect, For, Show, type JSX } from 'solid-js';
+import { For, onMount, Show, type JSX } from 'solid-js';
 import { WindowManager } from '../lib/WindowManager';
 import { NotepadEditorDataSchema } from '../programs/Notepad/EditorWindow';
+import { WriteEditorDataSchema } from '../programs/Write/EditorWindow';
 import { Icon } from './Icon';
 import { MenuButton } from './MenuButton';
 import { Window } from './Window';
-import { WriteEditorDataSchema } from '../programs/Write/EditorWindow';
 
 export const Explorer = () => {
   const windowManager = WindowManager.shared;
   const state = windowManager.state;
 
-  createEffect(() => {
+  onMount(() => {
     windowManager.addWindow(
       WriteEditorDataSchema,
       `app://Write/Editor?url=${encodeURIComponent('astro-content://documents/welcome')}`,

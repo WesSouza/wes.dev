@@ -1,13 +1,13 @@
-import { Markdown } from '@/Wes95/components/Markdown';
-import { FileSystemManager } from '@/Wes95/lib/FileSystemManager';
-import { WindowManager } from '@/Wes95/lib/WindowManager';
-import type { WindowState } from '@/Wes95/models/WindowState';
+import { createResource, createSignal, createUniqueId } from 'solid-js';
+import { z } from 'zod';
+import { Markdown } from '../../components/Markdown';
+import { FileSystemManager } from '../../lib/FileSystemManager';
+import { WindowManager } from '../../lib/WindowManager';
+import type { WindowState } from '../../models/WindowState';
 import {
   FSOpenDataSchema,
   FSOpenEventSchema,
-} from '@/Wes95/system/FileSystem/OpenWindow';
-import { createResource, createSignal, createUniqueId } from 'solid-js';
-import { z } from 'zod';
+} from '../../system/FileSystem/OpenWindow';
 
 export const WriteEditorDataSchema = z.object({
   url: z.string().optional(),

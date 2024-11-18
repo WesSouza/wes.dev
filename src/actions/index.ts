@@ -1,7 +1,7 @@
-import type { AstroContentEntry } from '@/Wes95/models/AstroContent';
 import { defineAction } from 'astro:actions';
 import { getCollection, getEntry } from 'astro:content';
 import { z } from 'astro:schema';
+import type { AstroContentEntry } from '../Wes95/models/AstroContent';
 
 export const server = {
   getCollection: defineAction({
