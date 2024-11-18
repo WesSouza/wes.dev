@@ -5,6 +5,7 @@ description: 'Working for a couple of big companies as MTV, Univision and Bookin
 date: '2015-03-01T08:00:00.000Z'
 tags: ['code', 'webdev', 'css', 'scalability']
 published: true
+wes95_file: '/C/My_Documents/Blog/Small Things to Make Others Happy.doc'
 ---
 
 Working for a couple of big companies as [MTV](https://www.mtv.com.br), [Univision](https://www.univision.com) and [Booking.com](https://www.booking.com) gave me a glimpse of what it is to deploy my code to a huge amount of users, and also share it with a lot of other developers and designers.
@@ -83,10 +84,8 @@ Specially when copying code.
 
 ```html
 <div>
-     <a>
-Drunk code.
- </a>
-   </div>
+  <a> Drunk code. </a>
+</div>
 ```
 
 ### Explain Your Code
@@ -94,10 +93,11 @@ Drunk code.
 We are not in 1980 anymore, your methods, variable and class names can be bigger and more descriptive. Other people must understand what your code does without reading extensive documentation or attending a workshop you give.
 
 ```js
-function wat(a) {  // what is a?
-  let b = a.c;     // what is c?
-  b += d.e;        // where the fuck did d come from?
-  return !!b;      // oh dear.
+function wat(a) {
+  // what is a?
+  let b = a.c; // what is c?
+  b += d.e; // where the fuck did d come from?
+  return !!b; // oh dear.
 }
 ```
 

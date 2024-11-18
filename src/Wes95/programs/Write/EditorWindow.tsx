@@ -1,23 +1,26 @@
+import { FileSystemManager } from '@/Wes95/lib/FileSystemManager';
 import { WindowManager } from '@/Wes95/lib/WindowManager';
 import type { WindowState } from '@/Wes95/models/WindowState';
 import {
   FSOpenDataSchema,
   FSOpenEventSchema,
 } from '@/Wes95/system/FileSystem/OpenWindow';
-import { createSignal, createUniqueId } from 'solid-js';
+import { createResource, createSignal, createUniqueId } from 'solid-js';
 import { z } from 'zod';
 
-export const NotepadEditorDataSchema = z.object({
-  file: z.string().optional(),
+export const WriteEditorDataSchema = z.object({
+  url: z.string().optional(),
 });
 
-export type NotepadEditorData = z.infer<typeof NotepadEditorDataSchema>;
+export type WriteEditorData = z.infer<typeof WriteEditorDataSchema>;
 
-export function NotepadEditorWindow(p: {
+export function WriteEditorWindow(p: {
   window: WindowState;
-  data: NotepadEditorData;
+  data: WriteEditorData;
 }) {
-  const [file, setFile] = createSignal(p.data.file);
+  const [url, setUrl] = createSignal(p.data.url);
+
+  const [file] = createResource(url, FileSystemManager.shared.readFile);
 
   const openFile = () => {
     const delegateId = createUniqueId();
@@ -33,7 +36,7 @@ export function NotepadEditorWindow(p: {
     WindowManager.shared.handleOnce(
       delegateId,
       (event) => {
-        setFile(event.url);
+        setUrl(event.url);
       },
       FSOpenEventSchema,
     );
@@ -41,7 +44,7 @@ export function NotepadEditorWindow(p: {
 
   return (
     <div>
-      {file() ?? 'New File'}
+      {file()?.data?.body}
       <button type="button" class="Button" onClick={openFile}>
         Open
       </button>

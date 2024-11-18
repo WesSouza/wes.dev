@@ -2,26 +2,26 @@ import { WindowManager } from 'src/Wes95/lib/WindowManager';
 import type { WindowState } from 'src/Wes95/models/WindowState';
 import { z } from 'zod';
 
-export const OpenDataSchema = z.object({
+export const FSOpenDataSchema = z.object({
   delegateId: z.string(),
 });
 
-export type OpenData = z.infer<typeof OpenDataSchema>;
+export type FSOpenData = z.infer<typeof FSOpenDataSchema>;
 
-export const OpenEventSchema = z
+export const FSOpenEventSchema = z
   .object({
     url: z.string(),
   })
   .brand<'FileSystem/OpenEvent'>();
 
-export type OpenEvent = z.infer<typeof OpenEventSchema>;
+export type FSOpenEvent = z.infer<typeof FSOpenEventSchema>;
 
 export function FileSystemOpenWindow(p: {
-  data: OpenData;
+  data: FSOpenData;
   window: WindowState;
 }) {
   const handleClick = () => {
-    const openArguments = OpenEventSchema.parse({
+    const openArguments = FSOpenEventSchema.parse({
       url: 'file:///Test.txt',
     });
     WindowManager.shared.delegate(p.data.delegateId, openArguments);

@@ -5,6 +5,7 @@ description: 'I don’t like GPGTools. I want GPG on macOS. Every tutorial has s
 date: '2019-01-15T16:16:21.000Z'
 tags: ['gpgtools', 'gpg', 'git', 'howto']
 published: true
+wes95_file: '/C/My_Documents/Blog/how2 - Using GPG on macOS without GPGTools.doc'
 ---
 
 I don’t like GPGTools. I want GPG on macOS. Every tutorial has some obsolete part. Here’s what I did.

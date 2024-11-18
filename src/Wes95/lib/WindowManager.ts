@@ -7,6 +7,7 @@ import { NotepadEditorWindow } from '../programs/Notepad/EditorWindow';
 import { handleActiveWindows } from '../utils/Windows';
 import { modifyById, modifyByIds } from '../utils/array';
 import { FileSystemOpenWindow } from '../system/FileSystem/OpenWindow';
+import { WriteEditorWindow } from '../programs/Write/EditorWindow';
 
 let shared: WindowManager | undefined;
 
@@ -43,6 +44,9 @@ export class WindowManager {
     },
     FileSystem: {
       Open: FileSystemOpenWindow,
+    },
+    Write: {
+      Editor: WriteEditorWindow,
     },
   };
 

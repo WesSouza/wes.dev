@@ -5,6 +5,7 @@ description: "Mention it isn't Mention how the web became an operating system ab
 date: '2019-09-11T14:13:28.984Z'
 tags: ['react', 'html', 'webdev', 'javascript']
 published: false
+wes95_file: '/C/My_Documents/Blog/Why is the web so complicated.doc'
 ---
 
 - Mention it isn't

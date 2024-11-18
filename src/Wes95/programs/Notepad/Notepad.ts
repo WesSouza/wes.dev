@@ -1,5 +1,5 @@
 import { WindowManager } from '@/Wes95/lib/WindowManager';
-import { EditorDataSchema } from './EditorWindow';
+import { NotepadEditorDataSchema } from './EditorWindow';
 
 export class NotepadProgram {
   windowManager = WindowManager.shared;
@@ -8,7 +8,7 @@ export class NotepadProgram {
     const url = new URL('app://Notepad/Editor');
     if (args.file) url.searchParams.set('file', args.file);
 
-    this.windowManager.addWindow(EditorDataSchema, url.toString(), {
+    this.windowManager.addWindow(NotepadEditorDataSchema, url.toString(), {
       showInTaskbar: true,
       title: 'Notepad',
       icon: 'fileTypeText',
