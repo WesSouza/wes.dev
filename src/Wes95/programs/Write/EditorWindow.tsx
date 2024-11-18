@@ -1,3 +1,4 @@
+import { Markdown } from '@/Wes95/components/Markdown';
 import { FileSystemManager } from '@/Wes95/lib/FileSystemManager';
 import { WindowManager } from '@/Wes95/lib/WindowManager';
 import type { WindowState } from '@/Wes95/models/WindowState';
@@ -44,7 +45,8 @@ export function WriteEditorWindow(p: {
 
   return (
     <div>
-      {file()?.data?.body}
+      <Markdown markdown={file()?.data?.body} />
+
       <button type="button" class="Button" onClick={openFile}>
         Open
       </button>

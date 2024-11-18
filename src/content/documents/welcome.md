@@ -6,7 +6,7 @@ date: '2024-11-17T19:45:00.000Z'
 wes95_file: '/C/My_Documents/Welcome.doc'
 ---
 
-<img src="/C/My_Documents/Photo.png" alt="Dithered photo of Wes" valign="right" />
+![Dithered photo of Wes style="float: right; padding-inline-start: 10px; "](/C/My_Documents/Photo.png)
 
 # Hi, Welcome to My website!
 
