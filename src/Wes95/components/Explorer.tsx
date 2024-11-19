@@ -7,10 +7,12 @@ import { MenuButton } from './MenuButton';
 import { Window } from './Window';
 
 export const Explorer = () => {
+  let desktopRef!: HTMLElement;
   const windowManager = WindowManager.shared;
   const state = windowManager.state;
 
   onMount(() => {
+    windowManager.setDesktopRect(desktopRef.getBoundingClientRect());
     windowManager.addWindow(
       WriteEditorDataSchema,
       `app://Write/Editor?url=${encodeURIComponent('astro-content://documents/welcome')}`,
@@ -53,7 +55,11 @@ export const Explorer = () => {
         '-maximized': windowManager.isAnyWindowMaximized(),
       }}
     >
-      <main class="Desktop" onClick={handleDesktopTaskbarClick}>
+      <main
+        class="Desktop"
+        onClick={handleDesktopTaskbarClick}
+        ref={desktopRef}
+      >
         <For each={state.windows}>
           {(window) => (
             <Window

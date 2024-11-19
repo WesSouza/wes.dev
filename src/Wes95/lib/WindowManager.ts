@@ -8,16 +8,26 @@ import { handleActiveWindows } from '../utils/Windows';
 import { modifyById, modifyByIds } from '../utils/array';
 import { FileSystemOpenWindow } from '../system/FileSystem/OpenWindow';
 import { WriteEditorWindow } from '../programs/Write/EditorWindow';
+import { clamp } from '../utils/size';
 
 let shared: WindowManager | undefined;
 
 const NextWindowPositionOffset = 32;
+const MinVisibleLeft = 6 + 4 + 32 + 4 + 32;
+const MinVisibleRight = 34 + 34 + 4 + 34 + 6 + 4 + 34;
+const MinVisibleHeight = 21;
+
+const DefaultMinSize = {
+  width: 320,
+  height: 240,
+};
 
 export type WindowManagerState = {
   activeTaskWindow: string | null;
   activeTaskWindowHistory: string[];
   activeWindow: string | null;
   activeWindowHistory: string[];
+  desktopRect: Rect;
   lastWindowPosition: Point;
   windows: WindowState[];
   windowZIndexMap: Map<string, number>;
@@ -58,6 +68,7 @@ export class WindowManager {
       activeTaskWindowHistory: [],
       activeWindow: null,
       activeWindowHistory: [],
+      desktopRect: { x: 0, y: 0, width: 0, height: 0 },
       lastWindowPosition: { x: 0, y: 0 },
       windows: [],
       windowZIndexMap: new Map(),
@@ -66,6 +77,16 @@ export class WindowManager {
     this.state = state;
     this.#setState = setState;
   }
+
+  // MARK: Desktop
+
+  setDesktopRect = (rect: Rect) => {
+    this.#setState(
+      produce((state) => {
+        state.desktopRect = rect;
+      }),
+    );
+  };
 
   // MARK: Window
 
@@ -115,8 +136,7 @@ export class WindowManager {
 
     const rect = {
       ...initialPosition,
-      width: 300,
-      height: 150,
+      ...DefaultMinSize,
     };
 
     const window: WindowState = {
@@ -130,6 +150,10 @@ export class WindowManager {
       minimized: windowInit.minimized,
       url,
       showInTaskbar: windowInit.showInTaskbar ?? parentId === undefined,
+      sizeConstraints: {
+        min: windowInit.sizeConstraints?.min ?? DefaultMinSize,
+        max: windowInit.sizeConstraints?.max,
+      },
     };
 
     this.#setState(
@@ -269,13 +293,13 @@ export class WindowManager {
       return;
     }
 
-    if (position.x < 0) {
-      position.x = 0;
-    }
+    const minX = MinVisibleRight - window.rect.width;
+    const minY = -MinVisibleHeight;
+    const maxX = this.state.desktopRect.width - MinVisibleLeft;
+    const maxY = this.state.desktopRect.height - MinVisibleHeight;
 
-    if (position.y < 0) {
-      position.y = 0;
-    }
+    position.x = clamp(minX, position.x, maxX);
+    position.y = clamp(minY, position.y, maxY);
 
     this.#setState(
       produce((state) => {
@@ -287,38 +311,58 @@ export class WindowManager {
     );
   };
 
-  setWindowPositionAndSize = (windowId: string, positionAndSize: Rect) => {
+  setWindowSize = (windowId: string, size: Size, anchorToEdge = false) => {
     const window = this.getWindow(windowId);
     if (!window) {
       return;
     }
 
-    if (
-      positionAndSize.x < 0 ||
-      (window.sizeConstraints?.min?.width &&
-        positionAndSize.width < window.sizeConstraints?.min?.width) ||
-      (window.sizeConstraints?.max?.width &&
-        positionAndSize.width > window.sizeConstraints?.max?.width)
-    ) {
-      positionAndSize.width = window.rect.width;
-      positionAndSize.x = window.rect.x;
+    let x = window.rect.x;
+    let y = window.rect.y;
+    let width = clamp(
+      window.sizeConstraints?.min?.width,
+      size.width,
+      window.sizeConstraints?.max?.width,
+    );
+    let height = clamp(
+      window.sizeConstraints?.min?.height,
+      size.height,
+      window.sizeConstraints?.max?.height,
+    );
+
+    if (anchorToEdge) {
+      x = window.rect.x + window.rect.width - width;
+      y = window.rect.y + window.rect.height - height;
     }
 
-    if (
-      positionAndSize.y < 0 ||
-      (window.sizeConstraints?.min?.height &&
-        positionAndSize.height < window.sizeConstraints?.min?.height) ||
-      (window.sizeConstraints?.max?.height &&
-        positionAndSize.height > window.sizeConstraints?.max?.height)
-    ) {
-      positionAndSize.height = window.rect.height;
-      positionAndSize.y = window.rect.y;
+    if (x < 0) {
+      width += x;
+      x = 0;
+    }
+
+    if (y < 0) {
+      height += y;
+      y = 0;
+    }
+
+    const overflowX = x + width - this.state.desktopRect.width;
+    const overflowY = y + height - this.state.desktopRect.height;
+    if (overflowX > 0) {
+      width -= overflowX;
+    }
+    if (overflowY > 0) {
+      height -= overflowY;
     }
 
     this.#setState(
       produce((state) => {
         modifyById(windowId, state.windows, (window) => {
-          window.rect = positionAndSize;
+          window.rect = {
+            x,
+            y,
+            width,
+            height,
+          };
         });
       }),
     );
