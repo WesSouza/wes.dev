@@ -1,7 +1,7 @@
 import { createUniqueId, type JSX } from 'solid-js';
 import { createStore, produce, type SetStoreFunction } from 'solid-js/store';
 import type { z, ZodType } from 'zod';
-import type { Point, Size } from '../models/Geometry';
+import type { Point, Rect, Size } from '../models/Geometry';
 import type { WindowState } from '../models/WindowState';
 import { NotepadEditorWindow } from '../programs/Notepad/EditorWindow';
 import { handleActiveWindows } from '../utils/Windows';
@@ -264,11 +264,61 @@ export class WindowManager {
   };
 
   setWindowPosition = (windowId: string, position: Point) => {
+    const window = this.getWindow(windowId);
+    if (!window) {
+      return;
+    }
+
+    if (position.x < 0) {
+      position.x = 0;
+    }
+
+    if (position.y < 0) {
+      position.y = 0;
+    }
+
     this.#setState(
       produce((state) => {
         modifyById(windowId, state.windows, (window) => {
           window.rect.x = position.x;
           window.rect.y = position.y;
+        });
+      }),
+    );
+  };
+
+  setWindowPositionAndSize = (windowId: string, positionAndSize: Rect) => {
+    const window = this.getWindow(windowId);
+    if (!window) {
+      return;
+    }
+
+    if (
+      positionAndSize.x < 0 ||
+      (window.sizeConstraints?.min?.width &&
+        positionAndSize.width < window.sizeConstraints?.min?.width) ||
+      (window.sizeConstraints?.max?.width &&
+        positionAndSize.width > window.sizeConstraints?.max?.width)
+    ) {
+      positionAndSize.width = window.rect.width;
+      positionAndSize.x = window.rect.x;
+    }
+
+    if (
+      positionAndSize.y < 0 ||
+      (window.sizeConstraints?.min?.height &&
+        positionAndSize.height < window.sizeConstraints?.min?.height) ||
+      (window.sizeConstraints?.max?.height &&
+        positionAndSize.height > window.sizeConstraints?.max?.height)
+    ) {
+      positionAndSize.height = window.rect.height;
+      positionAndSize.y = window.rect.y;
+    }
+
+    this.#setState(
+      produce((state) => {
+        modifyById(windowId, state.windows, (window) => {
+          window.rect = positionAndSize;
         });
       }),
     );
