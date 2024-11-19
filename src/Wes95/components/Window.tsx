@@ -169,29 +169,32 @@ export function Window(p: {
       y: event.clientY - clickOffset!.y,
     };
 
-    const positionAndSize = {
-      ...rect,
+    const size = {
+      width: rect.width,
+      height: rect.height,
     };
 
     if (resizing.x) {
       if (resizing.anchorX) {
-        positionAndSize.width = resizing.anchorX - position.x;
-        positionAndSize.x = position.x;
+        size.width = resizing.anchorX - position.x;
       } else {
-        positionAndSize.width = event.clientX - rect.x - resizing.offsetX;
+        size.width = event.clientX - rect.x - resizing.offsetX;
       }
     }
 
     if (resizing.y) {
       if (resizing.anchorY) {
-        positionAndSize.height = resizing.anchorY - position.y;
-        positionAndSize.y = position.y;
+        size.height = resizing.anchorY - position.y;
       } else {
-        positionAndSize.height = event.clientY - rect.y - resizing.offsetY;
+        size.height = event.clientY - rect.y - resizing.offsetY;
       }
     }
 
-    windowManager.setWindowPositionAndSize(p.window.id, positionAndSize);
+    windowManager.setWindowSize(
+      p.window.id,
+      size,
+      Boolean(resizing.anchorX || resizing.anchorY),
+    );
   };
 
   const handleResizingPointerUp = (event: PointerEvent) => {
