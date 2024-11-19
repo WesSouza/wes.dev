@@ -6,6 +6,19 @@ import { Symbol } from './Symbol';
 import { Icon } from './Icon';
 import { parseSearchParams } from 'zod-search-params';
 
+const ResizeAreaWidth = 8;
+
+const CursorMap: Record<string, string> = {
+  nw: 'nwse',
+  n: 'ns',
+  ne: 'nesw',
+  w: 'ew',
+  e: 'ew',
+  sw: 'nesw',
+  s: 'ns',
+  se: 'nwse',
+};
+
 export function Window(p: {
   active: boolean;
   window: WindowState;
@@ -15,6 +28,14 @@ export function Window(p: {
   const { windowManager } = p;
 
   let clickOffset: Point | undefined;
+  const resizing = {
+    x: false,
+    y: false,
+    offsetX: 0,
+    offsetY: 0,
+    anchorX: 0,
+    anchorY: 0,
+  };
   const activePointers = new Set<number>();
   let windowRef!: HTMLElement;
 
@@ -34,11 +55,172 @@ export function Window(p: {
   const handleWindowPointerDown: JSX.EventHandler<HTMLElement, PointerEvent> = (
     event,
   ) => {
-    if (p.active || event.target.closest('button')) {
+    activePointers.add(event.pointerId);
+    if (
+      activePointers.size !== 1 ||
+      event.button !== 0 ||
+      event.target.closest('button') ||
+      event.target.closest('img')
+    ) {
       return;
     }
 
-    windowManager.setActiveWindow(p.window);
+    if (!p.active) {
+      windowManager.setActiveWindow(p.window);
+    }
+
+    const { rect } = p.window;
+    const x = event.clientX - rect.x;
+    const y = event.clientY - rect.y;
+
+    if (x <= ResizeAreaWidth) {
+      resizing.x = true;
+      resizing.anchorX = rect.width + rect.x;
+      resizing.offsetX = x;
+    }
+
+    if (x >= rect.width - ResizeAreaWidth) {
+      resizing.x = true;
+      resizing.offsetX = x - rect.width;
+    }
+
+    if (y <= ResizeAreaWidth) {
+      resizing.y = true;
+      resizing.anchorY = rect.height + rect.y;
+      resizing.offsetY = y;
+    }
+
+    if (y >= rect.height - ResizeAreaWidth) {
+      resizing.y = true;
+      resizing.offsetY = y - rect.height;
+    }
+
+    if (!resizing.x && !resizing.y) {
+      return;
+    }
+
+    clickOffset = {
+      x,
+      y,
+    };
+
+    document.documentElement.addEventListener(
+      'pointermove',
+      handleResizingPointerMove,
+      { passive: false },
+    );
+    document.documentElement.addEventListener(
+      'pointerdown',
+      handleResizingPointerDown,
+      { passive: false },
+    );
+    document.documentElement.addEventListener(
+      'pointerup',
+      handleResizingPointerUp,
+    );
+  };
+
+  const handleWindowPointerMove: JSX.EventHandler<HTMLElement, PointerEvent> = (
+    event,
+  ) => {
+    const { rect } = p.window;
+    const x = event.clientX - rect.x;
+    const y = event.clientY - rect.y;
+    let cursor = '';
+
+    if (y <= ResizeAreaWidth) {
+      cursor += 'n';
+    }
+
+    if (y >= rect.height - ResizeAreaWidth) {
+      cursor += 's';
+    }
+
+    if (x >= rect.width - ResizeAreaWidth) {
+      cursor += 'e';
+    }
+
+    if (x <= ResizeAreaWidth) {
+      cursor += 'w';
+    }
+
+    if (!cursor) {
+      windowRef.style.removeProperty('cursor');
+    } else {
+      windowRef.style.setProperty('cursor', CursorMap[cursor] + '-resize');
+    }
+  };
+
+  const handleResizingPointerDown = (event: PointerEvent) => {
+    activePointers.add(event.pointerId);
+  };
+
+  const handleResizingPointerMove = (event: PointerEvent) => {
+    if (activePointers.size > 1) {
+      return;
+    }
+
+    event.preventDefault();
+
+    const { rect } = p.window;
+
+    const position = {
+      x: event.clientX - clickOffset!.x,
+      y: event.clientY - clickOffset!.y,
+    };
+
+    const positionAndSize = {
+      ...rect,
+    };
+
+    if (resizing.x) {
+      if (resizing.anchorX) {
+        positionAndSize.width = resizing.anchorX - position.x;
+        positionAndSize.x = position.x;
+      } else {
+        positionAndSize.width = event.clientX - rect.x - resizing.offsetX;
+      }
+    }
+
+    if (resizing.y) {
+      if (resizing.anchorY) {
+        positionAndSize.height = resizing.anchorY - position.y;
+        positionAndSize.y = position.y;
+      } else {
+        positionAndSize.height = event.clientY - rect.y - resizing.offsetY;
+      }
+    }
+
+    windowManager.setWindowPositionAndSize(p.window.id, positionAndSize);
+  };
+
+  const handleResizingPointerUp = (event: PointerEvent) => {
+    activePointers.delete(event.pointerId);
+
+    resizing.x = false;
+    resizing.y = false;
+    resizing.offsetX = 0;
+    resizing.offsetY = 0;
+    resizing.anchorX = 0;
+    resizing.anchorY = 0;
+
+    document.documentElement.removeEventListener(
+      'pointermove',
+      handleResizingPointerMove,
+    );
+    document.documentElement.style.removeProperty('overscroll-behavior');
+    document.documentElement.style.removeProperty('touch-action');
+
+    if (activePointers.size === 1) {
+      document.documentElement.removeEventListener(
+        'pointerdown',
+        handleResizingPointerDown,
+      );
+      document.documentElement.removeEventListener(
+        'pointerup',
+        handleResizingPointerUp,
+      );
+    }
   };
 
   const handleTitlePointerDown: JSX.EventHandler<
@@ -50,7 +232,9 @@ export function Window(p: {
       activePointers.size !== 1 ||
       event.button !== 0 ||
       event.target.closest('button') ||
-      event.target.closest('img')
+      event.target.closest('img') ||
+      resizing.x ||
+      resizing.y
     ) {
       return;
     }
@@ -72,22 +256,25 @@ export function Window(p: {
 
     document.documentElement.addEventListener(
       'pointermove',
-      handlePointerMove,
+      handleMovingPointerMove,
       { passive: false },
     );
     document.documentElement.addEventListener(
       'pointerdown',
-      handlePointerDown,
+      handleMovingPointerDown,
       { passive: false },
     );
-    document.documentElement.addEventListener('pointerup', handlePointerUp);
+    document.documentElement.addEventListener(
+      'pointerup',
+      handleMovingPointerUp,
+    );
   };
 
-  const handlePointerDown = (event: PointerEvent) => {
+  const handleMovingPointerDown = (event: PointerEvent) => {
     activePointers.add(event.pointerId);
   };
 
-  const handlePointerMove = (event: PointerEvent) => {
+  const handleMovingPointerMove = (event: PointerEvent) => {
     if (activePointers.size > 1) {
       return;
     }
@@ -101,12 +288,12 @@ export function Window(p: {
     windowManager.setWindowPosition(p.window.id, position);
   };
 
-  const handlePointerUp = (event: PointerEvent) => {
+  const handleMovingPointerUp = (event: PointerEvent) => {
     activePointers.delete(event.pointerId);
 
     document.documentElement.removeEventListener(
       'pointermove',
-      handlePointerMove,
+      handleMovingPointerMove,
     );
     document.documentElement.style.removeProperty('overscroll-behavior');
     document.documentElement.style.removeProperty('touch-action');
@@ -114,11 +301,11 @@ export function Window(p: {
     if (activePointers.size === 1) {
       document.documentElement.removeEventListener(
         'pointerdown',
-        handlePointerDown,
+        handleMovingPointerDown,
       );
       document.documentElement.removeEventListener(
         'pointerup',
-        handlePointerUp,
+        handleMovingPointerUp,
       );
     }
   };
@@ -168,6 +355,7 @@ export function Window(p: {
       }}
       ref={windowRef}
       onPointerDown={handleWindowPointerDown}
+      onPointerMove={handleWindowPointerMove}
       style={{
         ...(!p.window.maximized
           ? {
