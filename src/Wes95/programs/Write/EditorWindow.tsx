@@ -1,5 +1,6 @@
 import { createResource, createSignal, createUniqueId } from 'solid-js';
 import { z } from 'zod';
+import { Icon } from '../../components/Icon';
 import { Markdown } from '../../components/Markdown';
 import { FileSystemManager } from '../../lib/FileSystemManager';
 import { WindowManager } from '../../lib/WindowManager';
@@ -44,12 +45,16 @@ export function WriteEditorWindow(p: {
   };
 
   return (
-    <div>
-      <Markdown markdown={file()?.data?.body} />
-
-      <button type="button" class="Button" onClick={openFile}>
-        Open
-      </button>
-    </div>
+    <>
+      <div class="Toolbar Horizontal">
+        <button type="button" class="Button" onClick={openFile}>
+          <Icon icon="toolbarOpen" />
+        </button>
+      </div>
+      <hr class="HorizontalSeparator" />
+      <div class="Field" style={{ 'flex-grow': 1 }}>
+        <Markdown markdown={file()?.data?.body} />
+      </div>
+    </>
   );
 }

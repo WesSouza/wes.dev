@@ -412,7 +412,7 @@ export function Window(p: {
           </button>
         </div>
       </div>
-      <div class="WindowContent SmallSpacing">{windowContents()}</div>
+      <div class="WindowContent">{windowContents()}</div>
       <div class="WindowResize"></div>
     </section>
   );
