@@ -33,7 +33,7 @@ export function NotepadEditorWindow(p: {
     WindowManager.shared.handleOnce(
       delegateId,
       (event) => {
-        setFile(event.url);
+        setFile(event.filePath);
       },
       FSOpenEventSchema,
     );

@@ -5,21 +5,27 @@ import { WriteEditorDataSchema } from '../programs/Write/EditorWindow';
 import { Icon } from './Icon';
 import { MenuButton } from './MenuButton';
 import { Window } from './Window';
+import { ScreenManager } from '../lib/ScreenManager';
 
 export const Explorer = () => {
   let desktopRef!: HTMLElement;
   const windowManager = WindowManager.shared;
+  const screenBreakpoint = ScreenManager.shared.screenBreakpoint;
   const state = windowManager.state;
+
+  console.log(screenBreakpoint());
 
   onMount(() => {
     windowManager.addWindow(
       WriteEditorDataSchema,
-      `app://Write/Editor?url=${encodeURIComponent('astro-content://documents/welcome')}`,
+      `app://Write/Editor?openFile=${encodeURIComponent('/C/My_Documents/Welcome.doc')}`,
       {
         icon: 'fileTypeText',
         title: 'Welcome! - Write',
         showInTaskbar: true,
         active: true,
+        size: { width: 440, height: 500 },
+        maximized: screenBreakpoint() === 'small',
       },
     );
   });

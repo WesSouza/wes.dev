@@ -8,6 +8,8 @@ published: true
 wes95_file: '/C/My_Documents/Blog/Why I Became, and still am, a Web Developer.doc'
 ---
 
+# Why I Became, and still am, a Web Developer
+
 Once upon a time, my young self opened Notepad, entered many characters, saved as an `.html` file, opened it on Internet Explorer, and saw magic happen. It was life-changing.
 
 Eighteen years later, and I'm making a living out of the same principles. HTML, CSS and JavaScript. Working for a product agency with amazing clients. Building native mobile apps, front-end websites, back-end systems. Living in the city I always dreamed of.

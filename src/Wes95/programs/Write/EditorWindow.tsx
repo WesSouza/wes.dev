@@ -1,4 +1,9 @@
-import { createResource, createSignal, createUniqueId } from 'solid-js';
+import {
+  createEffect,
+  createResource,
+  createSignal,
+  createUniqueId,
+} from 'solid-js';
 import { z } from 'zod';
 import { Icon } from '../../components/Icon';
 import { Markdown } from '../../components/Markdown';
@@ -11,7 +16,7 @@ import {
 } from '../../system/FileSystem/OpenWindow';
 
 export const WriteEditorDataSchema = z.object({
-  url: z.string().optional(),
+  openFile: z.string().optional(),
 });
 
 export type WriteEditorData = z.infer<typeof WriteEditorDataSchema>;
@@ -20,11 +25,20 @@ export function WriteEditorWindow(p: {
   window: WindowState;
   data: WriteEditorData;
 }) {
-  const [url, setUrl] = createSignal(p.data.url);
+  const fileSystem = FileSystemManager.shared;
+  const [openFilePath, setOpenFilePath] = createSignal(p.data.openFile);
 
-  const [file] = createResource(url, FileSystemManager.shared.readFile);
+  const [file] = createResource(openFilePath, fileSystem.getFile);
+  const [fileData] = createResource(openFilePath, fileSystem.readFile);
 
-  const openFile = () => {
+  createEffect(() => {
+    WindowManager.shared.setWindowTitle(
+      p.window.id,
+      `${file()?.name ?? 'Untitled'} - Write`,
+    );
+  });
+
+  const openFileDialog = () => {
     const delegateId = createUniqueId();
     WindowManager.shared.addWindow(
       FSOpenDataSchema,
@@ -38,7 +52,8 @@ export function WriteEditorWindow(p: {
     WindowManager.shared.handleOnce(
       delegateId,
       (event) => {
-        setUrl(event.url);
+        setOpenFilePath(event.filePath);
+        WindowManager.shared.setActiveWindow(p.window);
       },
       FSOpenEventSchema,
     );
@@ -50,7 +65,7 @@ export function WriteEditorWindow(p: {
         <button type="button" class="ToolbarButton">
           <Icon icon="toolbarFileNew" />
         </button>
-        <button type="button" class="ToolbarButton" onClick={openFile}>
+        <button type="button" class="ToolbarButton" onClick={openFileDialog}>
           <Icon icon="toolbarOpenFolder" />
         </button>
         <button type="button" class="ToolbarButton">
@@ -106,7 +121,7 @@ export function WriteEditorWindow(p: {
       <hr class="HorizontalSeparator" />
       <div class="Field">
         <div class="Content MediumSpacing Document">
-          <Markdown markdown={file()?.data?.body} />
+          <Markdown markdown={fileData()?.data?.body} />
         </div>
       </div>
     </>

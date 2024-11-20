@@ -8,6 +8,8 @@ published: true
 wes95_file: '/C/My_Documents/Blog/B is assignable to the constraint of type T.doc'
 ---
 
+# 'B' is assignable to the constraint of type 'T', but 'T' could be instantiated with a different subtype of constraint 'A'.
+
 This error has plagued me for years now. And [thanks to Inigo I finally understood the problem](https://stackoverflow.com/a/70392066/572647).
 
 TL;DR: When you use `T extends A` in a generic declaration, you require `T` to be _at least_ `A`, but it can have more properties (by being a different subtype).

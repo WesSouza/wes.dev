@@ -8,6 +8,8 @@ published: false
 wes95_file: '/C/My_Documents/Blog/Something Broke! How do I fix it.doc'
 ---
 
+# Something Broke! How do I fix it?
+
 Software development is not about how to write perfect, bug-free code, but to be prepared to handle problems when they arise.
 
 The art of fighting a bug is usually referred as debugging, and most runtimes provide a way of helping that.

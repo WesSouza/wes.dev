@@ -8,6 +8,8 @@ published: true
 wes95_file: '/C/My_Documents/Blog/The day I sold everything.doc'
 ---
 
+# The day I sold everything
+
 #### And what I’ve learned about the mobile internet
 
 In May 2014 I will move to Amsterdam (more about this in a future post), and just like every human being that needs to get rid of an entire apartment, it was time to do the typical post “family sells everything”.

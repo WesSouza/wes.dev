@@ -8,6 +8,8 @@ published: true
 wes95_file: '/C/My_Documents/Blog/From Brazil to Amsterdam.doc'
 ---
 
+# From Brazil to Amsterdam
+
 #### What I’ve learned after eight months living in the Netherlands
 
 In this beginning of 2015 I commemorated the eighth month of my arrival in Amsterdam. I was found by a Booking.com recruiter on May of the previous year, and after three interviews, 33 hours in airplanes and the usual bureaucracy, immigrated to the Netherlands with a permanent contract.

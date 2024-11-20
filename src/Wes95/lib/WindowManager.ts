@@ -126,8 +126,9 @@ export class WindowManager {
     }
 
     const rect = {
-      ...initialPosition,
       ...DefaultMinSize,
+      ...windowInit.size,
+      ...initialPosition,
     };
 
     const window: WindowState = {

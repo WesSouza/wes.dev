@@ -8,6 +8,8 @@ published: false
 wes95_file: '/C/My_Documents/Blog/Why is the web so complicated.doc'
 ---
 
+# Why is the web so complicated?
+
 - Mention it isn't
 - Mention how the web became an operating system abstraction
 - Mention code scalability

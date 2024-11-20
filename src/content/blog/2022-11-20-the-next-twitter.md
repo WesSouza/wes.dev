@@ -8,6 +8,8 @@ published: true
 wes95_file: '/C/My_Documents/Blog/The Next Twitter.doc'
 ---
 
+# The Next Twitter
+
 The world is not happy with Twitter. Lots of really bad decisions are being pushed by its arrogant new leadership, both in a hurry and in public. This it a unique opportunity to witness what bad management can do to teams and products on an entire company scale.
 
 Twitter has been, for better or worse, the world’s most public megaphone. It is where we as a collective go vent, broadcast, and have meaningful conversations with all sorts of people, all in the open.
