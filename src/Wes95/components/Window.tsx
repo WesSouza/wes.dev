@@ -104,7 +104,6 @@ export function Window(p: {
       y,
     };
 
-    document.documentElement.style.setProperty('overscroll-behavior', 'none');
     document.documentElement.style.setProperty('touch-action', 'none');
 
     document.documentElement.addEventListener(
@@ -214,7 +213,6 @@ export function Window(p: {
       'pointermove',
       handleResizingPointerMove,
     );
-    document.documentElement.style.removeProperty('overscroll-behavior');
     document.documentElement.style.removeProperty('touch-action');
 
     if (activePointers.size === 1) {
@@ -251,7 +249,6 @@ export function Window(p: {
       return;
     }
 
-    document.documentElement.style.setProperty('overscroll-behavior', 'none');
     document.documentElement.style.setProperty('touch-action', 'none');
 
     const windowRect = windowRef.getBoundingClientRect();
@@ -301,7 +298,6 @@ export function Window(p: {
       'pointermove',
       handleMovingPointerMove,
     );
-    document.documentElement.style.removeProperty('overscroll-behavior');
     document.documentElement.style.removeProperty('touch-action');
 
     if (activePointers.size === 1) {
