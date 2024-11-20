@@ -7,6 +7,10 @@
   border-block-end-color: var(--wes95-color-borderLightest);
 }
 
+hr.HorizontalSeparator {
+  margin: calc(var(--wes95-scale-value) * 2) 0;
+}
+
 .VerticalSeparator {
   width: 0;
   height: 100%;

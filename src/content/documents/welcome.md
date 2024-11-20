@@ -6,9 +6,9 @@ date: '2024-11-17T19:45:00.000Z'
 wes95_file: '/C/My_Documents/Welcome.doc'
 ---
 
-![Dithered photo of Wes style="float: right; padding-inline-start: 10px; "](/C/My_Documents/Photo.png)
+# Hi, Welcome to My Website!
 
-# Hi, Welcome to My website!
+![Dithered photo of Wes style="float: right; padding-inline-start: 1em; padding-block-end: 1em; "](/C/My_Documents/Photo.png)
 
 I'm Wes, a Staff Software Engineer working at [Unqork](https://www.unqork.com/).
 
