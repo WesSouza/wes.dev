@@ -47,13 +47,74 @@ export function WriteEditorWindow(p: {
   return (
     <>
       <div class="Toolbar Horizontal">
-        <button type="button" class="Button" onClick={openFile}>
-          <Icon icon="toolbarOpen" />
+        <button type="button" class="ToolbarButton">
+          <Icon icon="toolbarFileNew" />
+        </button>
+        <button type="button" class="ToolbarButton" onClick={openFile}>
+          <Icon icon="toolbarOpenFolder" />
+        </button>
+        <button type="button" class="ToolbarButton">
+          <Icon icon="toolbarSave" />
+        </button>
+        <div class="MediumSpacer"></div>
+        <button type="button" class="ToolbarButton">
+          <Icon icon="toolbarPrint" />
+        </button>
+        <button type="button" class="ToolbarButton">
+          <Icon icon="toolbarPrintPreview" />
+        </button>
+        <div class="MediumSpacer"></div>
+        <button type="button" class="ToolbarButton">
+          <Icon icon="toolbarFind" />
+        </button>
+        <div class="MediumSpacer"></div>
+        <button type="button" class="ToolbarButton">
+          <Icon icon="toolbarCut" />
+        </button>
+        <button type="button" class="ToolbarButton">
+          <Icon icon="toolbarCopy" />
+        </button>
+        <button type="button" class="ToolbarButton">
+          <Icon icon="toolbarPaste" />
+        </button>
+        <button type="button" class="ToolbarButton">
+          <Icon icon="toolbarUndo" />
         </button>
       </div>
       <hr class="HorizontalSeparator" />
-      <div class="Field" style={{ 'flex-grow': 1 }}>
-        <Markdown markdown={file()?.data?.body} />
+      <div class="Toolbar Horizontal">
+        <button type="button" class="ToolbarButton">
+          <Icon icon="toolbarBold" />
+        </button>
+        <button type="button" class="ToolbarButton">
+          <Icon icon="toolbarItalics" />
+        </button>
+        <button type="button" class="ToolbarButton">
+          <Icon icon="toolbarUnderline" />
+        </button>
+        <button type="button" class="ToolbarButton">
+          <Icon icon="toolbarTextColor" />
+        </button>
+        <div class="MediumSpacer"></div>
+        <button type="button" class="ToolbarButton">
+          <Icon icon="toolbarAlignLeft" />
+        </button>
+        <button type="button" class="ToolbarButton">
+          <Icon icon="toolbarAlignCenter" />
+        </button>
+        <button type="button" class="ToolbarButton">
+          <Icon icon="toolbarAlignRight" />
+        </button>
+        <div class="MediumSpacer"></div>
+        <button type="button" class="ToolbarButton">
+          <Icon icon="toolbarUnorderedList" />
+        </button>
+      </div>
+      <hr class="HorizontalSeparator" />
+      <div class="Field">
+        <div class="Content MediumSpacing Document">
+          <Markdown markdown={file()?.data?.body} />
+        </div>
       </div>
     </>
   );
