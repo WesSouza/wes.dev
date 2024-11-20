@@ -58,13 +58,6 @@ export function WriteEditorWindow(p: {
         </button>
         <div class="MediumSpacer"></div>
         <button type="button" class="ToolbarButton">
-          <Icon icon="toolbarPrint" />
-        </button>
-        <button type="button" class="ToolbarButton">
-          <Icon icon="toolbarPrintPreview" />
-        </button>
-        <div class="MediumSpacer"></div>
-        <button type="button" class="ToolbarButton">
           <Icon icon="toolbarFind" />
         </button>
         <div class="MediumSpacer"></div>

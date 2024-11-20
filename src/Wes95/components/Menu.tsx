@@ -12,9 +12,7 @@ import { createStore } from 'solid-js/store';
 import type { Anchor } from '../models/Geometry';
 import { Icon } from './Icon';
 import { Symbol } from './Symbol';
-
-const InlineMenuOffsetBlock = -8;
-const InlineMenuOffsetInline = -6;
+import { ScreenManager } from '../lib/ScreenManager';
 
 export type MenuSeparator = {
   type: 'separator';
@@ -72,6 +70,11 @@ export function Menu(p: {
     items: undefined,
     activeFirstItem: false,
   });
+
+  const scale = ScreenManager.shared.scale;
+
+  const inlineMenuOffsetBlock = scale() * -4;
+  const inlineMenuOffsetInline = scale() * -3;
 
   let menuElement!: HTMLMenuElement;
   const areaEl = document.documentElement;
@@ -131,10 +134,10 @@ export function Menu(p: {
       (directionStart
         ? anchor[axisPositionProp] - rect[axisDimensionProp]
         : anchor[axisPositionProp] + anchor[axisDimensionProp]) +
-      (directionInline ? InlineMenuOffsetInline : 0);
+      (directionInline ? inlineMenuOffsetInline : 0);
     let orthogonalAxisPosition =
       anchor[orthogonalAxisPositionProp] +
-      (directionInline ? InlineMenuOffsetBlock : 0);
+      (directionInline ? inlineMenuOffsetBlock : 0);
 
     if (
       axisPosition < 0 ||

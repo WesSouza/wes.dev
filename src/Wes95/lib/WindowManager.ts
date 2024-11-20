@@ -1,14 +1,15 @@
-import { createUniqueId, type JSX } from 'solid-js';
+import { createUniqueId, type Accessor, type JSX } from 'solid-js';
 import { createStore, produce, type SetStoreFunction } from 'solid-js/store';
 import type { z, ZodType } from 'zod';
-import type { Point, Rect, Size } from '../models/Geometry';
+import type { Point, Size } from '../models/Geometry';
 import type { WindowState } from '../models/WindowState';
 import { NotepadEditorWindow } from '../programs/Notepad/EditorWindow';
+import { WriteEditorWindow } from '../programs/Write/EditorWindow';
+import { FileSystemOpenWindow } from '../system/FileSystem/OpenWindow';
 import { handleActiveWindows } from '../utils/Windows';
 import { modifyById, modifyByIds } from '../utils/array';
-import { FileSystemOpenWindow } from '../system/FileSystem/OpenWindow';
-import { WriteEditorWindow } from '../programs/Write/EditorWindow';
 import { clamp } from '../utils/size';
+import { ScreenManager } from './ScreenManager';
 
 let shared: WindowManager | undefined;
 
@@ -27,7 +28,6 @@ export type WindowManagerState = {
   activeTaskWindowHistory: string[];
   activeWindow: string | null;
   activeWindowHistory: string[];
-  desktopRect: Rect;
   lastWindowPosition: Point;
   windows: WindowState[];
   windowZIndexMap: Map<string, number>;
@@ -59,6 +59,7 @@ export class WindowManager {
     },
   };
 
+  desktopSize: Accessor<Size>;
   state: WindowManagerState;
   #setState: SetStoreFunction<WindowManagerState>;
 
@@ -68,25 +69,15 @@ export class WindowManager {
       activeTaskWindowHistory: [],
       activeWindow: null,
       activeWindowHistory: [],
-      desktopRect: { x: 0, y: 0, width: 0, height: 0 },
       lastWindowPosition: { x: 0, y: 0 },
       windows: [],
       windowZIndexMap: new Map(),
     });
 
+    this.desktopSize = ScreenManager.shared.desktopSize;
     this.state = state;
     this.#setState = setState;
   }
-
-  // MARK: Desktop
-
-  setDesktopRect = (rect: Rect) => {
-    this.#setState(
-      produce((state) => {
-        state.desktopRect = rect;
-      }),
-    );
-  };
 
   // MARK: Window
 
@@ -295,8 +286,8 @@ export class WindowManager {
 
     const minX = MinVisibleRight - window.rect.width;
     const minY = -MinVisibleHeight;
-    const maxX = this.state.desktopRect.width - MinVisibleLeft;
-    const maxY = this.state.desktopRect.height - MinVisibleHeight;
+    const maxX = this.desktopSize().width - MinVisibleLeft;
+    const maxY = this.desktopSize().height - MinVisibleHeight;
 
     position.x = clamp(minX, position.x, maxX);
     position.y = clamp(minY, position.y, maxY);
@@ -345,8 +336,8 @@ export class WindowManager {
       y = 0;
     }
 
-    const overflowX = x + width - this.state.desktopRect.width;
-    const overflowY = y + height - this.state.desktopRect.height;
+    const overflowX = x + width - this.desktopSize().width;
+    const overflowY = y + height - this.desktopSize().height;
     if (overflowX > 0) {
       width -= overflowX;
     }
