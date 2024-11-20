@@ -1,0 +1,46 @@
+.ItemList {
+  position: relative;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  &.-icons {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(64px, 1fr));
+    gap: calc(var(--wes95-scale-value) * 4);
+    max-width: 100%;
+  }
+
+  &.-list {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: calc(var(--wes95-scale-value) * 4);
+    height: 100%;
+
+    &.Item label {
+      flex-direction: column;
+    }
+  }
+
+  input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  & .Item {
+    &:has(:checked) label {
+      color: var(--wes95-color-materialTextInvert);
+      background-color: var(--wes95-color-hoverBackground);
+    }
+
+    & label {
+      display: flex;
+      align-items: center;
+      gap: calc(var(--wes95-scale-value) * 2);
+      padding: var(--wes95-scale-value) calc(var(--wes95-scale-value) * 4);
+      width: max-content;
+    }
+  }
+}

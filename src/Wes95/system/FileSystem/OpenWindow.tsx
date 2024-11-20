@@ -1,8 +1,10 @@
-import { createResource, For, Show } from 'solid-js';
+import { createResource } from 'solid-js';
 import { z } from 'zod';
+import { ItemList } from '../../components/ItemList';
 import { FileSystemManager, type File } from '../../lib/FileSystemManager';
 import { WindowManager } from '../../lib/WindowManager';
 import type { WindowState } from '../../models/WindowState';
+import { mapFileType } from '../../utils/icons';
 
 export const FSOpenDataSchema = z.object({
   delegateId: z.string(),
@@ -35,26 +37,43 @@ export function FileSystemOpenWindow(p: {
     WindowManager.shared.closeWindow(p.window.id);
   };
 
+  const items = () =>
+    files()?.map((file) => {
+      const type = mapFileType(file);
+      return {
+        id: file.path,
+        name: file.name,
+        icon: type.icon,
+        columns: {
+          size: {
+            value: '',
+            sortValue: '',
+          },
+          type: {
+            value: type.name,
+            sortValue: type.name,
+          },
+          date: {
+            value: '',
+            sortValue: '',
+          },
+        },
+      };
+    }) ?? [];
+
   return (
     <div class="Field">
-      <div class="Content MediumSpacing">
-        <For each={files()}>
-          {(file) => (
-            <Show when={file.type === 'file'}>
-              <button
-                onClick={() =>
-                  handleClick(
-                    // @ts-expect-error
-                    file,
-                  )
-                }
-                class="Button"
-              >
-                {file.name}
-              </button>
-            </Show>
-          )}
-        </For>
+      <div class="Content SmallSpacing">
+        <ItemList
+          appearance="list"
+          items={items()}
+          onChange={console.log}
+          columns={[
+            { key: 'size', name: 'Size' },
+            { key: 'type', name: 'Type' },
+            { key: 'date', name: 'Date' },
+          ]}
+        />
       </div>
     </div>
   );
