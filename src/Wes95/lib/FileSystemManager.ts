@@ -114,6 +114,7 @@ export class FileSystemManager {
   ];
 
   fileSystem = new Map<string, Directory | File>();
+  fileSystemReady: Promise<void>;
 
   constructor() {
     for (const hardcodedFile of this.hardcodedFiles) {
@@ -121,22 +122,73 @@ export class FileSystemManager {
       this.fileSystem.set(file.path, file);
     }
 
-    actions.getCollections({ types: ['blog', 'documents'] }).then((entries) => {
-      if (!entries.data) {
-        return;
-      }
+    this.fileSystemReady = new Promise((resolve) => {
+      actions
+        .getCollections({ types: ['blog', 'documents'] })
+        .then((entries) => {
+          if (!entries.data) {
+            return;
+          }
 
-      for (const entry of entries.data) {
-        const file = makeFileFromAstroContent(entry);
-        this.fileSystem.set(file.path, file);
-      }
+          for (const entry of entries.data) {
+            const file = makeFileFromAstroContent(entry);
+            this.fileSystem.set(file.path, file);
+          }
 
-      addDirectories(this.fileSystem);
+          addDirectories(this.fileSystem);
+
+          resolve();
+        });
     });
   }
 
-  async readFile(fileUrl: string) {
-    const url = new URL(fileUrl);
+  getFile = async (path: string | undefined) => {
+    await this.fileSystemReady;
+
+    const file = this.fileSystem.get(path!);
+    if (!file) {
+      console.error(`Unable to find file ${path}`);
+      return undefined;
+    }
+
+    return file;
+  };
+
+  getFiles = async (path: string = '/C') => {
+    await this.fileSystemReady;
+
+    const files: (File | Directory)[] = [];
+    const startsWithPath = path + '/';
+
+    for (const [filePath, file] of this.fileSystem) {
+      if (!filePath.startsWith(startsWithPath)) {
+        continue;
+      }
+      files.push(file);
+    }
+
+    files.sort((left, right): number => {
+      if (left.type === 'directory' && right.type === 'file') {
+        return -1;
+      }
+
+      if (left.type === 'file' && right.type === 'directory') {
+        return 1;
+      }
+
+      return left.name.localeCompare(right.name);
+    });
+
+    return files;
+  };
+
+  readFile = async (path: string) => {
+    const file = await this.getFile(path);
+    if (!file) {
+      return undefined;
+    }
+
+    const url = new URL(file.url);
 
     if (url.protocol === 'astro-content:') {
       return actions.getEntry({
@@ -147,5 +199,5 @@ export class FileSystemManager {
     }
 
     return undefined;
-  }
+  };
 }

@@ -8,6 +8,8 @@ published: true
 wes95_file: '/C/My_Documents/Blog/Keeping Control of the Front-end.doc'
 ---
 
+# Keeping Control of the Front-end
+
 At Booking.com, hundreds of developers and designers contribute daily to our codebase, which leads to potential complications with code discoverability, maintenance, and reuse. In this post, we’re going to focus on the client-side aspect of these challenges, and introduce some of the techniques we use to tackle them.
 
 ### Prefixing and Namespacing

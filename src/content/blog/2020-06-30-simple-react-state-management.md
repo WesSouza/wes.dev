@@ -8,6 +8,8 @@ published: true
 wes95_file: '/C/My_Documents/Blog/Simple React State Management.doc'
 ---
 
+# Simple React State Management
+
 A good state system aims to be concise, easy to scale, and easy to debug. State is very unique per project, so a "one size fits all" framework is very unlikely to ever exist. [Redux](https://redux.js.org/), [MobX](https://mobx.js.org/README.html), [XState](https://github.com/statelyai/xstate), [Apollo](https://www.apollographql.com/) and [Relay](https://relay.dev/) are some great frameworks, but they all have compromises.
 
 Instead of utilizing a framework, we can use small libraries and apply strong concepts to guide our own code. The result is a robust and easy to debug codebase. Pure JavaScript.

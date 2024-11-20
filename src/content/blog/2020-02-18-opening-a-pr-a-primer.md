@@ -8,6 +8,8 @@ published: true
 wes95_file: '/C/My_Documents/Blog/Writing Good Pull Requests - A Primer.doc'
 ---
 
+# Writing Good Pull Requests: A Primer
+
 Pull Requests are the main path to add code to any open source project, as well as many closed source ones. They are opportunities to add new features, fix bugs, or bring improvements to the quality of the project.
 
 Before contributing to a project, it’s important to pay careful attention to its contribution rules. An ideal pull request has a clear title, a concise body, and well-defined commits. Below are some suggestions for opening a good pull request for any type of project.

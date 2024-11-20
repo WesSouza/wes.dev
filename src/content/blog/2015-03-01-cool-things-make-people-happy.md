@@ -8,6 +8,8 @@ published: true
 wes95_file: '/C/My_Documents/Blog/Small Things to Make Others Happy.doc'
 ---
 
+# Small Things to Make Others Happy
+
 Working for a couple of big companies as [MTV](https://www.mtv.com.br), [Univision](https://www.univision.com) and [Booking.com](https://www.booking.com) gave me a glimpse of what it is to deploy my code to a huge amount of users, and also share it with a lot of other developers and designers.
 
 It made me learn a lot, and I’ve compiled this list of small positive actions that can potentially improve everyone’s daily routine.
