@@ -12,7 +12,6 @@ export const Explorer = () => {
   const state = windowManager.state;
 
   onMount(() => {
-    windowManager.setDesktopRect(desktopRef.getBoundingClientRect());
     windowManager.addWindow(
       WriteEditorDataSchema,
       `app://Write/Editor?url=${encodeURIComponent('astro-content://documents/welcome')}`,
@@ -56,6 +55,7 @@ export const Explorer = () => {
       }}
     >
       <main
+        id="Wes95_Desktop"
         class="Desktop"
         onClick={handleDesktopTaskbarClick}
         ref={desktopRef}

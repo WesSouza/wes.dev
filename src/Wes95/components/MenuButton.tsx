@@ -1,4 +1,5 @@
-import { createEffect, createSignal, Show, type JSX } from 'solid-js';
+import { createSignal, Show, type JSX } from 'solid-js';
+import { createDocumentResizeObserver } from '../hooks/createDocumentResizeObserver';
 import type { Anchor } from '../models/Geometry';
 import { Menu, type MenuItem, type MenuSeparator } from './Menu';
 
@@ -34,7 +35,7 @@ export const MenuButton = (p: {
     closeMenu();
   };
 
-  createEffect(() => {
+  createDocumentResizeObserver(() => {
     if (!element) {
       setAnchor(undefined);
       return;

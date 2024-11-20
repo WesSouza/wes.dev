@@ -104,6 +104,9 @@ export function Window(p: {
       y,
     };
 
+    document.documentElement.style.setProperty('overscroll-behavior', 'none');
+    document.documentElement.style.setProperty('touch-action', 'none');
+
     document.documentElement.addEventListener(
       'pointermove',
       handleResizingPointerMove,
