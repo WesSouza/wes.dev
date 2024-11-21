@@ -25,6 +25,7 @@ export function WriteEditorWindow(p: {
   window: WindowState;
   data: WriteEditorData;
 }) {
+  let contentElement!: HTMLDivElement;
   const fileSystem = FileSystemManager.shared;
   const [openFilePath, setOpenFilePath] = createSignal(p.data.openFile);
 
@@ -52,7 +53,10 @@ export function WriteEditorWindow(p: {
     WindowManager.shared.handleOnce(
       delegateId,
       (event) => {
-        setOpenFilePath(event.filePath);
+        if (event.filePath) {
+          setOpenFilePath(event.filePath);
+          contentElement.scrollTo(0, 0);
+        }
         WindowManager.shared.setActiveWindow(p.window);
       },
       FSOpenEventSchema,
@@ -120,7 +124,7 @@ export function WriteEditorWindow(p: {
       </div>
       <hr class="HorizontalSeparator" />
       <div class="Field">
-        <div class="Content MediumSpacing Document">
+        <div class="Content MediumSpacing Document" ref={contentElement}>
           <Markdown markdown={fileData()?.data?.body} />
         </div>
       </div>
