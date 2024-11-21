@@ -5,7 +5,7 @@ description: 'Working for a couple of big companies as MTV, Univision and Bookin
 date: '2015-03-01T08:00:00.000Z'
 tags: ['code', 'webdev', 'css', 'scalability']
 published: true
-wes95_file: '/C/My_Documents/Blog/Small Things to Make Others Happy.doc'
+wes95_file: '/C/My Documents/Blog/Small Things to Make Others Happy.doc'
 ---
 
 # Small Things to Make Others Happy

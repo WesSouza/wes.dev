@@ -105,7 +105,7 @@ export class FileSystemManager {
   }
 
   hardcodedFiles = [
-    '/C/My_Documents/Photo.png',
+    '/C/My Documents/Photo.png',
     '/C/Wes95/Media/Chimes.mp3',
     '/C/Wes95/Media/Chord.mp3',
     '/C/Wes95/Media/Ding.mp3',
@@ -161,23 +161,22 @@ export class FileSystemManager {
     const startsWithPath = path + '/';
 
     for (const [filePath, file] of this.fileSystem) {
-      if (!filePath.startsWith(startsWithPath)) {
+      if (
+        !filePath.startsWith(startsWithPath) ||
+        filePath.indexOf('/', startsWithPath.length) !== -1
+      ) {
         continue;
       }
       files.push(file);
     }
 
-    files.sort((left, right): number => {
-      if (left.type === 'directory' && right.type === 'file') {
-        return -1;
-      }
-
-      if (left.type === 'file' && right.type === 'directory') {
-        return 1;
-      }
-
-      return left.name.localeCompare(right.name);
-    });
+    files.sort((left, right): number =>
+      left.type === 'directory' && right.type === 'file'
+        ? -1
+        : left.type === 'file' && right.type === 'directory'
+          ? 1
+          : left.name.localeCompare(right.name),
+    );
 
     return files;
   };

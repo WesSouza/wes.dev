@@ -21,10 +21,11 @@ export type MenuSeparator = {
 export type MenuItem = {
   type: 'item';
   id: string;
-  label: string;
-  icon?: string | undefined;
   checked?: 'checkmark' | 'radio' | undefined;
   disabled?: boolean | undefined;
+  icon?: string | undefined;
+  indentLevel?: number | undefined;
+  label: string;
   submenu?: (MenuItem | MenuSeparator)[] | undefined;
 };
 
@@ -45,6 +46,7 @@ function menuItemBelow(items: (MenuItem | MenuSeparator)[], index: number) {
 }
 
 export function Menu(p: {
+  appearance?: 'listbox' | 'menu' | undefined;
   activeFirstItem?: boolean | undefined;
   anchor: Anchor;
   items: (MenuItem | MenuSeparator)[];
@@ -262,7 +264,15 @@ export function Menu(p: {
   };
 
   return (
-    <menu class="Menu" popover ref={menuElement} style={style()}>
+    <menu
+      classList={{
+        Menu: true,
+        '-listBox': p.appearance === 'listbox',
+      }}
+      popover
+      ref={menuElement}
+      style={style()}
+    >
       <For each={p.items}>
         {(item, index) =>
           item.type === 'separator' ? (
@@ -283,6 +293,7 @@ export function Menu(p: {
               }
               onMouseLeave={handleItemMouseLeave}
               ref={(el) => (itemRefs[index()] = el)}
+              style={{ '--wes95-menu-indent': item.indentLevel }}
             >
               <span class="MenuIcon">
                 <Switch>

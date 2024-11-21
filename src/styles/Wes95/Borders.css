@@ -55,7 +55,9 @@
     }
   }
 
-  :is(.Button, .ToolbarButton, .WindowTitleButton):is(:active, .-down) {
+  &:is(.Button, .ToolbarButton, .WindowTitleButton):is(:active, .-down):not(
+      [disabled]
+    ) {
     padding-block: calc(
         var(--border-padding-block) + var(--wes95-button-padding-shift)
       )
@@ -70,7 +72,7 @@
     --wes95-topInnermost: var(--wes95-color-borderLightest);
   }
 
-  &.TaskbarButton:is(:active, .-down) {
+  &.TaskbarButton:is(:active, .-down):not([disabled]) {
     padding-block: calc(
         var(--border-padding-block) + var(--wes95-button-padding-shift)
       )
@@ -108,7 +110,7 @@
     --wes95-bottomRightOuter: var(--wes95-color-borderDark);
   }
 
-  &:active,
+  &:active:not([disabled]),
   &.-down {
     --wes95-topLeftOuter: var(--wes95-color-borderDarkest);
     --wes95-topLeftInner: var(--wes95-color-borderDark);

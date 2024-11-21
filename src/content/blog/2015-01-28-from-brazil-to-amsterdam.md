@@ -5,7 +5,7 @@ description: 'What I’ve learned after eight months living in the Netherlands  
 date: '2015-01-28T08:00:00.000Z'
 tags: ['expat', 'netherlands', 'travel', 'amsterdam']
 published: true
-wes95_file: '/C/My_Documents/Blog/From Brazil to Amsterdam.doc'
+wes95_file: '/C/My Documents/Blog/From Brazil to Amsterdam.doc'
 ---
 
 # From Brazil to Amsterdam

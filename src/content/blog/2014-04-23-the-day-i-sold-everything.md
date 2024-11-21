@@ -5,7 +5,7 @@ description: 'And what I’ve learned about the mobile internet   In May 2014 I 
 date: '2014-04-23T07:00:00.000Z'
 tags: ['travel']
 published: true
-wes95_file: '/C/My_Documents/Blog/The day I sold everything.doc'
+wes95_file: '/C/My Documents/Blog/The day I sold everything.doc'
 ---
 
 # The day I sold everything

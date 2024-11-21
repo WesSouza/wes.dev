@@ -5,7 +5,7 @@ description: 'The world is not happy with Twitter. Lots of really bad decisions 
 date: '2022-11-20T23:50:59.836Z'
 tags: ['product', 'opinion', 'discuss']
 published: true
-wes95_file: '/C/My_Documents/Blog/The Next Twitter.doc'
+wes95_file: '/C/My Documents/Blog/The Next Twitter.doc'
 ---
 
 # The Next Twitter
