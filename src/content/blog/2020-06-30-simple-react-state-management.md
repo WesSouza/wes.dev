@@ -5,7 +5,7 @@ description: 'A good state system aims to be concise, easy to scale, and easy to
 date: '2020-06-30T17:39:55.503Z'
 tags: ['react', 'webdev', 'javascript', 'typescript']
 published: true
-wes95_file: '/C/My_Documents/Blog/Simple React State Management.doc'
+wes95_file: '/C/My Documents/Blog/Simple React State Management.doc'
 ---
 
 # Simple React State Management

@@ -3,15 +3,15 @@
   flex-direction: row;
 
   &.-start {
-    align-content: flex-start;
+    align-items: flex-start;
   }
 
-  &.center {
-    align-content: center;
+  &.-center {
+    align-items: center;
   }
 
-  &.end {
-    align-content: flex-end;
+  &.-end {
+    align-items: flex-end;
   }
 }
 
@@ -24,14 +24,14 @@
 
 .Vertical {
   &.-start {
-    align-content: flex-start;
+    align-items: flex-start;
   }
 
   &.-center {
-    align-content: center;
+    align-items: center;
   }
 
   &.-end {
-    align-content: flex-end;
+    align-items: flex-end;
   }
 }

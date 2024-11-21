@@ -5,7 +5,7 @@ description: 'Software development is not about how to write perfect, bug-free c
 date: '2019-10-08T16:45:10.047Z'
 tags: ['webdev', 'debug', 'css', 'javascript']
 published: false
-wes95_file: '/C/My_Documents/Blog/Something Broke! How do I fix it.doc'
+wes95_file: '/C/My Documents/Blog/Something Broke! How do I fix it.doc'
 ---
 
 # Something Broke! How do I fix it?

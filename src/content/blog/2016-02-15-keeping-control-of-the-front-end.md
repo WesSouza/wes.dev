@@ -5,7 +5,7 @@ description: 'At Booking.com, hundreds of developers and designers contribute da
 date: '2016-02-15T08:00:00.000Z'
 tags: ['components', 'development', 'jquery', 'javascript']
 published: true
-wes95_file: '/C/My_Documents/Blog/Keeping Control of the Front-end.doc'
+wes95_file: '/C/My Documents/Blog/Keeping Control of the Front-end.doc'
 ---
 
 # Keeping Control of the Front-end

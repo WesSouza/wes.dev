@@ -13,9 +13,14 @@
 .MenuItem {
   display: flex;
   align-items: center;
-  padding: calc(var(--wes95-scale-value) * 2) calc(var(--wes95-scale-value) * 6);
-  gap: calc(var(--wes95-scale-value) * 6);
+  padding: calc(var(--wes95-scale-value) * 2) calc(var(--wes95-scale-value) * 4);
+  gap: calc(var(--wes95-scale-value) * 4);
   min-height: calc(var(--wes95-scale-value) * 16);
+
+  padding-inline-start: calc(
+    calc(var(--wes95-scale-value) * 4) +
+      calc(var(--wes95-scale-value) * 10 * var(--wes95-menu-indent, 0))
+  );
 
   &.-active {
     color: var(--wes95-color-materialTextInvert);

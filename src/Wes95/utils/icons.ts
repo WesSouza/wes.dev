@@ -50,7 +50,7 @@ const FileTypesMap = [
 
 export function mapFileType(file: File | Directory) {
   if (file.type === 'directory') {
-    return { name: 'Folder', icon: 'iconFolderOpen' };
+    return { name: 'Folder', icon: 'iconFolderClosed' };
   } else {
     for (const type of FileTypesMap) {
       if (type.test.test(file.name)) {

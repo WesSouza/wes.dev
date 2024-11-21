@@ -5,7 +5,7 @@ description: 'Pull Requests are the main path to add code to any open source pro
 date: '2020-02-18T23:00:00.000Z'
 tags: ['opensource', 'productivity', 'github', 'git']
 published: true
-wes95_file: '/C/My_Documents/Blog/Writing Good Pull Requests - A Primer.doc'
+wes95_file: '/C/My Documents/Blog/Writing Good Pull Requests - A Primer.doc'
 ---
 
 # Writing Good Pull Requests: A Primer

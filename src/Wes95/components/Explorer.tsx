@@ -16,7 +16,7 @@ export const Explorer = () => {
   onMount(() => {
     windowManager.addWindow(
       WriteEditorDataSchema,
-      `app://Write/Editor?openFile=${encodeURIComponent('/C/My_Documents/Welcome.doc')}`,
+      `app://Write/Editor?openFile=${encodeURIComponent('/C/My Documents/Welcome.doc')}`,
       {
         icon: 'fileTypeText',
         title: 'Welcome! - Write',
