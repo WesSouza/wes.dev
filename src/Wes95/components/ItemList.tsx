@@ -12,23 +12,35 @@ export function ItemList(p: {
   appearance?: 'icons' | 'list' | 'details' | undefined;
   columns?: { key: string; name: string }[] | undefined;
   items: Item[];
-  onChange: (selectedIds: string[]) => void;
+  onChange?: (selectedId: string | undefined) => void;
+  onItemDblClick?: () => void;
 }) {
   const groupId = createUniqueId();
 
   const handleChange = () => {
-    const checked = Array.from(
-      document.querySelectorAll(`[data-group="${groupId}"]:checked`),
-    )
-      .map((item) => item.getAttribute('data-id'))
-      .filter(Boolean) as string[];
-    p.onChange(checked);
+    const checked =
+      document
+        .querySelector(`[data-group="${groupId}"]:checked`)
+        ?.getAttribute('data-id') ?? undefined;
+    p.onChange?.(checked);
+  };
+
+  const handleListClick = (event: MouseEvent & { target: Element }) => {
+    if (event.target.tagName !== 'INPUT') {
+      const checkedElement: HTMLInputElement | null = document.querySelector(
+        `[data-group="${groupId}"]:checked`,
+      );
+      if (checkedElement) {
+        checkedElement.checked = false;
+      }
+      p.onChange?.(undefined);
+    }
   };
 
   return (
     <Switch>
       <Match when={p.appearance === 'details'}>
-        <table class="ItemList">
+        <table class="ItemList" onClick={handleListClick}>
           <thead>
             <tr>
               <th>Name</th>
@@ -73,12 +85,13 @@ export function ItemList(p: {
             '-icons': p.appearance === 'icons',
             '-list': !p.appearance || p.appearance === 'list',
           }}
+          onClick={handleListClick}
         >
           <For each={p.items}>
             {(item) => {
               const id = createUniqueId();
               return (
-                <li class="Item">
+                <li class="Item" onDblClick={() => p.onItemDblClick?.()}>
                   <input
                     type="radio"
                     name={groupId}

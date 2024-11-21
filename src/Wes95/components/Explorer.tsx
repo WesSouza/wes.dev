@@ -13,8 +13,6 @@ export const Explorer = () => {
   const screenBreakpoint = ScreenManager.shared.screenBreakpoint;
   const state = windowManager.state;
 
-  console.log(screenBreakpoint());
-
   onMount(() => {
     windowManager.addWindow(
       WriteEditorDataSchema,
