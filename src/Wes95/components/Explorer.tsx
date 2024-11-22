@@ -20,11 +20,15 @@ export const Explorer = () => {
       {
         icon: 'fileTypeText',
         showInTaskbar: true,
-        active: true,
         size: { width: 440, height: 500 },
         maximized: screenBreakpoint() === 'small',
       },
     );
+
+    windowManager.addWindow(z.object({}), `app://DiskDefragmenter/Main`, {
+      showInTaskbar: true,
+      active: true,
+    });
   });
 
   const addWindow = (url: string) => {

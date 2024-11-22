@@ -3,6 +3,7 @@ import { createStore, produce, type SetStoreFunction } from 'solid-js/store';
 import type { z, ZodType } from 'zod';
 import type { Point, Size } from '../models/Geometry';
 import type { WindowState } from '../models/WindowState';
+import { DiskDefragmenterMainWindow } from '../programs/DiskDefragmenter/MainWindow';
 import { NotepadMainWindow } from '../programs/Notepad/MainWindow';
 import { WordPadMainWindow } from '../programs/WordPad/MainWindow';
 import { FileSystemOpenWindow } from '../system/FileSystem/OpenWindow';
@@ -48,6 +49,9 @@ export class WindowManager {
       [k: string]: (p: { data: any; window: WindowState }) => JSX.Element;
     };
   } = {
+    DiskDefragmenter: {
+      Main: DiskDefragmenterMainWindow,
+    },
     Notepad: {
       Main: NotepadMainWindow,
     },
