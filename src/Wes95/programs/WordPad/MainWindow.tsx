@@ -16,15 +16,15 @@ import {
 } from '../../system/FileSystem/OpenWindow';
 import { createWindowURL } from '../../utils/Windows';
 
-export const WriteEditorDataSchema = z.object({
+export const WordPadMainDataSchema = z.object({
   openFile: z.string().optional(),
 });
 
-export type WriteEditorData = z.infer<typeof WriteEditorDataSchema>;
+export type WordPadMainData = z.infer<typeof WordPadMainDataSchema>;
 
-export function WriteEditorWindow(p: {
+export function WordPadMainWindow(p: {
   window: WindowState;
-  data: WriteEditorData;
+  data: WordPadMainData;
 }) {
   let contentElement!: HTMLDivElement;
   const fileSystem = FileSystemManager.shared;
@@ -34,10 +34,10 @@ export function WriteEditorWindow(p: {
   const [fileData] = createResource(openFilePath, fileSystem.readFile);
 
   createEffect(() => {
-    WindowManager.shared.setWindowTitle(
-      p.window.id,
-      `${file()?.name ?? 'Untitled'} - Write`,
-    );
+    WindowManager.shared.setWindow(p.window.id, (window) => {
+      window.title = `${file()?.name ?? 'Untitled'} - WordPad`;
+      window.icon = 'iconWordPad';
+    });
   });
 
   const openFileDialog = () => {

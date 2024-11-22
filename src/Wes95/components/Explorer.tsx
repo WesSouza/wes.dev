@@ -1,11 +1,11 @@
 import { For, onMount, Show, type JSX } from 'solid-js';
+import { z } from 'zod';
+import { ScreenManager } from '../lib/ScreenManager';
 import { WindowManager } from '../lib/WindowManager';
-import { NotepadEditorDataSchema } from '../programs/Notepad/EditorWindow';
-import { WriteEditorDataSchema } from '../programs/Write/EditorWindow';
+import { WordPadMainDataSchema } from '../programs/WordPad/MainWindow';
 import { Icon } from './Icon';
 import { MenuButton } from './MenuButton';
 import { Window } from './Window';
-import { ScreenManager } from '../lib/ScreenManager';
 
 export const Explorer = () => {
   let desktopRef!: HTMLElement;
@@ -15,11 +15,10 @@ export const Explorer = () => {
 
   onMount(() => {
     windowManager.addWindow(
-      WriteEditorDataSchema,
-      `app://Write/Editor?openFile=${encodeURIComponent('/C/My Documents/Welcome.doc')}`,
+      WordPadMainDataSchema,
+      `app://WordPad/Main?openFile=${encodeURIComponent('/C/My Documents/Welcome.doc')}`,
       {
         icon: 'fileTypeText',
-        title: 'Welcome! - Write',
         showInTaskbar: true,
         active: true,
         size: { width: 440, height: 500 },
@@ -28,17 +27,11 @@ export const Explorer = () => {
     );
   });
 
-  const addWindow = (id: string) => {
-    windowManager.addWindow(
-      NotepadEditorDataSchema,
-      `app://Notepad/Editor?file=File_${id}`,
-      {
-        icon: 'fileTypeText',
-        title: 'File_' + id + ' - Notepad',
-        showInTaskbar: true,
-        active: true,
-      },
-    );
+  const addWindow = (url: string) => {
+    windowManager.addWindow(z.object({}), url, {
+      showInTaskbar: true,
+      active: true,
+    });
   };
 
   const handleDesktopTaskbarClick: JSX.EventHandler<HTMLElement, MouseEvent> = (
@@ -93,9 +86,45 @@ export const Explorer = () => {
                   submenu: [
                     {
                       type: 'item',
-                      id: 'Four',
-                      icon: 'iconProgramsFolder',
-                      label: 'Four',
+                      id: 'app://Calculator/Main',
+                      icon: 'iconCalculator',
+                      label: 'Calculator',
+                    },
+                    {
+                      type: 'item',
+                      id: 'app://Defrag/Main',
+                      icon: 'iconDefrag',
+                      label: 'Disk Defragmenter',
+                    },
+                    {
+                      type: 'item',
+                      id: 'app://MediaPlayer/Main',
+                      icon: 'iconMediaPlayer',
+                      label: 'Media Player',
+                    },
+                    {
+                      type: 'item',
+                      id: 'app://Notepad/Main',
+                      icon: 'iconNotepad',
+                      label: 'Notepad',
+                    },
+                    {
+                      type: 'item',
+                      id: 'app://Paint/Main',
+                      icon: 'iconPaint',
+                      label: 'Paint',
+                    },
+                    {
+                      type: 'item',
+                      id: 'app://Solitaire/Main',
+                      icon: 'iconSolitaire',
+                      label: 'Solitaire',
+                    },
+                    {
+                      type: 'item',
+                      id: 'app://WordPad/Main',
+                      icon: 'iconWordPad',
+                      label: 'WordPad',
                     },
                   ],
                 },
@@ -115,19 +144,19 @@ export const Explorer = () => {
                 },
                 {
                   type: 'item',
-                  id: 'InternetExplorer',
+                  id: 'app://InternetExplorer/Main',
                   icon: 'iconIexplorer',
                   label: 'Internet Explorer',
                 },
                 {
                   type: 'item',
-                  id: 'DOS',
+                  id: 'app://DOS/Main',
                   icon: 'iconDos',
                   label: 'MS-DOS Prompt',
                 },
                 {
                   type: 'item',
-                  id: 'WindowsExplorer',
+                  id: 'app://WindowsExplorer/Main',
                   icon: 'iconExplorer',
                   label: 'Windows Explorer',
                 },

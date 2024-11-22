@@ -43,6 +43,8 @@ export function FileSystemOpenWindow(p: {
 
   const [file, setFile] = createSignal<File | Directory | undefined>();
 
+  const selectedFileName = () => (file()?.type === 'file' ? file()?.name : '');
+
   const chooseFile = (filePath: string | undefined) => {
     const file = files()?.find((file) => file.path === filePath);
     setFile(file);
@@ -280,7 +282,11 @@ export function FileSystemOpenWindow(p: {
       </div>
       <div class="Horizontal -center SmallSpacing">
         <label for={`${p.window.id}-fileName`}>File name:</label>
-        <input id={`${p.window.id}-fileName`} class="TextBox" />
+        <input
+          id={`${p.window.id}-fileName`}
+          class="TextBox"
+          value={selectedFileName()}
+        />
         <button type="button" class="Button" onClick={handleOpenClick}>
           Open
         </button>
