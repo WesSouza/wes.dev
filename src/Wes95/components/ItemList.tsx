@@ -61,6 +61,7 @@ export function ItemList(p: {
                         data-group={groupId}
                         data-id={item.id}
                         onChange={() => handleChange()}
+                        onDblClick={() => p.onItemDblClick?.()}
                       />
 
                       <label for={id}>
@@ -91,7 +92,7 @@ export function ItemList(p: {
             {(item) => {
               const id = createUniqueId();
               return (
-                <li class="Item" onDblClick={() => p.onItemDblClick?.()}>
+                <li class="Item">
                   <input
                     type="radio"
                     name={groupId}
@@ -99,6 +100,7 @@ export function ItemList(p: {
                     data-group={groupId}
                     data-id={item.id}
                     onChange={() => handleChange()}
+                    onDblClick={() => p.onItemDblClick?.()}
                   />
 
                   <label for={id}>

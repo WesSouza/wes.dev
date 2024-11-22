@@ -9,8 +9,8 @@ const FileTypesMap = [
   },
   {
     id: 'document',
-    name: 'Write Document',
-    icon: 'Write',
+    name: 'WordPad Document',
+    icon: 'WordPad',
     test: /\.(doc|rtf|wri)$/i,
   },
   {

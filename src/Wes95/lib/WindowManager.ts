@@ -3,8 +3,8 @@ import { createStore, produce, type SetStoreFunction } from 'solid-js/store';
 import type { z, ZodType } from 'zod';
 import type { Point, Size } from '../models/Geometry';
 import type { WindowState } from '../models/WindowState';
-import { NotepadEditorWindow } from '../programs/Notepad/EditorWindow';
-import { WriteEditorWindow } from '../programs/Write/EditorWindow';
+import { NotepadMainWindow } from '../programs/Notepad/MainWindow';
+import { WordPadMainWindow } from '../programs/WordPad/MainWindow';
 import { FileSystemOpenWindow } from '../system/FileSystem/OpenWindow';
 import { handleActiveWindows } from '../utils/Windows';
 import { modifyById, modifyByIds } from '../utils/array';
@@ -49,13 +49,13 @@ export class WindowManager {
     };
   } = {
     Notepad: {
-      Editor: NotepadEditorWindow,
+      Main: NotepadMainWindow,
     },
     FileSystem: {
       Open: FileSystemOpenWindow,
     },
-    Write: {
-      Editor: WriteEditorWindow,
+    WordPad: {
+      Main: WordPadMainWindow,
     },
   };
 
@@ -360,12 +360,10 @@ export class WindowManager {
     );
   };
 
-  setWindowTitle = (windowId: string, title: string) => {
+  setWindow = (windowId: string, modifyFn: (item: WindowState) => void) => {
     this.#setState(
       produce((state) => {
-        modifyById(windowId, state.windows, (window) => {
-          window.title = title;
-        });
+        modifyById(windowId, state.windows, modifyFn);
       }),
     );
   };
