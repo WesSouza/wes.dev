@@ -8,13 +8,14 @@ import {
 } from '../../lib/FileSystemManager';
 import { WindowManager } from '../../lib/WindowManager';
 import type { WindowState } from '../../models/WindowState';
-import { mapFileType } from '../../utils/icons';
+import { filterFileTypes, mapFileType } from '../../utils/fileTypes';
 import { Icon } from '../../components/Icon';
 import { Combobox } from '../../components/Combobox';
 import type { MenuItem } from '../../components/Menu';
 
 export const FSOpenDataSchema = z.object({
   delegateId: z.string(),
+  fileTypes: z.array(z.string()),
 });
 
 export type FSOpenData = z.infer<typeof FSOpenDataSchema>;
@@ -31,6 +32,7 @@ export function FileSystemOpenWindow(p: {
   data: FSOpenData;
   window: WindowState;
 }) {
+  const [listType, setListType] = createSignal<'list' | 'details'>('list');
   const [currentDirectoryPath, setCurrentDirectoryPath] = createSignal(
     '/C/My Documents/Blog',
   );
@@ -183,28 +185,30 @@ export function FileSystemOpenWindow(p: {
   });
 
   const items = () =>
-    files()?.map((file) => {
-      const type = mapFileType(file);
-      return {
-        id: file.path,
-        name: file.name,
-        icon: type.icon,
-        columns: {
-          size: {
-            value: '',
-            sortValue: '',
+    files()
+      ?.filter(filterFileTypes(p.data.fileTypes))
+      .map((file) => {
+        const type = mapFileType(file);
+        return {
+          id: file.path,
+          name: file.name,
+          icon: type.icon,
+          columns: {
+            size: {
+              value: '',
+              sortValue: '',
+            },
+            type: {
+              value: type.name,
+              sortValue: type.name,
+            },
+            date: {
+              value: '',
+              sortValue: '',
+            },
           },
-          type: {
-            value: type.name,
-            sortValue: type.name,
-          },
-          date: {
-            value: '',
-            sortValue: '',
-          },
-        },
-      };
-    }) ?? [];
+        };
+      }) ?? [];
 
   return (
     <>
@@ -235,10 +239,26 @@ export function FileSystemOpenWindow(p: {
           <Icon icon="toolbarFolderNew" />
         </button>
         <div class="ButtonGroup Horizontal">
-          <button class="ToolbarButton" type="button">
+          <button
+            classList={{
+              ToolbarButton: true,
+              '-active': listType() === 'list',
+              '-down': listType() === 'list',
+            }}
+            onClick={() => setListType('list')}
+            type="button"
+          >
             <Icon icon="toolbarIconsList" />
           </button>
-          <button class="ToolbarButton" type="button">
+          <button
+            classList={{
+              ToolbarButton: true,
+              '-active': listType() === 'details',
+              '-down': listType() === 'details',
+            }}
+            onClick={() => setListType('details')}
+            type="button"
+          >
             <Icon icon="toolbarIconsDetails" />
           </button>
         </div>
@@ -246,7 +266,7 @@ export function FileSystemOpenWindow(p: {
       <div class="Field">
         <div class="Content SmallSpacing">
           <ItemList
-            appearance="list"
+            appearance={listType()}
             items={items()}
             onChange={chooseFile}
             onItemDblClick={handleOpenClick}

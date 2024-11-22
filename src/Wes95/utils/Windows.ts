@@ -9,6 +9,25 @@ export function addActiveWindowToHistory(
   return [windowId, ...activeWindowHistory.filter((id) => id !== windowId)];
 }
 
+export function createWindowURL(
+  urlString: string,
+  object: Record<string, unknown>,
+) {
+  const url = new URL(urlString);
+
+  for (const [key, value] of Object.entries(object)) {
+    if (typeof value === 'string' || typeof value === 'number') {
+      url.searchParams.append(key, String(value));
+    } else if (Array.isArray(value)) {
+      for (const item of value) {
+        url.searchParams.append(key, String(item));
+      }
+    }
+  }
+
+  return url.toString();
+}
+
 export function createZIndexMap(state: WindowManagerState) {
   const { activeTaskWindowHistory, activeWindowHistory, windows } = state;
 
