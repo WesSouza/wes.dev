@@ -21,7 +21,8 @@
     min-height: calc(var(--wes95-scale-value) * 18);
   }
 
-  &.TaskbarButton.-active {
+  &.TaskbarButton.-active,
+  &.ToolbarButton.-active {
     font-weight: bold;
 
     background: repeating-conic-gradient(

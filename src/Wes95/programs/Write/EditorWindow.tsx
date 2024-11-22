@@ -14,6 +14,7 @@ import {
   FSOpenDataSchema,
   FSOpenEventSchema,
 } from '../../system/FileSystem/OpenWindow';
+import { createWindowURL } from '../../utils/Windows';
 
 export const WriteEditorDataSchema = z.object({
   openFile: z.string().optional(),
@@ -43,7 +44,10 @@ export function WriteEditorWindow(p: {
     const delegateId = createUniqueId();
     WindowManager.shared.addWindow(
       FSOpenDataSchema,
-      `system://FileSystem/Open?delegateId=${delegateId}`,
+      createWindowURL('system://FileSystem/Open', {
+        delegateId,
+        fileTypes: ['document'],
+      }),
       {
         active: true,
         parentId: p.window.id,
