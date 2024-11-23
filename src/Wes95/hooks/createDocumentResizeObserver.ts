@@ -1,15 +1,10 @@
-import { onCleanup, onMount } from 'solid-js';
+import {
+  createResizeObserver,
+  type ResizeHandler,
+} from '@solid-primitives/resize-observer';
 
-export function createDocumentResizeObserver(callback: () => void) {
-  const observer = new ResizeObserver(() => {
-    callback();
-  });
-
-  onMount(() => {
-    observer.observe(document.documentElement);
-  });
-
-  onCleanup(() => {
-    observer.disconnect();
-  });
+export function createDocumentResizeObserver(
+  callback: ResizeHandler<HTMLElement>,
+) {
+  createResizeObserver(document.documentElement, callback);
 }

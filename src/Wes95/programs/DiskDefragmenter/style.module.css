@@ -1,3 +1,7 @@
+.ClusterGrid {
+  font-size: 0;
+}
+
 .Cluster {
   display: inline-block;
   width: calc(var(--wes95-scale-value) * 7);
