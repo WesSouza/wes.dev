@@ -9,6 +9,7 @@ export const WindowStateSchema = z.object({
   minimized: z.boolean().optional(),
   parentId: z.string().optional(),
   rect: RectSchema,
+  sizeAutomatic: z.boolean().optional(),
   sizeConstraints: z
     .object({
       max: SizeSchema.optional(),

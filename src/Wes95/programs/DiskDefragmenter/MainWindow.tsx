@@ -111,8 +111,13 @@ export function DiskDefragmenterMainWindow(p: { window: WindowState }) {
   });
 
   createEffect(() => {
+    const desktopSize = ScreenManager.shared.desktopSize();
+    if (!desktopSize) {
+      return;
+    }
+
     WindowManager.shared.setWindow(p.window.id, (window) => {
-      window.rect = { x: 0, y: 0, ...ScreenManager.shared.desktopSize() };
+      window.rect = { x: 0, y: 0, ...desktopSize };
     });
   });
 

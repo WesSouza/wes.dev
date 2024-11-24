@@ -1,5 +1,6 @@
-import { createEffect } from 'solid-js';
+import { createEffect, For, Show } from 'solid-js';
 import { z } from 'zod';
+import { Icon } from '../../components/Icon';
 import { WindowManager } from '../../lib/WindowManager';
 import type { WindowState } from '../../models/WindowState';
 
@@ -14,11 +15,22 @@ export type MessageDialogData = z.infer<typeof MessageDialogDataSchema>;
 
 export const MessageDialogEventSchema = z
   .object({
-    action: z.enum(['ok', 'yes', 'no', 'cancel']),
+    button: z.string(),
   })
   .brand<'Message/MessageDialogEvent'>();
 
 export type MessageDialogEvent = z.infer<typeof MessageDialogEventSchema>;
+
+const IconTypeMap: Record<string, string> = {
+  error: 'dialogError',
+  question: 'dialogQuestion',
+  warning: 'dialogWarning',
+};
+
+const ButtonsTypeMap: Record<string, string[]> = {
+  question: ['Yes', 'No', 'Cancel'],
+  default: ['Ok'],
+};
 
 export function MessageDialogWindow(p: {
   data: MessageDialogData;
@@ -30,5 +42,32 @@ export function MessageDialogWindow(p: {
     });
   });
 
-  return <>{p.data.message}</>;
+  const handleClick = (button: string) => {
+    WindowManager.shared.delegate(
+      p.data.delegateId,
+      MessageDialogEventSchema.parse({
+        button,
+      }),
+    );
+  };
+
+  return (
+    <>
+      <div class="Horizontal MediumSpacing">
+        <Show when={IconTypeMap[p.data.type]}>
+          <Icon icon={IconTypeMap[p.data.type]!} size="medium" />
+        </Show>
+        <div>{p.data.message}</div>
+      </div>
+      <div class="Horizontal MediumSpacing -middle">
+        <For each={ButtonsTypeMap[p.data.type] ?? ButtonsTypeMap.default}>
+          {(button) => (
+            <button class="Button" onClick={() => handleClick(button)}>
+              {button}
+            </button>
+          )}
+        </For>
+      </div>
+    </>
+  );
 }

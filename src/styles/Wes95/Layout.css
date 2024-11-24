@@ -13,6 +13,18 @@
   &.-end {
     align-items: flex-end;
   }
+
+  &.-top {
+    justify-content: flex-start;
+  }
+
+  &.-middle {
+    justify-content: center;
+  }
+
+  &.-bottom {
+    justify-content: flex-end;
+  }
 }
 
 .Vertical,
