@@ -96,7 +96,7 @@ export const Explorer = () => {
                     },
                     {
                       type: 'item',
-                      id: 'app://Defrag/Main',
+                      id: 'app://DiskDefragmenter/Main',
                       icon: 'iconDefrag',
                       label: 'Disk Defragmenter',
                     },
