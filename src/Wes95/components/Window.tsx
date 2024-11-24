@@ -52,6 +52,11 @@ export function Window(p: {
       return;
     }
 
+    const parentWindow = p.window.parentId
+      ? windowManager.getWindow(p.window.parentId)
+      : undefined;
+    const parentRect = parentWindow?.rect ?? desktopRect;
+
     const scale = ScreenManager.shared.scale();
     const verticalOffset = 24 * scale;
     const horizontalOffset = 6 * scale;
@@ -65,11 +70,14 @@ export function Window(p: {
         desktopRect.height,
         windowRect.height + verticalOffset,
       );
+
+      window.rect.x = (parentRect.width - window.rect.width) / 2;
+      window.rect.y = (parentRect.height - window.rect.height) / 2;
     });
   });
 
   const handleMaximize = () => {
-    if (p.window.parentId || !p.window.showInTaskbar) {
+    if (!p.window.maximizable || p.window.parentId || !p.window.showInTaskbar) {
       return;
     }
 
@@ -79,6 +87,14 @@ export function Window(p: {
     if (!p.active && maximized) {
       windowManager.setActiveWindow(p.window);
     }
+  };
+
+  const handleMinimize = () => {
+    if (!p.window.minimizable || p.window.parentId || !p.window.showInTaskbar) {
+      return;
+    }
+
+    windowManager.setWindowMinimized(p.window.id, true);
   };
 
   const handleWindowPointerDown: JSX.EventHandler<HTMLElement, PointerEvent> = (
@@ -415,24 +431,28 @@ export function Window(p: {
         <div class="WindowTitleText">{p.window.title}</div>
         <div class="WindowTitleButtons">
           <Show when={!p.window.parentId && p.window.showInTaskbar}>
-            <button
-              type="button"
-              class="WindowTitleButton"
-              onClick={() =>
-                windowManager.setWindowMinimized(p.window.id, true)
-              }
-            >
-              <Symbol symbol="windowMinimize" />
-            </button>
-            <button
-              type="button"
-              class="WindowTitleButton"
-              onClick={handleMaximize}
-            >
-              <Symbol
-                symbol={p.window.maximized ? 'windowRestore' : 'windowMaximize'}
-              />
-            </button>
+            <Show when={p.window.minimizable}>
+              <button
+                type="button"
+                class="WindowTitleButton"
+                onClick={handleMinimize}
+              >
+                <Symbol symbol="windowMinimize" />
+              </button>
+            </Show>
+            <Show when={p.window.maximizable}>
+              <button
+                type="button"
+                class="WindowTitleButton"
+                onClick={handleMaximize}
+              >
+                <Symbol
+                  symbol={
+                    p.window.maximized ? 'windowRestore' : 'windowMaximize'
+                  }
+                />
+              </button>
+            </Show>
           </Show>
           <button
             type="button"

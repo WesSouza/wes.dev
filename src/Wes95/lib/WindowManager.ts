@@ -102,7 +102,9 @@ export class WindowManager {
         WindowState,
         | 'icon'
         | 'maximized'
+        | 'maximizable'
         | 'minimized'
+        | 'minimizable'
         | 'parentId'
         | 'sizeAutomatic'
         | 'sizeConstraints'
@@ -145,6 +147,8 @@ export class WindowManager {
       ...initialPosition,
     };
 
+    const showInTaskbar = windowInit.showInTaskbar ?? parentId === undefined;
+
     const window: WindowState = {
       dataSchema: schema,
       id,
@@ -153,9 +157,11 @@ export class WindowManager {
       icon: windowInit.icon,
       title: windowInit.title ?? '',
       maximized: windowInit.maximized,
+      maximizable: windowInit.maximizable ?? showInTaskbar,
       minimized: windowInit.minimized,
+      minimizable: windowInit.minimizable ?? showInTaskbar,
       url,
-      showInTaskbar: windowInit.showInTaskbar ?? parentId === undefined,
+      showInTaskbar,
       sizeAutomatic: windowInit.sizeAutomatic,
       sizeConstraints: {
         min: windowInit.sizeConstraints?.min ?? DefaultMinSize,
@@ -447,7 +453,7 @@ export class WindowManager {
   messageDialog = (options: {
     message: string;
     onAction: (event: MessageDialogEvent) => void;
-    parentId: string;
+    parentId?: string;
     title: string;
     type: 'error' | 'info' | 'question' | 'warning';
   }) => {
@@ -462,6 +468,8 @@ export class WindowManager {
       }),
       {
         active: true,
+        maximizable: false,
+        minimizable: false,
         parentId: options.parentId,
         sizeAutomatic: true,
       },
