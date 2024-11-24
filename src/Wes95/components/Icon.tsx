@@ -2,26 +2,27 @@ import { WES95_SYSTEM_PATH } from '../../config';
 
 const IconSizes = {
   small: {
-    width: 32,
-    height: 32,
     suffix: 'Small',
   },
+  medium: {
+    suffix: 'Medium',
+  },
   large: {
-    width: 64,
-    height: 64,
     suffix: 'Large',
   },
 };
 
 export function Icon(p: {
   icon: string;
-  size?: 'small' | 'large' | undefined;
+  size?: 'small' | 'medium' | 'large' | undefined;
 }) {
   return (
     <img
-      class="Icon"
-      width={IconSizes[p.size ?? 'small'].width}
-      height={IconSizes[p.size ?? 'small'].height}
+      classList={{
+        Icon: true,
+        '-medium': p.size === 'medium',
+        '-large': p.size === 'large',
+      }}
       src={
         WES95_SYSTEM_PATH +
         '/' +
