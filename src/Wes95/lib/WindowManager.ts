@@ -7,7 +7,13 @@ import { DiskDefragmenterMainWindow } from '../programs/DiskDefragmenter/MainWin
 import { NotepadMainWindow } from '../programs/Notepad/MainWindow';
 import { WordPadMainWindow } from '../programs/WordPad/MainWindow';
 import { FileSystemOpenWindow } from '../system/FileSystem/OpenWindow';
-import { handleActiveWindows } from '../utils/Windows';
+import {
+  MessageDialogDataSchema,
+  MessageDialogEventSchema,
+  MessageDialogWindow,
+  type MessageDialogEvent,
+} from '../system/Message/MessageDialogWindow';
+import { createWindowURL, handleActiveWindows } from '../utils/Windows';
 import { modifyById, modifyByIds } from '../utils/array';
 import { clamp } from '../utils/size';
 import { ScreenManager } from './ScreenManager';
@@ -51,6 +57,9 @@ export class WindowManager {
   } = {
     DiskDefragmenter: {
       Main: DiskDefragmenterMainWindow,
+    },
+    Message: {
+      MessageDialog: MessageDialogWindow,
     },
     Notepad: {
       Main: NotepadMainWindow,
@@ -427,5 +436,41 @@ export class WindowManager {
         handler(parsedEvent.data);
       }
     }
+  };
+
+  // MARK: Dialogs
+
+  messageDialog = (options: {
+    message: string;
+    onAction: (event: MessageDialogEvent) => void;
+    parentId: string;
+    title: string;
+    type: 'error' | 'info' | 'question' | 'warning';
+  }) => {
+    const delegateId = createUniqueId();
+    const messageWindow = this.addWindow(
+      MessageDialogDataSchema,
+      createWindowURL('system://Message/MessageDialog', {
+        delegateId,
+        title: options.title,
+        type: options.type,
+        message: options.message,
+      }),
+      {
+        active: true,
+        parentId: options.parentId,
+      },
+    );
+
+    this.handleOnce(
+      delegateId,
+      (event) => {
+        options.onAction(event);
+        this.closeWindow(messageWindow.id);
+      },
+      MessageDialogEventSchema,
+    );
+
+    return messageWindow;
   };
 }
