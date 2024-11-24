@@ -72,7 +72,7 @@ export class WindowManager {
     },
   };
 
-  desktopSize: Accessor<Size>;
+  desktopSize: Accessor<Size | undefined>;
   state: WindowManagerState;
   #setState: SetStoreFunction<WindowManagerState>;
 
@@ -104,6 +104,7 @@ export class WindowManager {
         | 'maximized'
         | 'minimized'
         | 'parentId'
+        | 'sizeAutomatic'
         | 'sizeConstraints'
         | 'showInTaskbar'
         | 'title'
@@ -155,6 +156,7 @@ export class WindowManager {
       minimized: windowInit.minimized,
       url,
       showInTaskbar: windowInit.showInTaskbar ?? parentId === undefined,
+      sizeAutomatic: windowInit.sizeAutomatic,
       sizeConstraints: {
         min: windowInit.sizeConstraints?.min ?? DefaultMinSize,
         max: windowInit.sizeConstraints?.max,
@@ -293,15 +295,16 @@ export class WindowManager {
   };
 
   setWindowPosition = (windowId: string, position: Point) => {
+    const desktopSize = this.desktopSize();
     const window = this.getWindow(windowId);
-    if (!window) {
+    if (!desktopSize || !window) {
       return;
     }
 
     const minX = MinVisibleRight - window.rect.width;
     const minY = -MinVisibleHeight;
-    const maxX = this.desktopSize().width - MinVisibleLeft;
-    const maxY = this.desktopSize().height - MinVisibleHeight;
+    const maxX = desktopSize.width - MinVisibleLeft;
+    const maxY = desktopSize.height - MinVisibleHeight;
 
     position.x = clamp(minX, position.x, maxX);
     position.y = clamp(minY, position.y, maxY);
@@ -317,8 +320,9 @@ export class WindowManager {
   };
 
   setWindowSize = (windowId: string, size: Size, anchorToEdge = false) => {
+    const desktopSize = this.desktopSize();
     const window = this.getWindow(windowId);
-    if (!window) {
+    if (!desktopSize || !window) {
       return;
     }
 
@@ -350,8 +354,8 @@ export class WindowManager {
       y = 0;
     }
 
-    const overflowX = x + width - this.desktopSize().width;
-    const overflowY = y + height - this.desktopSize().height;
+    const overflowX = x + width - desktopSize.width;
+    const overflowY = y + height - desktopSize.height;
     if (overflowX > 0) {
       width -= overflowX;
     }
@@ -459,6 +463,7 @@ export class WindowManager {
       {
         active: true,
         parentId: options.parentId,
+        sizeAutomatic: true,
       },
     );
 

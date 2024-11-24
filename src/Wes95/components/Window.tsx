@@ -1,10 +1,11 @@
+import { createEffect, Show, type JSX } from 'solid-js';
+import { parseSearchParams } from 'zod-search-params';
+import { ScreenManager } from '../lib/ScreenManager';
 import type { WindowManager } from '../lib/WindowManager';
 import type { Point } from '../models/Geometry';
 import type { WindowState } from '../models/WindowState';
-import { Show, type JSX } from 'solid-js';
-import { Symbol } from './Symbol';
 import { Icon } from './Icon';
-import { parseSearchParams } from 'zod-search-params';
+import { Symbol } from './Symbol';
 
 const ResizeAreaWidth = 12;
 
@@ -38,6 +39,34 @@ export function Window(p: {
   };
   const activePointers = new Set<number>();
   let windowRef!: HTMLElement;
+  let windowContentsRef!: HTMLDivElement;
+
+  createEffect(async () => {
+    if (!p.window.sizeAutomatic) {
+      return;
+    }
+
+    const windowRect = windowContentsRef.getBoundingClientRect();
+    const desktopRect = ScreenManager.shared.desktopSize();
+    if (!desktopRect) {
+      return;
+    }
+
+    const scale = ScreenManager.shared.scale();
+    const verticalOffset = 24 * scale;
+    const horizontalOffset = 6 * scale;
+
+    windowManager.setWindow(p.window.id, (window) => {
+      window.rect.width = Math.min(
+        desktopRect.width,
+        windowRect.width + horizontalOffset,
+      );
+      window.rect.height = Math.min(
+        desktopRect.height,
+        windowRect.height + verticalOffset,
+      );
+    });
+  });
 
   const handleMaximize = () => {
     if (p.window.parentId || !p.window.showInTaskbar) {
@@ -57,6 +86,8 @@ export function Window(p: {
   ) => {
     activePointers.add(event.pointerId);
     if (
+      p.window.maximized ||
+      p.window.sizeAutomatic ||
       activePointers.size !== 1 ||
       event.button !== 0 ||
       event.target.closest('button') ||
@@ -125,6 +156,10 @@ export function Window(p: {
   const handleWindowPointerMove: JSX.EventHandler<HTMLElement, PointerEvent> = (
     event,
   ) => {
+    if (p.window.maximized || p.window.sizeAutomatic) {
+      return;
+    }
+
     const { rect } = p.window;
     const x = event.clientX - rect.x;
     const y = event.clientY - rect.y;
@@ -238,16 +273,13 @@ export function Window(p: {
       event.target.closest('button') ||
       event.target.closest('img') ||
       resizing.x ||
-      resizing.y
+      resizing.y ||
+      p.window.maximized
     ) {
       return;
     }
 
     event.preventDefault();
-
-    if (p.window.maximized) {
-      return;
-    }
 
     document.documentElement.style.setProperty('touch-action', 'none');
 
@@ -411,7 +443,16 @@ export function Window(p: {
           </button>
         </div>
       </div>
-      <div class="WindowContent SmallSpacing">{windowContents()}</div>
+      <div
+        ref={windowContentsRef}
+        classList={{
+          WindowContent: true,
+          SmallSpacing: true,
+          '-grow': !p.window.sizeAutomatic,
+        }}
+      >
+        {windowContents()}
+      </div>
       <div class="WindowResize"></div>
     </section>
   );

@@ -1,5 +1,6 @@
-import { createSignal, type Accessor } from 'solid-js';
+import { createSignal, onMount, type Accessor } from 'solid-js';
 import type { Size } from '../models/Geometry';
+import { createResizeObserver } from '@solid-primitives/resize-observer';
 
 let shared: ScreenManager | undefined;
 
@@ -12,7 +13,7 @@ export class ScreenManager {
     return shared;
   }
 
-  desktopSize: Accessor<Size>;
+  desktopSize: Accessor<Size | undefined>;
   scale: Accessor<number>;
   screenBreakpoint: Accessor<'small' | 'medium' | 'large'>;
 
@@ -23,7 +24,7 @@ export class ScreenManager {
     );
     const largeBreakpoint = window.matchMedia('(min-width: 741px)');
 
-    const [desktopSize, setDesktopSize] = createSignal(this.#getDesktopSize());
+    const [desktopSize, setDesktopSize] = createSignal<Size | undefined>();
     const [screenBreakpoint, setScreenBreakpoint] = createSignal<
       'small' | 'medium' | 'large'
     >(
@@ -39,11 +40,18 @@ export class ScreenManager {
     this.scale = scale;
     this.screenBreakpoint = screenBreakpoint;
 
-    const observer = new ResizeObserver(() => {
-      setDesktopSize(this.#getDesktopSize());
-      setScale(this.#getScale());
+    onMount(() => {
+      createResizeObserver(
+        document.getElementById('Wes95_Desktop'),
+        (desktopRect) => {
+          setDesktopSize({
+            width: desktopRect.width,
+            height: desktopRect.height,
+          });
+          setScale(this.#getScale());
+        },
+      );
     });
-    observer.observe(document.documentElement);
 
     smallBreakpoint.addEventListener('change', (event) => {
       if (event.matches) {
@@ -68,13 +76,5 @@ export class ScreenManager {
         '--wes95-scale-value',
       ) ?? '0';
     return parseInt(scale);
-  };
-
-  #getDesktopSize = () => {
-    const element = document.getElementById('Wes95_Desktop');
-    return {
-      width: element?.clientWidth ?? 0,
-      height: element?.clientHeight ?? 0,
-    };
   };
 }
