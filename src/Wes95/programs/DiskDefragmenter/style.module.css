@@ -8,7 +8,7 @@
   height: calc(var(--wes95-scale-value) * 9);
   margin: 0 var(--wes95-scale-value) var(--wes95-scale-value) 0;
 
-  &:not(.-empty) {
+  &:not(.-free) {
     border: var(--wes95-scale-value) solid #000;
   }
 

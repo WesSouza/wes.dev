@@ -7,7 +7,7 @@ import type { WindowState } from '../../models/WindowState';
 import styles from './style.module.css';
 
 export type ClusterState =
-  | 'empty'
+  | 'free'
   | 'optimized'
   | 'beginning'
   | 'middle'
@@ -16,7 +16,7 @@ export type ClusterState =
   | 'read'
   | 'write';
 
-const DefragSpeed = 200;
+const DefragSpeed = 150;
 const DefragMaxContiguousClusters = 300;
 const DefragMaxRead = 100;
 const DefragMaxReadGroups = 6;
@@ -30,7 +30,7 @@ function makeCluster(position: 'beginning' | 'middle' | 'end'): ClusterState {
   const probability = Math.random();
 
   if (probability < 0.3) {
-    return 'empty';
+    return 'free';
   } else if (probability < 0.9) {
     return position;
   }
@@ -41,20 +41,20 @@ function makeCluster(position: 'beginning' | 'middle' | 'end'): ClusterState {
 export function DiskDefragmenterMainWindow(p: { window: WindowState }) {
   const [state, setState] = createStore<{
     clusters: ClusterState[];
-    clusterBuffer: number;
     columns: number;
     currentRow: number;
-    currentState: 'neutral' | 'read' | 'write' | 'paused';
+    currentState: 'started' | 'read' | 'write' | 'finished';
+    expandedReadOffset: number;
     paused: boolean;
     progress: number;
     rows: number;
     timer: number | undefined;
   }>({
     clusters: [],
-    clusterBuffer: 0,
     columns: 0,
     currentRow: 0,
-    currentState: 'neutral',
+    currentState: 'started',
+    expandedReadOffset: 0,
     paused: false,
     progress: 0,
     rows: 0,
@@ -126,11 +126,15 @@ export function DiskDefragmenterMainWindow(p: { window: WindowState }) {
     window.clearInterval(state.timer);
   });
 
-  const handleStopClick = () => {
+  const handleExitClick = () => {
     WindowManager.shared.closeWindow(p.window.id);
   };
 
   const handlePauseClick = () => {
+    if (state.currentState === 'finished') {
+      return;
+    }
+
     setState('paused', (paused) => !paused);
     if (!state.paused) {
       setState('timer', window.setInterval(loop, DefragSpeed));
@@ -141,7 +145,7 @@ export function DiskDefragmenterMainWindow(p: { window: WindowState }) {
   };
 
   const loop = () => {
-    if (state.currentState === 'neutral' || state.currentState === 'write') {
+    if (state.currentState === 'started' || state.currentState === 'write') {
       readClusters();
     } else if (state.currentState === 'read') {
       writeClusters();
@@ -155,13 +159,30 @@ export function DiskDefragmenterMainWindow(p: { window: WindowState }) {
   };
 
   const updateOptimized = () => {
-    const availableClusters = findClusterIndicesByState([
+    const availableClusters: number[] = [];
+    let optimizedClusters: number = 0;
+    let totalUsedClusters: number = 0;
+    const clustersLength = state.clusters.length;
+    const optimizedClustersSet = new Set([
       'optimized',
       'system',
       'beginning',
       'middle',
       'end',
     ]);
+
+    for (let index = 0; index < clustersLength; index++) {
+      const clusterState = state.clusters[index]!;
+      if (optimizedClustersSet.has(clusterState)) {
+        availableClusters.push(index);
+      }
+      if (clusterState === 'optimized' || clusterState === 'write') {
+        optimizedClusters++;
+      }
+      if (clusterState !== 'free' && clusterState !== 'system') {
+        totalUsedClusters++;
+      }
+    }
 
     const startIndex = availableClusters.at(0);
     const endIndex = findClusterIndicesByState(['write']).at(-1);
@@ -187,22 +208,51 @@ export function DiskDefragmenterMainWindow(p: { window: WindowState }) {
     if (lastRow - state.currentRow > (state.rows * 4) / 5) {
       setState('currentRow', lastRow - Math.floor(state.rows / 5));
     }
+
+    const progress = optimizedClusters / totalUsedClusters;
+    setState('progress', progress);
+    if (progress === 1) {
+      window.clearInterval(state.timer);
+      setState('timer', undefined);
+      setState('currentState', 'finished');
+      WindowManager.shared.messageDialog({
+        type: 'info',
+        title: 'Finished',
+        message: 'Disk defragmentation finished successfully.',
+        parentId: p.window.id,
+        onAction: () => {
+          WindowManager.shared.closeWindow(p.window.id);
+        },
+      });
+    }
   };
 
   const readClusters = () => {
-    updateOptimized();
     setState('currentState', 'read');
+
+    updateOptimized();
     const availableClusters = findClusterIndicesByState([
       'beginning',
       'middle',
       'end',
     ]);
     const maxAvailableCluster = Math.min(
-      availableClusters.length,
-      state.rows * state.columns,
+      availableClusters.length + 1,
+      state.rows * state.columns + state.expandedReadOffset,
     );
 
-    if (!availableClusters.length) {
+    if (!maxAvailableCluster) {
+      setState('expandedReadOffset', (expandedReadOffset) =>
+        Math.min(
+          availableClusters.length + 1,
+          expandedReadOffset + state.rows * state.columns,
+        ),
+      );
+      return;
+    }
+
+    if (availableClusters.length <= 100) {
+      setState('clusters', availableClusters, 'read');
       return;
     }
 
@@ -237,25 +287,26 @@ export function DiskDefragmenterMainWindow(p: { window: WindowState }) {
 
   const writeClusters = () => {
     setState('currentState', 'write');
+
     const readClusters = findClusterIndicesByState(['read']);
 
     if (!readClusters.length) {
       return;
     }
 
-    setState('clusters', readClusters, 'empty');
+    setState('clusters', readClusters, 'free');
 
-    const emptyClusters = findClusterIndicesByState(['empty']);
-    const lastContiguousEmptyClusterIndex = emptyClusters.findIndex(
+    const freeClusters = findClusterIndicesByState(['free']);
+    const lastContiguousFreeClusterIndex = freeClusters.findIndex(
       (value, index, array) => {
         const nextValue = array[index + 1];
         return !nextValue || nextValue !== value + 1;
       },
     );
 
-    const startIndex = emptyClusters[0]!;
+    const startIndex = freeClusters[0]!;
     const endIndex = startIndex + readClusters.length;
-    const maxIndex = emptyClusters[lastContiguousEmptyClusterIndex]!;
+    const maxIndex = freeClusters[lastContiguousFreeClusterIndex]!;
 
     setState(
       'clusters',
@@ -288,16 +339,25 @@ export function DiskDefragmenterMainWindow(p: { window: WindowState }) {
       </div>
       <div class="Horizontal MediumSpacing">
         <div class="Vertical SmallSpacing">
-          <span>Reading drive information...</span>
+          <span>
+            {state.currentState !== 'finished'
+              ? 'Defragmenting file system...'
+              : 'Finished'}
+          </span>
           <span>[progress bar]</span>
-          <span>${state.progress}% complete</span>
+          <span>{Math.floor(state.progress * 100)}% complete</span>
         </div>
 
         <div class="Vertical SmallSpacing">
-          <button class="Button" type="button" onClick={handleStopClick}>
-            Stop
+          <button class="Button" type="button" onClick={handleExitClick}>
+            Exit
           </button>
-          <button class="Button" type="button" onClick={handlePauseClick}>
+          <button
+            class="Button"
+            disabled={state.currentState === 'finished'}
+            type="button"
+            onClick={handlePauseClick}
+          >
             {state.paused ? 'Resume' : 'Pause'}
           </button>
         </div>
