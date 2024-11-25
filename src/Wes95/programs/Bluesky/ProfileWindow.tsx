@@ -45,9 +45,14 @@ export function BlueskyProfileWindow(p: {
 
   createEffect(() => {
     WindowManager.shared.setWindow(p.window.id, (window) => {
-      window.title = `${profile()?.data?.data?.displayName ?? 'Untitled'} - Bluesky`;
+      window.title = `${profile()?.data?.displayName ?? 'Untitled'} - Bluesky`;
       window.icon = 'iconBluesky';
     });
+  });
+
+  createEffect(() => {
+    console.log('feed', posts()?.data?.feed);
+    console.log('profile', profile()?.data);
   });
 
   const openFileDialog = () => {
