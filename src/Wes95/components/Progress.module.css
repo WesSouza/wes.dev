@@ -1,0 +1,65 @@
+.Progress {
+  position: relative;
+
+  & progress {
+    position: absolute;
+    appearance: none;
+    display: block;
+
+    &::-webkit-progress-bar,
+    &::-webkit-progress-value {
+      background-color: var(--wes95-color-canvas);
+    }
+  }
+
+  &.-solid progress {
+    inset: calc(var(--wes95-scale-value) * 2);
+    width: calc(100% - calc(var(--wes95-scale-value) * 4));
+    height: calc(100% - calc(var(--wes95-scale-value) * 4));
+
+    &::-webkit-progress-value {
+      background-color: var(--wes95-color-progress);
+    }
+  }
+
+  &.-blocks {
+    display: flex;
+    flex-direction: row;
+    gap: calc(var(--wes95-scale-value) * 2);
+
+    --wes95-padding-block: calc(var(--wes95-scale-value) * 2);
+    --wes95-padding-inline: calc(var(--wes95-scale-value) * 2);
+
+    & progress {
+      top: 0;
+      left: 0;
+      width: 0;
+      height: 0;
+    }
+  }
+
+  .ProgressSegment {
+    width: calc(
+      calc(100% / var(--segments)) - calc(var(--wes95-scale-value) * 2)
+    );
+    min-height: 0;
+    background-color: var(--wes95-color-progress);
+  }
+
+  .ProgressNumber,
+  .ProgressNumberInverted {
+    display: grid;
+    place-content: center;
+    position: absolute;
+    inset: 0;
+  }
+
+  .ProgressNumber {
+    clip-path: rect(0 100% 100% var(--percentage));
+  }
+
+  .ProgressNumberInverted {
+    color: var(--wes95-color-canvasTextInvert);
+    clip-path: rect(0 var(--percentage) 100% 0);
+  }
+}
