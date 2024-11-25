@@ -10,7 +10,7 @@ export function Markdown(p: { markdown: string | undefined }) {
   );
 }
 
-function CustomAnchor(p: { href?: string | undefined; children: JSX.Element }) {
+function CustomAnchor(p: { href?: string; children: JSX.Element }) {
   const target = () => (p.href?.match(/https?:\/\//) ? '_blank' : undefined);
 
   return (
@@ -20,10 +20,7 @@ function CustomAnchor(p: { href?: string | undefined; children: JSX.Element }) {
   );
 }
 
-function CustomImage(p: {
-  alt?: string | undefined;
-  src?: string | undefined;
-}) {
+function CustomImage(p: { alt?: string; src?: string }) {
   const alt = () => {
     return p.alt?.replace(/\s*style="[^"]+"\s*/, '');
   };

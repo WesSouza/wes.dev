@@ -3,8 +3,8 @@ import { SITE_DOMAIN } from '../config';
 
 export interface Props {
   title: string;
-  description?: string | undefined;
-  image?: string | undefined;
+  description?: string;
+  image?: string;
 }
 
 const { title, description = '', image = '/images/OgImage.png' } = Astro.props;

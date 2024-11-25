@@ -3,14 +3,9 @@ import type { Anchor } from '../models/Geometry';
 import { Menu, type MenuItem, type MenuSeparator } from './Menu';
 
 export const MenuButton = (p: {
-  appearance?: 'menu' | 'taskbar' | 'taskbar-start' | undefined;
+  appearance?: 'menu' | 'taskbar' | 'taskbar-start';
   children?: JSX.Element;
-  direction?:
-    | 'block-start'
-    | 'block-end'
-    | 'inline-start'
-    | 'inline-end'
-    | undefined;
+  direction?: 'block-start' | 'block-end' | 'inline-start' | 'inline-end';
   items: (MenuItem | MenuSeparator)[];
   onClose?: () => void;
   onOpen?: () => void;

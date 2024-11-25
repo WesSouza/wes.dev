@@ -21,12 +21,12 @@ export type MenuSeparator = {
 export type MenuItem = {
   type: 'item';
   id: string;
-  checked?: 'checkmark' | 'radio' | undefined;
-  disabled?: boolean | undefined;
-  icon?: string | undefined;
-  indentLevel?: number | undefined;
+  checked?: 'checkmark' | 'radio';
+  disabled?: boolean;
+  icon?: string;
+  indentLevel?: number;
   label: string;
-  submenu?: (MenuItem | MenuSeparator)[] | undefined;
+  submenu?: (MenuItem | MenuSeparator)[];
 };
 
 function menuItemAbove(items: (MenuItem | MenuSeparator)[], index: number) {
@@ -46,8 +46,8 @@ function menuItemBelow(items: (MenuItem | MenuSeparator)[], index: number) {
 }
 
 export function Menu(p: {
-  appearance?: 'listbox' | 'menu' | undefined;
-  activeFirstItem?: boolean | undefined;
+  appearance?: 'listbox' | 'menu';
+  activeFirstItem?: boolean;
   anchor: Anchor;
   items: (MenuItem | MenuSeparator)[];
   onClose?: () => void;
