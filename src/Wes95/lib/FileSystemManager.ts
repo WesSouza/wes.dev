@@ -123,7 +123,7 @@ export class FileSystemManager {
     }
 
     this.fileSystemReady = new Promise((resolve) => {
-      actions
+      actions.wes95_fileSystem
         .getCollections({ types: ['blog', 'documents'] })
         .then((entries) => {
           if (!entries.data) {
@@ -190,7 +190,7 @@ export class FileSystemManager {
     const url = new URL(file.url);
 
     if (url.protocol === 'astro-content:') {
-      return actions.getEntry({
+      return actions.wes95_fileSystem.getEntry({
         // @ts-expect-error
         type: url.hostname,
         id: url.pathname.substring(1),
