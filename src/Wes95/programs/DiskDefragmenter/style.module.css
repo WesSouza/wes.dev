@@ -53,3 +53,19 @@
     background-color: #ff0000;
   }
 }
+
+.Progress {
+  container-type: inline-size;
+}
+
+@container (max-width: 600px) {
+  .Progress .Status {
+    flex-grow: 1;
+  }
+}
+
+@container (min-width: 601px) {
+  .Progress .Status {
+    width: 50%;
+  }
+}
