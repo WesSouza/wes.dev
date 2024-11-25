@@ -70,6 +70,7 @@ export const Explorer = () => {
       <footer class="Taskbar" onClick={handleDesktopTaskbarClick}>
         <MenuButton
           appearance="taskbar-start"
+          direction="block-start"
           items={[
             {
               type: 'item',
