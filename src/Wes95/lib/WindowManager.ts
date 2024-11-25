@@ -3,6 +3,7 @@ import { createStore, produce, type SetStoreFunction } from 'solid-js/store';
 import type { z, ZodType } from 'zod';
 import type { Point, Size } from '../models/Geometry';
 import type { WindowState } from '../models/WindowState';
+import { BlueskyProfileWindow } from '../programs/Bluesky/ProfileWindow';
 import { CalculatorMainWindow } from '../programs/Caclulator/MainWindow';
 import { DiskDefragmenterMainWindow } from '../programs/DiskDefragmenter/MainWindow';
 import { MediaPlayerMainWindow } from '../programs/MediaPlayer/MainWindow';
@@ -57,6 +58,9 @@ export class WindowManager {
       [k: string]: (p: { data: any; window: WindowState }) => JSX.Element;
     };
   } = {
+    Bluesky: {
+      Main: BlueskyProfileWindow,
+    },
     DiskDefragmenter: {
       Main: DiskDefragmenterMainWindow,
     },

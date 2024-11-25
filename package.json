@@ -30,6 +30,7 @@
   "dependencies": {
     "@astrojs/solid-js": "5.0.0",
     "@astrojs/vercel": "8.0.0",
+    "@atproto/api": "^0.13.18",
     "@solid-primitives/resize-observer": "^2.0.26",
     "astro": "5.0.1",
     "rollup": "^4.25.0",
