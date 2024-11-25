@@ -1,6 +1,10 @@
 import { Agent } from '@atproto/api';
 import { defineAction } from 'astro:actions';
 import { z } from 'astro:schema';
+import {
+  Bluesky_Actor_ProfileViewBasicSchema,
+  Bluesky_Feed_ViewPostSchema,
+} from '../Wes95/models/Bluesky';
 
 const agent = new Agent(new URL('https://public.api.bsky.app'));
 
@@ -13,26 +17,14 @@ export const wes95_bluesky = {
       limit: z.number().optional(),
     }),
     handler: async (input) => {
-      try {
-        const { data, success } = await agent.getAuthorFeed(input);
-        if (success) {
-          return {
-            feed: data.feed.map((post) => ({
-              uri: post.post.uri,
-            })),
-            cursor: data.cursor,
-          };
-        } else {
-          return {
-            error: 'getAuthorFeed failed',
-          };
-        }
-      } catch (error) {
-        console.error(error);
-        return {
-          error: 'getAuthorFeed failed',
-        };
-      }
+      const { data } = await agent.getAuthorFeed(input);
+
+      const AuthorFeedSchema = z.object({
+        feed: z.array(Bluesky_Feed_ViewPostSchema),
+        cursor: z.string().optional(),
+      });
+
+      return AuthorFeedSchema.parse(data);
     },
   }),
   getProfile: defineAction({
@@ -40,18 +32,8 @@ export const wes95_bluesky = {
       actor: z.string(),
     }),
     handler: async (input) => {
-      const { data, success } = await agent.getProfile(input);
-      if (success) {
-        return {
-          data: {
-            displayName: data.displayName,
-          },
-        };
-      } else {
-        return {
-          error: 'getProfile failed',
-        };
-      }
+      const { data } = await agent.getProfile(input);
+      return Bluesky_Actor_ProfileViewBasicSchema.parse(data);
     },
   }),
 };
