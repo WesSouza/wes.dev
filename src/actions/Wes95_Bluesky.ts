@@ -2,7 +2,7 @@ import { Agent } from '@atproto/api';
 import { defineAction } from 'astro:actions';
 import { z } from 'astro:schema';
 import {
-  Bluesky_Actor_ProfileViewBasicSchema,
+  Bluesky_Actor_ProfileViewDetailedSchema,
   Bluesky_Feed_ViewPostSchema,
 } from '../Wes95/models/Bluesky';
 
@@ -33,7 +33,7 @@ export const wes95_bluesky = {
     }),
     handler: async (input) => {
       const { data } = await agent.getProfile(input);
-      return Bluesky_Actor_ProfileViewBasicSchema.parse(data);
+      return Bluesky_Actor_ProfileViewDetailedSchema.parse(data);
     },
   }),
 };

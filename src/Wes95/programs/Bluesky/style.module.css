@@ -1,0 +1,33 @@
+.ProfileHeader {
+}
+
+.ProfileBanner {
+  height: 200px;
+}
+
+.ProfileAvatarButtons {
+}
+
+.ProfileAvatar {
+  --wes95-padding-block: 0px;
+  --wes95-padding-inline: 0px;
+
+  & img {
+    width: calc(var(--wes95-scale-value) * 32);
+  }
+}
+
+.ProfileInfo {
+}
+
+.ProfileName {
+}
+
+.ProfileHandle {
+}
+
+.ProfileNumbers {
+}
+
+.ProfileNumber {
+}

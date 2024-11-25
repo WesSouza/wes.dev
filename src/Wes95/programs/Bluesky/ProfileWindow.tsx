@@ -4,6 +4,7 @@ import {
   createResource,
   createSignal,
   createUniqueId,
+  Show,
 } from 'solid-js';
 import { z } from 'zod';
 import { MenuBar } from '../../components/MenuBar';
@@ -14,6 +15,7 @@ import {
   FSOpenEventSchema,
 } from '../../system/FileSystem/OpenWindow';
 import { createWindowURL } from '../../utils/Windows';
+import { BlueskyProfileHeader } from './ProfileHeader';
 
 const WesDID = 'did:plc:4qy26t5ss4zosz2mi3hdzuq3';
 
@@ -83,6 +85,10 @@ export function BlueskyProfileWindow(p: {
   };
 
   const handleMenuSelect = (id: string) => {
+    if (id === 'Open') {
+      openFileDialog();
+    }
+
     if (id === 'Exit') {
       WindowManager.shared.closeWindow(p.window.id);
     }
@@ -187,12 +193,14 @@ export function BlueskyProfileWindow(p: {
         ]}
         onSelect={handleMenuSelect}
       />
-      <div>
-        <button class="Button" type="button" onClick={openFileDialog}>
-          Open
-        </button>
-      </div>
-      {posts()?.data?.feed?.length} posts
+      <Show when={profile()?.data}>
+        <BlueskyProfileHeader
+          profile={profile()!.data!}
+          openFollowers={() => {}}
+          openFollows={() => {}}
+        />
+      </Show>
+      {posts()?.data?.feed?.length} posts loaded
     </>
   );
 }
