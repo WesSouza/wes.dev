@@ -28,7 +28,8 @@ export function Progress(p: {
   return (
     <div
       classList={{
-        Field: true,
+        Field: appearance() === 'solid',
+        StatusField: appearance() === 'blocks',
         [styles.Progress!]: true,
         [styles['-blocks']!]: appearance() === 'blocks',
         [styles['-solid']!]: appearance() === 'solid',
