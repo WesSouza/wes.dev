@@ -1,11 +1,16 @@
 import { createSignal, Show, type JSX } from 'solid-js';
-import { createDocumentResizeObserver } from '../hooks/createDocumentResizeObserver';
 import type { Anchor } from '../models/Geometry';
 import { Menu, type MenuItem, type MenuSeparator } from './Menu';
 
 export const MenuButton = (p: {
   appearance?: 'menu' | 'taskbar' | 'taskbar-start' | undefined;
   children?: JSX.Element;
+  direction?:
+    | 'block-start'
+    | 'block-end'
+    | 'inline-start'
+    | 'inline-end'
+    | undefined;
   items: (MenuItem | MenuSeparator)[];
   onClose?: () => void;
   onOpen?: () => void;
@@ -19,6 +24,16 @@ export const MenuButton = (p: {
     const open = !menuOpen();
     setMenuOpen(open);
     if (open) {
+      const rect = element.getBoundingClientRect();
+
+      setAnchor({
+        x: rect.x,
+        y: rect.y,
+        width: rect.width,
+        height: rect.height,
+        direction: p.direction ?? 'block-end',
+      });
+
       p.onOpen?.();
     } else {
       p.onClose?.();
@@ -34,23 +49,6 @@ export const MenuButton = (p: {
     p.onSelect(itemId);
     closeMenu();
   };
-
-  createDocumentResizeObserver(() => {
-    if (!element) {
-      setAnchor(undefined);
-      return;
-    }
-
-    const rect = element.getBoundingClientRect();
-
-    setAnchor({
-      x: rect.x,
-      y: rect.y,
-      width: rect.width,
-      height: rect.height,
-      direction: 'block-start',
-    });
-  });
 
   return (
     <>
