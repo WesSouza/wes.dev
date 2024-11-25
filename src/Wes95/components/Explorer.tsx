@@ -24,11 +24,6 @@ export const Explorer = () => {
         maximized: screenBreakpoint() === 'small',
       },
     );
-
-    windowManager.addWindow(z.object({}), `app://DiskDefragmenter/Main`, {
-      showInTaskbar: true,
-      active: true,
-    });
   });
 
   const addWindow = (url: string) => {

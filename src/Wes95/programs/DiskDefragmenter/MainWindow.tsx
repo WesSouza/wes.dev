@@ -1,6 +1,7 @@
 import { createResizeObserver } from '@solid-primitives/resize-observer';
 import { createEffect, createMemo, For, onCleanup, onMount } from 'solid-js';
 import { createStore } from 'solid-js/store';
+import { Progress } from '../../components/Progress';
 import { ScreenManager } from '../../lib/ScreenManager';
 import { WindowManager } from '../../lib/WindowManager';
 import type { WindowState } from '../../models/WindowState';
@@ -342,18 +343,38 @@ export function DiskDefragmenterMainWindow(p: { window: WindowState }) {
           </For>
         </div>
       </div>
-      <div class="Horizontal MediumSpacing">
-        <div class="Vertical SmallSpacing">
+      <div
+        classList={{
+          Horizontal: true,
+          MediumSpacing: true,
+          [styles.Progress!]: true,
+        }}
+      >
+        <div
+          classList={{
+            Vertical: true,
+            SmallSpacing: true,
+            [styles.Status!]: true,
+          }}
+        >
           <span>
             {state.currentState !== 'finished'
               ? 'Defragmenting file system...'
               : 'Finished'}
           </span>
-          <span>[progress bar]</span>
+          <span>
+            <Progress appearance="blocks" value={state.progress} />
+          </span>
           <span>{Math.floor(state.progress * 100)}% complete</span>
         </div>
 
-        <div class="Vertical SmallSpacing">
+        <div
+          classList={{
+            Vertical: true,
+            SmallSpacing: true,
+            [styles.Buttons!]: true,
+          }}
+        >
           <button class="Button" type="button" onClick={handleExitClick}>
             Exit
           </button>

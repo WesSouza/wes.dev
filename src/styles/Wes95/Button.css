@@ -6,6 +6,7 @@
 
   display: flex;
   align-items: center;
+  justify-content: center;
   background-color: var(--wes95-color-material);
   gap: calc(var(--wes95-scale-value) * 2);
 
