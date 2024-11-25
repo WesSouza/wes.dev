@@ -180,6 +180,13 @@ export const Bluesky_Embed_RecordWithMediaViewSchema = z.object({
   ]),
 });
 
+export const Bluesky_Feed_Post = z.object({
+  $type: z.literal('app.bsky.feed.post').optional(),
+  createdAt: z.string(),
+  langs: z.array(z.string()).optional(),
+  text: z.string(),
+});
+
 export const Bluesky_Feed_PostViewSchema = z.object({
   $type: z.literal('app.bsky.feed.defs#postView').optional(),
   author: Bluesky_Actor_ProfileViewBasicSchema,
@@ -198,8 +205,7 @@ export const Bluesky_Feed_PostViewSchema = z.object({
   labels: z.array(Bluesky_Label_LabelSchema).optional(),
   likeCount: z.number().optional(),
   quoteCount: z.number().optional(),
-  // --- Fucking bluesky complex types ---
-  // record: Bluesky_UnknownTypeSchema,
+  record: Bluesky_Feed_Post,
   replyCount: z.number().optional(),
   repostCount: z.number().optional(),
   uri: z.string(),
