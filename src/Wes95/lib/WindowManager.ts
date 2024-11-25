@@ -5,6 +5,7 @@ import type { Point, Size } from '../models/Geometry';
 import type { WindowState } from '../models/WindowState';
 import { CalculatorMainWindow } from '../programs/Caclulator/MainWindow';
 import { DiskDefragmenterMainWindow } from '../programs/DiskDefragmenter/MainWindow';
+import { MediaPlayerMainWindow } from '../programs/MediaPlayer/MainWindow';
 import { NotepadMainWindow } from '../programs/Notepad/MainWindow';
 import { WordPadMainWindow } from '../programs/WordPad/MainWindow';
 import { FileSystemOpenWindow } from '../system/FileSystem/OpenWindow';
@@ -61,6 +62,9 @@ export class WindowManager {
     },
     Calculator: {
       Main: CalculatorMainWindow,
+    },
+    MediaPlayer: {
+      Main: MediaPlayerMainWindow,
     },
     Message: {
       MessageDialog: MessageDialogWindow,
