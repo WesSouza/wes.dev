@@ -56,6 +56,10 @@
 
 .Progress {
   container-type: inline-size;
+
+  .Buttons {
+    width: calc(var(--wes95-scale-value) * 60);
+  }
 }
 
 @container (max-width: 600px) {

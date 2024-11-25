@@ -26,9 +26,11 @@
     display: flex;
     flex-direction: row;
     gap: calc(var(--wes95-scale-value) * 2);
+    min-height: calc(var(--wes95-scale-value) * 18);
+    background-color: var(--wes95-color-material);
 
-    --wes95-padding-block: calc(var(--wes95-scale-value) * 2);
-    --wes95-padding-inline: calc(var(--wes95-scale-value) * 2);
+    --wes95-padding-block: calc(var(--wes95-scale-value) * 1);
+    --wes95-padding-inline: calc(var(--wes95-scale-value) * 1);
 
     & progress {
       top: 0;
