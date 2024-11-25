@@ -6,13 +6,13 @@ import { Menu, type MenuItem, type MenuSeparator } from './Menu';
 import { Symbol } from './Symbol';
 
 export const Combobox = (p: {
-  appearance?: 'simple' | 'icon' | undefined;
+  appearance?: 'simple' | 'icon';
   items: (MenuItem | MenuSeparator)[];
-  onClose?: (() => void) | undefined;
-  onOpen?: (() => void) | undefined;
-  onChange?: ((itemId: string) => void) | undefined;
-  selectedItem?: string | undefined;
-  placeholder?: string | undefined;
+  onClose?: () => void;
+  onOpen?: () => void;
+  onChange?: (itemId: string) => void;
+  selectedItem?: string;
+  placeholder?: string;
 }) => {
   let anchorElement!: HTMLDivElement;
   const [anchor, setAnchor] = createSignal<Anchor>();

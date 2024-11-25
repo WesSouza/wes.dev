@@ -12,10 +12,7 @@ const IconSizes = {
   },
 };
 
-export function Icon(p: {
-  icon: string;
-  size?: 'small' | 'medium' | 'large' | undefined;
-}) {
+export function Icon(p: { icon: string; size?: 'small' | 'medium' | 'large' }) {
   return (
     <img
       classList={{

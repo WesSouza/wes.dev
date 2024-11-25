@@ -24,7 +24,7 @@ export function Window(p: {
   active: boolean;
   window: WindowState;
   windowManager: WindowManager;
-  zIndex?: number | undefined;
+  zIndex?: number;
 }) {
   const { windowManager } = p;
 

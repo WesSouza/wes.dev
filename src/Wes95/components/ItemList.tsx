@@ -9,8 +9,8 @@ export type Item = {
 };
 
 export function ItemList(p: {
-  appearance?: 'icons' | 'list' | 'details' | undefined;
-  columns?: { key: string; name: string }[] | undefined;
+  appearance?: 'icons' | 'list' | 'details';
+  columns?: { key: string; name: string }[];
   items: Item[];
   onChange?: (selectedId: string | undefined) => void;
   onItemDblClick?: () => void;

@@ -5,8 +5,8 @@ import styles from './Progress.module.css';
 
 export function Progress(p: {
   appearance: 'blocks' | 'solid';
-  id?: string | undefined;
-  showNumber?: boolean | undefined;
+  id?: string;
+  showNumber?: boolean;
   value: number;
 }) {
   let element!: HTMLDivElement;
