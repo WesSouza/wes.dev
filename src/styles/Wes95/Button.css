@@ -6,7 +6,6 @@
 
   display: flex;
   align-items: center;
-  justify-content: center;
   background-color: var(--wes95-color-material);
   gap: calc(var(--wes95-scale-value) * 2);
 
@@ -32,6 +31,10 @@
       )
       var(--wes95-scale-value) / calc(var(--wes95-scale-value) * 2)
       calc(var(--wes95-scale-value) * 2);
+  }
+
+  &:not(.TaskbarButton) {
+    justify-content: center;
   }
 }
 
