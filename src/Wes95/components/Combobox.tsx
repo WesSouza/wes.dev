@@ -1,9 +1,10 @@
-import { createMemo, createSignal, Show } from 'solid-js';
+import { createMemo, createSignal, onMount, Show } from 'solid-js';
 import { createDocumentResizeObserver } from '../hooks/createDocumentResizeObserver';
 import type { Anchor } from '../models/Geometry';
 import { Icon } from './Icon';
 import { Menu, type MenuItem, type MenuSeparator } from './Menu';
 import { Symbol } from './Symbol';
+import { createResizeObserver } from '@solid-primitives/resize-observer';
 
 export const Combobox = (p: {
   appearance?: 'simple' | 'icon';
@@ -45,7 +46,7 @@ export const Combobox = (p: {
     closeMenu();
   };
 
-  createDocumentResizeObserver(() => {
+  const updateAnchor = () => {
     if (!anchorElement) {
       setAnchor(undefined);
       return;
@@ -60,6 +61,11 @@ export const Combobox = (p: {
       height: rect.height,
       direction: 'block-start',
     });
+  };
+
+  onMount(() => {
+    createDocumentResizeObserver(updateAnchor);
+    createResizeObserver(anchorElement, updateAnchor);
   });
 
   return (
@@ -72,13 +78,17 @@ export const Combobox = (p: {
         }}
         ref={anchorElement}
       >
-        <div class="Horizontal SmallSpacing -center">
+        <div class="ComboboxValue Horizontal SmallSpacing -center">
           <Show when={p.appearance === 'icon' && item()?.icon}>
             <Icon icon={item()!.icon!} />
           </Show>
           <span>{item()?.label ?? p.placeholder}</span>
         </div>
-        <button type="button" class="TaskbarButton" onClick={toggleMenu}>
+        <button
+          type="button"
+          class="ComboboxButton TaskbarButton"
+          onClick={toggleMenu}
+        >
           <Symbol symbol="chevronDown" />
         </button>
       </div>
@@ -87,6 +97,7 @@ export const Combobox = (p: {
           appearance="listbox"
           items={p.items}
           anchor={anchor()!}
+          anchorWidth
           onClose={closeMenu}
           onSelect={handleSelect}
         />

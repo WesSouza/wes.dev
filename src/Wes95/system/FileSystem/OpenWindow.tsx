@@ -214,7 +214,7 @@ export function FileSystemOpenWindow(p: {
 
   return (
     <>
-      <div class="Toolbar Horizontal SmallSpacing">
+      <div class="Toolbar Horizontal -center SmallSpacing">
         <span>Look in:</span>
         <Combobox
           appearance="icon"

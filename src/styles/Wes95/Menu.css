@@ -8,6 +8,14 @@
   background-color: var(--wes95-color-material);
   list-style-type: none;
   cursor: default;
+
+  &.-listBox {
+    background-color: var(--wes95-color-canvas);
+    border: var(--wes95-scale-value) solid var(--wes95-color-canvasText);
+    min-width: calc(var(--wes95-scale-value) * 160);
+    max-height: 66vh;
+    overflow: auto;
+  }
 }
 
 .MenuBar {
