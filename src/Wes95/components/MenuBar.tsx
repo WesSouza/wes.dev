@@ -6,24 +6,30 @@ export const MenuBar = (p: {
   items: MenuItem[];
   onSelect: (itemId: string) => void;
 }) => {
-  const [menuOpen, setMenuOpen] = createSignal<number | undefined>();
+  const [openIndex, setOpenIndex] = createSignal<number | undefined>();
 
   const openPrevious = () => {
-    let previous = (menuOpen() ?? 0) - 1;
+    let previous = (openIndex() ?? 0) - 1;
     if (previous < 0) {
       previous = p.items.length - 1;
     }
 
-    setMenuOpen(previous);
+    setOpenIndex(previous);
   };
 
   const openNext = () => {
-    let next = (menuOpen() ?? 0) + 1;
+    let next = (openIndex() ?? 0) + 1;
     if (next >= p.items.length) {
       next = 0;
     }
 
-    setMenuOpen(next);
+    setOpenIndex(next);
+  };
+
+  const handleButtonMouseEnter = (index: number) => {
+    if (openIndex() !== undefined) {
+      setOpenIndex(index);
+    }
   };
 
   return (
@@ -34,11 +40,12 @@ export const MenuBar = (p: {
             appearance="menu"
             items={item.submenu!}
             onSelect={p.onSelect}
-            onOpen={() => setMenuOpen(index())}
-            onClose={() => setMenuOpen(undefined)}
-            onMoveLeft={() => openPrevious()}
-            onMoveRight={() => openNext()}
-            open={menuOpen() === index()}
+            onButtonMouseEnter={() => handleButtonMouseEnter(index())}
+            onOpen={() => setOpenIndex(index())}
+            onClose={() => setOpenIndex(undefined)}
+            onMoveLeft={openPrevious}
+            onMoveRight={openNext}
+            open={openIndex() === index()}
           >
             {item.label}
           </MenuButton>
