@@ -50,9 +50,13 @@ export function Menu(p: {
   activeFirstItem?: boolean;
   anchor: Anchor;
   items: (MenuItem | MenuSeparator)[];
+  menuId?: string;
   onClose?: () => void;
+  onMoveLeft?: () => void;
+  onMoveRight?: () => void;
   onSelect: (itemId: string) => void;
 }) {
+  let didMove = false;
   let timer: number | undefined;
   const itemRefs: HTMLElement[] = [];
   const [activeIndex, setActiveIndex] = createSignal<number | undefined>(
@@ -108,7 +112,11 @@ export function Menu(p: {
   };
 
   const handleClose = (event: Event) => {
-    if (event instanceof ToggleEvent && event.newState === 'closed') {
+    if (
+      event instanceof ToggleEvent &&
+      event.newState === 'closed' &&
+      !didMove
+    ) {
       p.onClose?.();
     }
   };
@@ -183,7 +191,7 @@ export function Menu(p: {
   });
 
   createEffect(() => {
-    const handleDocumentKeyUp = (event: KeyboardEvent) => {
+    const handleDocumentKeyDown = (event: KeyboardEvent) => {
       if (submenu.items) {
         return;
       }
@@ -212,23 +220,33 @@ export function Menu(p: {
               index: currentIndex,
               items: item.submenu,
             });
+          } else {
+            if (p.onMoveRight) {
+              didMove = true;
+              p.onMoveRight();
+            }
           }
           break;
         }
 
         case 'ArrowLeft': {
-          p.onClose?.();
+          if (p.onMoveLeft) {
+            didMove = true;
+            p.onMoveLeft();
+          } else {
+            p.onClose?.();
+          }
           break;
         }
       }
     };
 
-    document.documentElement.addEventListener('keyup', handleDocumentKeyUp);
+    document.documentElement.addEventListener('keydown', handleDocumentKeyDown);
 
     onCleanup(() => {
       document.documentElement.removeEventListener(
-        'keyup',
-        handleDocumentKeyUp,
+        'keydown',
+        handleDocumentKeyDown,
       );
     });
   });
@@ -269,6 +287,7 @@ export function Menu(p: {
         Menu: true,
         '-listBox': p.appearance === 'listbox',
       }}
+      data-menu-id={p.menuId}
       popover
       ref={menuElement}
       style={style()}
@@ -322,10 +341,12 @@ export function Menu(p: {
       <Show when={submenu.items && submenu.anchor}>
         <Menu
           activeFirstItem={submenu.activeFirstItem}
-          items={submenu.items!}
           anchor={submenu.anchor!}
-          onSelect={p.onSelect}
+          items={submenu.items!}
+          menuId={p.menuId}
           onClose={handleSubmenuClose}
+          onMoveRight={p.onMoveRight}
+          onSelect={p.onSelect}
         />
       </Show>
     </menu>

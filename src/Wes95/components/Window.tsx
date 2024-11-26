@@ -295,8 +295,6 @@ export function Window(p: {
       return;
     }
 
-    event.preventDefault();
-
     document.documentElement.style.setProperty('touch-action', 'none');
 
     const windowRect = windowRef.getBoundingClientRect();
