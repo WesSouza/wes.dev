@@ -5,7 +5,7 @@ import tseslint from 'typescript-eslint';
 
 export default tseslint.config(
   {
-    ignores: ['.astro/**', '.vercel/**', 'public/**'],
+    ignores: ['.astro/**', '.vercel/**', 'dist/**', 'public/**'],
   },
   eslint.configs.recommended,
   ...tseslint.configs.recommended,
