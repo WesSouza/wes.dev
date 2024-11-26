@@ -1,4 +1,5 @@
 .Button,
+.MenuButton,
 .TaskbarButton,
 .ToolbarButton,
 .WindowTitleButton {
@@ -33,12 +34,24 @@
       calc(var(--wes95-scale-value) * 2);
   }
 
+  &.MenuButton:not(.TaskbarButton)[aria-expanded],
+  &.MenuButton:not(.TaskbarButton):active {
+    background-color: var(--wes95-color-hoverBackground);
+    color: var(--wes95-color-materialTextInvert);
+  }
+
   &:not(.TaskbarButton) {
     justify-content: center;
   }
 }
 
-button:is(.Button, .TaskbarButton, .ToolbarButton, .WindowTitleButton) {
+button:is(
+    .Button,
+    .MenuButton,
+    .TaskbarButton,
+    .ToolbarButton,
+    .WindowTitleButton
+  ) {
   appearance: none;
   border: none;
 }

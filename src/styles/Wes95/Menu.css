@@ -10,6 +10,10 @@
   cursor: default;
 }
 
+.MenuBar {
+  display: flex;
+}
+
 .MenuItem {
   display: flex;
   align-items: center;
