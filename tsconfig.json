@@ -17,5 +17,6 @@
     "strictPropertyInitialization": true,
     "verbatimModuleSyntax": true
   },
-  "exclude": [".vercel", "node_modules", "public"]
+  "include": [".astro/types.d.ts", "src"],
+  "exclude": [".vercel", "dist", "node_modules", "public"]
 }

@@ -1,5 +1,5 @@
 import solidJs from '@astrojs/solid-js';
-import vercel from '@astrojs/vercel/serverless';
+import vercel from '@astrojs/vercel';
 import { defineConfig } from 'astro/config';
 
 // https://astro.build/config
