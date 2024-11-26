@@ -15,6 +15,8 @@ export const MenuButton = (p: {
   children?: JSX.Element;
   direction?: 'block-start' | 'block-end' | 'inline-start' | 'inline-end';
   items: (MenuItem | MenuSeparator)[];
+  onButtonMouseEnter?: () => void;
+  onButtonMouseLeave?: () => void;
   onClose?: () => void;
   onMoveLeft?: () => void;
   onMoveRight?: () => void;
@@ -101,6 +103,8 @@ export const MenuButton = (p: {
           '-start': p.appearance === 'taskbar-start',
         }}
         onClick={toggleMenu}
+        onMouseEnter={p.onButtonMouseEnter}
+        onMouseLeave={p.onButtonMouseLeave}
         ref={element}
         type="button"
       >
