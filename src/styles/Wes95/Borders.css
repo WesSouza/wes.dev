@@ -1,6 +1,6 @@
 .Border,
 .Button,
-.Menu,
+.Menu:not(.-listBox),
 .Field,
 .Grouping,
 .StatusField,

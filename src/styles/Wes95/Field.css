@@ -1,3 +1,4 @@
+.Combobox,
 .Field,
 .TextBox {
   min-height: calc(var(--wes95-scale-value) * 21);
@@ -6,6 +7,20 @@
 
   &:is(.SmallSpacing, .MediumSpacing, .LargeSpacing) {
     padding: calc(var(--wes95-spacing-padding) + var(--wes95-border-padding));
+  }
+}
+
+.Combobox {
+  --wes95-padding-block: 0px;
+  --wes95-padding-inline: 0px;
+
+  .ComboboxValue {
+    flex-grow: 1;
+  }
+
+  .ComboboxButton {
+    /* Why the fuck do I need to do this?! */
+    max-width: max-content;
   }
 }
 

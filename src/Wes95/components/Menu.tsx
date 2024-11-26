@@ -49,6 +49,7 @@ export function Menu(p: {
   appearance?: 'listbox' | 'menu';
   activeFirstItem?: boolean;
   anchor: Anchor;
+  anchorWidth?: boolean;
   items: (MenuItem | MenuSeparator)[];
   menuId?: string;
   onClose?: () => void;
@@ -179,6 +180,7 @@ export function Menu(p: {
     setStyle({
       top: `${directionInline ? orthogonalAxisPosition : axisPosition}px`,
       left: `${!directionInline ? orthogonalAxisPosition : axisPosition}px`,
+      width: p.anchorWidth ? `${anchor.width}px` : undefined,
       opacity: 1,
     });
 
