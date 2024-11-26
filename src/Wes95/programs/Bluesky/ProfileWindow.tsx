@@ -1,3 +1,4 @@
+import type { AppBskyFeedGetAuthorFeed } from '@atproto/api';
 import { actions } from 'astro:actions';
 import {
   createEffect,
@@ -16,6 +17,7 @@ import {
 } from '../../system/FileSystem/OpenWindow';
 import { createWindowURL } from '../../utils/Windows';
 import { BlueskyProfileHeader } from './ProfileHeader';
+import { BlueskyPostList } from './PostList';
 
 const WesDID = 'did:plc:4qy26t5ss4zosz2mi3hdzuq3';
 
@@ -25,10 +27,29 @@ export const BlueskyProfileDataSchema = z.object({
 
 export type BlueskyProfileData = z.infer<typeof BlueskyProfileDataSchema>;
 
-const getAccountPosts = (actor: string) =>
-  actions.wes95_bluesky.getAuthorFeed({
+const getAccountPosts = async (
+  actor: string,
+  info: {
+    value: AppBskyFeedGetAuthorFeed.OutputSchema | undefined;
+    refetching: string | boolean | undefined;
+  },
+): Promise<AppBskyFeedGetAuthorFeed.OutputSchema> => {
+  const result = await actions.wes95_bluesky.getAuthorFeed({
     actor,
+    cursor: typeof info.refetching === 'string' ? info.refetching : undefined,
   });
+
+  if (result.error) {
+    const error = new Error(`getAccountPosts failed`);
+    error.cause = result.error;
+    throw error;
+  }
+
+  return {
+    feed: (info.value?.feed ?? []).concat(result.data.feed),
+    cursor: result.data.cursor,
+  };
+};
 
 const getProfile = (actor: string) =>
   actions.wes95_bluesky.getProfile({
@@ -42,7 +63,10 @@ export function BlueskyProfileWindow(p: {
   let contentElement!: HTMLTextAreaElement;
   const [account, setAccount] = createSignal(p.data.did ?? WesDID);
 
-  const [posts] = createResource(account, getAccountPosts);
+  const [posts, { refetch: refetchPosts }] = createResource(
+    account,
+    getAccountPosts,
+  );
   const [profile] = createResource(account, getProfile);
 
   createEffect(() => {
@@ -53,9 +77,16 @@ export function BlueskyProfileWindow(p: {
   });
 
   createEffect(() => {
-    console.log('feed', posts()?.data?.feed);
+    console.log('feed', posts()?.feed);
     console.log('profile', profile()?.data);
   });
+
+  const fetchMore = () => {
+    const cursor = posts()?.cursor;
+    if (cursor) {
+      refetchPosts(cursor);
+    }
+  };
 
   const openFileDialog = () => {
     const delegateId = createUniqueId();
@@ -200,7 +231,13 @@ export function BlueskyProfileWindow(p: {
           openFollows={() => {}}
         />
       </Show>
-      {posts()?.data?.feed?.length} posts loaded
+      <Show when={posts()?.feed}>
+        <BlueskyPostList posts={posts()!.feed} />
+      </Show>
+
+      <button type="button" class="Button" onClick={fetchMore}>
+        Fetch more
+      </button>
     </>
   );
 }

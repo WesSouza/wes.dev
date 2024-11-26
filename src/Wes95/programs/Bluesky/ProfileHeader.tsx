@@ -1,10 +1,9 @@
 import { Show } from 'solid-js';
-import { z } from 'zod';
-import type { Bluesky_Actor_ProfileViewDetailedSchema } from '../../models/Bluesky';
+import type { Bluesky_Actor_ProfileViewDetailed } from '../../models/Bluesky';
 import styles from './style.module.css';
 
 export function BlueskyProfileHeader(p: {
-  profile: z.infer<typeof Bluesky_Actor_ProfileViewDetailedSchema>;
+  profile: Bluesky_Actor_ProfileViewDetailed;
   openFollowers: () => void;
   openFollows: () => void;
 }) {
@@ -32,6 +31,7 @@ export function BlueskyProfileHeader(p: {
       <div
         classList={{
           Horizontal: true,
+          '-end': true,
           [styles.ProfileAvatarButtons!]: true,
         }}
       >
