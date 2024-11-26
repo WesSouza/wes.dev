@@ -1,12 +1,9 @@
-import { Agent } from '@atproto/api';
+import { Agent, AppBskyFeedGetAuthorFeed } from '@atproto/api';
 import { defineAction } from 'astro:actions';
 import { z } from 'astro:schema';
-import {
-  Bluesky_Actor_ProfileViewDetailedSchema,
-  Bluesky_Feed_ViewPostSchema,
-} from '../Wes95/models/Bluesky';
+import { Bluesky_Actor_ProfileViewDetailedSchema } from '../Wes95/models/Bluesky';
 
-const agent = new Agent(new URL('https://public.api.bsky.app'));
+const agent = new Agent('https://public.api.bsky.app');
 
 export const wes95_bluesky = {
   getAuthorFeed: defineAction({
@@ -19,12 +16,10 @@ export const wes95_bluesky = {
     handler: async (input) => {
       const { data } = await agent.getAuthorFeed(input);
 
-      const AuthorFeedSchema = z.object({
-        feed: z.array(Bluesky_Feed_ViewPostSchema),
-        cursor: z.string().optional(),
-      });
-
-      return AuthorFeedSchema.parse(data);
+      // Use JSON to remove unserializable types
+      return JSON.parse(
+        JSON.stringify(data),
+      ) as AppBskyFeedGetAuthorFeed.OutputSchema;
     },
   }),
   getProfile: defineAction({
