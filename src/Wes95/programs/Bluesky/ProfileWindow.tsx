@@ -84,10 +84,10 @@ export function BlueskyProfileWindow(p: {
     });
   });
 
-  createEffect(() => {
+  /* createEffect(() => {
     console.log('feed', posts()?.feed);
     console.log('profile', profile()?.data);
-  });
+  }); */
 
   const fetchMore = () => {
     const cursor = posts()?.cursor;

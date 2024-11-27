@@ -60,7 +60,7 @@ export class WindowManager {
     };
   } = {
     Bluesky: {
-      Main: BlueskyProfileWindow,
+      Profile: BlueskyProfileWindow,
     },
     DiskDefragmenter: {
       Main: DiskDefragmenterMainWindow,

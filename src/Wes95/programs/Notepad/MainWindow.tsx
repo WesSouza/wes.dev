@@ -16,7 +16,7 @@ import {
 import { createWindowURL } from '../../utils/Windows';
 
 export const NotepadMainDataSchema = z.object({
-  openFile: z.string().optional(),
+  file: z.string().optional(),
 });
 
 export type NotepadMainData = z.infer<typeof NotepadMainDataSchema>;
@@ -27,10 +27,10 @@ export function NotepadMainWindow(p: {
 }) {
   let contentElement!: HTMLTextAreaElement;
   const fileSystem = FileSystemManager.shared;
-  const [openFilePath, setOpenFilePath] = createSignal(p.data.openFile);
+  const [filePath, setFilePath] = createSignal(p.data.file);
 
-  const [file] = createResource(openFilePath, fileSystem.getFile);
-  const [fileData] = createResource(openFilePath, fileSystem.readFile);
+  const [file] = createResource(filePath, fileSystem.getFile);
+  const [fileData] = createResource(filePath, fileSystem.readFile);
 
   createEffect(() => {
     WindowManager.shared.setWindow(p.window.id, (window) => {
@@ -57,7 +57,7 @@ export function NotepadMainWindow(p: {
       delegateId,
       (event) => {
         if (event.filePath) {
-          setOpenFilePath(event.filePath);
+          setFilePath(event.filePath);
           contentElement.scrollTo(0, 0);
         }
         WindowManager.shared.setActiveWindow(p.window);

@@ -73,7 +73,6 @@ export const MenuButton = (p: {
       !element.contains(event.target) &&
       !event.target.closest(`[data-menu-id="${menuId}"]`)
     ) {
-      console.log('out');
       closeMenu();
     }
   };

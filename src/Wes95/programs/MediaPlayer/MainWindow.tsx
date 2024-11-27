@@ -16,7 +16,7 @@ import {
 import { createWindowURL } from '../../utils/Windows';
 
 export const MediaPlayerMainDataSchema = z.object({
-  openFile: z.string().optional(),
+  file: z.string().optional(),
 });
 
 export type MediaPlayerMainData = z.infer<typeof MediaPlayerMainDataSchema>;
@@ -26,10 +26,10 @@ export function MediaPlayerMainWindow(p: {
   window: WindowState;
 }) {
   const fileSystem = FileSystemManager.shared;
-  const [openFilePath, setOpenFilePath] = createSignal(p.data.openFile);
+  const [filePath, setFilePath] = createSignal(p.data.file);
 
-  const [file] = createResource(openFilePath, fileSystem.getFile);
-  const [fileData] = createResource(openFilePath, fileSystem.readFile);
+  const [file] = createResource(filePath, fileSystem.getFile);
+  const [fileData] = createResource(filePath, fileSystem.readFile);
 
   createEffect(() => {
     WindowManager.shared.setWindow(p.window.id, (window) => {
@@ -56,7 +56,7 @@ export function MediaPlayerMainWindow(p: {
       delegateId,
       (event) => {
         if (event.filePath) {
-          setOpenFilePath(event.filePath);
+          setFilePath(event.filePath);
         }
         WindowManager.shared.setActiveWindow(p.window);
       },
