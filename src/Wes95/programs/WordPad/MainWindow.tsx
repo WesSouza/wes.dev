@@ -76,8 +76,6 @@ export function WordPadMainWindow(p: {
     );
   };
 
-  onMount(openFileDialog);
-
   const handleMenuSelect = (id: string) => {
     if (id === 'Exit') {
       WindowManager.shared.closeWindow(p.window.id);

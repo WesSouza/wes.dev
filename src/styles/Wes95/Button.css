@@ -17,7 +17,9 @@
   }
 
   &.LinkButton {
+    cursor: pointer;
     background-color: transparent;
+    text-decoration: underline;
   }
 
   &.TaskbarButton {

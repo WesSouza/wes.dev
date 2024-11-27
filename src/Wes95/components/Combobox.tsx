@@ -77,6 +77,7 @@ export const Combobox = (p: {
           '-icon': p.appearance === 'icon',
         }}
         ref={anchorElement}
+        onClick={toggleMenu}
       >
         <div class="ComboboxValue Horizontal SmallSpacing -center">
           <Show when={p.appearance === 'icon' && item()?.icon}>
@@ -84,11 +85,7 @@ export const Combobox = (p: {
           </Show>
           <span>{item()?.label ?? p.placeholder}</span>
         </div>
-        <button
-          type="button"
-          class="ComboboxButton TaskbarButton"
-          onClick={toggleMenu}
-        >
+        <button type="button" class="ComboboxButton TaskbarButton">
           <Symbol symbol="chevronDown" />
         </button>
       </div>
