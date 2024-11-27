@@ -35,6 +35,13 @@ export function WordPadMainWindow(p: {
   const [file] = createResource(openFilePath, fileSystem.getFile);
   const [fileData] = createResource(openFilePath, fileSystem.readFile);
 
+  onMount(() => {
+    WindowManager.shared.place(p.window.id, {
+      width: 450,
+      height: 500,
+    });
+  });
+
   createEffect(() => {
     WindowManager.shared.setWindow(p.window.id, (window) => {
       window.title = `${file()?.name ?? 'Untitled'} - WordPad`;

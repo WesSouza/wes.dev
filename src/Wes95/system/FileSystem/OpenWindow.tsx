@@ -49,13 +49,13 @@ export function FileSystemOpenWindow(p: {
     });
     WindowManager.shared.place(p.window.id, {
       centerToParent: true,
-      // width: 400,
-      // height: 300,
+      width: 580,
+      height: 380,
     });
   });
 
   const showExtraToolbarButtons = createMemo(() => {
-    return p.window.rect.width > 550;
+    return p.window.width > 550;
   });
 
   const chooseFile = (filePath: string | undefined) => {

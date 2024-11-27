@@ -20,7 +20,6 @@ export const Explorer = () => {
       {
         active: true,
         showInTaskbar: true,
-        size: { width: 440, height: 500 },
         maximized: screenBreakpoint() === 'small',
       },
     );
