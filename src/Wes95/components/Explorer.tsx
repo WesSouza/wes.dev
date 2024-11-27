@@ -18,22 +18,22 @@ export const Explorer = () => {
       WordPadMainDataSchema,
       `app://WordPad/Main?openFile=${encodeURIComponent('/C/My Documents/Welcome.doc')}`,
       {
-        showInTaskbar: true,
-        size: { width: 440, height: 500 },
-        maximized: screenBreakpoint() === 'small',
-      },
-    );
-
-    windowManager.addWindow(
-      WordPadMainDataSchema,
-      `app://Bluesky/Main?did=${encodeURIComponent('did:plc:4qy26t5ss4zosz2mi3hdzuq3')}`,
-      {
         active: true,
         showInTaskbar: true,
         size: { width: 440, height: 500 },
         maximized: screenBreakpoint() === 'small',
       },
     );
+
+    /* windowManager.addWindow(
+      WordPadMainDataSchema,
+      `app://Bluesky/Main?did=${encodeURIComponent('did:plc:4qy26t5ss4zosz2mi3hdzuq3')}`,
+      {
+        showInTaskbar: true,
+        size: { width: 440, height: 500 },
+        maximized: screenBreakpoint() === 'small',
+      },
+    ); */
   });
 
   const addWindow = (url: string) => {

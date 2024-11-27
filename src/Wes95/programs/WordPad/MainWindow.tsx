@@ -3,6 +3,7 @@ import {
   createResource,
   createSignal,
   createUniqueId,
+  onMount,
 } from 'solid-js';
 import { z } from 'zod';
 import { Icon } from '../../components/Icon';
@@ -67,6 +68,8 @@ export function WordPadMainWindow(p: {
       FSOpenEventSchema,
     );
   };
+
+  onMount(openFileDialog);
 
   const handleMenuSelect = (id: string) => {
     if (id === 'Exit') {
