@@ -1,6 +1,7 @@
-import { For, onMount, Show, type JSX } from 'solid-js';
+import { createEffect, For, onMount, Show, type JSX } from 'solid-js';
 import { z } from 'zod';
 import { ScreenManager } from '../lib/ScreenManager';
+import { SessionManager } from '../lib/SessionManager';
 import { WindowManager } from '../lib/WindowManager';
 import { WordPadMainDataSchema } from '../programs/WordPad/MainWindow';
 import { Icon } from './Icon';
@@ -14,15 +15,21 @@ export const Explorer = () => {
   const state = windowManager.state;
 
   onMount(() => {
-    windowManager.addWindow(
-      WordPadMainDataSchema,
-      `app://WordPad/Main?openFile=${encodeURIComponent('/C/My Documents/Welcome.doc')}`,
-      {
-        active: true,
-        showInTaskbar: true,
-        maximized: screenBreakpoint() === 'small',
-      },
-    );
+    createEffect(() => {
+      SessionManager.shared.restoreFromLocation({
+        cleanState: () => {
+          windowManager.addWindow(
+            WordPadMainDataSchema,
+            `app://WordPad/Main?file=${encodeURIComponent('/C/My Documents/Welcome.doc')}`,
+            {
+              active: true,
+              showInTaskbar: true,
+              maximized: screenBreakpoint() === 'small',
+            },
+          );
+        },
+      });
+    });
   });
 
   const addWindow = (url: string) => {
@@ -143,7 +150,7 @@ export const Explorer = () => {
                 },
                 {
                   type: 'item',
-                  id: 'app://Bluesky/Main',
+                  id: 'app://Bluesky/Profile',
                   icon: 'iconBluesky',
                   label: 'Bluesky',
                 },

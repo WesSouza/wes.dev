@@ -19,7 +19,7 @@ import { createWindowURL } from '../../utils/Windows';
 import { MenuBar } from '../../components/MenuBar';
 
 export const WordPadMainDataSchema = z.object({
-  openFile: z.string().optional(),
+  file: z.string().optional(),
 });
 
 export type WordPadMainData = z.infer<typeof WordPadMainDataSchema>;
@@ -30,10 +30,10 @@ export function WordPadMainWindow(p: {
 }) {
   let contentElement!: HTMLDivElement;
   const fileSystem = FileSystemManager.shared;
-  const [openFilePath, setOpenFilePath] = createSignal(p.data.openFile);
+  const [filePath, setFilePath] = createSignal(p.data.file);
 
-  const [file] = createResource(openFilePath, fileSystem.getFile);
-  const [fileData] = createResource(openFilePath, fileSystem.readFile);
+  const [file] = createResource(filePath, fileSystem.getFile);
+  const [fileData] = createResource(filePath, fileSystem.readFile);
 
   onMount(() => {
     WindowManager.shared.place(p.window.id, {
@@ -67,7 +67,7 @@ export function WordPadMainWindow(p: {
       delegateId,
       (event) => {
         if (event.filePath) {
-          setOpenFilePath(event.filePath);
+          setFilePath(event.filePath);
           contentElement.scrollTo(0, 0);
         }
         WindowManager.shared.setActiveWindow(p.window);
