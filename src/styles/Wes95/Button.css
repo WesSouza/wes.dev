@@ -1,4 +1,5 @@
 .Button,
+.LinkButton,
 .MenuButton,
 .TaskbarButton,
 .ToolbarButton,
@@ -9,9 +10,14 @@
   align-items: center;
   background-color: var(--wes95-color-material);
   gap: calc(var(--wes95-scale-value) * 2);
+  text-align: start;
 
   &.Button {
     --wes95-padding-inline: calc(var(--wes95-scale-value) * 8);
+  }
+
+  &.LinkButton {
+    background-color: transparent;
   }
 
   &.TaskbarButton {
@@ -40,13 +46,14 @@
     color: var(--wes95-color-materialTextInvert);
   }
 
-  &:not(.TaskbarButton) {
+  &:not(.LinkButton, .TaskbarButton) {
     justify-content: center;
   }
 }
 
 button:is(
     .Button,
+    .LinkButton,
     .MenuButton,
     .TaskbarButton,
     .ToolbarButton,

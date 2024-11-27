@@ -1,4 +1,4 @@
-import { createUniqueId, For, Match, Switch } from 'solid-js';
+import { For, Match, Switch } from 'solid-js';
 import { Icon } from './Icon';
 
 export type Item = {
@@ -13,34 +13,15 @@ export function ItemList(p: {
   columns?: { key: string; name: string }[];
   items: Item[];
   onChange?: (selectedId: string | undefined) => void;
-  onItemDblClick?: () => void;
 }) {
-  const groupId = createUniqueId();
-
-  const handleChange = () => {
-    const checked =
-      document
-        .querySelector(`[data-group="${groupId}"]:checked`)
-        ?.getAttribute('data-id') ?? undefined;
-    p.onChange?.(checked);
-  };
-
-  const handleListClick = (event: MouseEvent & { target: Element }) => {
-    if (event.target.tagName !== 'INPUT') {
-      const checkedElement: HTMLInputElement | null = document.querySelector(
-        `[data-group="${groupId}"]:checked`,
-      );
-      if (checkedElement) {
-        checkedElement.checked = false;
-      }
-      p.onChange?.(undefined);
-    }
+  const handleItemClick = (item: Item) => {
+    p.onChange?.(item.id);
   };
 
   return (
     <Switch>
       <Match when={p.appearance === 'details'}>
-        <table class="ItemList" onClick={handleListClick}>
+        <table class="ItemList">
           <thead>
             <tr>
               <th>Name</th>
@@ -49,32 +30,23 @@ export function ItemList(p: {
           </thead>
           <tbody>
             <For each={p.items}>
-              {(item) => {
-                const id = createUniqueId();
-                return (
-                  <tr class="Item">
-                    <td>
-                      <input
-                        type="radio"
-                        name={groupId}
-                        id={id}
-                        data-group={groupId}
-                        data-id={item.id}
-                        onChange={() => handleChange()}
-                        onDblClick={() => p.onItemDblClick?.()}
-                      />
-
-                      <label for={id}>
-                        <Icon icon={item.icon} />
-                        <span>{item.name}</span>
-                      </label>
-                    </td>
-                    <For each={p.columns}>
-                      {(column) => <td>{item.columns?.[column.key]?.value}</td>}
-                    </For>
-                  </tr>
-                );
-              }}
+              {(item) => (
+                <tr class="Item">
+                  <td>
+                    <button
+                      class="LinkButton"
+                      onClick={() => handleItemClick(item)}
+                      type="button"
+                    >
+                      <Icon icon={item.icon} />
+                      <span>{item.name}</span>
+                    </button>
+                  </td>
+                  <For each={p.columns}>
+                    {(column) => <td>{item.columns?.[column.key]?.value}</td>}
+                  </For>
+                </tr>
+              )}
             </For>
           </tbody>
         </table>
@@ -86,33 +58,23 @@ export function ItemList(p: {
             '-icons': p.appearance === 'icons',
             '-list': !p.appearance || p.appearance === 'list',
           }}
-          onClick={handleListClick}
         >
           <For each={p.items}>
-            {(item) => {
-              const id = createUniqueId();
-              return (
-                <li class="Item">
-                  <input
-                    type="radio"
-                    name={groupId}
-                    id={id}
-                    data-group={groupId}
-                    data-id={item.id}
-                    onChange={() => handleChange()}
-                    onDblClick={() => p.onItemDblClick?.()}
+            {(item) => (
+              <li class="Item">
+                <button
+                  class="LinkButton"
+                  onClick={() => handleItemClick(item)}
+                  type="button"
+                >
+                  <Icon
+                    icon={item.icon}
+                    size={p.appearance === 'icons' ? 'large' : 'small'}
                   />
-
-                  <label for={id}>
-                    <Icon
-                      icon={item.icon}
-                      size={p.appearance === 'icons' ? 'large' : 'small'}
-                    />
-                    <span>{item.name}</span>
-                  </label>
-                </li>
-              );
-            }}
+                  <span>{item.name}</span>
+                </button>
+              </li>
+            )}
           </For>
         </ul>
       </Match>

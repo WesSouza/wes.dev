@@ -1,17 +1,19 @@
-import { createMemo, createResource, createSignal } from 'solid-js';
-import { z } from 'zod';
-import { ItemList } from '../../components/ItemList';
 import {
-  FileSystemManager,
-  type Directory,
-  type File,
-} from '../../lib/FileSystemManager';
+  createMemo,
+  createResource,
+  createSignal,
+  onMount,
+  Show,
+} from 'solid-js';
+import { z } from 'zod';
+import { Combobox } from '../../components/Combobox';
+import { Icon } from '../../components/Icon';
+import { ItemList } from '../../components/ItemList';
+import type { MenuItem } from '../../components/Menu';
+import { FileSystemManager } from '../../lib/FileSystemManager';
 import { WindowManager } from '../../lib/WindowManager';
 import type { WindowState } from '../../models/WindowState';
 import { filterFileTypes, mapFileType } from '../../utils/fileTypes';
-import { Icon } from '../../components/Icon';
-import { Combobox } from '../../components/Combobox';
-import type { MenuItem } from '../../components/Menu';
 
 export const FSOpenDataSchema = z.object({
   delegateId: z.string(),
@@ -41,13 +43,37 @@ export function FileSystemOpenWindow(p: {
     FileSystemManager.shared.getFiles,
   );
 
-  const [file, setFile] = createSignal<File | Directory | undefined>();
+  onMount(() => {
+    WindowManager.shared.setWindow(p.window.id, (window) => {
+      window.title = `Open`;
+    });
+    WindowManager.shared.place(p.window.id, {
+      centerToParent: true,
+      // width: 400,
+      // height: 300,
+    });
+  });
 
-  const selectedFileName = () => (file()?.type === 'file' ? file()?.name : '');
+  const showExtraToolbarButtons = createMemo(() => {
+    return p.window.rect.width > 550;
+  });
 
   const chooseFile = (filePath: string | undefined) => {
     const file = files()?.find((file) => file.path === filePath);
-    setFile(file);
+    if (!file) {
+      return;
+    }
+
+    if (file.type === 'directory') {
+      setCurrentDirectoryPath(file.path);
+      return;
+    }
+
+    const openArguments = FSOpenEventSchema.parse({
+      filePath: file.path,
+    });
+    WindowManager.shared.delegate(p.data.delegateId, openArguments);
+    WindowManager.shared.closeWindow(p.window.id);
   };
 
   const handleFolderUpClick = () => {
@@ -67,32 +93,6 @@ export function FileSystemOpenWindow(p: {
 
   const handleDesktopClick = () => {
     setCurrentDirectoryPath('/Desktop');
-  };
-
-  const handleOpenClick = () => {
-    const currentFile = file();
-    if (!currentFile) {
-      return;
-    }
-
-    if (currentFile.type === 'directory') {
-      setCurrentDirectoryPath(currentFile.path);
-      return;
-    }
-
-    const openArguments = FSOpenEventSchema.parse({
-      filePath: currentFile.path,
-    });
-    WindowManager.shared.delegate(p.data.delegateId, openArguments);
-    WindowManager.shared.closeWindow(p.window.id);
-  };
-
-  const handleCancelClick = () => {
-    const openArguments = FSOpenEventSchema.parse({
-      filePath: undefined,
-    });
-    WindowManager.shared.delegate(p.data.delegateId, openArguments);
-    WindowManager.shared.closeWindow(p.window.id);
   };
 
   const lookInItems = createMemo<MenuItem[]>(() => {
@@ -230,40 +230,42 @@ export function FileSystemOpenWindow(p: {
         >
           <Icon icon="toolbarFolderUp" />
         </button>
-        <button
-          class="ToolbarButton"
-          type="button"
-          onClick={handleDesktopClick}
-        >
-          <Icon icon="toolbarDeskpad" />
-        </button>
-        <button class="ToolbarButton" type="button">
-          <Icon icon="toolbarFolderNew" />
-        </button>
-        <div class="ButtonGroup Horizontal">
+        <Show when={showExtraToolbarButtons()}>
           <button
-            classList={{
-              ToolbarButton: true,
-              '-active': listType() === 'list',
-              '-down': listType() === 'list',
-            }}
-            onClick={() => setListType('list')}
+            class="ToolbarButton"
             type="button"
+            onClick={handleDesktopClick}
           >
-            <Icon icon="toolbarIconsList" />
+            <Icon icon="toolbarDeskpad" />
           </button>
-          <button
-            classList={{
-              ToolbarButton: true,
-              '-active': listType() === 'details',
-              '-down': listType() === 'details',
-            }}
-            onClick={() => setListType('details')}
-            type="button"
-          >
-            <Icon icon="toolbarIconsDetails" />
+          <button class="ToolbarButton" type="button">
+            <Icon icon="toolbarFolderNew" />
           </button>
-        </div>
+          <div class="ButtonGroup Horizontal">
+            <button
+              classList={{
+                ToolbarButton: true,
+                '-active': listType() === 'list',
+                '-down': listType() === 'list',
+              }}
+              onClick={() => setListType('list')}
+              type="button"
+            >
+              <Icon icon="toolbarIconsList" />
+            </button>
+            <button
+              classList={{
+                ToolbarButton: true,
+                '-active': listType() === 'details',
+                '-down': listType() === 'details',
+              }}
+              onClick={() => setListType('details')}
+              type="button"
+            >
+              <Icon icon="toolbarIconsDetails" />
+            </button>
+          </div>
+        </Show>
       </div>
       <div class="Field">
         <div class="Content SmallSpacing">
@@ -271,7 +273,6 @@ export function FileSystemOpenWindow(p: {
             appearance={listType()}
             items={items()}
             onChange={chooseFile}
-            onItemDblClick={handleOpenClick}
             columns={[
               { key: 'size', name: 'Size' },
               { key: 'type', name: 'Type' },
@@ -279,20 +280,6 @@ export function FileSystemOpenWindow(p: {
             ]}
           />
         </div>
-      </div>
-      <div class="Horizontal -center SmallSpacing">
-        <label for={`${p.window.id}-fileName`}>File name:</label>
-        <input
-          id={`${p.window.id}-fileName`}
-          class="TextBox"
-          value={selectedFileName()}
-        />
-        <button type="button" class="Button" onClick={handleOpenClick}>
-          Open
-        </button>
-        <button type="button" class="Button" onClick={handleCancelClick}>
-          Cancel
-        </button>
       </div>
     </>
   );

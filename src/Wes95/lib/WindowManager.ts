@@ -241,6 +241,14 @@ export class WindowManager {
 
   // MARK: Editing
 
+  place = (
+    windowId: string,
+    options: {
+      centerToParent?: boolean;
+      centerToScreen?: boolean;
+    } & Partial<Pick<WindowState, 'sizeAutomatic' | 'sizeConstraints'>>,
+  ) => {};
+
   setActiveWindow = (window: WindowState | undefined) => {
     this.#setState(
       produce((state) => {
