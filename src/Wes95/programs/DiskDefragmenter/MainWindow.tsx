@@ -117,8 +117,9 @@ export function DiskDefragmenterMainWindow(p: { window: WindowState }) {
       return;
     }
 
-    WindowManager.shared.setWindow(p.window.id, (window) => {
-      window.rect = { x: 0, y: 0, ...desktopSize };
+    WindowManager.shared.place(p.window.id, {
+      width: desktopSize.width,
+      height: desktopSize.height,
     });
   });
 

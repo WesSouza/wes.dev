@@ -1,4 +1,5 @@
 import type { WindowManagerState } from '../lib/WindowManager';
+import type { Rect } from '../models/Geometry';
 import type { WindowState } from '../models/WindowState';
 
 export function addActiveWindowToHistory(
@@ -73,6 +74,21 @@ export function createZIndexMap(state: WindowManagerState) {
   }
 
   return zIndexMap;
+}
+
+export function getRect(window: Rect): Rect;
+export function getRect(window: Rect | undefined): Rect | undefined;
+export function getRect(window: Rect | undefined): Rect | undefined {
+  if (!window) {
+    return;
+  }
+
+  return {
+    width: window.width,
+    height: window.height,
+    x: window.x,
+    y: window.y,
+  };
 }
 
 export function handleActiveWindows(

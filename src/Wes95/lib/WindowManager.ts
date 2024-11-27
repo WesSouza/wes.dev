@@ -112,6 +112,8 @@ export class WindowManager {
     windowInit: Partial<
       Pick<
         WindowState,
+        | 'centerToParent'
+        | 'centerToScreen'
         | 'icon'
         | 'maximized'
         | 'maximizable'
@@ -162,10 +164,12 @@ export class WindowManager {
     const showInTaskbar = windowInit.showInTaskbar ?? parentId === undefined;
 
     const window: WindowState = {
+      ...rect,
+      centerToParent: windowInit.centerToParent,
+      centerToScreen: windowInit.centerToScreen,
       dataSchema: schema,
       id,
       parentId,
-      rect,
       icon: windowInit.icon,
       title: windowInit.title ?? '',
       maximized: windowInit.maximized,
@@ -217,6 +221,31 @@ export class WindowManager {
     );
   };
 
+  getEffectiveWindowRect = (windowId: string | undefined) => {
+    const window = this.getWindow(windowId);
+
+    if (window && !window.maximized) {
+      return {
+        x: window.x,
+        y: window.y,
+        width: window.width,
+        height: window.height,
+      };
+    } else {
+      const desktopSize = ScreenManager.shared.desktopSize();
+      if (desktopSize) {
+        return {
+          x: 0,
+          y: 0,
+          width: desktopSize.width,
+          height: desktopSize.height,
+        };
+      }
+    }
+
+    return;
+  };
+
   getWindow = (windowId: string | undefined) => {
     return windowId
       ? this.state.windows.find((window) => window.id === windowId)
@@ -243,11 +272,86 @@ export class WindowManager {
 
   place = (
     windowId: string,
-    options: {
-      centerToParent?: boolean;
-      centerToScreen?: boolean;
-    } & Partial<Pick<WindowState, 'sizeAutomatic' | 'sizeConstraints'>>,
-  ) => {};
+    options: Partial<
+      Pick<
+        WindowState,
+        | 'centerToParent'
+        | 'centerToScreen'
+        | 'height'
+        | 'sizeAutomatic'
+        | 'sizeConstraints'
+        | 'width'
+        | 'x'
+        | 'y'
+      >
+    >,
+  ) => {
+    const { centerToParent, centerToScreen, sizeAutomatic, sizeConstraints } =
+      options;
+    let { x, y, width, height } = options;
+
+    const window = this.getWindow(windowId);
+    const windowRect = this.getEffectiveWindowRect(windowId);
+    if (!window || !windowRect) {
+      return;
+    }
+
+    x ??= windowRect.x;
+    y ??= windowRect.y;
+    width ??= windowRect.width;
+    height ??= windowRect.height;
+
+    const screenRect = ScreenManager.shared.desktopSize();
+
+    if (screenRect) {
+      width = Math.min(width, screenRect.width);
+      height = Math.min(height, screenRect.height);
+    }
+
+    if (centerToParent ?? window.centerToParent) {
+      const parentRect = this.getEffectiveWindowRect(window.parentId);
+      if (parentRect) {
+        x = parentRect.x + parentRect.width / 2 - width / 2;
+        y = parentRect.y + parentRect.height / 2 - height / 2;
+      }
+    } else if (centerToScreen ?? window.centerToScreen) {
+      if (screenRect) {
+        x = screenRect.width / 2 - width / 2;
+        y = screenRect.height / 2 - height / 2;
+      }
+    }
+
+    x = Math.max(x, 0);
+    y = Math.max(y, 0);
+
+    if (screenRect) {
+      x = Math.min(x, screenRect.width - MinVisibleLeft);
+      y = Math.min(y, screenRect.height - MinVisibleHeight);
+    }
+
+    this.setWindow(windowId, (window) => {
+      window.x = x;
+      window.y = y;
+      window.width = width;
+      window.height = height;
+
+      if (centerToParent !== undefined) {
+        window.centerToParent = centerToParent;
+      }
+      if (centerToScreen !== undefined) {
+        window.centerToScreen = centerToScreen;
+      }
+      if (sizeAutomatic !== undefined) {
+        window.sizeAutomatic = sizeAutomatic;
+      }
+      if (sizeConstraints?.max !== undefined) {
+        window.sizeConstraints.max = sizeConstraints.max;
+      }
+      if (sizeConstraints?.min !== undefined) {
+        window.sizeConstraints.min = sizeConstraints.min;
+      }
+    });
+  };
 
   setActiveWindow = (window: WindowState | undefined) => {
     this.#setState(
@@ -327,7 +431,7 @@ export class WindowManager {
       return;
     }
 
-    const minX = MinVisibleRight - window.rect.width;
+    const minX = MinVisibleRight - window.width;
     const minY = -MinVisibleHeight;
     const maxX = desktopSize.width - MinVisibleLeft;
     const maxY = desktopSize.height - MinVisibleHeight;
@@ -338,8 +442,8 @@ export class WindowManager {
     this.#setState(
       produce((state) => {
         modifyById(windowId, state.windows, (window) => {
-          window.rect.x = position.x;
-          window.rect.y = position.y;
+          window.x = position.x;
+          window.y = position.y;
         });
       }),
     );
@@ -352,8 +456,8 @@ export class WindowManager {
       return;
     }
 
-    let x = window.rect.x;
-    let y = window.rect.y;
+    let x = window.x;
+    let y = window.y;
     let width = clamp(
       window.sizeConstraints?.min?.width,
       size.width,
@@ -366,8 +470,8 @@ export class WindowManager {
     );
 
     if (anchorToEdge) {
-      x = window.rect.x + window.rect.width - width;
-      y = window.rect.y + window.rect.height - height;
+      x = window.x + window.width - width;
+      y = window.y + window.height - height;
     }
 
     if (x < 0) {
@@ -392,12 +496,10 @@ export class WindowManager {
     this.#setState(
       produce((state) => {
         modifyById(windowId, state.windows, (window) => {
-          window.rect = {
-            x,
-            y,
-            width,
-            height,
-          };
+          window.x = x;
+          window.y = y;
+          window.width = width;
+          window.height = height;
         });
       }),
     );
@@ -488,6 +590,7 @@ export class WindowManager {
       }),
       {
         active: true,
+        centerToParent: true,
         maximizable: false,
         minimizable: false,
         parentId: options.parentId,

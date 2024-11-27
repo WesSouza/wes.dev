@@ -6,6 +6,7 @@ import type { Point } from '../models/Geometry';
 import type { WindowState } from '../models/WindowState';
 import { Icon } from './Icon';
 import { Symbol } from './Symbol';
+import { getRect } from '../utils/Windows';
 
 const ResizeAreaWidth = 12;
 
@@ -46,33 +47,14 @@ export function Window(p: {
       return;
     }
 
-    const windowRect = windowContentsRef.getBoundingClientRect();
-    const desktopRect = ScreenManager.shared.desktopSize();
-    if (!desktopRect) {
-      return;
-    }
-
-    const parentWindow = p.window.parentId
-      ? windowManager.getWindow(p.window.parentId)
-      : undefined;
-    const parentRect = parentWindow?.rect ?? desktopRect;
-
     const scale = ScreenManager.shared.scale();
-    const verticalOffset = 24 * scale;
     const horizontalOffset = 6 * scale;
+    const verticalOffset = 24 * scale;
+    const contentsRect = windowContentsRef.getBoundingClientRect();
 
-    windowManager.setWindow(p.window.id, (window) => {
-      window.rect.width = Math.min(
-        desktopRect.width,
-        windowRect.width + horizontalOffset,
-      );
-      window.rect.height = Math.min(
-        desktopRect.height,
-        windowRect.height + verticalOffset,
-      );
-
-      window.rect.x = (parentRect.width - window.rect.width) / 2;
-      window.rect.y = (parentRect.height - window.rect.height) / 2;
+    windowManager.place(p.window.id, {
+      width: contentsRect.width + horizontalOffset,
+      height: contentsRect.height + verticalOffset,
     });
   });
 
@@ -116,7 +98,7 @@ export function Window(p: {
       windowManager.setActiveWindow(p.window);
     }
 
-    const { rect } = p.window;
+    const rect = getRect(p.window);
     const x = event.clientX - rect.x;
     const y = event.clientY - rect.y;
 
@@ -176,7 +158,7 @@ export function Window(p: {
       return;
     }
 
-    const { rect } = p.window;
+    const rect = getRect(p.window);
     const x = event.clientX - rect.x;
     const y = event.clientY - rect.y;
     let cursor = '';
@@ -215,7 +197,7 @@ export function Window(p: {
 
     event.preventDefault();
 
-    const { rect } = p.window;
+    const rect = getRect(p.window);
 
     const position = {
       x: event.clientX - clickOffset!.x,
@@ -407,10 +389,10 @@ export function Window(p: {
       style={{
         ...(!p.window.maximized
           ? {
-              top: `${p.window.rect.y}px`,
-              left: `${p.window.rect.x}px`,
-              width: `${p.window.rect.width}px`,
-              height: `${p.window.rect.height}px`,
+              top: `${p.window.y}px`,
+              left: `${p.window.x}px`,
+              width: `${p.window.width}px`,
+              height: `${p.window.height}px`,
             }
           : {}),
         'z-index': p.zIndex,
