@@ -1,5 +1,6 @@
 import {
   createEffect,
+  createMemo,
   createSignal,
   createUniqueId,
   onCleanup,
@@ -9,6 +10,7 @@ import {
 } from 'solid-js';
 import type { Anchor } from '../models/Geometry';
 import { Menu, type MenuItem, type MenuSeparator } from './Menu';
+import { WindowManager } from '../lib/WindowManager';
 
 export const MenuButton = (p: {
   appearance?: 'menu' | 'taskbar' | 'taskbar-start';
@@ -30,7 +32,13 @@ export const MenuButton = (p: {
   const [anchor, setAnchor] = createSignal<Anchor>();
   const [internalMenuOpen, setMenuOpen] = createSignal(false);
 
-  const menuOpen = () => p.open ?? internalMenuOpen();
+  createEffect(() => {
+    if (WindowManager.shared.state.movingWindows && menuOpen()) {
+      closeMenu();
+    }
+  });
+
+  const menuOpen = createMemo(() => p.open ?? internalMenuOpen());
 
   const reposition = () => {
     const open = !menuOpen();

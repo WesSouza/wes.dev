@@ -39,6 +39,7 @@ export type WindowManagerState = {
   activeWindow: string | null;
   activeWindowHistory: string[];
   lastWindowPosition: Point;
+  movingWindows: boolean;
   windows: WindowState[];
   windowZIndexMap: Map<string, number>;
 };
@@ -95,6 +96,7 @@ export class WindowManager {
       activeWindow: null,
       activeWindowHistory: [],
       lastWindowPosition: { x: 0, y: 0 },
+      movingWindows: false,
       windows: [],
       windowZIndexMap: new Map(),
     });
@@ -375,6 +377,10 @@ export class WindowManager {
         handleActiveWindows(window, this.getWindow(window.parentId), state);
       }),
     );
+  };
+
+  setMovingWindows = (movingWindows: boolean) => {
+    this.#setState('movingWindows', movingWindows);
   };
 
   setWindowIcon = (windowId: string, icon: string) => {
