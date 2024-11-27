@@ -5,6 +5,7 @@ import {
   createResource,
   createSignal,
   createUniqueId,
+  onMount,
   Show,
 } from 'solid-js';
 import { z } from 'zod';
@@ -68,6 +69,13 @@ export function BlueskyProfileWindow(p: {
     getAccountPosts,
   );
   const [profile] = createResource(account, getProfile);
+
+  onMount(() => {
+    WindowManager.shared.place(p.window.id, {
+      width: 400,
+      height: 600,
+    });
+  });
 
   createEffect(() => {
     WindowManager.shared.setWindow(p.window.id, (window) => {
