@@ -98,6 +98,8 @@ export function Window(p: {
       windowManager.setActiveWindow(p.window);
     }
 
+    event.preventDefault();
+
     const rect = getRect(p.window);
     const x = event.clientX - rect.x;
     const y = event.clientY - rect.y;
@@ -149,6 +151,8 @@ export function Window(p: {
       'pointerup',
       handleResizingPointerUp,
     );
+
+    windowManager.setMovingWindows(true);
   };
 
   const handleWindowPointerMove: JSX.EventHandler<HTMLElement, PointerEvent> = (
@@ -258,6 +262,8 @@ export function Window(p: {
         handleResizingPointerUp,
       );
     }
+
+    windowManager.setMovingWindows(false);
   };
 
   const handleTitlePointerDown: JSX.EventHandler<
@@ -276,6 +282,8 @@ export function Window(p: {
     ) {
       return;
     }
+
+    event.preventDefault();
 
     document.documentElement.style.setProperty('touch-action', 'none');
 
@@ -299,6 +307,8 @@ export function Window(p: {
       'pointerup',
       handleMovingPointerUp,
     );
+
+    windowManager.setMovingWindows(true);
   };
 
   const handleMovingPointerDown = (event: PointerEvent) => {
@@ -338,6 +348,8 @@ export function Window(p: {
         handleMovingPointerUp,
       );
     }
+
+    windowManager.setMovingWindows(false);
   };
 
   const windowContents = () => {
