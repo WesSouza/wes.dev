@@ -91,14 +91,6 @@ export function CalculatorMainWindow(p: {
             submenu: [
               {
                 type: 'item',
-                id: 'HelpTopics',
-                label: 'Help Topics',
-              },
-              {
-                type: 'separator',
-              },
-              {
-                type: 'item',
                 id: 'About',
                 label: 'About Calculator',
               },
