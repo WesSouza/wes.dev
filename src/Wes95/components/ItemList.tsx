@@ -9,13 +9,13 @@ export type Item = {
 };
 
 export function ItemList(p: {
-  appearance?: 'icons' | 'list' | 'details';
+  appearance?: 'icons' | 'icons-vertical' | 'list' | 'details';
   columns?: { key: string; name: string }[];
   items: Item[];
-  onChange?: (selectedId: string | undefined) => void;
+  onSelect?: (selectedId: string) => void;
 }) {
   const handleItemClick = (item: Item) => {
-    p.onChange?.(item.id);
+    p.onSelect?.(item.id);
   };
 
   return (
@@ -55,8 +55,12 @@ export function ItemList(p: {
         <ul
           classList={{
             ItemList: true,
-            '-icons': p.appearance === 'icons',
-            '-list': !p.appearance || p.appearance === 'list',
+            '-icons':
+              p.appearance === 'icons' || p.appearance === 'icons-vertical',
+            '-list':
+              !p.appearance ||
+              p.appearance === 'list' ||
+              p.appearance === 'icons-vertical',
           }}
         >
           <For each={p.items}>
@@ -69,9 +73,14 @@ export function ItemList(p: {
                 >
                   <Icon
                     icon={item.icon}
-                    size={p.appearance === 'icons' ? 'large' : 'small'}
+                    size={
+                      p.appearance === 'icons' ||
+                      p.appearance === 'icons-vertical'
+                        ? 'medium'
+                        : 'small'
+                    }
                   />
-                  <span>{item.name}</span>
+                  <span class="ItemLabel">{item.name}</span>
                 </button>
               </li>
             )}

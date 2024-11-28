@@ -272,7 +272,7 @@ export function FileSystemOpenWindow(p: {
           <ItemList
             appearance={listType()}
             items={items()}
-            onChange={chooseFile}
+            onSelect={chooseFile}
             columns={[
               { key: 'size', name: 'Size' },
               { key: 'type', name: 'Type' },

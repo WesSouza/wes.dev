@@ -68,4 +68,5 @@ button:is(
   ) {
   appearance: none;
   border: none;
+  color: inherit;
 }
