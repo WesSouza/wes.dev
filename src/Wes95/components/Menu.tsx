@@ -1,6 +1,7 @@
 import {
   createEffect,
   createSignal,
+  createUniqueId,
   For,
   Match,
   onCleanup,
@@ -46,11 +47,13 @@ function menuItemBelow(items: (MenuItem | MenuSeparator)[], index: number) {
 }
 
 export function Menu(p: {
+  'aria-labelledby'?: string;
   appearance?: 'listbox' | 'menu';
   activeFirstItem?: boolean;
   anchor: Anchor;
   anchorWidth?: boolean;
   items: (MenuItem | MenuSeparator)[];
+  id?: string;
   menuId?: string;
   onClose?: () => void;
   onMoveLeft?: () => void;
@@ -68,11 +71,13 @@ export function Menu(p: {
   });
   const [submenu, setSubmenu] = createStore<{
     anchor: Anchor | undefined;
+    id: string | undefined;
     index: number | undefined;
     items: (MenuItem | MenuSeparator)[] | undefined;
     activeFirstItem: boolean;
   }>({
     anchor: undefined,
+    id: undefined,
     index: undefined,
     items: undefined,
     activeFirstItem: false,
@@ -95,6 +100,7 @@ export function Menu(p: {
     if (item.submenu) {
       setSubmenu({
         anchor: element.getBoundingClientRect(),
+        id: createUniqueId(),
         index: index,
         items: item.submenu,
       });
@@ -107,6 +113,7 @@ export function Menu(p: {
   const handleSubmenuClose = () => {
     setSubmenu({
       anchor: undefined,
+      id: undefined,
       index: undefined,
       items: undefined,
     });
@@ -253,6 +260,16 @@ export function Menu(p: {
     });
   });
 
+  const activeDescendant = () => {
+    const index = activeIndex()!;
+    const item = p.items[index];
+    if (index !== undefined && item && item.type === 'item') {
+      return p.id + ':' + index;
+    }
+
+    return;
+  };
+
   const handleItemMouseEnter = (
     index: number,
     currentTarget: HTMLLIElement,
@@ -285,10 +302,14 @@ export function Menu(p: {
 
   return (
     <menu
+      aria-orientation="vertical"
+      aria-activedescendant={activeDescendant()}
+      aria-labelledby={p['aria-labelledby']}
       classList={{
         Menu: true,
         '-listBox': p.appearance === 'listbox',
       }}
+      id={p.id}
       data-menu-id={p.menuId}
       popover
       ref={menuElement}
@@ -300,14 +321,27 @@ export function Menu(p: {
             <hr
               class="HorizontalSeparator"
               ref={(el) => (itemRefs[index()] = el)}
+              role="separator"
             />
           ) : (
             <li
+              aria-disabled={item.disabled ? 'true' : undefined}
+              aria-controls={submenu.id}
+              aria-expanded={item.submenu && submenu.id ? 'true' : undefined}
+              aria-haspopup={
+                item.submenu
+                  ? p.appearance === 'listbox'
+                    ? 'dialog'
+                    : 'menu'
+                  : undefined
+              }
               classList={{
                 MenuItem: true,
                 '-active': activeIndex() === index(),
                 '-disabled': item.disabled,
               }}
+              id={p.id + ':' + index()}
+              role={p.appearance === 'listbox' ? 'option' : 'menuitem'}
               onClick={(event) => handleClick(index(), event.currentTarget)}
               onMouseEnter={(event) =>
                 handleItemMouseEnter(index(), event.currentTarget)
@@ -340,11 +374,13 @@ export function Menu(p: {
           )
         }
       </For>
-      <Show when={submenu.items && submenu.anchor}>
+      <Show when={submenu.id && submenu.items && submenu.anchor}>
         <Menu
+          aria-labelledby={p.id}
           activeFirstItem={submenu.activeFirstItem}
           anchor={submenu.anchor!}
           items={submenu.items!}
+          id={submenu.id}
           menuId={p.menuId}
           onClose={handleSubmenuClose}
           onMoveRight={p.onMoveRight}
