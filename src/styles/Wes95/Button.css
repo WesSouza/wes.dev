@@ -6,11 +6,14 @@
 .WindowTitleButton {
   --wes95-button-padding-shift: var(--wes95-scale-value);
 
-  display: flex;
-  align-items: center;
   background-color: var(--wes95-color-material);
-  gap: calc(var(--wes95-scale-value) * 2);
-  text-align: start;
+
+  &:not(.LinkButton) {
+    display: flex;
+    align-items: center;
+    gap: calc(var(--wes95-scale-value) * 2);
+    text-align: start;
+  }
 
   &.Button {
     --wes95-padding-inline: calc(var(--wes95-scale-value) * 8);
