@@ -226,6 +226,7 @@ export function Menu(p: {
             setSubmenu({
               activeFirstItem: true,
               anchor: itemRef.getBoundingClientRect(),
+              id: createUniqueId(),
               index: currentIndex,
               items: item.submenu,
             });
@@ -283,11 +284,13 @@ export function Menu(p: {
         setSubmenu({
           anchor,
           index,
+          id: createUniqueId(),
           items: item.submenu,
         });
       } else {
         setSubmenu({
           anchor: undefined,
+          id: undefined,
           index: undefined,
           items: undefined,
         });
