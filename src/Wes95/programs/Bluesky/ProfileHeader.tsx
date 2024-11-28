@@ -33,6 +33,7 @@ export function BlueskyProfileHeader(p: {
           Horizontal: true,
           '-end': true,
           [styles.ProfileAvatarButtons!]: true,
+          [styles['-insideBanner']!]: Boolean(p.profile.banner),
         }}
       >
         <div
@@ -48,13 +49,21 @@ export function BlueskyProfileHeader(p: {
         </button>
       </div>
       <div class={styles.ProfileInfo!}>
-        <div class={styles.ProfileName!}>{p.profile.displayName}</div>
-        <div class={styles.ProfileHandle!}>@{p.profile.handle}</div>
+        <div class={styles.ProfileNameHandle!}>
+          <div class={styles.ProfileName!}>{p.profile.displayName}</div>
+          <div class={styles.ProfileHandle!}>@{p.profile.handle}</div>
+        </div>
         <div class={styles.ProfileNumbers!}>
-          <button class={styles.ProfileNumber!} onClick={p.openFollowers}>
+          <button
+            classList={{ LinkButton: true, [styles.ProfileNumber!]: true }}
+            onClick={p.openFollowers}
+          >
             <strong>{p.profile.followersCount}</strong> followers
           </button>
-          <button class={styles.ProfileNumber!} onClick={p.openFollows}>
+          <button
+            classList={{ LinkButton: true, [styles.ProfileNumber!]: true }}
+            onClick={p.openFollows}
+          >
             <strong>{p.profile.followsCount}</strong> following
           </button>
           <div class={styles.ProfileNumber!}>
@@ -62,6 +71,7 @@ export function BlueskyProfileHeader(p: {
           </div>
         </div>
       </div>
+      <div class={styles.ProfileDescription!}>{p.profile.description}</div>
     </div>
   );
 }

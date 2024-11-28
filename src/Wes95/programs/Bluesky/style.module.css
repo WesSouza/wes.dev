@@ -6,15 +6,23 @@
 }
 
 .ProfileBanner {
-  height: 200px;
+  background-size: cover;
+  height: calc(var(--wes95-scale-value) * 48);
+  margin-bottom: calc(var(--wes95-scale-value) * -48);
 }
 
 .ProfileAvatarButtons {
+  height: calc(var(--wes95-scale-value) * 48);
+
+  &.-insideBanner {
+    padding: calc(var(--wes95-scale-value) * 5);
+  }
 }
 
 .ProfileAvatar {
   --wes95-padding-block: 0px;
   --wes95-padding-inline: 0px;
+  margin-inline-end: auto;
 
   & img {
     width: calc(var(--wes95-scale-value) * 32);
@@ -22,16 +30,39 @@
 }
 
 .ProfileInfo {
+  display: flex;
+  flex-direction: column;
+  padding: calc(var(--wes95-scale-value) * 4) 0;
+  gap: calc(var(--wes95-scale-value) * 4);
+}
+
+.ProfileNameHandle {
+  grid-row: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .ProfileName {
+  font-size: 1.4em;
+  font-weight: bold;
 }
 
 .ProfileHandle {
+  font-size: 0.8em;
 }
 
 .ProfileNumbers {
+  display: flex;
+  font-size: 0.9em;
+  align-items: flex-start;
+  gap: calc(var(--wes95-scale-value) * 8);
 }
 
 .ProfileNumber {
+  flex-shrink: 0;
+  padding: 0;
+}
+
+.ProfileDescription {
+  white-space: pre-wrap;
 }

@@ -88,6 +88,11 @@ export const Explorer = () => {
               name: 'Recycle Bin',
             },
             {
+              icon: 'iconBluesky',
+              id: `app://Bluesky/Profile`,
+              name: 'Bluesky',
+            },
+            {
               icon: 'fileTypeWordPad',
               id: `apps://WordPad/Main?file=${encodeURIComponent('/C/My Documents/Welcome.doc')}`,
               name: 'Welcome.doc',
