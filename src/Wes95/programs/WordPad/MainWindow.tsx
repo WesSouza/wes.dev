@@ -8,15 +8,12 @@ import {
 import { z } from 'zod';
 import { Icon } from '../../components/Icon';
 import { Markdown } from '../../components/Markdown';
+import { MenuBar } from '../../components/MenuBar';
 import { FileSystemManager } from '../../lib/FileSystemManager';
 import { WindowManager } from '../../lib/WindowManager';
 import type { WindowState } from '../../models/WindowState';
-import {
-  FSOpenDataSchema,
-  FSOpenEventSchema,
-} from '../../system/FileSystem/OpenWindow';
+import { FSOpenEventSchema } from '../../system/FileSystem/OpenWindow';
 import { createWindowURL } from '../../utils/Windows';
-import { MenuBar } from '../../components/MenuBar';
 
 export const WordPadMainDataSchema = z.object({
   file: z.string().optional(),
@@ -52,7 +49,6 @@ export function WordPadMainWindow(p: {
   const openFileDialog = () => {
     const delegateId = createUniqueId();
     WindowManager.shared.addWindow(
-      FSOpenDataSchema,
       createWindowURL('system://FileSystem/Open', {
         delegateId,
         fileTypes: ['document'],

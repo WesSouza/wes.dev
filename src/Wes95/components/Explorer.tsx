@@ -1,10 +1,9 @@
 import { createEffect, For, onMount, Show, type JSX } from 'solid-js';
-import { z } from 'zod';
 import { ScreenManager } from '../lib/ScreenManager';
 import { SessionManager } from '../lib/SessionManager';
 import { WindowManager } from '../lib/WindowManager';
-import { WordPadMainDataSchema } from '../programs/WordPad/MainWindow';
 import { Icon } from './Icon';
+import { ItemList } from './ItemList';
 import { MenuButton } from './MenuButton';
 import { Window } from './Window';
 
@@ -19,7 +18,6 @@ export const Explorer = () => {
       SessionManager.shared.restoreFromLocation({
         cleanState: () => {
           windowManager.addWindow(
-            WordPadMainDataSchema,
             `app://WordPad/Main?file=${encodeURIComponent('/C/My Documents/Welcome.doc')}`,
             {
               active: true,
@@ -33,10 +31,14 @@ export const Explorer = () => {
   });
 
   const addWindow = (url: string) => {
-    windowManager.addWindow(z.object({}), url, {
+    windowManager.addWindow(url, {
       showInTaskbar: true,
       active: true,
     });
+  };
+
+  const handleDesktopIconClick = (url: string) => {
+    windowManager.addWindow(url);
   };
 
   const handleDesktopTaskbarClick: JSX.EventHandler<HTMLElement, MouseEvent> = (
@@ -62,6 +64,37 @@ export const Explorer = () => {
         onClick={handleDesktopTaskbarClick}
         ref={desktopRef}
       >
+        <ItemList
+          appearance="icons-vertical"
+          items={[
+            {
+              icon: 'iconComputer',
+              id: `apps://FileExplorer/Main?path=${encodeURIComponent('/My Computer')}`,
+              name: 'My Computer',
+            },
+            {
+              icon: 'iconDocumentsFolder',
+              id: `apps://FileExplorer/Main?path=${encodeURIComponent('/C/My Documents')}`,
+              name: 'My Documents',
+            },
+            {
+              icon: 'iconIexplorer',
+              id: `apps://InternetExplorer/Main`,
+              name: 'Internet Explorer',
+            },
+            {
+              icon: 'iconTrashEmpty',
+              id: `apps://FileExplorer/Main?path=${encodeURIComponent('/Trash')}`,
+              name: 'Recycle Bin',
+            },
+            {
+              icon: 'fileTypeWordPad',
+              id: `apps://WordPad/Main?path=${encodeURIComponent('/C/My Documents/Welcome.doc')}`,
+              name: 'Welcome.doc',
+            },
+          ]}
+          onSelect={handleDesktopIconClick}
+        />
         <For each={state.windows}>
           {(window) => (
             <Window

@@ -1,14 +1,29 @@
 import { createUniqueId, type Accessor, type JSX } from 'solid-js';
 import { createStore, produce, type SetStoreFunction } from 'solid-js/store';
-import type { z, ZodType } from 'zod';
+import { z, ZodType } from 'zod';
 import type { Point, Size } from '../models/Geometry';
 import type { WindowState } from '../models/WindowState';
-import { BlueskyProfileWindow } from '../programs/Bluesky/ProfileWindow';
-import { CalculatorMainWindow } from '../programs/Caclulator/MainWindow';
+import {
+  BlueskyProfileDataSchema,
+  BlueskyProfileWindow,
+} from '../programs/Bluesky/ProfileWindow';
+import {
+  CalculatorMainDataSchema,
+  CalculatorMainWindow,
+} from '../programs/Caclulator/MainWindow';
 import { DiskDefragmenterMainWindow } from '../programs/DiskDefragmenter/MainWindow';
-import { MediaPlayerMainWindow } from '../programs/MediaPlayer/MainWindow';
-import { NotepadMainWindow } from '../programs/Notepad/MainWindow';
-import { WordPadMainWindow } from '../programs/WordPad/MainWindow';
+import {
+  MediaPlayerMainDataSchema,
+  MediaPlayerMainWindow,
+} from '../programs/MediaPlayer/MainWindow';
+import {
+  NotepadMainDataSchema,
+  NotepadMainWindow,
+} from '../programs/Notepad/MainWindow';
+import {
+  WordPadMainDataSchema,
+  WordPadMainWindow,
+} from '../programs/WordPad/MainWindow';
 import { FileSystemOpenWindow } from '../system/FileSystem/OpenWindow';
 import {
   MessageDialogDataSchema,
@@ -16,7 +31,11 @@ import {
   MessageDialogWindow,
   type MessageDialogEvent,
 } from '../system/Message/MessageDialogWindow';
-import { createWindowURL, handleActiveWindows } from '../utils/Windows';
+import {
+  createWindowURL,
+  handleActiveWindows,
+  parseWindowURL,
+} from '../utils/Windows';
 import { modifyById, modifyByIds } from '../utils/array';
 import { clamp } from '../utils/size';
 import { ScreenManager } from './ScreenManager';
@@ -31,6 +50,16 @@ const MinVisibleHeight = 21;
 const DefaultMinSize = {
   width: 320,
   height: 240,
+};
+
+export type WindowLibrary = {
+  [k: string]: {
+    [k: string]: [
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (p: { data: any; window: WindowState }) => JSX.Element,
+      z.AnyZodObject,
+    ];
+  };
 };
 
 export type WindowManagerState = {
@@ -53,35 +82,30 @@ export class WindowManager {
     return shared;
   }
 
-  windowLibrary: {
-    [k: string]: {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      [k: string]: (p: { data: any; window: WindowState }) => JSX.Element;
-    };
-  } = {
+  windowLibrary: WindowLibrary = {
     Bluesky: {
-      Profile: BlueskyProfileWindow,
+      Profile: [BlueskyProfileWindow, BlueskyProfileDataSchema],
     },
     DiskDefragmenter: {
-      Main: DiskDefragmenterMainWindow,
+      Main: [DiskDefragmenterMainWindow, z.object({})],
     },
     Calculator: {
-      Main: CalculatorMainWindow,
+      Main: [CalculatorMainWindow, CalculatorMainDataSchema],
     },
     MediaPlayer: {
-      Main: MediaPlayerMainWindow,
+      Main: [MediaPlayerMainWindow, MediaPlayerMainDataSchema],
     },
     Message: {
-      MessageDialog: MessageDialogWindow,
+      MessageDialog: [MessageDialogWindow, MessageDialogDataSchema],
     },
     Notepad: {
-      Main: NotepadMainWindow,
+      Main: [NotepadMainWindow, NotepadMainDataSchema],
     },
     FileSystem: {
-      Open: FileSystemOpenWindow,
+      Open: [FileSystemOpenWindow, z.object({})],
     },
     WordPad: {
-      Main: WordPadMainWindow,
+      Main: [WordPadMainWindow, WordPadMainDataSchema],
     },
   };
 
@@ -109,7 +133,6 @@ export class WindowManager {
   // MARK: Window
 
   addWindow = (
-    schema: z.AnyZodObject,
     url: string,
     windowInit: Partial<
       Pick<
@@ -132,7 +155,7 @@ export class WindowManager {
       position?: Point | undefined;
       size?: Size | undefined;
     } = {},
-  ): WindowState => {
+  ): WindowState | undefined => {
     const id = createUniqueId();
     let parentId = windowInit.parentId;
     let parentWindow = this.getWindow(parentId);
@@ -165,11 +188,21 @@ export class WindowManager {
 
     const showInTaskbar = windowInit.showInTaskbar ?? parentId === undefined;
 
+    const [WindowContentComponent, WindowDataSchema] = parseWindowURL(
+      url,
+      this.windowLibrary,
+    );
+
+    if (!WindowContentComponent) {
+      console.error(`[Window] Missing window for URL `, url);
+      return;
+    }
+
     const window: WindowState = {
       ...rect,
       centerToParent: windowInit.centerToParent,
       centerToScreen: windowInit.centerToScreen,
-      dataSchema: schema,
+      dataSchema: WindowDataSchema,
       id,
       parentId,
       icon: windowInit.icon,
@@ -201,7 +234,11 @@ export class WindowManager {
     return window;
   };
 
-  closeWindow = (windowId: string) => {
+  closeWindow = (windowId: string | undefined) => {
+    if (!windowId) {
+      return;
+    }
+
     this.#setState(
       produce((state) => {
         const windowIdsToRemove = [windowId].concat(
@@ -587,7 +624,6 @@ export class WindowManager {
   }) => {
     const delegateId = createUniqueId();
     const messageWindow = this.addWindow(
-      MessageDialogDataSchema,
       createWindowURL('system://Message/MessageDialog', {
         delegateId,
         title: options.title,
@@ -608,7 +644,7 @@ export class WindowManager {
       delegateId,
       (event) => {
         options.onAction(event);
-        this.closeWindow(messageWindow.id);
+        this.closeWindow(messageWindow?.id);
       },
       MessageDialogEventSchema,
     );

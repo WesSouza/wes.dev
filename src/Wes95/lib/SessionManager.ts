@@ -1,12 +1,6 @@
-import { z } from 'zod';
+import type { WindowState } from '../models/WindowState';
 import { ScreenManager } from './ScreenManager';
 import { WindowManager } from './WindowManager';
-import type { WindowState } from '../models/WindowState';
-import { BlueskyProfileDataSchema } from '../programs/Bluesky/ProfileWindow';
-import { CalculatorMainDataSchema } from '../programs/Caclulator/MainWindow';
-import { MediaPlayerMainDataSchema } from '../programs/MediaPlayer/MainWindow';
-import { NotepadMainDataSchema } from '../programs/Notepad/MainWindow';
-import { WordPadMainDataSchema } from '../programs/WordPad/MainWindow';
 
 let shared: SessionManager | undefined;
 
@@ -45,14 +39,6 @@ const InvertedTokens = Object.fromEntries(
     ),
   ]),
 ) as Record<'apps' | 'parameters' | 'values', Record<string, string>>;
-
-const TokenSchemas: Record<string, z.AnyZodObject> = {
-  bsky: BlueskyProfileDataSchema,
-  calc: CalculatorMainDataSchema,
-  mplayer: MediaPlayerMainDataSchema,
-  notepad: NotepadMainDataSchema,
-  wordpad: WordPadMainDataSchema,
-};
 
 export class SessionManager {
   static get shared() {
@@ -175,24 +161,22 @@ export class SessionManager {
 
         console.log(url.toString());
 
-        const window = this.windowManager.addWindow(
-          TokenSchemas[tokenApp] ?? z.object({}),
-          url.toString(),
-          {
-            maximized: state === '2',
-            minimized: state === '0',
-            position: {
-              x: desktopSize.width * x,
-              y: desktopSize.height * y,
-            },
-            size: {
-              width: desktopSize.width * width,
-              height: desktopSize.height * height,
-            },
+        const window = this.windowManager.addWindow(url.toString(), {
+          maximized: state === '2',
+          minimized: state === '0',
+          position: {
+            x: desktopSize.width * x,
+            y: desktopSize.height * y,
           },
-        );
+          size: {
+            width: desktopSize.width * width,
+            height: desktopSize.height * height,
+          },
+        });
 
-        windows.push(window);
+        if (window) {
+          windows.push(window);
+        }
       }
     }
 
