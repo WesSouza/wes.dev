@@ -22,7 +22,8 @@
 
   &.FlatButton {
     border: calc(var(--wes95-scale-value) * 1) solid var(--wes95-color-flatDark);
-    padding: calc(var(--wes95-scale-value) * 2);
+    padding: calc(var(--wes95-scale-value) * 3)
+      calc(var(--wes95-scale-value) * 8);
   }
 
   &.LinkButton {

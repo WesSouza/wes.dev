@@ -8,6 +8,12 @@
   gap: calc(var(--wes95-scale-value) * 6);
 }
 
+.PostRepost {
+  padding: calc(var(--wes95-scale-value) * 4) calc(var(--wes95-scale-value) * 6);
+  gap: calc(var(--wes95-scale-value) * 2);
+  display: flex;
+}
+
 .PostAvatar {
   width: calc(var(--wes95-scale-value) * 34);
 }
@@ -136,6 +142,7 @@
 .PostInteractions {
   display: flex;
   gap: calc(var(--wes95-scale-value) * 6);
+  font-size: 0.9em;
 }
 
 .PostSeparator {
@@ -192,14 +199,14 @@
 }
 
 .ProfileHandle {
-  font-size: 0.8em;
+  font-size: 0.9em;
 }
 
 .ProfileNumbers {
   display: flex;
   font-size: 0.9em;
   align-items: flex-start;
-  gap: calc(var(--wes95-scale-value) * 8);
+  gap: calc(var(--wes95-scale-value) * 4);
 }
 
 .ProfileNumber {
