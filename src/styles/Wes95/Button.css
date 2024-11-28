@@ -42,10 +42,15 @@
       calc(var(--wes95-scale-value) * 2);
   }
 
-  &.MenuButton:not(.TaskbarButton)[aria-expanded],
-  &.MenuButton:not(.TaskbarButton):active {
-    background-color: var(--wes95-color-hoverBackground);
-    color: var(--wes95-color-materialTextInvert);
+  &.MenuButton {
+    padding: calc(var(--wes95-scale-value) * 2)
+      calc(var(--wes95-scale-value) * 4);
+
+    &:not(.TaskbarButton)[aria-expanded],
+    &:not(.TaskbarButton):active {
+      background-color: var(--wes95-color-hoverBackground);
+      color: var(--wes95-color-materialTextInvert);
+    }
   }
 
   &:not(.LinkButton, .TaskbarButton) {

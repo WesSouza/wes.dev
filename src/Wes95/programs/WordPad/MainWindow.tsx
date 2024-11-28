@@ -189,14 +189,6 @@ export function WordPadMainWindow(p: {
                 id: 'SelectAll',
                 label: 'Select All',
               },
-              {
-                type: 'separator',
-              },
-              {
-                type: 'item',
-                id: 'Links',
-                label: 'Links...',
-              },
             ],
           },
           {
@@ -236,13 +228,8 @@ export function WordPadMainWindow(p: {
             submenu: [
               {
                 type: 'item',
-                id: 'DateAndTime',
-                label: 'Date and Time...',
-              },
-              {
-                type: 'item',
-                id: 'Object',
-                label: 'Object...',
+                id: 'Image',
+                label: 'Image...',
               },
             ],
           },
@@ -266,11 +253,6 @@ export function WordPadMainWindow(p: {
                 id: 'Paragraph',
                 label: 'Paragraph...',
               },
-              {
-                type: 'item',
-                id: 'Tabs',
-                label: 'Tabs...',
-              },
             ],
           },
           {
@@ -278,14 +260,6 @@ export function WordPadMainWindow(p: {
             id: 'Help',
             label: 'Help',
             submenu: [
-              {
-                type: 'item',
-                id: 'HelpTopics',
-                label: 'Help Topics',
-              },
-              {
-                type: 'separator',
-              },
               {
                 type: 'item',
                 id: 'About',
@@ -296,6 +270,7 @@ export function WordPadMainWindow(p: {
         ]}
         onSelect={handleMenuSelect}
       />
+      <hr class="HorizontalSeparator" />
       <div class="Toolbar Horizontal">
         <button type="button" class="ToolbarButton">
           <Icon icon="toolbarFileNew" />
@@ -353,7 +328,6 @@ export function WordPadMainWindow(p: {
           <Icon icon="toolbarUnorderedList" />
         </button>
       </div>
-      <hr class="HorizontalSeparator" />
       <div class="Field">
         <div class="Content MediumSpacing Document" ref={contentElement}>
           <Markdown markdown={fileData()?.data?.body} />

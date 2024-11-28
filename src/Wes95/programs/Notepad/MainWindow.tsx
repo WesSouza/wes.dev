@@ -199,14 +199,6 @@ export function NotepadMainWindow(p: {
             submenu: [
               {
                 type: 'item',
-                id: 'HelpTopics',
-                label: 'Help Topics',
-              },
-              {
-                type: 'separator',
-              },
-              {
-                type: 'item',
                 id: 'About',
                 label: 'About Notepad',
               },

@@ -58,3 +58,7 @@
   left: calc(var(--wes95-scale-value) * 4);
   width: calc(var(--wes95-scale-value) * 9);
 }
+
+.Toolbar {
+  padding: calc(var(--wes95-scale-value) * 1) 0;
+}

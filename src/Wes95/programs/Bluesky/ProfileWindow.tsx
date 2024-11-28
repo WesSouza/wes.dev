@@ -216,14 +216,6 @@ export function BlueskyProfileWindow(p: {
             submenu: [
               {
                 type: 'item',
-                id: 'HelpTopics',
-                label: 'Help Topics',
-              },
-              {
-                type: 'separator',
-              },
-              {
-                type: 'item',
                 id: 'About',
                 label: 'About Bluesky',
               },
