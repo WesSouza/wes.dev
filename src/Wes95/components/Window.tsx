@@ -99,8 +99,6 @@ export function Window(p: {
       windowManager.setActiveWindow(p.window);
     }
 
-    event.preventDefault();
-
     const rect = getRect(p.window);
     const x = event.clientX - rect.x;
     const y = event.clientY - rect.y;
@@ -135,6 +133,8 @@ export function Window(p: {
       x,
       y,
     };
+
+    event.preventDefault();
 
     document.documentElement.style.setProperty('touch-action', 'none');
 

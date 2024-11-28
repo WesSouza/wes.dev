@@ -3,6 +3,18 @@ export function Symbols() {
     <div class="Sprite">
       <svg xmlns="http://www.w3.org/2000/svg">
         <symbol
+          id="checkmark"
+          fill="none"
+          height="18"
+          viewBox="0 0 18 18"
+          width="18"
+        >
+          <path
+            d="M4 6H2V12H4V14H6V16H8V14H10V12H12V10H14V8H16V2H14V4H12V6H10V8H8V10H6V8H4V6Z"
+            fill="currentColor"
+          />
+        </symbol>
+        <symbol
           id="chevronDown"
           fill="none"
           height="18"
@@ -61,6 +73,18 @@ export function Symbols() {
             <path d="m6 0h8v2h2v4h-2v2h-2v4h-4v-4h2v-2h2v-4h-4v4h-4v-4h2z" />
             <path d="m8 14h4v4h-4z" />
           </g>
+        </symbol>
+        <symbol
+          id="like"
+          width="18"
+          viewBox="0 0 18 18"
+          height="18"
+          fill="none"
+        >
+          <path
+            fill="currentColor"
+            d="M2 7h14v2H2zM2 5h14v2H2zM4 9h10v2H4zM6 11h6v2H6zM8 13h2v2H8zM4 3h4v2H4zM10 3h4v2h-4z"
+          />
         </symbol>
         <symbol
           id="mediaNext"
@@ -153,19 +177,16 @@ export function Symbols() {
           <path fill="currentColor" d="M2 2h14v14H2z" />
         </symbol>
         <symbol
-          id="twitterLike"
-          width="18"
-          viewBox="0 0 18 18"
-          height="18"
+          id="radio"
           fill="none"
+          height="18"
+          viewBox="0 0 18 18"
+          width="18"
         >
-          <path
-            fill="currentColor"
-            d="M2 7h14v2H2zM2 5h14v2H2zM4 9h10v2H4zM6 11h6v2H6zM8 13h2v2H8zM4 3h4v2H4zM10 3h4v2h-4z"
-          />
+          <path d="M4 12V6H6V4H12V6H14V12H12V14H6V12H4Z" fill="currentColor" />
         </symbol>
         <symbol
-          id="twitterRetweet"
+          id="repost"
           width="18"
           viewBox="0 0 18 18"
           height="18"
