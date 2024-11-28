@@ -44,6 +44,7 @@
 }
 
 .WindowTitleButtons {
+  color: var(--wes95-color-canvasText);
   display: flex;
 }
 

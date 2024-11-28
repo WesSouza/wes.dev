@@ -9,35 +9,38 @@
   &.-icons {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(64px, 1fr));
-    gap: calc(var(--wes95-scale-value) * 4);
     max-width: 100%;
+
+    .LinkButton {
+      width: calc(var(--wes95-scale-value) * 64);
+      padding: calc(var(--wes95-scale-value) * 6);
+      flex-direction: column;
+    }
   }
 
   &.-list {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    gap: calc(var(--wes95-scale-value) * 4);
     height: 100%;
 
-    &.Item label {
-      flex-direction: column;
+    &.-icons {
+      gap: calc(var(--wes95-scale-value) * 4);
+      width: fit-content;
+    }
+
+    &:not(&.-icons) {
+      gap: calc(var(--wes95-scale-value) * 4);
     }
   }
 
-  input {
-    position: absolute;
-    opacity: 0;
-    pointer-events: none;
-  }
-
   & .Item {
-    &:has(:checked) label {
+    .LinkButton:hover {
       color: var(--wes95-color-materialTextInvert);
       background-color: var(--wes95-color-hoverBackground);
     }
 
-    & label {
+    & .ItemLabel {
       display: flex;
       align-items: center;
       gap: calc(var(--wes95-scale-value) * 2);
