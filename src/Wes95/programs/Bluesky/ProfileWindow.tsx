@@ -60,6 +60,9 @@ export function BlueskyProfileWindow(p: {
 }) {
   let contentElement!: HTMLTextAreaElement;
   const [account, setAccount] = createSignal(p.data.did ?? WesDID);
+  const [view, setView] = createSignal<'posts' | 'replies' | 'media' | 'likes'>(
+    'posts',
+  );
 
   const [posts, { refetch: refetchPosts }] = createResource(
     account,
@@ -81,10 +84,9 @@ export function BlueskyProfileWindow(p: {
     });
   });
 
-  /* createEffect(() => {
+  createEffect(() => {
     console.log('feed', posts()?.feed);
-    console.log('profile', profile()?.data);
-  }); */
+  });
 
   const fetchMore = () => {
     const cursor = posts()?.cursor;
@@ -122,6 +124,16 @@ export function BlueskyProfileWindow(p: {
   const handleMenuSelect = (id: string) => {
     if (id === 'Open') {
       openFileDialog();
+    }
+
+    if (
+      id === 'Posts' ||
+      id === 'Replies' ||
+      id === 'Media' ||
+      id === 'Likes'
+    ) {
+      // @ts-expect-error
+      setView(id.toLowerCase());
     }
 
     if (id === 'Exit') {
@@ -170,21 +182,25 @@ export function BlueskyProfileWindow(p: {
                 type: 'item',
                 id: 'Posts',
                 label: 'Posts',
+                checked: view() === 'posts' ? 'radio' : undefined,
               },
               {
                 type: 'item',
                 id: 'Replies',
                 label: 'Replies',
+                checked: view() === 'replies' ? 'radio' : undefined,
               },
               {
                 type: 'item',
                 id: 'Media',
                 label: 'Media',
+                checked: view() === 'media' ? 'radio' : undefined,
               },
               {
                 type: 'item',
                 id: 'Likes',
                 label: 'Likes',
+                checked: view() === 'likes' ? 'radio' : undefined,
               },
             ],
           },
@@ -227,13 +243,14 @@ export function BlueskyProfileWindow(p: {
           openFollows={() => {}}
         />
       </Show>
-      <Show when={posts()?.feed}>
-        <BlueskyPostList posts={posts()!.feed} />
+      <Show when={posts()?.feed && view() !== 'likes'}>
+        <BlueskyPostList
+          // @ts-expect-error
+          filter={view()}
+          onScrolledToEnd={fetchMore}
+          posts={posts()!.feed}
+        />
       </Show>
-
-      <button type="button" class="Button" onClick={fetchMore}>
-        Fetch more
-      </button>
     </>
   );
 }

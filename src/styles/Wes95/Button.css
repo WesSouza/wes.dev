@@ -23,6 +23,7 @@
     cursor: pointer;
     background-color: transparent;
     text-decoration: underline;
+    white-space: nowrap;
   }
 
   &.TaskbarButton {
@@ -72,4 +73,5 @@ button:is(
   appearance: none;
   border: none;
   color: inherit;
+  padding: 0;
 }

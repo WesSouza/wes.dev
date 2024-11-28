@@ -356,10 +356,10 @@ export function Menu(p: {
               <span class="MenuIcon">
                 <Switch>
                   <Match when={item.checked === 'checkmark'}>
-                    <Symbol symbol="chevronRight" />
+                    <Symbol symbol="checkmark" />
                   </Match>
                   <Match when={item.checked === 'radio'}>
-                    <Symbol symbol="chevronLeft" />
+                    <Symbol symbol="radio" />
                   </Match>
                   <Match when={item.icon !== undefined}>
                     <Icon icon={item.icon!} />

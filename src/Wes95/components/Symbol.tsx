@@ -1,10 +1,12 @@
 export function Symbol(p: {
   symbol:
+    | 'checkmark'
     | 'chevronDown'
     | 'chevronLeft'
     | 'chevronRight'
     | 'chevronUp'
     | 'help'
+    | 'like'
     | 'mediaNext'
     | 'mediaPause'
     | 'mediaPlay'
@@ -12,8 +14,8 @@ export function Symbol(p: {
     | 'mediaRepeat'
     | 'mediaShuffle'
     | 'mediaStop'
-    | 'twitterLike'
-    | 'twitterRetweet'
+    | 'radio'
+    | 'retweet'
     | 'windowClose'
     | 'windowMaximize'
     | 'windowMinimize'
