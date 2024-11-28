@@ -1,21 +1,23 @@
-import type {
-  AppBskyEmbedExternal,
-  AppBskyEmbedImages,
-  AppBskyEmbedVideo,
+import {
   AppBskyFeedDefs,
+  type AppBskyEmbedExternal,
+  type AppBskyEmbedImages,
+  type AppBskyEmbedVideo,
 } from '@atproto/api';
 import { RichText } from '@atproto/api';
 import { createMemo, For, Show, type JSX } from 'solid-js';
 import { Icon } from '../../components/Icon';
 import { Symbol } from '../../components/Symbol';
 import { Bluesky_Feed_Post } from '../../models/Bluesky';
-import { getPostURL } from '../../utils/bluesky';
+import { getPostURL, getRepost } from '../../utils/bluesky';
 import { ago } from '../../utils/dateTime';
 import { getHostname } from '../../utils/url';
 import styles from './style.module.css';
 
 export function BlueskyPost(p: { post: AppBskyFeedDefs.FeedViewPost }) {
   const post = createMemo(() => ({ ...p.post.post, url: getPostURL(p.post) }));
+
+  const repost = createMemo(() => getRepost(p.post));
 
   const record = createMemo(() => Bluesky_Feed_Post.parse(post().record));
 
@@ -109,6 +111,11 @@ export function BlueskyPost(p: { post: AppBskyFeedDefs.FeedViewPost }) {
 
   return (
     <>
+      <Show when={repost()}>
+        <div class={styles.PostRepost}>
+          <Symbol symbol="repost" /> Reposted by {repost()?.by.displayName}
+        </div>
+      </Show>
       <div
         classList={{
           [styles.Post!]: true,

@@ -19,7 +19,7 @@ export function BlueskyPostList(p: {
           !post.reason &&
           !post.reply &&
           post.post.embed &&
-          ('images' in post.post.embed || post.post.embed.media)),
+          ('images' in post.post.embed || 'playlist' in post.post.embed)),
     ),
   );
 
