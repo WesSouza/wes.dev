@@ -26,7 +26,7 @@
   flex-direction: column;
   max-width: 100%;
   overflow: hidden;
-  gap: calc(var(--wes95-scale-value) * 4);
+  gap: calc(var(--wes95-scale-value) * 6);
 }
 
 .PostContentAuthor {
@@ -131,6 +131,11 @@
 .PostContentExternalHostname {
   font-size: 0.9em;
   opacity: 0.6;
+}
+
+.PostInteractions {
+  display: flex;
+  gap: calc(var(--wes95-scale-value) * 6);
 }
 
 .PostSeparator {

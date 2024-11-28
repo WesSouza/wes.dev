@@ -10,9 +10,11 @@ import { ago } from '../../utils/dateTime';
 import { getHostname } from '../../utils/url';
 import styles from './style.module.css';
 import { Icon } from '../../components/Icon';
+import { Symbol } from '../../components/Symbol';
+import { getPostURL } from '../../utils/bluesky';
 
 export function BlueskyPost(p: { post: AppBskyFeedDefs.FeedViewPost }) {
-  const post = createMemo(() => p.post.post);
+  const post = createMemo(() => ({ ...p.post.post, url: getPostURL(p.post) }));
 
   const record = createMemo(() => Bluesky_Feed_Post.parse(post().record));
 
@@ -33,6 +35,10 @@ export function BlueskyPost(p: { post: AppBskyFeedDefs.FeedViewPost }) {
       ? (p.post.post.embed.external as AppBskyEmbedExternal.ViewExternal)
       : undefined,
   );
+
+  const handleOpenPost = () => {
+    window.open(post().url, '_blank');
+  };
 
   const handleOpenImage = (url: string) => {
     window.open(url, '_blank');
@@ -155,6 +161,17 @@ export function BlueskyPost(p: { post: AppBskyFeedDefs.FeedViewPost }) {
               </button>
             </Show>
           </Show>
+          <div class={styles.PostInteractions}>
+            <button class="FlatButton" onClick={handleOpenPost} type="button">
+              <Symbol symbol="comment" /> {post().replyCount}
+            </button>
+            <button class="FlatButton" onClick={handleOpenPost} type="button">
+              <Symbol symbol="repost" /> {post().repostCount}
+            </button>
+            <button class="FlatButton" onClick={handleOpenPost} type="button">
+              <Symbol symbol="like" /> {post().likeCount}
+            </button>
+          </div>
         </div>
       </div>
       <hr class={styles.PostSeparator!} />
