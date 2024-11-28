@@ -38,7 +38,7 @@ export const Explorer = () => {
   };
 
   const handleDesktopIconClick = (url: string) => {
-    windowManager.addWindow(url);
+    windowManager.addWindow(url, { active: true });
   };
 
   const handleDesktopTaskbarClick: JSX.EventHandler<HTMLElement, MouseEvent> = (
@@ -89,7 +89,7 @@ export const Explorer = () => {
             },
             {
               icon: 'fileTypeWordPad',
-              id: `apps://WordPad/Main?path=${encodeURIComponent('/C/My Documents/Welcome.doc')}`,
+              id: `apps://WordPad/Main?file=${encodeURIComponent('/C/My Documents/Welcome.doc')}`,
               name: 'Welcome.doc',
             },
           ]}

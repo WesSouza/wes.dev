@@ -24,7 +24,10 @@ import {
   WordPadMainDataSchema,
   WordPadMainWindow,
 } from '../programs/WordPad/MainWindow';
-import { FileSystemOpenWindow } from '../system/FileSystem/OpenWindow';
+import {
+  FileSystemOpenWindow,
+  FSOpenDataSchema,
+} from '../system/FileSystem/OpenWindow';
 import {
   MessageDialogDataSchema,
   MessageDialogEventSchema,
@@ -102,7 +105,7 @@ export class WindowManager {
       Main: [NotepadMainWindow, NotepadMainDataSchema],
     },
     FileSystem: {
-      Open: [FileSystemOpenWindow, z.object({})],
+      Open: [FileSystemOpenWindow, FSOpenDataSchema],
     },
     WordPad: {
       Main: [WordPadMainWindow, WordPadMainDataSchema],
