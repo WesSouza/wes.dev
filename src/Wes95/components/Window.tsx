@@ -425,6 +425,7 @@ export function Window(p: {
           <Show when={!p.window.parentId && p.window.showInTaskbar}>
             <Show when={p.window.minimizable}>
               <button
+                aria-label="Minimize"
                 type="button"
                 class="WindowTitleButton"
                 onClick={handleMinimize}
@@ -434,6 +435,7 @@ export function Window(p: {
             </Show>
             <Show when={p.window.maximizable}>
               <button
+                aria-label={p.window.maximized ? 'Restore' : 'Maximize'}
                 type="button"
                 class="WindowTitleButton"
                 onClick={handleMaximize}
@@ -447,6 +449,7 @@ export function Window(p: {
             </Show>
           </Show>
           <button
+            aria-label="Close"
             type="button"
             class="WindowTitleButton"
             onClick={() => windowManager.closeWindow(p.window.id)}

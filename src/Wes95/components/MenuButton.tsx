@@ -27,6 +27,7 @@ export const MenuButton = (p: {
   open?: boolean;
 }) => {
   let element!: HTMLButtonElement;
+  const menuButtonId = createUniqueId();
   const menuId = createUniqueId();
 
   const [anchor, setAnchor] = createSignal<Anchor>();
@@ -101,7 +102,9 @@ export const MenuButton = (p: {
   return (
     <>
       <button
+        aria-controls={menuOpen() ? menuId : undefined}
         aria-expanded={menuOpen() ? 'true' : undefined}
+        aria-haspopup={'menu'}
         classList={{
           MenuButton: p.appearance !== 'taskbar',
           TaskbarButton:
@@ -109,6 +112,7 @@ export const MenuButton = (p: {
           '-down': menuOpen(),
           '-start': p.appearance === 'taskbar-start',
         }}
+        id={menuButtonId}
         onClick={toggleMenu}
         onMouseEnter={p.onButtonMouseEnter}
         onMouseLeave={p.onButtonMouseLeave}
@@ -119,8 +123,10 @@ export const MenuButton = (p: {
       </button>
       <Show when={menuOpen() && anchor()}>
         <Menu
+          aria-labelledby={menuButtonId}
           anchor={anchor()!}
           items={p.items}
+          id={menuId}
           menuId={menuId}
           onClose={closeMenu}
           onMoveLeft={p.onMoveLeft}

@@ -1,10 +1,16 @@
-import { createMemo, createSignal, onMount, Show } from 'solid-js';
+import { createResizeObserver } from '@solid-primitives/resize-observer';
+import {
+  createMemo,
+  createSignal,
+  createUniqueId,
+  onMount,
+  Show,
+} from 'solid-js';
 import { createDocumentResizeObserver } from '../hooks/createDocumentResizeObserver';
 import type { Anchor } from '../models/Geometry';
 import { Icon } from './Icon';
 import { Menu, type MenuItem, type MenuSeparator } from './Menu';
 import { Symbol } from './Symbol';
-import { createResizeObserver } from '@solid-primitives/resize-observer';
 
 export const Combobox = (p: {
   appearance?: 'simple' | 'icon';
@@ -16,6 +22,8 @@ export const Combobox = (p: {
   placeholder?: string;
 }) => {
   let anchorElement!: HTMLDivElement;
+  const menuButtonId = createUniqueId();
+  const menuId = createUniqueId();
   const [anchor, setAnchor] = createSignal<Anchor>();
   const [menuOpen, setMenuOpen] = createSignal(false);
 
@@ -71,12 +79,17 @@ export const Combobox = (p: {
   return (
     <>
       <div
+        aria-expanded={menuOpen() && anchor() ? 'true' : undefined}
+        aria-haspopup="dialog"
+        aria-controls={menuOpen() && anchor() ? menuId : undefined}
         classList={{
           Field: true,
           Combobox: true,
           '-icon': p.appearance === 'icon',
         }}
+        id={menuButtonId}
         ref={anchorElement}
+        role="combobox"
         onClick={toggleMenu}
       >
         <div class="ComboboxValue Horizontal SmallSpacing -center">
@@ -91,7 +104,9 @@ export const Combobox = (p: {
       </div>
       <Show when={menuOpen() && anchor()}>
         <Menu
+          aria-labelledby={menuButtonId}
           appearance="listbox"
+          id={menuId}
           items={p.items}
           anchor={anchor()!}
           anchorWidth
