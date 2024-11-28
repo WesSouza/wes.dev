@@ -254,6 +254,21 @@ export type Bluesky_Fee = z.infer<typeof Bluesky_Feed_Post>;
 export const Bluesky_Feed_Post = z.object({
   $type: z.literal('app.bsky.feed.post').optional(),
   createdAt: z.string(),
+  facets: z
+    .array(
+      z.object({
+        features: z.array(
+          z.object({
+            $type: z.string(),
+            did: z.string().optional(),
+            tag: z.string().optional(),
+            uri: z.string().optional(),
+          }),
+        ),
+        index: z.object({ byteStart: z.number(), byteEnd: z.number() }),
+      }),
+    )
+    .optional(),
   langs: z.array(z.string()).optional(),
   text: z.string(),
 });

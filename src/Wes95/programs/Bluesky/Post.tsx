@@ -4,19 +4,66 @@ import type {
   AppBskyEmbedVideo,
   AppBskyFeedDefs,
 } from '@atproto/api';
-import { createMemo, For, Show } from 'solid-js';
+import { RichText } from '@atproto/api';
+import { createMemo, For, Show, type JSX } from 'solid-js';
+import { Icon } from '../../components/Icon';
+import { Symbol } from '../../components/Symbol';
 import { Bluesky_Feed_Post } from '../../models/Bluesky';
+import { getPostURL } from '../../utils/bluesky';
 import { ago } from '../../utils/dateTime';
 import { getHostname } from '../../utils/url';
 import styles from './style.module.css';
-import { Icon } from '../../components/Icon';
-import { Symbol } from '../../components/Symbol';
-import { getPostURL } from '../../utils/bluesky';
 
 export function BlueskyPost(p: { post: AppBskyFeedDefs.FeedViewPost }) {
   const post = createMemo(() => ({ ...p.post.post, url: getPostURL(p.post) }));
 
   const record = createMemo(() => Bluesky_Feed_Post.parse(post().record));
+
+  const richText = createMemo(() => {
+    const rt = new RichText({
+      text: record().text,
+      facets: record().facets,
+    });
+
+    const text: JSX.Element[] = [];
+    for (const segment of rt.segments()) {
+      if (segment.isMention()) {
+        text.push(
+          <button
+            class="LinkButton"
+            onClick={() => handleOpenProfile(segment.mention!.did)}
+            type="button"
+          >
+            {segment.text}
+          </button>,
+        );
+      } else if (segment.isLink()) {
+        text.push(
+          <button
+            class="LinkButton"
+            onClick={() => handleOpenLink(segment.link!.uri)}
+            type="button"
+          >
+            {segment.text}
+          </button>,
+        );
+      } else if (segment.isTag()) {
+        text.push(
+          <button
+            class="LinkButton"
+            onClick={() => handleOpenTag(segment.text)}
+            type="button"
+          >
+            {segment.text}
+          </button>,
+        );
+      } else {
+        text.push(segment.text);
+      }
+    }
+
+    return text;
+  });
 
   const embedImages = createMemo(() =>
     p.post.post.embed && 'images' in p.post.post.embed
@@ -46,6 +93,10 @@ export function BlueskyPost(p: { post: AppBskyFeedDefs.FeedViewPost }) {
 
   const handleOpenLink = (url: string) => {
     window.open(url, '_blank');
+  };
+
+  const handleOpenTag = (tag: string) => {
+    console.log(tag);
   };
 
   const handlePlayVideo = (url: string) => {
@@ -103,7 +154,7 @@ export function BlueskyPost(p: { post: AppBskyFeedDefs.FeedViewPost }) {
             </div>
           </div>
           <div class={styles.PostContentBody}>
-            <div class={styles.PostContentText}>{record().text}</div>
+            <div class={styles.PostContentText}>{richText()}</div>
           </div>
           <Show when={post().embed}>
             <Show when={embedImages()}>
