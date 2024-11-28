@@ -12,6 +12,8 @@
     max-width: 100%;
 
     .LinkButton {
+      display: flex;
+      align-items: center;
       width: calc(var(--wes95-scale-value) * 64);
       padding: calc(var(--wes95-scale-value) * 6);
       flex-direction: column;
