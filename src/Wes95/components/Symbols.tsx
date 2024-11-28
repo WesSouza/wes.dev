@@ -63,6 +63,23 @@ export function Symbols() {
           />
         </symbol>
         <symbol
+          fill="none"
+          height="18"
+          id="comment"
+          viewBox="0 0 18 18"
+          width="18"
+        >
+          <path d="M2 2H16V4H2V2Z" fill="black" />
+          <path d="M10 12H16V14H10V12Z" fill="black" />
+          <path d="M0 4H2V12H0V4Z" fill="black" />
+          <path d="M16 4H18V12H16V4Z" fill="black" />
+          <path d="M8 12H10V16H8V12Z" fill="black" />
+          <path d="M2 12H4V14H2V12Z" fill="black" />
+          <path d="M4 14H6V16H4V14Z" fill="black" />
+          <path d="M6 16H8V18H6V16Z" fill="black" />
+        </symbol>
+
+        <symbol
           id="help"
           fill="none"
           height="18"
