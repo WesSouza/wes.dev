@@ -9,10 +9,7 @@ import { MenuBar } from '../../components/MenuBar';
 import { FileSystemManager } from '../../lib/FileSystemManager';
 import { WindowManager } from '../../lib/WindowManager';
 import type { WindowState } from '../../models/WindowState';
-import {
-  FSOpenDataSchema,
-  FSOpenEventSchema,
-} from '../../system/FileSystem/OpenWindow';
+import { FSOpenEventSchema } from '../../system/FileSystem/OpenWindow';
 import { createWindowURL } from '../../utils/Windows';
 
 export const NotepadMainDataSchema = z.object({
@@ -42,7 +39,6 @@ export function NotepadMainWindow(p: {
   const openFileDialog = () => {
     const delegateId = createUniqueId();
     WindowManager.shared.addWindow(
-      FSOpenDataSchema,
       createWindowURL('system://FileSystem/Open', {
         delegateId,
         fileTypes: ['document'],

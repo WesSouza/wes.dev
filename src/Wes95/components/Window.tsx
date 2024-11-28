@@ -1,12 +1,13 @@
 import { createEffect, Show, type JSX } from 'solid-js';
+import type { z } from 'zod';
 import { parseSearchParams } from 'zod-search-params';
 import { ScreenManager } from '../lib/ScreenManager';
 import type { WindowManager } from '../lib/WindowManager';
 import type { Point } from '../models/Geometry';
 import type { WindowState } from '../models/WindowState';
+import { getRect, parseWindowURL } from '../utils/Windows';
 import { Icon } from './Icon';
 import { Symbol } from './Symbol';
-import { getRect } from '../utils/Windows';
 
 const ResizeAreaWidth = 12;
 
@@ -348,41 +349,23 @@ export function Window(p: {
         handleMovingPointerUp,
       );
     }
-
     windowManager.setMovingWindows(false);
   };
 
   const windowContents = () => {
-    const url = new URL(p.window.url);
-    const programName = url.hostname;
-    const windowName = url.pathname.replace(/^\//, '').replace(/\\/g, '_');
-    // @ts-expect-error
-    const data: z.infer<p.window.dataSchema> = parseSearchParams(
-      // @ts-expect-error
-      p.window.dataSchema,
-      url.searchParams,
+    const [WindowContentComponent, WindowDataSchema, url] = parseWindowURL(
+      p.window.url,
+      windowManager.windowLibrary,
     );
 
-    const program = windowManager.windowLibrary[programName];
-    if (!program || typeof program !== 'object') {
-      console.error(
-        `[Window] Missing program ${programName} for URL `,
-        url.toString(),
-      );
+    if (!WindowContentComponent) {
+      console.error(`[Window] Missing window for URL `, p.window.url);
       return;
     }
 
-    const WindowContentComponent = program[windowName];
-    if (
-      !WindowContentComponent ||
-      typeof WindowContentComponent !== 'function'
-    ) {
-      console.error(
-        `[Window] Missing window ${windowName} for URL `,
-        url.toString(),
-      );
-      return;
-    }
+    const data: z.infer<typeof WindowDataSchema> =
+      // @ts-expect-error
+      parseSearchParams(WindowDataSchema, url.searchParams);
 
     return <WindowContentComponent data={data} window={p.window} />;
   };

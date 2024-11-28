@@ -12,13 +12,10 @@ import { z } from 'zod';
 import { MenuBar } from '../../components/MenuBar';
 import { WindowManager } from '../../lib/WindowManager';
 import type { WindowState } from '../../models/WindowState';
-import {
-  FSOpenDataSchema,
-  FSOpenEventSchema,
-} from '../../system/FileSystem/OpenWindow';
+import { FSOpenEventSchema } from '../../system/FileSystem/OpenWindow';
 import { createWindowURL } from '../../utils/Windows';
-import { BlueskyProfileHeader } from './ProfileHeader';
 import { BlueskyPostList } from './PostList';
+import { BlueskyProfileHeader } from './ProfileHeader';
 
 const WesDID = 'did:plc:4qy26t5ss4zosz2mi3hdzuq3';
 
@@ -99,7 +96,6 @@ export function BlueskyProfileWindow(p: {
   const openFileDialog = () => {
     const delegateId = createUniqueId();
     WindowManager.shared.addWindow(
-      FSOpenDataSchema,
       createWindowURL('system://FileSystem/Open', {
         delegateId,
         fileTypes: ['document'],

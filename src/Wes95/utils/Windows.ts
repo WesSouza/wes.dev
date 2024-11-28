@@ -1,6 +1,8 @@
-import type { WindowManagerState } from '../lib/WindowManager';
+import type { JSX } from 'solid-js/jsx-runtime';
+import type { WindowLibrary, WindowManagerState } from '../lib/WindowManager';
 import type { Rect } from '../models/Geometry';
 import type { WindowState } from '../models/WindowState';
+import type { z } from 'zod';
 
 export function addActiveWindowToHistory(
   windowId: string,
@@ -112,4 +114,36 @@ export function handleActiveWindows(
     );
   }
   state.windowZIndexMap = createZIndexMap(state);
+}
+
+export function parseWindowURL(
+  urlString: string,
+  windowLibrary: WindowLibrary,
+):
+  | [
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (p: { data: any; window: WindowState }) => JSX.Element,
+      z.AnyZodObject,
+      URL,
+    ]
+  | never[] {
+  const url = new URL(urlString);
+  const programName = url.hostname;
+  const windowName = url.pathname.replace(/^\//, '').replace(/\\/g, '_');
+
+  const program = windowLibrary[programName];
+  if (!program || typeof program !== 'object') {
+    return [];
+  }
+
+  const [WindowContentComponent, WindowDataSchema] = program[windowName] ?? [];
+  if (
+    !WindowContentComponent ||
+    !WindowDataSchema ||
+    typeof WindowContentComponent !== 'function'
+  ) {
+    return [];
+  }
+
+  return [WindowContentComponent, WindowDataSchema, url];
 }
