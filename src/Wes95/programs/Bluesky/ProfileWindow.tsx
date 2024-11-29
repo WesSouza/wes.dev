@@ -243,12 +243,13 @@ export function BlueskyProfileWindow(p: {
           openFollows={() => {}}
         />
       </Show>
-      <Show when={posts()?.feed && view() !== 'likes'}>
+      <Show when={profile()?.data && posts()?.feed && view() !== 'likes'}>
         <BlueskyPostList
           // @ts-expect-error
           filter={view()}
           onScrolledToEnd={fetchMore}
           posts={posts()!.feed}
+          profile={profile()!.data!}
         />
       </Show>
     </>

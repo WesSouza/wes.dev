@@ -1,4 +1,5 @@
 import { Show } from 'solid-js';
+import { Link } from '../../components/Link';
 import type { Bluesky_Actor_ProfileViewDetailed } from '../../models/Bluesky';
 import styles from './style.module.css';
 
@@ -7,10 +8,6 @@ export function BlueskyProfileHeader(p: {
   openFollowers: () => void;
   openFollows: () => void;
 }) {
-  const handleFollowClick = () => {
-    window.open(`https://bsky.app/profile/${p.profile.handle}`, '_blank');
-  };
-
   return (
     <div
       classList={{
@@ -44,9 +41,13 @@ export function BlueskyProfileHeader(p: {
         >
           <img src={p.profile.avatar} />
         </div>
-        <button class="Button" onClick={handleFollowClick}>
+        <Link
+          class="Button"
+          href={`https://bsky.app/profile/${p.profile.handle}`}
+          target="_blank"
+        >
           Follow
-        </button>
+        </Link>
       </div>
       <div class={styles.ProfileInfo!}>
         <div class={styles.ProfileNameHandle!}>
@@ -54,24 +55,21 @@ export function BlueskyProfileHeader(p: {
           <div class={styles.ProfileHandle!}>@{p.profile.handle}</div>
         </div>
         <div class={styles.ProfileNumbers!}>
-          <button
-            classList={{ LinkButton: true, [styles.ProfileNumber!]: true }}
-            onClick={p.openFollowers}
+          <Link
+            href={`app://Bluesky/UserList?did=${encodeURIComponent(p.profile.handle)}&type=followers`}
           >
             <strong>{p.profile.followersCount}</strong> followers
-          </button>
-          <button
-            classList={{ LinkButton: true, [styles.ProfileNumber!]: true }}
-            onClick={p.openFollows}
+          </Link>
+          <Link
+            href={`app://Bluesky/UserList?did=${encodeURIComponent(p.profile.handle)}&type=follows`}
           >
             <strong>{p.profile.followsCount}</strong> following
-          </button>
+          </Link>
           <div class={styles.ProfileNumber!}>
             <strong>{p.profile.postsCount}</strong> posts
           </div>
         </div>
       </div>
-      <div class={styles.ProfileDescription!}>{p.profile.description}</div>
     </div>
   );
 }
