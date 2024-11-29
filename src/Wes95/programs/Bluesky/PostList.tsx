@@ -1,6 +1,6 @@
 import type { AppBskyFeedDefs } from '@atproto/api';
 import anchorme from 'anchorme';
-import { createMemo, createSignal, For } from 'solid-js';
+import { createMemo, createSignal, For, Show } from 'solid-js';
 import type { Bluesky_Actor_ProfileViewDetailed } from '../../models/Bluesky';
 import { BlueskyPost } from './Post';
 import styles from './style.module.css';
@@ -76,8 +76,10 @@ export function BlueskyPostList(p: {
       }}
     >
       <div class="Content Vertical" ref={p.contentRef} onScroll={handleScroll}>
-        <div class={styles.PostProfileDescription!}>{description()}</div>
-        <hr class={styles.PostSeparator!} />
+        <Show when={p.filter === 'posts'}>
+          <div class={styles.PostProfileDescription!}>{description()}</div>
+          <hr class={styles.PostSeparator!} />
+        </Show>
         <For each={posts()}>{(post) => <BlueskyPost post={post} />}</For>
       </div>
     </div>
