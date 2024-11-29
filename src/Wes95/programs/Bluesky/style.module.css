@@ -240,3 +240,53 @@
   flex-shrink: 0;
   padding: 0;
 }
+
+.UserList {
+}
+
+.UserItem {
+  display: flex;
+  padding: calc(var(--wes95-scale-value) * 6);
+  gap: calc(var(--wes95-scale-value) * 6);
+}
+
+.UserItemAvatar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(var(--wes95-scale-value) * 10);
+}
+
+.UserItemAvatarImage {
+  border: calc(var(--wes95-scale-value) * 1) solid var(--wes95-color-flatDark);
+
+  & img {
+    display: block;
+    width: calc(var(--wes95-scale-value) * 32);
+  }
+}
+
+.UserItemInfo {
+  display: flex;
+  flex-direction: column;
+  max-width: 100%;
+  overflow: hidden;
+  gap: calc(var(--wes95-scale-value) * 6);
+}
+
+.UserItemNameHandle {
+  display: flex;
+  gap: calc(var(--wes95-scale-value) * 2);
+  flex-wrap: wrap;
+}
+
+.UserItemName {
+  font-weight: bold;
+}
+
+.UserItemHandle {
+  opacity: 0.6;
+}
+
+.UserItemDescription {
+}

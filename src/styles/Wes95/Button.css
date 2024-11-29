@@ -69,6 +69,12 @@
   }
 }
 
+.GhostButton {
+  background: none;
+  cursor: pointer;
+  text-align: left;
+}
+
 a:is(
     .Button,
     .FlatButton,
@@ -83,6 +89,7 @@ a:is(
 button:is(
     .Button,
     .FlatButton,
+    .GhostButton,
     .LinkButton,
     .MenuButton,
     .TaskbarButton,
