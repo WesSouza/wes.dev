@@ -16,8 +16,8 @@ export const WindowStateSchema = z.object({
   showInTaskbar: z.boolean().default(false),
   sizeAutomatic: z.boolean().optional(),
   sizeConstraints: z.object({
-    max: SizeSchema.optional(),
-    min: SizeSchema.optional(),
+    max: SizeSchema.partial().optional(),
+    min: SizeSchema.partial().optional(),
   }),
   title: z.string(),
   url: z.string(),

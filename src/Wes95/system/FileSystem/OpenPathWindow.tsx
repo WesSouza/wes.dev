@@ -36,8 +36,12 @@ export function FileSystemOpenPathWindow(p: {
     });
     WindowManager.shared.place(p.window.id, {
       centerToParent: true,
-      width: 580,
-      height: 380,
+      width: 375,
+      height: 270,
+      sizeConstraints: {
+        max: { height: 270 },
+        min: { width: 375, height: 270 },
+      },
     });
   });
 
@@ -86,42 +90,57 @@ export function FileSystemOpenPathWindow(p: {
   };
 
   return (
-    <>
-      <div class="Horizontal MediumSpacing">
+    <div class="Vertical MediumSpacing">
+      <div class="Horizontal SmallSpacing MediumGap">
         <Icon icon={p.data.icon ?? 'dialogQuestion'} size="medium" />
         <span class={styles.OpenPathMessage}>
           {p.data.message ??
             'Type the name of program, folder, document, or Internet resource, and the system will open it for you.'}
         </span>
       </div>
-      <div class="Horizontal MediumSpacing">
+      <div class="Horizontal SmallSpacing MediumGap -middle">
         <span class={styles.OpenPathLabel}>Open:</span>
         <input
           classList={{
             TextBox: true,
             [styles.OpenPathInput!]: true,
           }}
+          autoCapitalize="off"
+          autocorrect="off"
+          spellcheck={false}
           onChange={handleInputChange}
           onKeyDown={handleInputKeyDown}
           value={value()}
         />
       </div>
-      <div class="Horizontal SmallSpacing -end">
-        <button class="Button" onClick={handleOpen} type="button">
-          OK
-        </button>
-        <button class="Button" onClick={handleCancelClick} type="button">
-          Cancel
-        </button>
-        <button
-          class="Button"
-          onClick={handleBrowseClick}
-          disabled={!p.data.browseTypes}
-          type="button"
-        >
-          Browse...
-        </button>
+      <div class="Horizontal SmallSpacing MediumGap -end">
+        <div class={styles.OpenPathButtons}>
+          <button
+            class="Button"
+            style="flex: 1"
+            onClick={handleOpen}
+            type="button"
+          >
+            OK
+          </button>
+          <button
+            class="Button"
+            style="flex: 1"
+            onClick={handleCancelClick}
+            type="button"
+          >
+            Cancel
+          </button>
+          <button
+            class="Button"
+            onClick={handleBrowseClick}
+            disabled={!p.data.browseTypes}
+            type="button"
+          >
+            Browse...
+          </button>
+        </div>
       </div>
-    </>
+    </div>
   );
 }

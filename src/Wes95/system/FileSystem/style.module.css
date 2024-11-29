@@ -1,2 +1,16 @@
 .ToolbarButtons {
 }
+
+.OpenPathLabel {
+  width: calc(var(--wes95-scale-value) * 32);
+}
+
+.OpenPathInput {
+  flex-grow: 1;
+}
+
+.OpenPathButtons {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--wes95-spacing-gap);
+}
