@@ -1,5 +1,7 @@
 import { AppBskyEmbedRecord, AppBskyFeedDefs } from '@atproto/api';
 import type { Bluesky_UnknownType } from '../models/Bluesky';
+import anchorme from 'anchorme';
+import { Link } from '../components/Link';
 
 export function getInternalPostURL(post: { uri: string } | undefined) {
   if (!post) {
@@ -62,4 +64,34 @@ export function getPostView(
     return post;
   }
   return;
+}
+
+export function getRichTextUserDescription(description: string | undefined) {
+  if (!description) {
+    return [];
+  }
+
+  const text = [];
+  const links = anchorme.list(description);
+
+  let start = 0;
+  for (const link of links) {
+    const precedingText = description.substring(start, link.start);
+    start = link.end;
+    if (precedingText) {
+      text.push(precedingText);
+    }
+    if (link.isURL) {
+      text.push(
+        <Link
+          href={(!link.confirmedByProtocol ? 'https://' : '') + link.string}
+        >
+          {link.string}
+        </Link>,
+      );
+    }
+  }
+
+  const remainingText = description.substring(start);
+  return [...text, remainingText];
 }

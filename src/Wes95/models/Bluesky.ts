@@ -65,13 +65,14 @@ export type Bluesky_Actor_ProfileViewBasic = z.infer<
 
 export const Bluesky_Actor_ProfileViewBasicSchema = z.object({
   $type: z.literal('app.bsky.actor.defs#profileViewBasic').optional(),
-  did: z.string(),
-  handle: z.string(),
-  displayName: z.string().optional(),
-  avatar: z.string().optional(),
   associated: Bluesky_Actor_ProfileAssociatedSchema.optional(),
-  labels: z.array(Bluesky_Label_LabelSchema).optional(),
+  avatar: z.string().optional(),
   createdAt: z.string().optional(),
+  did: z.string(),
+  description: z.string().optional(),
+  displayName: z.string().optional(),
+  handle: z.string(),
+  labels: z.array(Bluesky_Label_LabelSchema).optional(),
 });
 
 export type Bluesky_Actor_ProfileViewDetailed = z.infer<
@@ -372,4 +373,12 @@ export type Bluesky_API_AuthorFeed = z.infer<
 export const Bluesky_API_AuthorFeedSchema = z.object({
   feed: z.array(Bluesky_Feed_ViewPostSchema),
   cursor: z.string().optional(),
+});
+
+export type Bluesky_UserList = z.infer<typeof Bluesky_UserListSchema>;
+
+export const Bluesky_UserListSchema = z.object({
+  cursor: z.string().optional(),
+  subject: Bluesky_Actor_ProfileViewBasicSchema,
+  users: z.array(Bluesky_Actor_ProfileViewBasicSchema),
 });

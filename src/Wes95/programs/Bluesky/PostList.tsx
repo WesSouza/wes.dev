@@ -1,10 +1,9 @@
 import type { AppBskyFeedDefs } from '@atproto/api';
-import anchorme from 'anchorme';
 import { createMemo, createSignal, For, Show } from 'solid-js';
 import type { Bluesky_Actor_ProfileViewDetailed } from '../../models/Bluesky';
+import { getRichTextUserDescription } from '../../utils/bluesky';
 import { BlueskyPost } from './Post';
 import styles from './style.module.css';
-import { Link } from '../../components/Link';
 
 export function BlueskyPostList(p: {
   contentRef?: HTMLDivElement;
@@ -28,34 +27,9 @@ export function BlueskyPostList(p: {
     ),
   );
 
-  const description = createMemo(() => {
-    const description = p.profile.description;
-    if (!description) {
-      return [];
-    }
-    const text = [];
-    const links = anchorme.list(description);
-    let start = 0;
-    for (const link of links) {
-      const precedingText = description.substring(start, link.start);
-      start = link.end;
-      if (precedingText) {
-        text.push(precedingText);
-      }
-      if (link.isURL) {
-        text.push(
-          <Link
-            href={(!link.confirmedByProtocol ? 'https://' : '') + link.string}
-          >
-            {link.string}
-          </Link>,
-        );
-      }
-    }
-
-    const remainingText = description.substring(start);
-    return [...text, remainingText];
-  });
+  const description = createMemo(() =>
+    getRichTextUserDescription(p.profile.description),
+  );
 
   const handleScroll = (event: Event & { currentTarget: HTMLDivElement }) => {
     if (
