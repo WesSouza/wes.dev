@@ -1,6 +1,7 @@
 import { Show } from 'solid-js';
 import { Link } from '../../components/Link';
 import type { Bluesky_Actor_ProfileViewDetailed } from '../../models/Bluesky';
+import { getProfileURL } from '../../utils/bluesky';
 import styles from './style.module.css';
 
 export function BlueskyProfileHeader(p: {
@@ -41,11 +42,7 @@ export function BlueskyProfileHeader(p: {
         >
           <img src={p.profile.avatar} />
         </div>
-        <Link
-          class="Button"
-          href={`https://bsky.app/profile/${p.profile.handle}`}
-          target="_blank"
-        >
+        <Link class="Button" href={getProfileURL(p.profile)} target="_blank">
           Follow
         </Link>
       </div>

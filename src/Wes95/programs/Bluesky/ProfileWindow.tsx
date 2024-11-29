@@ -16,6 +16,7 @@ import { createWindowURL } from '../../utils/Windows';
 import { BlueskyPostList } from './PostList';
 import { BlueskyProfileHeader } from './ProfileHeader';
 import type { BlueskyProfileData } from './registry';
+import { getProfileURL } from '../../utils/bluesky';
 
 const WesDID = 'did:plc:4qy26t5ss4zosz2mi3hdzuq3';
 
@@ -122,22 +123,29 @@ export function BlueskyProfileWindow(p: {
   };
 
   const handleMenuSelect = (id: string) => {
-    if (id === 'Open') {
-      handleOpen();
-    }
+    switch (id) {
+      case 'Likes':
+      case 'Media':
+      case 'Posts':
+      case 'Replies': {
+        setView(id.toLowerCase() as any);
+        break;
+      }
 
-    if (
-      id === 'Posts' ||
-      id === 'Replies' ||
-      id === 'Media' ||
-      id === 'Likes'
-    ) {
-      // @ts-expect-error
-      setView(id.toLowerCase());
-    }
+      case 'Open': {
+        handleOpen();
+        break;
+      }
 
-    if (id === 'Exit') {
-      WindowManager.shared.closeWindow(p.window.id);
+      case 'Send': {
+        navigator.share({ url: getProfileURL(profile()?.data) });
+        break;
+      }
+
+      case 'Exit': {
+        WindowManager.shared.closeWindow(p.window.id);
+        break;
+      }
     }
   };
 

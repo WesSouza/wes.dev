@@ -21,6 +21,14 @@ export function getPostURL(
   return url;
 }
 
+export function getProfileURL(profile: { handle: string } | undefined) {
+  if (!profile) {
+    return '';
+  }
+
+  return `https://bsky.app/profile/${profile.handle}`;
+}
+
 export function getPin(post: AppBskyFeedDefs.FeedViewPost) {
   if (AppBskyFeedDefs.isReasonPin(post.reason)) {
     return post.reason;
