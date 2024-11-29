@@ -154,6 +154,11 @@ export class FileSystemManager {
     return file;
   };
 
+  getFileHandler = (_path: string | undefined) => {
+    // TODO: Implement
+    return undefined;
+  };
+
   getFiles = async (path: string = '/C') => {
     await this.fileSystemReady;
 

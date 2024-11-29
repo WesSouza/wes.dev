@@ -75,7 +75,11 @@ export function mapFileType(file: File | Directory) {
 }
 
 export function filterFileTypes(fileTypeIds: string[] | undefined) {
-  if (!fileTypeIds || !fileTypeIds.length) {
+  if (
+    !fileTypeIds ||
+    !fileTypeIds.length ||
+    (fileTypeIds.length === 1 && fileTypeIds[0] === 'all')
+  ) {
     return () => true;
   }
 

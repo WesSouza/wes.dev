@@ -161,7 +161,7 @@ export class WindowManager {
     > & {
       active?: boolean | undefined;
       position?: Point | undefined;
-      size?: Size | undefined;
+      size?: Partial<Size> | undefined;
     } = {},
   ): WindowState | undefined => {
     const id = createUniqueId();

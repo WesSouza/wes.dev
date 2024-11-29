@@ -1,7 +1,22 @@
-import { createEffect, For, onMount, Show, type JSX } from 'solid-js';
+import {
+  createEffect,
+  createUniqueId,
+  For,
+  onMount,
+  Show,
+  type JSX,
+} from 'solid-js';
+import { FileSystemManager } from '../lib/FileSystemManager';
 import { ScreenManager } from '../lib/ScreenManager';
 import { SessionManager } from '../lib/SessionManager';
 import { WindowManager } from '../lib/WindowManager';
+import { type FSOpenPathEvent } from '../system/FileSystem/OpenPathWindow';
+import {
+  FSOpenEventSchema,
+  type FSOpenEvent,
+} from '../system/FileSystem/OpenWindow';
+import { isAppURL } from '../utils/url';
+import { createWindowURL } from '../utils/Windows';
 import { Icon } from './Icon';
 import { ItemList } from './ItemList';
 import { MenuButton } from './MenuButton';
@@ -30,11 +45,80 @@ export const Explorer = () => {
     });
   });
 
-  const addWindow = (url: string) => {
-    windowManager.addWindow(url, {
-      showInTaskbar: true,
-      active: true,
-    });
+  const run = () => {
+    const delegateId = createUniqueId();
+    const desktopSize = ScreenManager.shared.desktopSize();
+    const scale = ScreenManager.shared.scale();
+    const position = desktopSize
+      ? {
+          x: scale * 16,
+          y: desktopSize.height - 270 - scale * 16,
+        }
+      : undefined;
+
+    windowManager.addWindow(
+      createWindowURL('system://FileSystem/OpenPath', {
+        browseTypes: ['all'],
+        delegateId,
+        icon: 'iconRun',
+        title: 'Run',
+      }),
+      {
+        active: true,
+        position,
+        showInTaskbar: true,
+      },
+    );
+
+    const handleFileSelect = ({ filePath }: FSOpenEvent | FSOpenPathEvent) => {
+      if (filePath && isAppURL(filePath)) {
+        windowManager.addWindow(filePath, {
+          showInTaskbar: true,
+          active: true,
+        });
+      } else {
+        const handler = FileSystemManager.shared.getFileHandler(filePath);
+        if (handler) {
+          windowManager.addWindow(handler, {
+            showInTaskbar: true,
+            active: true,
+          });
+        } else {
+          windowManager.messageDialog({
+            message: 'No program can handle this file type.',
+            title: 'Error',
+            type: 'error',
+            onAction: () => {},
+          });
+        }
+      }
+    };
+
+    // TODO: Fix both events firing
+    /* windowManager.handleOnce(
+      delegateId,
+      handleFileSelect,
+      FSOpenPathEventSchema,
+    ); */
+
+    windowManager.handleOnce(delegateId, handleFileSelect, FSOpenEventSchema);
+  };
+
+  const handleStartSelect = (id: string) => {
+    if (isAppURL(id)) {
+      windowManager.addWindow(id, {
+        showInTaskbar: true,
+        active: true,
+      });
+      return;
+    }
+
+    switch (id) {
+      case 'Run': {
+        run();
+        break;
+      }
+    }
   };
 
   const handleDesktopIconClick = (url: string) => {
@@ -258,7 +342,7 @@ export const Explorer = () => {
               label: 'Shutdown',
             },
           ]}
-          onSelect={(id) => addWindow(id)}
+          onSelect={handleStartSelect}
         >
           <Icon icon="iconWes" />
           Start

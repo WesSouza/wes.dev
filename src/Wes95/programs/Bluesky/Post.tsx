@@ -12,7 +12,7 @@ import { Symbol } from '../../components/Symbol';
 import { Bluesky_Feed_Post } from '../../models/Bluesky';
 import { getPostURL, getRepost } from '../../utils/bluesky';
 import { ago } from '../../utils/dateTime';
-import { getHostname } from '../../utils/url';
+import { getURLHostname } from '../../utils/url';
 import styles from './style.module.css';
 
 export function BlueskyPost(p: { post: AppBskyFeedDefs.FeedViewPost }) {
@@ -172,7 +172,7 @@ export function BlueskyPost(p: { post: AppBskyFeedDefs.FeedViewPost }) {
                     {embedExternal()!.description}
                   </div>
                   <div class={styles.PostContentExternalHostname}>
-                    {getHostname(embedExternal()!.uri)}
+                    {getURLHostname(embedExternal()!.uri)}
                   </div>
                 </div>
               </Link>

@@ -18,6 +18,7 @@ import { filterFileTypes, mapFileType } from '../../utils/fileTypes';
 export const FSOpenDataSchema = z.object({
   delegateId: z.string(),
   fileTypes: z.array(z.string()),
+  path: z.string().optional(),
 });
 
 export type FSOpenData = z.infer<typeof FSOpenDataSchema>;
@@ -36,7 +37,7 @@ export function FileSystemOpenWindow(p: {
 }) {
   const [listType, setListType] = createSignal<'list' | 'details'>('list');
   const [currentDirectoryPath, setCurrentDirectoryPath] = createSignal(
-    '/C/My Documents/Blog',
+    p.data.path ?? '/Desktop',
   );
   const [files] = createResource(
     currentDirectoryPath,
