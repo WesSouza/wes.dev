@@ -1,34 +1,40 @@
 .Gap,
 .SmallGap,
-.SmallSpacing,
 .MediumGap,
-.MediumSpacing,
-.LargeGap,
-.LargeSpacing {
+.LargeGap {
   gap: var(--wes95-spacing-gap);
 }
 
 .Gap,
-.SmallGap,
-.SmallSpacing {
+.SmallGap {
   --wes95-spacing-gap: calc(var(--wes95-scale-value) * 2);
 }
 
-.MediumGap,
-.MediumSpacing {
+.MediumGap {
   --wes95-spacing-gap: calc(var(--wes95-scale-value) * 6);
 }
 
-.LargeGap,
-.LargeSpacing {
+.LargeGap {
   --wes95-spacing-gap: calc(var(--wes95-scale-value) * 12);
 }
 
 .SmallSpacing,
 .MediumSpacing,
 .LargeSpacing {
-  --wes95-spacing-padding: var(--wes95-spacing-gap);
-  padding: var(--wes95-spacing-gap);
+  gap: var(--wes95-spacing-gap, var(--wes95-spacing-padding));
+  padding: var(--wes95-spacing-padding);
+}
+
+.SmallSpacing {
+  --wes95-spacing-padding: calc(var(--wes95-scale-value) * 2);
+}
+
+.MediumSpacing {
+  --wes95-spacing-padding: calc(var(--wes95-scale-value) * 6);
+}
+
+.LargeSpacing {
+  --wes95-spacing-padding: calc(var(--wes95-scale-value) * 12);
 }
 
 .SmallSpacer,

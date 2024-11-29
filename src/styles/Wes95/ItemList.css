@@ -33,6 +33,11 @@
 
     &:not(&.-icons) {
       gap: calc(var(--wes95-scale-value) * 4);
+
+      .LinkButton {
+        display: flex;
+        align-items: center;
+      }
     }
   }
 
