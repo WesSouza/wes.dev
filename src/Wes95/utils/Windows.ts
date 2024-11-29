@@ -122,17 +122,9 @@ export function parseWindowURL(
 ):
   | [
       (
-        | ((p: {
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            data: any;
-            window: WindowState;
-          }) => JSX.Element)
+        | ((p: { data: any; window: WindowState }) => JSX.Element)
         | (() => Promise<{
-            default: (p: {
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              data: any;
-              window: WindowState;
-            }) => JSX.Element;
+            default: (p: { data: any; window: WindowState }) => JSX.Element;
           }>)
       ),
       z.AnyZodObject,
