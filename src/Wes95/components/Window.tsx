@@ -1,4 +1,5 @@
-import { createEffect, Show, type JSX } from 'solid-js';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { createEffect, lazy, Show, type JSX } from 'solid-js';
 import type { z } from 'zod';
 import { parseSearchParams } from 'zod-search-params';
 import { ScreenManager } from '../lib/ScreenManager';
@@ -353,10 +354,8 @@ export function Window(p: {
   };
 
   const windowContents = () => {
-    const [WindowContentComponent, WindowDataSchema, url] = parseWindowURL(
-      p.window.url,
-      windowManager.windowLibrary,
-    );
+    const [WindowContentComponent, WindowDataSchema, url, type] =
+      parseWindowURL(p.window.url, windowManager.windowLibrary);
 
     if (!WindowContentComponent) {
       console.error(`[Window] Missing window for URL `, p.window.url);
@@ -367,7 +366,16 @@ export function Window(p: {
       // @ts-expect-error
       parseSearchParams(WindowDataSchema, url.searchParams);
 
-    return <WindowContentComponent data={data} window={p.window} />;
+    const Component =
+      type === 'sync'
+        ? (WindowContentComponent as (props: any) => JSX.Element)
+        : lazy(
+            WindowContentComponent as () => Promise<{
+              default: (props: any) => JSX.Element;
+            }>,
+          );
+
+    return <Component data={data} window={p.window} />;
   };
 
   return (

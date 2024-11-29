@@ -4,19 +4,13 @@ import {
   createSignal,
   createUniqueId,
 } from 'solid-js';
-import { z } from 'zod';
 import { MenuBar } from '../../components/MenuBar';
 import { FileSystemManager } from '../../lib/FileSystemManager';
 import { WindowManager } from '../../lib/WindowManager';
 import type { WindowState } from '../../models/WindowState';
-import { FSOpenEventSchema } from '../../system/FileSystem/OpenWindow';
+import { FSOpenEventSchema } from '../../system/FileSystem/registry';
 import { createWindowURL } from '../../utils/Windows';
-
-export const NotepadMainDataSchema = z.object({
-  file: z.string().optional(),
-});
-
-export type NotepadMainData = z.infer<typeof NotepadMainDataSchema>;
+import type { NotepadMainData } from './registry';
 
 export function NotepadMainWindow(p: {
   window: WindowState;

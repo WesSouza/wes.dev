@@ -1,28 +1,10 @@
 import { createSignal, onMount } from 'solid-js';
-import { z } from 'zod';
 import { Icon } from '../../components/Icon';
 import { WindowManager } from '../../lib/WindowManager';
 import type { WindowState } from '../../models/WindowState';
-import styles from './style.module.css';
 import { createWindowURL } from '../../utils/Windows';
-
-export const FSOpenPathDataSchema = z.object({
-  browseTypes: z.array(z.string()).optional(),
-  delegateId: z.string(),
-  icon: z.string().optional(),
-  message: z.string().optional(),
-  title: z.string().optional(),
-});
-
-export type FSOpenPathData = z.infer<typeof FSOpenPathDataSchema>;
-
-export const FSOpenPathEventSchema = z
-  .object({
-    filePath: z.string().optional(),
-  })
-  .brand<'FileSystem/OpenPathEvent'>();
-
-export type FSOpenPathEvent = z.infer<typeof FSOpenPathEventSchema>;
+import { FSOpenPathEventSchema, type FSOpenPathData } from './registry';
+import styles from './style.module.css';
 
 export function FileSystemOpenPathWindow(p: {
   data: FSOpenPathData;

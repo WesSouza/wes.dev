@@ -121,10 +121,23 @@ export function parseWindowURL(
   windowLibrary: WindowLibrary,
 ):
   | [
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (p: { data: any; window: WindowState }) => JSX.Element,
+      (
+        | ((p: {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            data: any;
+            window: WindowState;
+          }) => JSX.Element)
+        | (() => Promise<{
+            default: (p: {
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              data: any;
+              window: WindowState;
+            }) => JSX.Element;
+          }>)
+      ),
       z.AnyZodObject,
       URL,
+      'sync' | 'async',
     ]
   | never[] {
   const url = new URL(urlString);
@@ -132,18 +145,14 @@ export function parseWindowURL(
   const windowName = url.pathname.replace(/^\//, '').replace(/\\/g, '_');
 
   const program = windowLibrary[programName];
-  if (!program || typeof program !== 'object') {
+  if (!program || typeof program !== 'object' || !program.windows[windowName]) {
     return [];
   }
 
-  const [WindowContentComponent, WindowDataSchema] = program[windowName] ?? [];
-  if (
-    !WindowContentComponent ||
-    !WindowDataSchema ||
-    typeof WindowContentComponent !== 'function'
-  ) {
+  const { async, schema, window } = program.windows[windowName];
+  if (!schema || !window || typeof window !== 'function') {
     return [];
   }
 
-  return [WindowContentComponent, WindowDataSchema, url];
+  return [window, schema, url, async ? 'async' : 'sync'];
 }

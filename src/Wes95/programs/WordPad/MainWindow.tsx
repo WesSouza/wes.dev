@@ -5,21 +5,15 @@ import {
   createUniqueId,
   onMount,
 } from 'solid-js';
-import { z } from 'zod';
 import { Icon } from '../../components/Icon';
 import { Markdown } from '../../components/Markdown';
 import { MenuBar } from '../../components/MenuBar';
 import { FileSystemManager } from '../../lib/FileSystemManager';
 import { WindowManager } from '../../lib/WindowManager';
 import type { WindowState } from '../../models/WindowState';
-import { FSOpenEventSchema } from '../../system/FileSystem/OpenWindow';
+import { FSOpenEventSchema } from '../../system/FileSystem/registry';
 import { createWindowURL } from '../../utils/Windows';
-
-export const WordPadMainDataSchema = z.object({
-  file: z.string().optional(),
-});
-
-export type WordPadMainData = z.infer<typeof WordPadMainDataSchema>;
+import type { WordPadMainData } from './registry';
 
 export function WordPadMainWindow(p: {
   window: WindowState;

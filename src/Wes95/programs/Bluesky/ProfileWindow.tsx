@@ -8,24 +8,18 @@ import {
   onMount,
   Show,
 } from 'solid-js';
-import { z } from 'zod';
 import { MenuBar } from '../../components/MenuBar';
 import { WindowManager } from '../../lib/WindowManager';
 import type { WindowState } from '../../models/WindowState';
-import { FSOpenEventSchema } from '../../system/FileSystem/OpenWindow';
+import { FSOpenPathEventSchema } from '../../system/FileSystem/registry';
 import { createWindowURL } from '../../utils/Windows';
 import { BlueskyPostList } from './PostList';
 import { BlueskyProfileHeader } from './ProfileHeader';
+import type { BlueskyProfileData } from './registry';
 
 const WesDID = 'did:plc:4qy26t5ss4zosz2mi3hdzuq3';
 
 let currentActor: string | undefined;
-
-export const BlueskyProfileDataSchema = z.object({
-  did: z.string().optional(),
-});
-
-export type BlueskyProfileData = z.infer<typeof BlueskyProfileDataSchema>;
 
 const getAccountPosts = async (
   actor: string,
@@ -123,7 +117,7 @@ export function BlueskyProfileWindow(p: {
         }
         WindowManager.shared.setActiveWindow(p.window);
       },
-      FSOpenEventSchema,
+      FSOpenPathEventSchema,
     );
   };
 
