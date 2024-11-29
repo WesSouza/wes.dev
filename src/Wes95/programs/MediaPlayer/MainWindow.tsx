@@ -4,19 +4,13 @@ import {
   createSignal,
   createUniqueId,
 } from 'solid-js';
-import { z } from 'zod';
 import { MenuBar } from '../../components/MenuBar';
 import { FileSystemManager } from '../../lib/FileSystemManager';
 import { WindowManager } from '../../lib/WindowManager';
 import type { WindowState } from '../../models/WindowState';
-import { FSOpenEventSchema } from '../../system/FileSystem/OpenWindow';
+import { FSOpenEventSchema } from '../../system/FileSystem/registry';
 import { createWindowURL } from '../../utils/Windows';
-
-export const MediaPlayerMainDataSchema = z.object({
-  file: z.string().optional(),
-});
-
-export type MediaPlayerMainData = z.infer<typeof MediaPlayerMainDataSchema>;
+import type { MediaPlayerMainData } from './registry';
 
 export function MediaPlayerMainWindow(p: {
   data: MediaPlayerMainData;

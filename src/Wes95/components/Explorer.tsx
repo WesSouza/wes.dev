@@ -10,17 +10,17 @@ import { FileSystemManager } from '../lib/FileSystemManager';
 import { ScreenManager } from '../lib/ScreenManager';
 import { SessionManager } from '../lib/SessionManager';
 import { WindowManager } from '../lib/WindowManager';
-import { type FSOpenPathEvent } from '../system/FileSystem/OpenPathWindow';
-import {
-  FSOpenEventSchema,
-  type FSOpenEvent,
-} from '../system/FileSystem/OpenWindow';
 import { isAppURL } from '../utils/url';
 import { createWindowURL } from '../utils/Windows';
 import { Icon } from './Icon';
 import { ItemList } from './ItemList';
 import { MenuButton } from './MenuButton';
 import { Window } from './Window';
+import {
+  FSOpenEventSchema,
+  type FSOpenEvent,
+  type FSOpenPathEvent,
+} from '../system/FileSystem/registry';
 
 export const Explorer = () => {
   let desktopRef!: HTMLElement;

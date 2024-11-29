@@ -5,7 +5,6 @@ import {
   onMount,
   Show,
 } from 'solid-js';
-import { z } from 'zod';
 import { Combobox } from '../../components/Combobox';
 import { Icon } from '../../components/Icon';
 import { ItemList } from '../../components/ItemList';
@@ -14,22 +13,7 @@ import { FileSystemManager } from '../../lib/FileSystemManager';
 import { WindowManager } from '../../lib/WindowManager';
 import type { WindowState } from '../../models/WindowState';
 import { filterFileTypes, mapFileType } from '../../utils/fileTypes';
-
-export const FSOpenDataSchema = z.object({
-  delegateId: z.string(),
-  fileTypes: z.array(z.string()),
-  path: z.string().optional(),
-});
-
-export type FSOpenData = z.infer<typeof FSOpenDataSchema>;
-
-export const FSOpenEventSchema = z
-  .object({
-    filePath: z.string().optional(),
-  })
-  .brand<'FileSystem/OpenEvent'>();
-
-export type FSOpenEvent = z.infer<typeof FSOpenEventSchema>;
+import { FSOpenEventSchema, type FSOpenData } from './registry';
 
 export function FileSystemOpenWindow(p: {
   data: FSOpenData;

@@ -3,41 +3,18 @@ import { createStore, produce, type SetStoreFunction } from 'solid-js/store';
 import { z, ZodType } from 'zod';
 import type { Point, Size } from '../models/Geometry';
 import type { WindowState } from '../models/WindowState';
+import { registerBluesky } from '../programs/Bluesky/registry';
+import { registerCalculator } from '../programs/Calculator/registry';
+import { registerDiskDefragmenter } from '../programs/DiskDefragmenter/registry';
+import { registerMediaPlayer } from '../programs/MediaPlayer/registry';
+import { registerNotepad } from '../programs/Notepad/registry';
+import { registerWordPad } from '../programs/WordPad/registry';
+import { registerFileSystem } from '../system/FileSystem/registry';
 import {
-  BlueskyProfileDataSchema,
-  BlueskyProfileWindow,
-} from '../programs/Bluesky/ProfileWindow';
-import {
-  CalculatorMainDataSchema,
-  CalculatorMainWindow,
-} from '../programs/Caclulator/MainWindow';
-import { DiskDefragmenterMainWindow } from '../programs/DiskDefragmenter/MainWindow';
-import {
-  MediaPlayerMainDataSchema,
-  MediaPlayerMainWindow,
-} from '../programs/MediaPlayer/MainWindow';
-import {
-  NotepadMainDataSchema,
-  NotepadMainWindow,
-} from '../programs/Notepad/MainWindow';
-import {
-  WordPadMainDataSchema,
-  WordPadMainWindow,
-} from '../programs/WordPad/MainWindow';
-import {
-  FileSystemOpenPathWindow,
-  FSOpenPathDataSchema,
-} from '../system/FileSystem/OpenPathWindow';
-import {
-  FileSystemOpenWindow,
-  FSOpenDataSchema,
-} from '../system/FileSystem/OpenWindow';
-import {
-  MessageDialogDataSchema,
   MessageDialogEventSchema,
-  MessageDialogWindow,
+  registerMessage,
   type MessageDialogEvent,
-} from '../system/Message/MessageDialogWindow';
+} from '../system/Message/registry';
 import {
   createWindowURL,
   handleActiveWindows,
@@ -60,12 +37,22 @@ const DefaultMinSize = {
 };
 
 export type WindowLibrary = {
-  [k: string]: {
-    [k: string]: [
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (p: { data: any; window: WindowState }) => JSX.Element,
-      z.AnyZodObject,
-    ];
+  [k: string]: ProgramRegistry;
+};
+
+export type ProgramRegistry = {
+  name: string;
+  windows: {
+    [k: string]: {
+      async?: boolean;
+      schema: z.AnyZodObject;
+      window: // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      | ((p: { data: any; window: WindowState }) => JSX.Element)
+        | (() => Promise<{
+            default: // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            (p: { data: any; window: WindowState }) => JSX.Element;
+          }>);
+    };
   };
 };
 
@@ -90,31 +77,14 @@ export class WindowManager {
   }
 
   windowLibrary: WindowLibrary = {
-    Bluesky: {
-      Profile: [BlueskyProfileWindow, BlueskyProfileDataSchema],
-    },
-    DiskDefragmenter: {
-      Main: [DiskDefragmenterMainWindow, z.object({})],
-    },
-    Calculator: {
-      Main: [CalculatorMainWindow, CalculatorMainDataSchema],
-    },
-    MediaPlayer: {
-      Main: [MediaPlayerMainWindow, MediaPlayerMainDataSchema],
-    },
-    Message: {
-      MessageDialog: [MessageDialogWindow, MessageDialogDataSchema],
-    },
-    Notepad: {
-      Main: [NotepadMainWindow, NotepadMainDataSchema],
-    },
-    FileSystem: {
-      Open: [FileSystemOpenWindow, FSOpenDataSchema],
-      OpenPath: [FileSystemOpenPathWindow, FSOpenPathDataSchema],
-    },
-    WordPad: {
-      Main: [WordPadMainWindow, WordPadMainDataSchema],
-    },
+    Bluesky: registerBluesky(),
+    Calculator: registerCalculator(),
+    DiskDefragmenter: registerDiskDefragmenter(),
+    FileSystem: registerFileSystem(),
+    MediaPlayer: registerMediaPlayer(),
+    Message: registerMessage(),
+    Notepad: registerNotepad(),
+    WordPad: registerWordPad(),
   };
 
   desktopSize: Accessor<Size | undefined>;

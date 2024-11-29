@@ -1,25 +1,8 @@
 import { createEffect, For, Show } from 'solid-js';
-import { z } from 'zod';
 import { Icon } from '../../components/Icon';
 import { WindowManager } from '../../lib/WindowManager';
 import type { WindowState } from '../../models/WindowState';
-
-export const MessageDialogDataSchema = z.object({
-  delegateId: z.string(),
-  message: z.string(),
-  title: z.string(),
-  type: z.enum(['error', 'info', 'question', 'warning']).catch('info'),
-});
-
-export type MessageDialogData = z.infer<typeof MessageDialogDataSchema>;
-
-export const MessageDialogEventSchema = z
-  .object({
-    button: z.string(),
-  })
-  .brand<'Message/MessageDialogEvent'>();
-
-export type MessageDialogEvent = z.infer<typeof MessageDialogEventSchema>;
+import { MessageDialogEventSchema, type MessageDialogData } from './registry';
 
 const IconTypeMap: Record<string, string> = {
   error: 'dialogError',

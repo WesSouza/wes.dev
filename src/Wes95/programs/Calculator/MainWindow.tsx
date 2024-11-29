@@ -1,14 +1,8 @@
 import { createEffect } from 'solid-js';
-import { z } from 'zod';
 import { MenuBar } from '../../components/MenuBar';
 import { WindowManager } from '../../lib/WindowManager';
 import type { WindowState } from '../../models/WindowState';
-
-export const CalculatorMainDataSchema = z.object({
-  number: z.number().optional(),
-});
-
-export type CalculatorMainData = z.infer<typeof CalculatorMainDataSchema>;
+import type { CalculatorMainData } from './registry';
 
 export function CalculatorMainWindow(p: {
   data: CalculatorMainData;
