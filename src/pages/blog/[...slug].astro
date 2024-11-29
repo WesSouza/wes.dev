@@ -1,0 +1,29 @@
+---
+import { getEntry } from 'astro:content';
+import HeadMeta from '../../components/HeadMeta.astro';
+
+const { slug } = Astro.params;
+if (slug === undefined) {
+  throw new Error('Slug is required');
+}
+
+const entry = await getEntry('blog', slug);
+if (entry === undefined) {
+  return Astro.redirect('/404');
+}
+
+const { Content } = await entry.render();
+---
+
+<!doctype html>
+<!-- Source code available at https://github.com/WesSouza/wes.dev/ -->
+<html lang="en" class="-PurpleBackground">
+  <head>
+    <HeadMeta title={entry.data.title} description={entry.data.description} />
+  </head>
+  <body>
+    <article>
+      <Content />
+    </article>
+  </body>
+</html>
