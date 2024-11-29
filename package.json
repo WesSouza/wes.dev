@@ -15,7 +15,7 @@
   "type": "module",
   "scripts": {
     "astro": "astro",
-    "build": "astro build --remote",
+    "build": "astro build",
     "check": "astro check && tsc --noEmit && eslint . && prettier --check src",
     "check:fix": "eslint --fix . && prettier --write src",
     "dev": "astro dev",
@@ -34,7 +34,6 @@
     "@solid-primitives/resize-observer": "^2.0.26",
     "anchorme": "^3.0.8",
     "astro": "5.0.1",
-    "rollup": "^4.25.0",
     "solid-js": "^1.9.3",
     "solid-markdown": "^2.0.13",
     "zod": "^3.23.8",
@@ -47,8 +46,8 @@
     "eslint": "^9.15.0",
     "eslint-config-prettier": "^9.1.0",
     "globals": "^15.12.0",
-    "import-sort-style-wes": "^3.0.2",
     "prettier": "3.3.3",
+    "rollup-plugin-visualizer": "^5.12.0",
     "typescript": "5.7.2",
     "typescript-eslint": "8.15.0"
   }
