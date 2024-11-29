@@ -20,7 +20,10 @@
 }
 
 .PostAvatar {
-  width: calc(var(--wes95-scale-value) * 34);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(var(--wes95-scale-value) * 10);
 }
 
 .PostAvatarImage {
@@ -30,6 +33,16 @@
     display: block;
     width: calc(var(--wes95-scale-value) * 32);
   }
+
+  &.-small img {
+    width: calc(var(--wes95-scale-value) * 18);
+  }
+}
+
+.PostReplyLine {
+  flex: 1;
+  width: calc(var(--wes95-scale-value) * 1);
+  background-color: var(--wes95-color-flatDark);
 }
 
 .PostContent {
@@ -142,6 +155,15 @@
 .PostContentExternalHostname {
   font-size: 0.9em;
   opacity: 0.6;
+}
+
+.PostContentRecord {
+  background-color: var(--wes95-color-flatLight);
+  border: calc(var(--wes95-scale-value) * 1) solid var(--wes95-color-flatDark);
+
+  .PostContentText {
+    text-decoration: none;
+  }
 }
 
 .PostInteractions {
