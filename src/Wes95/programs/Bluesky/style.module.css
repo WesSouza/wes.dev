@@ -2,6 +2,11 @@
   overflow: auto;
 }
 
+.PostProfileDescription {
+  padding: calc(var(--wes95-scale-value) * 6);
+  white-space: pre-wrap;
+}
+
 .Post {
   display: flex;
   padding: calc(var(--wes95-scale-value) * 6);
@@ -212,8 +217,4 @@
 .ProfileNumber {
   flex-shrink: 0;
   padding: 0;
-}
-
-.ProfileDescription {
-  white-space: pre-wrap;
 }

@@ -69,6 +69,17 @@
   }
 }
 
+a:is(
+    .Button,
+    .FlatButton,
+    .MenuButton,
+    .TaskbarButton,
+    .ToolbarButton,
+    .WindowTitleButton
+  ) {
+  text-decoration: none;
+}
+
 button:is(
     .Button,
     .FlatButton,

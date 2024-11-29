@@ -20,6 +20,9 @@ importers:
       '@solid-primitives/resize-observer':
         specifier: ^2.0.26
         version: 2.0.26(solid-js@1.9.3)
+      anchorme:
+        specifier: ^3.0.8
+        version: 3.0.8
       astro:
         specifier: 5.0.1
         version: 5.0.1(@types/node@22.9.3)(rollup@4.27.4)(typescript@5.7.2)(yaml@2.6.1)
@@ -1069,6 +1072,9 @@ packages:
 
   ajv@8.17.1:
     resolution: {integrity: sha512-B/gBuNg5SiMTrPkC+A2+cW0RszwxYmn6VYxB/inlBStS5nx6xHIt/ehKRhIMhqusl7a8LjQoZnjCs5vhwxOQ1g==}
+
+  anchorme@3.0.8:
+    resolution: {integrity: sha512-K61vxP907NA0Pv4z5v7xbiwosAjhdjCVUFGOFm1TEDFbKmK9/dRLT1jirFIQUuE5ni78Mv4D3Yr4rnQT1PJl9w==}
 
   ansi-align@3.0.1:
     resolution: {integrity: sha512-IOfwwBF5iczOjp/WeY4YxyjqAFMQoZufdQWDd19SEExbVLNXqvpzSJ/M7Za4/sCPmQ0+GRquoA7bGcINcxew6w==}
@@ -3887,6 +3893,8 @@ snapshots:
       fast-uri: 3.0.3
       json-schema-traverse: 1.0.0
       require-from-string: 2.0.2
+
+  anchorme@3.0.8: {}
 
   ansi-align@3.0.1:
     dependencies:

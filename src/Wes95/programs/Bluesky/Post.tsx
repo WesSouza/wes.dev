@@ -1,12 +1,13 @@
 import {
   AppBskyFeedDefs,
+  RichText,
   type AppBskyEmbedExternal,
   type AppBskyEmbedImages,
   type AppBskyEmbedVideo,
 } from '@atproto/api';
-import { RichText } from '@atproto/api';
 import { createMemo, For, Show, type JSX } from 'solid-js';
 import { Icon } from '../../components/Icon';
+import { Link } from '../../components/Link';
 import { Symbol } from '../../components/Symbol';
 import { Bluesky_Feed_Post } from '../../models/Bluesky';
 import { getPostURL, getRepost } from '../../utils/bluesky';
@@ -31,33 +32,21 @@ export function BlueskyPost(p: { post: AppBskyFeedDefs.FeedViewPost }) {
     for (const segment of rt.segments()) {
       if (segment.isMention()) {
         text.push(
-          <button
-            class="LinkButton"
-            onClick={() => handleOpenProfile(segment.mention!.did)}
-            type="button"
+          <Link
+            href={`app://Bluesky/Profile?did=${encodeURIComponent(segment.mention!.did)}`}
           >
             {segment.text}
-          </button>,
+          </Link>,
         );
       } else if (segment.isLink()) {
-        text.push(
-          <button
-            class="LinkButton"
-            onClick={() => handleOpenLink(segment.link!.uri)}
-            type="button"
-          >
-            {segment.text}
-          </button>,
-        );
+        text.push(<Link href={segment.link!.uri}>{segment.text}</Link>);
       } else if (segment.isTag()) {
         text.push(
-          <button
-            class="LinkButton"
-            onClick={() => handleOpenTag(segment.text)}
-            type="button"
+          <Link
+            href={`app://Bluesky/Hashtag?tag=${encodeURIComponent(segment.text.replace(/^#/, ''))}`}
           >
             {segment.text}
-          </button>,
+          </Link>,
         );
       } else {
         text.push(segment.text);
@@ -84,30 +73,6 @@ export function BlueskyPost(p: { post: AppBskyFeedDefs.FeedViewPost }) {
       ? (p.post.post.embed.external as AppBskyEmbedExternal.ViewExternal)
       : undefined,
   );
-
-  const handleOpenPost = () => {
-    window.open(post().url, '_blank');
-  };
-
-  const handleOpenImage = (url: string) => {
-    window.open(url, '_blank');
-  };
-
-  const handleOpenLink = (url: string) => {
-    window.open(url, '_blank');
-  };
-
-  const handleOpenTag = (tag: string) => {
-    console.log(tag);
-  };
-
-  const handlePlayVideo = (url: string) => {
-    window.open(url, '_blank');
-  };
-
-  const handleOpenProfile = (handle: string) => {
-    console.log(handle);
-  };
 
   return (
     <>
@@ -139,22 +104,18 @@ export function BlueskyPost(p: { post: AppBskyFeedDefs.FeedViewPost }) {
         >
           <div class={styles.PostContentAuthor}>
             <div class={styles.PostContentAuthorName}>
-              <button
-                class="LinkButton"
-                onClick={() => handleOpenProfile(post().author.handle)}
-                type="button"
+              <Link
+                href={`app://Bluesky/Profile?did=${encodeURIComponent(post().author.handle)}`}
               >
                 {post().author.displayName}
-              </button>
+              </Link>
             </div>
             <div class={styles.PostContentAuthorHandle}>
-              <button
-                class="LinkButton"
-                onClick={() => handleOpenProfile(post().author.handle)}
-                type="button"
+              <Link
+                href={`app://Bluesky/Profile?did=${encodeURIComponent(post().author.handle)}`}
               >
                 @{post().author.handle}
-              </button>
+              </Link>
             </div>
             <div class={styles.PostContentAuthorDate}>
               {ago(record().createdAt)}
@@ -168,21 +129,20 @@ export function BlueskyPost(p: { post: AppBskyFeedDefs.FeedViewPost }) {
               <div class={styles.PostContentImages}>
                 <For each={embedImages()}>
                   {(image) => (
-                    <button
+                    <Link
                       class={styles.PostContentImage}
-                      onClick={() => handleOpenImage(image.fullsize)}
-                      type="button"
+                      href={`app://QuickView/Main?url=${encodeURIComponent(image.fullsize)}`}
                     >
                       <img src={image.thumb} />
-                    </button>
+                    </Link>
                   )}
                 </For>
               </div>
             </Show>
             <Show when={embedVideo()}>
-              <button
+              <Link
                 class={styles.PostContentVideo}
-                onClick={() => handlePlayVideo(embedVideo()!.playlist)}
+                href={`app://MediaPlayer/Main?url=${encodeURIComponent(embedVideo()!.playlist)}`}
               >
                 <Show when={embedVideo()!.thumbnail}>
                   <img
@@ -191,13 +151,12 @@ export function BlueskyPost(p: { post: AppBskyFeedDefs.FeedViewPost }) {
                   />
                   <Icon icon="fileTypeVideo" size="small" />
                 </Show>
-              </button>
+              </Link>
             </Show>
             <Show when={embedExternal()}>
-              <button
+              <Link
                 class={styles.PostContentExternal}
-                onClick={() => handleOpenLink(embedExternal()!.uri)}
-                type="button"
+                href={embedExternal()!.uri}
               >
                 <Show when={embedExternal()!.thumb}>
                   <img
@@ -216,19 +175,19 @@ export function BlueskyPost(p: { post: AppBskyFeedDefs.FeedViewPost }) {
                     {getHostname(embedExternal()!.uri)}
                   </div>
                 </div>
-              </button>
+              </Link>
             </Show>
           </Show>
           <div class={styles.PostInteractions}>
-            <button class="FlatButton" onClick={handleOpenPost} type="button">
+            <Link class="FlatButton" href={post().url} target="_blank">
               <Symbol symbol="comment" /> {post().replyCount}
-            </button>
-            <button class="FlatButton" onClick={handleOpenPost} type="button">
+            </Link>
+            <Link class="FlatButton" href={post().url} target="_blank">
               <Symbol symbol="repost" /> {post().repostCount}
-            </button>
-            <button class="FlatButton" onClick={handleOpenPost} type="button">
+            </Link>
+            <Link class="FlatButton" href={post().url} target="_blank">
               <Symbol symbol="like" /> {post().likeCount}
-            </button>
+            </Link>
           </div>
         </div>
       </div>
