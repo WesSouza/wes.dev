@@ -46,11 +46,10 @@ export type ProgramRegistry = {
     [k: string]: {
       async?: boolean;
       schema: z.AnyZodObject;
-      window: // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      | ((p: { data: any; window: WindowState }) => JSX.Element)
+      window:
+        | ((p: { data: any; window: WindowState }) => JSX.Element)
         | (() => Promise<{
-            default: // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            (p: { data: any; window: WindowState }) => JSX.Element;
+            default: (p: { data: any; window: WindowState }) => JSX.Element;
           }>);
     };
   };
