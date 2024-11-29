@@ -25,6 +25,10 @@ import {
   WordPadMainWindow,
 } from '../programs/WordPad/MainWindow';
 import {
+  FileSystemOpenPathWindow,
+  FSOpenPathDataSchema,
+} from '../system/FileSystem/OpenPathWindow';
+import {
   FileSystemOpenWindow,
   FSOpenDataSchema,
 } from '../system/FileSystem/OpenWindow';
@@ -106,6 +110,7 @@ export class WindowManager {
     },
     FileSystem: {
       Open: [FileSystemOpenWindow, FSOpenDataSchema],
+      OpenPath: [FileSystemOpenPathWindow, FSOpenPathDataSchema],
     },
     WordPad: {
       Main: [WordPadMainWindow, WordPadMainDataSchema],

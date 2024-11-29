@@ -7,6 +7,7 @@ import styles from './style.module.css';
 import { Link } from '../../components/Link';
 
 export function BlueskyPostList(p: {
+  contentRef?: HTMLDivElement;
   filter: 'posts' | 'replies' | 'media';
   onScrolledToEnd: () => void;
   posts: AppBskyFeedDefs.FeedViewPost[];
@@ -74,7 +75,7 @@ export function BlueskyPostList(p: {
         [styles.PostList!]: true,
       }}
     >
-      <div class="Content Vertical" onScroll={handleScroll}>
+      <div class="Content Vertical" ref={p.contentRef} onScroll={handleScroll}>
         <div class={styles.PostProfileDescription!}>{description()}</div>
         <hr class={styles.PostSeparator!} />
         <For each={posts()}>{(post) => <BlueskyPost post={post} />}</For>
