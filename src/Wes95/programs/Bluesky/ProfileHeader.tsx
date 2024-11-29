@@ -28,7 +28,7 @@ export function BlueskyProfileHeader(p: {
       <div
         classList={{
           Horizontal: true,
-          '-end': true,
+          '-bottom': true,
           [styles.ProfileAvatarButtons!]: true,
           [styles['-insideBanner']!]: Boolean(p.profile.banner),
         }}

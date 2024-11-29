@@ -59,7 +59,7 @@ export function MessageDialogWindow(p: {
         </Show>
         <div>{p.data.message}</div>
       </div>
-      <div class="Horizontal MediumSpacing -middle">
+      <div class="Horizontal MediumSpacing -center">
         <For each={ButtonsTypeMap[p.data.type] ?? ButtonsTypeMap.default}>
           {(button) => (
             <button class="Button" onClick={() => handleClick(button)}>

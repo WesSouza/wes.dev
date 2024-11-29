@@ -92,7 +92,7 @@ export const Combobox = (p: {
         role="combobox"
         onClick={toggleMenu}
       >
-        <div class="ComboboxValue Horizontal SmallSpacing -center">
+        <div class="ComboboxValue Horizontal SmallSpacing -middle">
           <Show when={p.appearance === 'icon' && item()?.icon}>
             <Icon icon={item()!.icon!} />
           </Show>
