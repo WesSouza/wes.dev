@@ -13,7 +13,7 @@ export default defineConfig({
     plugins: [
       visualizer({
         emitFile: true,
-        filename: 'stats.html',
+        filename: '_stats.html',
       }),
     ],
   },
