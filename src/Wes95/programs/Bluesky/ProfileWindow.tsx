@@ -19,6 +19,8 @@ import { BlueskyProfileHeader } from './ProfileHeader';
 
 const WesDID = 'did:plc:4qy26t5ss4zosz2mi3hdzuq3';
 
+let currentActor: string | undefined;
+
 export const BlueskyProfileDataSchema = z.object({
   did: z.string().optional(),
 });
@@ -43,8 +45,11 @@ const getAccountPosts = async (
     throw error;
   }
 
+  const previousFeed = currentActor === actor ? (info.value?.feed ?? []) : [];
+  currentActor = actor;
+
   return {
-    feed: (info.value?.feed ?? []).concat(result.data.feed),
+    feed: previousFeed.concat(result.data.feed),
     cursor: result.data.cursor,
   };
 };
@@ -58,7 +63,7 @@ export function BlueskyProfileWindow(p: {
   data: BlueskyProfileData;
   window: WindowState;
 }) {
-  let contentElement!: HTMLTextAreaElement;
+  let contentElement!: HTMLDivElement;
   const [account, setAccount] = createSignal(p.data.did ?? WesDID);
   const [view, setView] = createSignal<'posts' | 'replies' | 'media' | 'likes'>(
     'posts',
@@ -95,12 +100,13 @@ export function BlueskyProfileWindow(p: {
     }
   };
 
-  const openFileDialog = () => {
+  const handleOpen = () => {
     const delegateId = createUniqueId();
     WindowManager.shared.addWindow(
-      createWindowURL('system://FileSystem/Open', {
+      createWindowURL('system://FileSystem/OpenPath', {
         delegateId,
-        fileTypes: ['document'],
+        message:
+          'Type the handle or DID of a user, and Bluesky will open it for you.',
       }),
       {
         active: true,
@@ -113,7 +119,7 @@ export function BlueskyProfileWindow(p: {
       (event) => {
         if (event.filePath) {
           setAccount(event.filePath);
-          contentElement.scrollTo(0, 0);
+          contentElement?.scrollTo(0, 0);
         }
         WindowManager.shared.setActiveWindow(p.window);
       },
@@ -123,7 +129,7 @@ export function BlueskyProfileWindow(p: {
 
   const handleMenuSelect = (id: string) => {
     if (id === 'Open') {
-      openFileDialog();
+      handleOpen();
     }
 
     if (
@@ -245,6 +251,7 @@ export function BlueskyProfileWindow(p: {
       </Show>
       <Show when={profile()?.data && posts()?.feed && view() !== 'likes'}>
         <BlueskyPostList
+          contentRef={contentElement}
           // @ts-expect-error
           filter={view()}
           onScrolledToEnd={fetchMore}
