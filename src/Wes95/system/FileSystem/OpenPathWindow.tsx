@@ -35,8 +35,7 @@ export function FileSystemOpenPathWindow(p: {
       window.title = p.data.title ?? `Open`;
     });
     WindowManager.shared.place(p.window.id, {
-      centerToParent: true,
-      width: 375,
+      width: 460,
       height: 270,
       sizeConstraints: {
         max: { height: 270 },
