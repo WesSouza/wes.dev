@@ -10,6 +10,7 @@ const Tokens: Record<
 > = {
   apps: {
     bsky: 'Bluesky/Profile',
+    bskyt: 'Bluesky/PostThread',
     calc: 'Calculator/Main',
     cmd: 'Command/Main',
     defrag: 'DiskDefragmenter/Main',
@@ -25,6 +26,7 @@ const Tokens: Record<
     f: 'file',
     u: 'url',
     p: 'path',
+    uri: 'uri',
   },
   values: {
     weldoc: '/C/My Documents/Welcome.doc',

@@ -14,43 +14,14 @@ import { Bluesky_Feed_Post } from '../../models/Bluesky';
 import {
   getInternalPostURL,
   getPostURL,
-  getPostView,
-  getRepost,
   getViewRecord,
 } from '../../utils/bluesky';
 import { ago } from '../../utils/dateTime';
 import { getURLHostname } from '../../utils/url';
 import styles from './style.module.css';
+import { WindowManager } from '../../lib/WindowManager';
 
-export function BlueskyPost(p: { post: AppBskyFeedDefs.FeedViewPost }) {
-  const post = createMemo(() => ({
-    ...p.post.post,
-    url: getPostURL(p.post.post),
-  }));
-  const replyRoot = createMemo(() => getPostView(p.post.reply?.root));
-  const replyParent = createMemo(() => getPostView(p.post.reply?.parent));
-  const repost = createMemo(() => getRepost(p.post));
-
-  return (
-    <>
-      <Show when={repost()}>
-        <div class={styles.PostRepost}>
-          <Symbol symbol="repost" /> Reposted by {repost()?.by.displayName}
-        </div>
-      </Show>
-      <Show when={replyRoot() && replyRoot()?.cid !== replyParent()?.cid}>
-        <BlueskyPostItem post={replyRoot()!} replyLine />
-      </Show>
-      <Show when={replyParent()}>
-        <BlueskyPostItem post={replyParent()!} replyLine />
-      </Show>
-      <BlueskyPostItem post={post()} />
-      <hr class={styles.PostSeparator!} />
-    </>
-  );
-}
-
-function BlueskyPostItem(p: {
+export function BlueskyPost(p: {
   embed?: boolean;
   post: AppBskyFeedDefs.PostView | AppBskyEmbedRecord.ViewRecord;
   replyLine?: boolean;
@@ -125,10 +96,12 @@ function BlueskyPostItem(p: {
       : undefined,
   );
 
-  const embedRecordLink = createMemo(() => {
+  const handleEmbedClick = () => {
     const embedRecordData = embedRecord();
-    return getInternalPostURL(embedRecordData);
-  });
+    WindowManager.shared.addWindow(getInternalPostURL(embedRecordData), {
+      active: true,
+    });
+  };
 
   return (
     <>
@@ -236,9 +209,13 @@ function BlueskyPostItem(p: {
             </Link>
           </Show>
           <Show when={embedRecord()}>
-            <Link class={styles.PostContentRecord} href={embedRecordLink()}>
-              <BlueskyPostItem post={embedRecord()!} embed />
-            </Link>
+            <button
+              class={styles.PostContentRecord}
+              onClick={handleEmbedClick}
+              type="button"
+            >
+              <BlueskyPost post={embedRecord()!} embed />
+            </button>
           </Show>
           <Show when={!p.embed}>
             <div class={styles.PostInteractions}>

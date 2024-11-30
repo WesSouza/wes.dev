@@ -2,7 +2,7 @@ import type { AppBskyFeedDefs } from '@atproto/api';
 import { createMemo, createSignal, For, Show } from 'solid-js';
 import type { Bluesky_Actor_ProfileViewDetailed } from '../../models/Bluesky';
 import { getRichTextUserDescription } from '../../utils/bluesky';
-import { BlueskyPost } from './Post';
+import { BlueskyPostView } from './PostView';
 import styles from './style.module.css';
 
 export function BlueskyPostList(p: {
@@ -54,7 +54,9 @@ export function BlueskyPostList(p: {
           <div class={styles.PostProfileDescription!}>{description()}</div>
           <hr class={styles.PostSeparator!} />
         </Show>
-        <For each={posts()}>{(post) => <BlueskyPost post={post} />}</For>
+        <For each={posts()}>
+          {(post) => <BlueskyPostView postView={post} />}
+        </For>
       </div>
     </div>
   );
