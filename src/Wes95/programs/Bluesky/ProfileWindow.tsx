@@ -204,15 +204,15 @@ export function BlueskyProfileWindow(p: {
                 label: 'Media',
                 checked: view() === 'media' ? 'radio' : undefined,
               },
-              {
+              /* TODO: Implement {
                 type: 'item',
                 id: 'Likes',
                 label: 'Likes',
                 checked: view() === 'likes' ? 'radio' : undefined,
-              },
+              }, */
             ],
           },
-          {
+          /* TODO: Implement {
             type: 'item',
             id: 'Search',
             label: 'Search',
@@ -228,7 +228,7 @@ export function BlueskyProfileWindow(p: {
                 label: 'Find Next',
               },
             ],
-          },
+          }, */
           {
             type: 'item',
             id: 'Help',
