@@ -8,7 +8,7 @@ export function getInternalPostURL(post: { uri: string } | undefined) {
     return '';
   }
 
-  return `app://Bluesky/Thread?uri=${encodeURIComponent(post.uri)}`;
+  return `app://Bluesky/PostThread?uri=${encodeURIComponent(post.uri)}`;
 }
 
 export function getPostURL(
@@ -62,6 +62,20 @@ export function getPostView(
 ) {
   if (AppBskyFeedDefs.isPostView(post)) {
     return post;
+  }
+  return;
+}
+
+export function getThreadView(
+  thread:
+    | AppBskyFeedDefs.ThreadViewPost
+    | AppBskyFeedDefs.NotFoundPost
+    | AppBskyFeedDefs.BlockedPost
+    | Bluesky_UnknownType
+    | undefined,
+) {
+  if (AppBskyFeedDefs.isThreadViewPost(thread)) {
+    return thread;
   }
   return;
 }

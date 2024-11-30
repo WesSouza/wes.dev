@@ -1,4 +1,4 @@
-import { Agent, AppBskyFeedGetAuthorFeed } from '@atproto/api';
+import { Agent, AppBskyFeedDefs, AppBskyFeedGetAuthorFeed } from '@atproto/api';
 import { defineAction } from 'astro:actions';
 import { z } from 'astro:schema';
 import {
@@ -23,6 +23,21 @@ export const wes95_bluesky = {
       return JSON.parse(
         JSON.stringify(data),
       ) as AppBskyFeedGetAuthorFeed.OutputSchema;
+    },
+  }),
+  getPostThread: defineAction({
+    input: z.object({
+      uri: z.string(),
+      depth: z.number().optional(),
+      parentHeight: z.number().optional(),
+    }),
+    handler: async (input) => {
+      const { data } = await agent.getPostThread(input);
+
+      // Use JSON to remove unserializable types
+      return JSON.parse(
+        JSON.stringify(data.thread),
+      ) as AppBskyFeedDefs.ThreadViewPost;
     },
   }),
   getProfile: defineAction({

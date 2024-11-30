@@ -160,10 +160,9 @@
 .PostContentRecord {
   background-color: var(--wes95-color-flatLight);
   border: calc(var(--wes95-scale-value) * 1) solid var(--wes95-color-flatDark);
-
-  .PostContentText {
-    text-decoration: none;
-  }
+  cursor: pointer;
+  padding: 0;
+  text-align: left;
 }
 
 .PostInteractions {
