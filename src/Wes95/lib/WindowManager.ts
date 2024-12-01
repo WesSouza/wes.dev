@@ -329,7 +329,9 @@ export class WindowManager {
       window.height = height;
       window.icon = options.icon;
       window.maximizable = options.maximizable ?? showInTaskbar;
+      window.maximized = windowInit.maximized;
       window.minimizable = options.minimizable ?? showInTaskbar;
+      window.minimized = windowInit.minimized;
       window.showInTaskbar = showInTaskbar;
       window.sizeAutomatic = sizeAutomatic;
       window.sizeConstraints.max = sizeConstraints?.max;
