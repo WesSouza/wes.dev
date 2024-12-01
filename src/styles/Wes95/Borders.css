@@ -111,7 +111,7 @@
     --wes95-bottomRightOuter: var(--wes95-color-borderDark);
   }
 
-  &:active:not(.Border, [disabled]),
+  &:active:not(.Border, .VerticalHandle, [disabled]),
   &.-down {
     --wes95-topLeftOuter: var(--wes95-color-borderDarkest);
     --wes95-topLeftInner: var(--wes95-color-borderDark);

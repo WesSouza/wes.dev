@@ -1,13 +1,20 @@
 .Taskbar {
-  --wes95-spacing-padding: 4px;
+  --wes95-spacing-padding: calc(var(--wes95-scale-value) * 2);
   display: flex;
   align-items: center;
   background-color: var(--wes95-color-material);
   gap: var(--wes95-spacing-padding);
 }
 
+.TaskbarWindows {
+  display: flex;
+  flex: 1;
+  gap: var(--wes95-spacing-padding);
+  overflow: hidden;
+}
+
 .TaskbarButton {
-  &:not(.-start) {
+  &:not(.-start, .-small) {
     flex-basis: calc(var(--wes95-scale-value) * 120);
     flex-grow: 0;
     flex-shrink: 1;
@@ -20,7 +27,21 @@
 }
 
 .TaskbarButtonTitle {
-  overflow-y: hidden;
+  overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.TaskbarStatus {
+  --wes95-padding-inline: calc(var(--wes95-scale-value) * 2);
+  align-items: center;
+  align-self: stretch;
+  display: flex;
+  gap: var(--wes95-spacing-padding);
+  padding: 0 var(--wes95-spacing-padding);
+}
+
+.TaskbarClock {
+  cursor: default;
+  padding: 0 calc(var(--wes95-scale-value) * 6);
 }

@@ -1,32 +1,43 @@
 import {
   createEffect,
+  createSignal,
   createUniqueId,
   For,
+  onCleanup,
   onMount,
   Show,
   type JSX,
 } from 'solid-js';
+import { createDinger } from '../lib/ding';
 import { FileSystemManager } from '../lib/FileSystemManager';
 import { ScreenManager } from '../lib/ScreenManager';
 import { SessionManager } from '../lib/SessionManager';
 import { WindowManager } from '../lib/WindowManager';
+import {
+  FSOpenEventSchema,
+  type FSOpenEvent,
+  type FSOpenPathEvent,
+} from '../system/FileSystem/registry';
 import { isAppURL } from '../utils/url';
 import { createWindowURL } from '../utils/Windows';
 import { Icon } from './Icon';
 import { ItemList } from './ItemList';
 import { MenuButton } from './MenuButton';
 import { Window } from './Window';
-import {
-  FSOpenEventSchema,
-  type FSOpenEvent,
-  type FSOpenPathEvent,
-} from '../system/FileSystem/registry';
+
+const clockFormatter = Intl.DateTimeFormat(undefined, {
+  hour: 'numeric',
+  minute: 'numeric',
+});
 
 export const Explorer = () => {
   let desktopRef!: HTMLElement;
   const windowManager = WindowManager.shared;
   const screenBreakpoint = ScreenManager.shared.screenBreakpoint;
   const state = windowManager.state;
+  const [clock, setClock] = createSignal<string>('');
+
+  const ding = createDinger();
 
   onMount(() => {
     createEffect(() => {
@@ -41,6 +52,22 @@ export const Explorer = () => {
           );
         },
       });
+    });
+
+    let timer: number;
+
+    function updateClock() {
+      const date = new Date();
+      setClock(clockFormatter.format(date));
+
+      const seconds = date.getSeconds() * 1000 + date.getMilliseconds();
+      timer = window.setTimeout(updateClock, 60000 - seconds);
+    }
+
+    updateClock();
+
+    onCleanup(() => {
+      window.clearTimeout(timer);
     });
   });
 
@@ -128,6 +155,18 @@ export const Explorer = () => {
     }
 
     windowManager.setActiveWindow(undefined);
+  };
+
+  const handleDing = () => {
+    ding();
+  };
+
+  const handleShare = () => {
+    const url = new URL(location.href);
+    url.search = '?' + SessionManager.shared.encode();
+    navigator.share({
+      url: url.toString(),
+    });
   };
 
   return (
@@ -340,31 +379,49 @@ export const Explorer = () => {
           onSelect={handleStartSelect}
         >
           <Icon icon="iconWes" />
-          Start
+          <Show when={screenBreakpoint() !== 'small'}>Start</Show>
         </MenuButton>
         <div class="VerticalSeparator" />
         <div class="VerticalHandle" />
-        <For
-          each={state.windows.filter((window) =>
-            windowManager.isWindowInTaskbar(window),
-          )}
-        >
-          {(window) => (
-            <button
-              classList={{
-                TaskbarButton: true,
-                '-active': state.activeTaskWindow === window.id,
-                '-down': state.activeTaskWindow === window.id,
-              }}
-              onClick={() => windowManager.setActiveWindow(window)}
-            >
-              <Show when={window.icon}>
-                <Icon icon={window.icon!} />
-              </Show>
-              <span class="TaskbarButtonTitle">{window.title}</span>
+        <div class="TaskbarWindows">
+          <For
+            each={state.windows.filter((window) =>
+              windowManager.isWindowInTaskbar(window),
+            )}
+          >
+            {(window) => (
+              <button
+                classList={{
+                  TaskbarButton: true,
+                  '-active': state.activeTaskWindow === window.id,
+                  '-small': screenBreakpoint() === 'small',
+                  '-down': state.activeTaskWindow === window.id,
+                }}
+                onClick={() => windowManager.setActiveWindow(window)}
+              >
+                <Show when={window.icon}>
+                  <Icon icon={window.icon!} />
+                </Show>
+                <Show when={screenBreakpoint() !== 'small'}>
+                  <span class="TaskbarButtonTitle">{window.title}</span>
+                </Show>
+              </button>
+            )}
+          </For>
+        </div>
+        <div class="TaskbarStatus StatusField">
+          <Show when={screenBreakpoint() !== 'small'}>
+            <button class="GhostButton" onClick={handleDing} type="button">
+              <Icon icon="toolbarSound" />
             </button>
-          )}
-        </For>
+          </Show>
+          <button class="GhostButton" onClick={handleShare} type="button">
+            <Icon icon="toolbarEject" />
+          </button>
+          <Show when={screenBreakpoint() !== 'small'}>
+            <div class="TaskbarClock">{clock()}</div>
+          </Show>
+        </div>
       </footer>
     </div>
   );
