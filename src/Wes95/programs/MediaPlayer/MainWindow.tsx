@@ -1,7 +1,6 @@
 import {
   createEffect,
   createResource,
-  createSignal,
   createUniqueId,
   onMount,
 } from 'solid-js';
@@ -18,10 +17,9 @@ export function MediaPlayerMainWindow(p: {
   window: WindowState;
 }) {
   const fileSystem = FileSystemManager.shared;
-  const [filePath, setFilePath] = createSignal(p.data.file);
 
-  const [file] = createResource(filePath, fileSystem.getFile);
-  const [fileData] = createResource(filePath, fileSystem.readFile);
+  const [file] = createResource(p.data.file, fileSystem.getFile);
+  const [fileData] = createResource(p.data.file, fileSystem.readFile);
 
   onMount(() => {
     WindowManager.shared.init(p.window.id, {
@@ -52,7 +50,10 @@ export function MediaPlayerMainWindow(p: {
       delegateId,
       (event) => {
         if (event.filePath) {
-          setFilePath(event.filePath);
+          WindowManager.shared.replaceWindow(
+            p.window.id,
+            `app://MediaPlayer/Main?file=${encodeURIComponent(event.filePath)}`,
+          );
         }
         WindowManager.shared.setActiveWindow(p.window);
       },

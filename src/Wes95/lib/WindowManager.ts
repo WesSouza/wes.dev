@@ -355,6 +355,16 @@ export class WindowManager {
 
   // MARK: Editing
 
+  replaceWindow = (windowId: string, url: string) => {
+    this.#setState(
+      produce((state) => {
+        modifyById(windowId, state.windows, (window) => {
+          window.url = url;
+        });
+      }),
+    );
+  };
+
   setActiveWindow = (window: WindowState | undefined) => {
     this.#setState(
       produce((state) => {

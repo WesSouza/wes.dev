@@ -45,6 +45,14 @@ const InvertedTokens = Object.fromEntries(
   ]),
 ) as Record<'apps' | 'parameters' | 'values', Record<string, string>>;
 
+function parseMaybeZero(string: string | undefined) {
+  if (string?.includes('.')) {
+    return parseFloat(string);
+  }
+
+  return parseFloat('0.' + string);
+}
+
 export class SessionManager {
   static get shared() {
     if (!shared) {
@@ -142,10 +150,10 @@ export class SessionManager {
         const tokenApp = params.shift()!;
         const app = Tokens.apps[tokenApp];
         const state = params.pop();
-        const height = parseFloat(`0.${params.pop()}`);
-        const width = parseFloat(`0.${params.pop()}`);
-        const y = parseFloat(`0.${params.pop()}`);
-        const x = parseFloat(`0.${params.pop()}`);
+        const height = parseMaybeZero(params.pop());
+        const width = parseMaybeZero(params.pop());
+        const y = parseMaybeZero(params.pop());
+        const x = parseMaybeZero(params.pop());
 
         if (!app || params.length % 2 !== 0) {
           continue;
@@ -163,8 +171,6 @@ export class SessionManager {
 
           url.searchParams.append(key, Tokens.values[value] ?? value);
         }
-
-        console.log(url.toString());
 
         const window = this.windowManager.addWindow(url.toString(), {
           maximized: state === '2',
