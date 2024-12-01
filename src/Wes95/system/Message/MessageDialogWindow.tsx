@@ -1,4 +1,4 @@
-import { createEffect, For, Show } from 'solid-js';
+import { createEffect, For, onMount, Show } from 'solid-js';
 import { Icon } from '../../components/Icon';
 import { WindowManager } from '../../lib/WindowManager';
 import type { WindowState } from '../../models/WindowState';
@@ -19,6 +19,16 @@ export function MessageDialogWindow(p: {
   data: MessageDialogData;
   window: WindowState;
 }) {
+  onMount(() => {
+    WindowManager.shared.init(p.window.id, {
+      centerToParent: true,
+      maximizable: false,
+      minimizable: false,
+      showInTaskbar: false,
+      sizeAutomatic: true,
+    });
+  });
+
   createEffect(() => {
     WindowManager.shared.setWindow(p.window.id, (window) => {
       window.title = p.data.title;

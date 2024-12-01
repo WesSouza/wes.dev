@@ -27,7 +27,7 @@ export function WordPadMainWindow(p: {
   const [fileData] = createResource(filePath, fileSystem.readFile);
 
   onMount(() => {
-    WindowManager.shared.place(p.window.id, {
+    WindowManager.shared.init(p.window.id, {
       width: 450,
       height: 500,
     });

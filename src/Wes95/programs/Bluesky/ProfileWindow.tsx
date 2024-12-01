@@ -74,7 +74,8 @@ export function BlueskyProfileWindow(p: {
   const [profile] = createResource(account, getProfile);
 
   onMount(() => {
-    WindowManager.shared.place(p.window.id, {
+    WindowManager.shared.init(p.window.id, {
+      icon: 'iconBluesky',
       width: 400,
       height: 600,
     });
@@ -83,7 +84,6 @@ export function BlueskyProfileWindow(p: {
   createEffect(() => {
     WindowManager.shared.setWindow(p.window.id, (window) => {
       window.title = `${profile()?.data?.displayName ?? 'Untitled'} - Bluesky`;
-      window.icon = 'iconBluesky';
     });
   });
 

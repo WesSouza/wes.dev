@@ -1,4 +1,4 @@
-import { createEffect } from 'solid-js';
+import { onMount } from 'solid-js';
 import { MenuBar } from '../../components/MenuBar';
 import { WindowManager } from '../../lib/WindowManager';
 import type { WindowState } from '../../models/WindowState';
@@ -8,10 +8,10 @@ export function CalculatorMainWindow(p: {
   data: CalculatorMainData;
   window: WindowState;
 }) {
-  createEffect(() => {
-    WindowManager.shared.setWindow(p.window.id, (window) => {
-      window.title = 'Calculator';
-      window.icon = 'iconCalculator';
+  onMount(() => {
+    WindowManager.shared.init(p.window.id, {
+      icon: 'iconCalculator',
+      title: 'Calculator',
     });
   });
 

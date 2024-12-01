@@ -53,7 +53,7 @@ export function Window(p: {
     const verticalOffset = 24 * scale;
     const contentsRect = windowContentsRef.getBoundingClientRect();
 
-    windowManager.place(p.window.id, {
+    windowManager.init(p.window.id, {
       width: contentsRect.width + horizontalOffset,
       height: contentsRect.height + verticalOffset,
     });
@@ -389,6 +389,7 @@ export function Window(p: {
       onPointerDown={handleWindowPointerDown}
       onPointerMove={handleWindowPointerMove}
       style={{
+        opacity: p.window.initialized ? undefined : '0',
         ...(!p.window.maximized
           ? {
               top: `${p.window.y}px`,

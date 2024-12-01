@@ -3,6 +3,7 @@ import {
   createResource,
   createSignal,
   createUniqueId,
+  onMount,
 } from 'solid-js';
 import { MenuBar } from '../../components/MenuBar';
 import { FileSystemManager } from '../../lib/FileSystemManager';
@@ -22,10 +23,15 @@ export function MediaPlayerMainWindow(p: {
   const [file] = createResource(filePath, fileSystem.getFile);
   const [fileData] = createResource(filePath, fileSystem.readFile);
 
+  onMount(() => {
+    WindowManager.shared.init(p.window.id, {
+      icon: 'iconMplayer',
+    });
+  });
+
   createEffect(() => {
     WindowManager.shared.setWindow(p.window.id, (window) => {
       window.title = `${file()?.name ?? 'Untitled'} - Media Player`;
-      window.icon = 'iconMplayer';
     });
   });
 

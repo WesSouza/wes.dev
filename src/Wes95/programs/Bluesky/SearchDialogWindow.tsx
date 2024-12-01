@@ -14,10 +14,8 @@ export function BlueskySearchDialogWindow(p: {
   const [value, setValue] = createSignal('');
 
   onMount(() => {
-    WindowManager.shared.setWindow(p.window.id, (window) => {
-      window.title = `Find`;
-    });
-    WindowManager.shared.place(p.window.id, {
+    WindowManager.shared.init(p.window.id, {
+      title: 'Find',
       width: 460,
       height: 170,
       sizeConstraints: {

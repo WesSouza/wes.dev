@@ -54,7 +54,8 @@ export function BlueskyPostSearchWindow(p: {
   const [posts, { refetch }] = createResource(p.data.q, getSearchPosts);
 
   onMount(() => {
-    WindowManager.shared.place(p.window.id, {
+    WindowManager.shared.init(p.window.id, {
+      icon: 'iconBluesky',
       width: 400,
       height: 600,
     });
@@ -63,7 +64,6 @@ export function BlueskyPostSearchWindow(p: {
   createEffect(() => {
     WindowManager.shared.setWindow(p.window.id, (window) => {
       window.title = `Search: ${p.data.q} - Bluesky`;
-      window.icon = 'iconBluesky';
     });
   });
 

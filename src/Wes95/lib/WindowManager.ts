@@ -55,6 +55,23 @@ export type ProgramRegistry = {
   };
 };
 
+export type WindowInit = Partial<
+  Pick<
+    WindowState,
+    | 'centerToParent'
+    | 'centerToScreen'
+    | 'icon'
+    | 'maximized'
+    | 'minimized'
+    | 'parentId'
+    | 'title'
+  >
+> & {
+  active?: boolean | undefined;
+  position?: Point | undefined;
+  size?: Partial<Size> | undefined;
+};
+
 export type WindowManagerState = {
   activeTaskWindow: string | null;
   activeTaskWindowHistory: string[];
@@ -89,6 +106,7 @@ export class WindowManager {
   desktopSize: Accessor<Size | undefined>;
   state: WindowManagerState;
   #setState: SetStoreFunction<WindowManagerState>;
+  #windowInits = new Map<string, WindowInit>();
 
   constructor() {
     const [state, setState] = createStore<WindowManagerState>({
@@ -111,27 +129,7 @@ export class WindowManager {
 
   addWindow = (
     url: string,
-    windowInit: Partial<
-      Pick<
-        WindowState,
-        | 'centerToParent'
-        | 'centerToScreen'
-        | 'icon'
-        | 'maximized'
-        | 'maximizable'
-        | 'minimized'
-        | 'minimizable'
-        | 'parentId'
-        | 'sizeAutomatic'
-        | 'sizeConstraints'
-        | 'showInTaskbar'
-        | 'title'
-      >
-    > & {
-      active?: boolean | undefined;
-      position?: Point | undefined;
-      size?: Partial<Size> | undefined;
-    } = {},
+    windowInit: WindowInit = {},
   ): WindowState | undefined => {
     const id = createUniqueId();
     let parentId = windowInit.parentId;
@@ -141,7 +139,9 @@ export class WindowManager {
       parentWindow = this.getWindow(parentId);
     }
 
-    let initialPosition = windowInit.position;
+    this.#windowInits.set(id, windowInit);
+
+    /* let initialPosition = windowInit.position;
     if (!initialPosition) {
       this.#setState((state) => ({
         ...state,
@@ -155,15 +155,15 @@ export class WindowManager {
         x: this.state.lastWindowPosition.x,
         y: this.state.lastWindowPosition.y,
       };
-    }
+    } */
 
-    const rect = {
+    /* const rect = {
       ...DefaultMinSize,
       ...windowInit.size,
       ...initialPosition,
-    };
+    }; */
 
-    const showInTaskbar = windowInit.showInTaskbar ?? parentId === undefined;
+    // const showInTaskbar = windowInit.showInTaskbar ?? parentId === undefined;
 
     const [WindowContentComponent, WindowDataSchema] = parseWindowURL(
       url,
@@ -176,25 +176,26 @@ export class WindowManager {
     }
 
     const window: WindowState = {
-      ...rect,
-      centerToParent: windowInit.centerToParent,
-      centerToScreen: windowInit.centerToScreen,
+      // centerToParent: windowInit.centerToParent,
+      // centerToScreen: windowInit.centerToScreen,
+      // icon: windowInit.icon,
+      // maximizable: windowInit.maximizable ?? showInTaskbar,
+      // maximized: windowInit.maximized,
+      // minimizable: windowInit.minimizable ?? showInTaskbar,
+      // minimized: windowInit.minimized,
+      // title: windowInit.title ?? '',
       dataSchema: WindowDataSchema,
+      height: 0,
       id,
+      initialized: false,
       parentId,
-      icon: windowInit.icon,
-      title: windowInit.title ?? '',
-      maximized: windowInit.maximized,
-      maximizable: windowInit.maximizable ?? showInTaskbar,
-      minimized: windowInit.minimized,
-      minimizable: windowInit.minimizable ?? showInTaskbar,
+      showInTaskbar: false,
+      sizeConstraints: {},
+      title: '',
       url,
-      showInTaskbar,
-      sizeAutomatic: windowInit.sizeAutomatic,
-      sizeConstraints: {
-        min: windowInit.sizeConstraints?.min ?? DefaultMinSize,
-        max: windowInit.sizeConstraints?.max,
-      },
+      width: 0,
+      x: 0,
+      y: 0,
     };
 
     this.#setState(
@@ -272,21 +273,7 @@ export class WindowManager {
     return windowId ? this.state.windowZIndexMap.get(windowId) : undefined;
   };
 
-  isAnyWindowMaximized = () => {
-    return this.state.windows.some((window) => window.maximized);
-  };
-
-  isWindowActive = (windowId: string) => {
-    return this.state.activeWindow === windowId;
-  };
-
-  isWindowInTaskbar = (window: WindowState) => {
-    return window.showInTaskbar && !window.parentId;
-  };
-
-  // MARK: Editing
-
-  place = (
+  init = (
     windowId: string,
     options: Partial<
       Pick<
@@ -294,28 +281,46 @@ export class WindowManager {
         | 'centerToParent'
         | 'centerToScreen'
         | 'height'
+        | 'icon'
+        | 'maximizable'
+        | 'minimizable'
+        | 'showInTaskbar'
         | 'sizeAutomatic'
         | 'sizeConstraints'
+        | 'title'
         | 'width'
-        | 'x'
-        | 'y'
       >
     >,
   ) => {
     const { centerToParent, centerToScreen, sizeAutomatic, sizeConstraints } =
       options;
-    let { x, y, width, height } = options;
+    const { width: defaultWidth, height: defaultHeight } = options;
 
     const window = this.getWindow(windowId);
-    const windowRect = this.getEffectiveWindowRect(windowId);
-    if (!window || !windowRect) {
+    const windowInit = this.#windowInits.get(windowId);
+    if (!window || !windowInit) {
       return;
     }
 
-    x ??= windowRect.x;
-    y ??= windowRect.y;
-    width ??= windowRect.width;
-    height ??= windowRect.height;
+    let x = windowInit.position?.x;
+    let y = windowInit.position?.y;
+
+    if (x === undefined || y === undefined) {
+      this.#setState((state) => ({
+        ...state,
+        lastWindowPosition: {
+          x: state.lastWindowPosition.x + NextWindowPositionOffset,
+          y: state.lastWindowPosition.y + NextWindowPositionOffset,
+        },
+      }));
+
+      x = this.state.lastWindowPosition.x;
+      y = this.state.lastWindowPosition.y;
+    }
+
+    let width = windowInit.size?.width ?? defaultWidth ?? DefaultMinSize.width;
+    let height =
+      windowInit.size?.height ?? defaultHeight ?? DefaultMinSize.height;
 
     const screenRect = ScreenManager.shared.desktopSize();
 
@@ -324,13 +329,13 @@ export class WindowManager {
       height = Math.min(height, screenRect.height);
     }
 
-    if (centerToParent ?? window.centerToParent) {
+    if (windowInit.centerToParent ?? centerToParent) {
       const parentRect = this.getEffectiveWindowRect(window.parentId);
       if (parentRect) {
         x = parentRect.x + parentRect.width / 2 - width / 2;
         y = parentRect.y + parentRect.height / 2 - height / 2;
       }
-    } else if (centerToScreen ?? window.centerToScreen) {
+    } else if (windowInit.centerToScreen ?? centerToScreen) {
       if (screenRect) {
         x = screenRect.width / 2 - width / 2;
         y = screenRect.height / 2 - height / 2;
@@ -345,29 +350,42 @@ export class WindowManager {
       y = Math.min(y, screenRect.height - MinVisibleHeight);
     }
 
+    const showInTaskbar =
+      options.showInTaskbar ?? window.parentId === undefined;
+
     this.setWindow(windowId, (window) => {
+      window.initialized = true;
+
+      window.centerToParent = centerToParent;
+      window.centerToScreen = centerToScreen;
+      window.height = height;
+      window.icon = options.icon;
+      window.maximizable = options.maximizable ?? showInTaskbar;
+      window.minimizable = options.minimizable ?? showInTaskbar;
+      window.showInTaskbar = showInTaskbar;
+      window.sizeAutomatic = sizeAutomatic;
+      window.sizeConstraints.max = sizeConstraints?.max;
+      window.sizeConstraints.min = sizeConstraints?.min;
+      window.title = options.title ?? 'Untitled';
+      window.width = width;
       window.x = x;
       window.y = y;
-      window.width = width;
-      window.height = height;
-
-      if (centerToParent !== undefined) {
-        window.centerToParent = centerToParent;
-      }
-      if (centerToScreen !== undefined) {
-        window.centerToScreen = centerToScreen;
-      }
-      if (sizeAutomatic !== undefined) {
-        window.sizeAutomatic = sizeAutomatic;
-      }
-      if (sizeConstraints?.max !== undefined) {
-        window.sizeConstraints.max = sizeConstraints.max;
-      }
-      if (sizeConstraints?.min !== undefined) {
-        window.sizeConstraints.min = sizeConstraints.min;
-      }
     });
   };
+
+  isAnyWindowMaximized = () => {
+    return this.state.windows.some((window) => window.maximized);
+  };
+
+  isWindowActive = (windowId: string) => {
+    return this.state.activeWindow === windowId;
+  };
+
+  isWindowInTaskbar = (window: WindowState) => {
+    return window.showInTaskbar && !window.parentId;
+  };
+
+  // MARK: Editing
 
   setActiveWindow = (window: WindowState | undefined) => {
     this.#setState(
@@ -609,11 +627,7 @@ export class WindowManager {
       }),
       {
         active: true,
-        centerToParent: true,
-        maximizable: false,
-        minimizable: false,
         parentId: options.parentId,
-        sizeAutomatic: true,
       },
     );
 

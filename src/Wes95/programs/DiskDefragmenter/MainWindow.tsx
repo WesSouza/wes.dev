@@ -64,9 +64,12 @@ export function DiskDefragmenterMainWindow(p: { window: WindowState }) {
   let clusterGridElement!: HTMLDivElement;
 
   onMount(() => {
-    WindowManager.shared.setWindow(p.window.id, (window) => {
-      window.title = `Defragmenting Drive C (paused)`;
-      window.icon = 'iconDefrag';
+    const desktopSize = ScreenManager.shared.desktopSize();
+    WindowManager.shared.init(p.window.id, {
+      centerToScreen: true,
+      icon: 'iconDefrag',
+      width: desktopSize ? desktopSize.width * 0.95 : undefined,
+      height: desktopSize ? desktopSize.height * 0.95 : undefined,
     });
 
     const clusters: ClusterState[] = [];
@@ -109,18 +112,6 @@ export function DiskDefragmenterMainWindow(p: { window: WindowState }) {
       startCluster,
       startCluster + state.columns * state.rows,
     );
-  });
-
-  createEffect(() => {
-    const desktopSize = ScreenManager.shared.desktopSize();
-    if (!desktopSize) {
-      return;
-    }
-
-    WindowManager.shared.place(p.window.id, {
-      width: desktopSize.width,
-      height: desktopSize.height,
-    });
   });
 
   createEffect(() => {

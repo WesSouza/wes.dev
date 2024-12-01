@@ -29,11 +29,9 @@ export function FileSystemOpenWindow(p: {
   );
 
   onMount(() => {
-    WindowManager.shared.setWindow(p.window.id, (window) => {
-      window.title = `Open`;
-    });
-    WindowManager.shared.place(p.window.id, {
+    WindowManager.shared.init(p.window.id, {
       centerToParent: true,
+      title: 'Open',
       width: 580,
       height: 380,
     });
