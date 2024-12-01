@@ -15,6 +15,7 @@ import { BlueskyPostView } from './PostView';
 import type { BlueskyPostThreadData } from './registry';
 import styles from './style.module.css';
 import { BlueskyPost } from './Post';
+import { LoadingAnimation } from '../../components/LoadingAnimation';
 
 const getPostThread = async (
   uri: string,
@@ -66,24 +67,29 @@ export function BlueskyPostThreadWindow(p: {
   });
 
   return (
-    <div
-      classList={{
-        Field: true,
-        [styles.PostList!]: true,
-      }}
-    >
-      <div class="Content Vertical">
-        <Show when={parent()}>
-          <BlueskyPostView postView={parent()!} />
-        </Show>
-        <Show when={thread()?.post}>
-          <BlueskyPost post={thread()!.post} />
-          <hr class={styles.PostSeparator!} />
-        </Show>
-        <For each={replies()}>
-          {(reply) => <BlueskyPostView postView={reply} />}
-        </For>
+    <>
+      <div
+        classList={{
+          Field: true,
+          [styles.PostList!]: true,
+        }}
+      >
+        <div class="Content Vertical">
+          <Show when={parent()}>
+            <BlueskyPostView postView={parent()!} />
+          </Show>
+          <Show when={thread()?.post}>
+            <BlueskyPost post={thread()!.post} />
+            <hr class={styles.PostSeparator!} />
+          </Show>
+          <For each={replies()}>
+            {(reply) => <BlueskyPostView postView={reply} />}
+          </For>
+        </div>
       </div>
-    </div>
+      <Show when={thread.state === 'pending'}>
+        <LoadingAnimation />
+      </Show>
+    </>
   );
 }

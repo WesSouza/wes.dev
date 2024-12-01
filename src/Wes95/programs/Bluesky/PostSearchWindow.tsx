@@ -6,12 +6,14 @@ import {
   createSignal,
   For,
   onMount,
+  Show,
 } from 'solid-js';
 import { WindowManager } from '../../lib/WindowManager';
 import type { WindowState } from '../../models/WindowState';
 import { BlueskyPost } from './Post';
 import type { BlueskyPostSearchData } from './registry';
 import styles from './style.module.css';
+import { LoadingAnimation } from '../../components/LoadingAnimation';
 
 let currentQuery: string | undefined;
 
@@ -83,26 +85,31 @@ export function BlueskyPostSearchWindow(p: {
   };
 
   return (
-    <div
-      classList={{
-        Field: true,
-        [styles.PostList!]: true,
-      }}
-    >
+    <>
       <div
-        class="Content Vertical"
-        onScroll={handleScroll}
-        ref={contentElement}
+        classList={{
+          Field: true,
+          [styles.PostList!]: true,
+        }}
       >
-        <For each={posts()?.posts}>
-          {(post) => (
-            <>
-              <BlueskyPost post={post} />
-              <hr class={styles.PostSeparator!} />
-            </>
-          )}
-        </For>
-      </div>
-    </div>
+        <div
+          class="Content Vertical"
+          onScroll={handleScroll}
+          ref={contentElement}
+        >
+          <For each={posts()?.posts}>
+            {(post) => (
+              <>
+                <BlueskyPost post={post} />
+                <hr class={styles.PostSeparator!} />
+              </>
+            )}
+          </For>
+        </div>
+      </div>{' '}
+      <Show when={posts.state === 'pending'}>
+        <LoadingAnimation />
+      </Show>
+    </>
   );
 }

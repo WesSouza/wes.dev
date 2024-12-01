@@ -8,10 +8,12 @@ import {
   onMount,
   Show,
 } from 'solid-js';
+import { LoadingAnimation } from '../../components/LoadingAnimation';
 import { MenuBar } from '../../components/MenuBar';
 import { WindowManager } from '../../lib/WindowManager';
 import type { WindowState } from '../../models/WindowState';
 import { FSOpenPathEventSchema } from '../../system/FileSystem/registry';
+import { getProfileURL } from '../../utils/bluesky';
 import { createWindowURL } from '../../utils/Windows';
 import { BlueskyPostList } from './PostList';
 import { BlueskyProfileHeader } from './ProfileHeader';
@@ -19,7 +21,6 @@ import {
   BlueskySearchDialogEventSchema,
   type BlueskyProfileData,
 } from './registry';
-import { getProfileURL } from '../../utils/bluesky';
 
 const WesDID = 'did:plc:4qy26t5ss4zosz2mi3hdzuq3';
 
@@ -296,6 +297,9 @@ export function BlueskyProfileWindow(p: {
           posts={posts()!.feed}
           profile={profile()!.data!}
         />
+      </Show>
+      <Show when={posts.state === 'pending' || profile.state === 'pending'}>
+        <LoadingAnimation />
       </Show>
     </>
   );

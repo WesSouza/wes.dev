@@ -5,6 +5,7 @@ import { Progress } from '../../components/Progress';
 import { ScreenManager } from '../../lib/ScreenManager';
 import { WindowManager } from '../../lib/WindowManager';
 import type { WindowState } from '../../models/WindowState';
+import { getRandomNumber } from '../../utils/random';
 import styles from './style.module.css';
 
 export type ClusterState =
@@ -22,10 +23,6 @@ const DefragMaxContiguousClusters = 300;
 const DefragMaxRead = 100;
 const DefragMaxReadGroups = 6;
 const DefragClustersCount = 134217;
-
-function getRandomNumber(min: number, max: number) {
-  return Math.floor(Math.random() * (max - min) + min);
-}
 
 function makeCluster(position: 'beginning' | 'middle' | 'end'): ClusterState {
   const probability = Math.random();
