@@ -15,7 +15,10 @@ import { FSOpenPathEventSchema } from '../../system/FileSystem/registry';
 import { createWindowURL } from '../../utils/Windows';
 import { BlueskyPostList } from './PostList';
 import { BlueskyProfileHeader } from './ProfileHeader';
-import type { BlueskyProfileData } from './registry';
+import {
+  BlueskySearchDialogEventSchema,
+  type BlueskyProfileData,
+} from './registry';
 import { getProfileURL } from '../../utils/bluesky';
 
 const WesDID = 'did:plc:4qy26t5ss4zosz2mi3hdzuq3';
@@ -122,8 +125,51 @@ export function BlueskyProfileWindow(p: {
     );
   };
 
+  const handleFind = () => {
+    const delegateId = createUniqueId();
+    WindowManager.shared.addWindow(
+      createWindowURL('app://Bluesky/SearchDialog', {
+        delegateId,
+      }),
+      {
+        active: true,
+        parentId: p.window.id,
+      },
+    );
+
+    WindowManager.shared.handleOnce(
+      delegateId,
+      (event) => {
+        console.log(event);
+        if (event.q) {
+          WindowManager.shared.addWindow(
+            createWindowURL('app://Bluesky/PostSearch', {
+              q: event.q,
+            }),
+            {
+              active: true,
+            },
+          );
+        } else {
+          WindowManager.shared.setActiveWindow(p.window);
+        }
+      },
+      BlueskySearchDialogEventSchema,
+    );
+  };
+
   const handleMenuSelect = (id: string) => {
     switch (id) {
+      case 'Exit': {
+        WindowManager.shared.closeWindow(p.window.id);
+        break;
+      }
+
+      case 'Find': {
+        handleFind();
+        break;
+      }
+
       case 'Likes':
       case 'Media':
       case 'Posts':
@@ -139,11 +185,6 @@ export function BlueskyProfileWindow(p: {
 
       case 'Send': {
         navigator.share({ url: getProfileURL(profile()?.data) });
-        break;
-      }
-
-      case 'Exit': {
-        WindowManager.shared.closeWindow(p.window.id);
         break;
       }
     }
@@ -212,7 +253,7 @@ export function BlueskyProfileWindow(p: {
               }, */
             ],
           },
-          /* TODO: Implement {
+          {
             type: 'item',
             id: 'Search',
             label: 'Search',
@@ -222,13 +263,8 @@ export function BlueskyProfileWindow(p: {
                 id: 'Find',
                 label: 'Find...',
               },
-              {
-                type: 'item',
-                id: 'FindNext',
-                label: 'Find Next',
-              },
             ],
-          }, */
+          },
           {
             type: 'item',
             id: 'Help',

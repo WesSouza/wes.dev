@@ -10,6 +10,7 @@ const Tokens: Record<
 > = {
   apps: {
     bsky: 'Bluesky/Profile',
+    bskys: 'Bluesky/PostSearch',
     bskyt: 'Bluesky/PostThread',
     calc: 'Calculator/Main',
     cmd: 'Command/Main',
@@ -24,8 +25,9 @@ const Tokens: Record<
   },
   parameters: {
     f: 'file',
-    u: 'url',
     p: 'path',
+    q: 'q',
+    u: 'url',
     uri: 'uri',
   },
   values: {
