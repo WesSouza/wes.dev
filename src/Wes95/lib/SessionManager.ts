@@ -24,6 +24,7 @@ const Tokens: Record<
     wordpad: 'WordPad/Main',
   },
   parameters: {
+    did: 'did',
     f: 'file',
     p: 'path',
     q: 'q',
