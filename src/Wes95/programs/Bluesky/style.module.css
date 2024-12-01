@@ -240,6 +240,19 @@
   padding: 0;
 }
 
+.SearchDialogLabel {
+}
+
+.SearchDialogInput {
+  flex-grow: 1;
+}
+
+.SearchDialogButtons {
+  display: grid;
+  grid-template-rows: repeat(2, 1fr);
+  gap: var(--wes95-spacing-gap);
+}
+
 .UserList {
 }
 

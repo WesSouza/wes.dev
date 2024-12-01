@@ -92,6 +92,7 @@ export function BlueskyUserListWindow(p: {
   const handleScroll = (event: Event & { currentTarget: HTMLDivElement }) => {
     const cursor = users()?.cursor;
     if (
+      cursor &&
       event.currentTarget.scrollTop + event.currentTarget.clientHeight >=
         event.currentTarget.scrollHeight &&
       usersCount() !== users()?.users.length

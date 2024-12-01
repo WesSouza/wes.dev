@@ -1,4 +1,9 @@
-import { Agent, AppBskyFeedDefs, AppBskyFeedGetAuthorFeed } from '@atproto/api';
+import {
+  Agent,
+  AppBskyFeedDefs,
+  AppBskyFeedGetAuthorFeed,
+  AppBskyFeedSearchPosts,
+} from '@atproto/api';
 import { defineAction } from 'astro:actions';
 import { z } from 'astro:schema';
 import {
@@ -73,6 +78,31 @@ export const wes95_bluesky = {
           subject: data.subject,
           users: data.followers ?? data.follows,
         });
+    },
+  }),
+  searchPosts: defineAction({
+    input: z.object({
+      author: z.string().optional(),
+      cursor: z.string().optional(),
+      domain: z.string().optional(),
+      lang: z.string().optional(),
+      limit: z.number().optional(),
+      mentions: z.string().optional(),
+      q: z.string(),
+      since: z.string().optional(),
+      sort: z.enum(['top', 'latest']).optional(),
+      tag: z.array(z.string()).optional(),
+      until: z.string().optional(),
+      url: z.string().optional(),
+    }),
+    handler: async (input) => {
+      const { data } = await agent.app.bsky.feed.searchPosts(input);
+      console.log(data);
+
+      // Use JSON to remove unserializable types
+      return JSON.parse(
+        JSON.stringify(data),
+      ) as AppBskyFeedSearchPosts.OutputSchema;
     },
   }),
 };

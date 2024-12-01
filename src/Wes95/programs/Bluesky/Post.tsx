@@ -55,7 +55,7 @@ export function BlueskyPost(p: {
       } else if (segment.isTag()) {
         text.push(
           <Link
-            href={`app://Bluesky/Hashtag?tag=${encodeURIComponent(segment.text.replace(/^#/, ''))}`}
+            href={`app://Bluesky/PostSearch?q=${encodeURIComponent(segment.text)}`}
           >
             {segment.text}
           </Link>,
