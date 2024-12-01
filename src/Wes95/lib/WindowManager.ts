@@ -141,30 +141,6 @@ export class WindowManager {
 
     this.#windowInits.set(id, windowInit);
 
-    /* let initialPosition = windowInit.position;
-    if (!initialPosition) {
-      this.#setState((state) => ({
-        ...state,
-        lastWindowPosition: {
-          x: state.lastWindowPosition.x + NextWindowPositionOffset,
-          y: state.lastWindowPosition.y + NextWindowPositionOffset,
-        },
-      }));
-
-      initialPosition = {
-        x: this.state.lastWindowPosition.x,
-        y: this.state.lastWindowPosition.y,
-      };
-    } */
-
-    /* const rect = {
-      ...DefaultMinSize,
-      ...windowInit.size,
-      ...initialPosition,
-    }; */
-
-    // const showInTaskbar = windowInit.showInTaskbar ?? parentId === undefined;
-
     const [WindowContentComponent, WindowDataSchema] = parseWindowURL(
       url,
       this.windowLibrary,
@@ -176,14 +152,6 @@ export class WindowManager {
     }
 
     const window: WindowState = {
-      // centerToParent: windowInit.centerToParent,
-      // centerToScreen: windowInit.centerToScreen,
-      // icon: windowInit.icon,
-      // maximizable: windowInit.maximizable ?? showInTaskbar,
-      // maximized: windowInit.maximized,
-      // minimizable: windowInit.minimizable ?? showInTaskbar,
-      // minimized: windowInit.minimized,
-      // title: windowInit.title ?? '',
       dataSchema: WindowDataSchema,
       height: 0,
       id,
