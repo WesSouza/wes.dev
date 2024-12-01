@@ -36,7 +36,6 @@ export const Explorer = () => {
             `app://WordPad/Main?file=${encodeURIComponent('/C/My Documents/Welcome.doc')}`,
             {
               active: true,
-              showInTaskbar: true,
               maximized: screenBreakpoint() === 'small',
             },
           );
@@ -66,21 +65,18 @@ export const Explorer = () => {
       {
         active: true,
         position,
-        showInTaskbar: true,
       },
     );
 
     const handleFileSelect = ({ filePath }: FSOpenEvent | FSOpenPathEvent) => {
       if (filePath && isAppURL(filePath)) {
         windowManager.addWindow(filePath, {
-          showInTaskbar: true,
           active: true,
         });
       } else {
         const handler = FileSystemManager.shared.getFileHandler(filePath);
         if (handler) {
           windowManager.addWindow(handler, {
-            showInTaskbar: true,
             active: true,
           });
         } else {
@@ -107,7 +103,6 @@ export const Explorer = () => {
   const handleStartSelect = (id: string) => {
     if (isAppURL(id)) {
       windowManager.addWindow(id, {
-        showInTaskbar: true,
         active: true,
       });
       return;

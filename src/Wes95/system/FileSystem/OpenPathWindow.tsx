@@ -1,4 +1,4 @@
-import { createSignal, onMount } from 'solid-js';
+import { createEffect, createSignal, onMount } from 'solid-js';
 import { Icon } from '../../components/Icon';
 import { WindowManager } from '../../lib/WindowManager';
 import type { WindowState } from '../../models/WindowState';
@@ -13,16 +13,19 @@ export function FileSystemOpenPathWindow(p: {
   const [value, setValue] = createSignal('');
 
   onMount(() => {
-    WindowManager.shared.setWindow(p.window.id, (window) => {
-      window.title = p.data.title ?? `Open`;
-    });
-    WindowManager.shared.place(p.window.id, {
+    WindowManager.shared.init(p.window.id, {
       width: 460,
       height: 270,
       sizeConstraints: {
         max: { height: 270 },
         min: { width: 375, height: 270 },
       },
+    });
+  });
+
+  createEffect(() => {
+    WindowManager.shared.setWindow(p.window.id, (window) => {
+      window.title = p.data.title ?? `Open`;
     });
   });
 

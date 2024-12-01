@@ -65,7 +65,8 @@ export function BlueskyUserListWindow(p: {
   );
 
   onMount(() => {
-    WindowManager.shared.place(p.window.id, {
+    WindowManager.shared.init(p.window.id, {
+      icon: 'iconBluesky',
       width: 400,
       height: 600,
     });
@@ -74,7 +75,6 @@ export function BlueskyUserListWindow(p: {
   createEffect(() => {
     WindowManager.shared.setWindow(p.window.id, (window) => {
       window.title = `${users()?.subject.displayName ?? ''} - ${options().type === 'followers' ? 'Followers' : 'Following'} - Bluesky`;
-      window.icon = 'iconBluesky';
     });
   });
 
