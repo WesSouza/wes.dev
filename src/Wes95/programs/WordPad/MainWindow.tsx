@@ -1,7 +1,6 @@
 import {
   createEffect,
   createResource,
-  createSignal,
   createUniqueId,
   onMount,
 } from 'solid-js';
@@ -21,10 +20,9 @@ export function WordPadMainWindow(p: {
 }) {
   let contentElement!: HTMLDivElement;
   const fileSystem = FileSystemManager.shared;
-  const [filePath, setFilePath] = createSignal(p.data.file);
 
-  const [file] = createResource(filePath, fileSystem.getFile);
-  const [fileData] = createResource(filePath, fileSystem.readFile);
+  const [file] = createResource(p.data.file, fileSystem.getFile);
+  const [fileData] = createResource(p.data.file, fileSystem.readFile);
 
   onMount(() => {
     WindowManager.shared.init(p.window.id, {
@@ -57,7 +55,10 @@ export function WordPadMainWindow(p: {
       delegateId,
       (event) => {
         if (event.filePath) {
-          setFilePath(event.filePath);
+          WindowManager.shared.replaceWindow(
+            p.window.id,
+            `app://WordPad/Main?file=${encodeURIComponent(event.filePath)}`,
+          );
           contentElement.scrollTo(0, 0);
         }
         WindowManager.shared.setActiveWindow(p.window);

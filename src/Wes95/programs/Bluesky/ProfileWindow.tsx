@@ -2,6 +2,7 @@ import type { AppBskyFeedGetAuthorFeed } from '@atproto/api';
 import { actions } from 'astro:actions';
 import {
   createEffect,
+  createMemo,
   createResource,
   createSignal,
   createUniqueId,
@@ -63,7 +64,7 @@ export function BlueskyProfileWindow(p: {
   window: WindowState;
 }) {
   let contentElement!: HTMLDivElement;
-  const [account, setAccount] = createSignal(p.data.did ?? WesDID);
+  const account = createMemo(() => p.data.did ?? WesDID);
   const [view, setView] = createSignal<'posts' | 'replies' | 'media' | 'likes'>(
     'posts',
   );
@@ -117,8 +118,10 @@ export function BlueskyProfileWindow(p: {
       delegateId,
       (event) => {
         if (event.filePath) {
-          setAccount(event.filePath);
-          contentElement?.scrollTo(0, 0);
+          WindowManager.shared.replaceWindow(
+            p.window.id,
+            `app://Bluesky/Profile?did=${encodeURIComponent(event.filePath)}`,
+          );
         }
         WindowManager.shared.setActiveWindow(p.window);
       },
