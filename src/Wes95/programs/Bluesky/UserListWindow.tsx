@@ -16,6 +16,7 @@ import { FSOpenPathEventSchema } from '../../system/FileSystem/registry';
 import { createWindowURL } from '../../utils/Windows';
 import type { BlueskyUserListData } from './registry';
 import styles from './style.module.css';
+import { LoadingAnimation } from '../../components/LoadingAnimation';
 
 type Type = 'follows' | 'followers';
 
@@ -198,7 +199,7 @@ export function BlueskyUserListWindow(p: {
               },
             ],
           }, */
-          {
+          /* TODO: Implement {
             type: 'item',
             id: 'Search',
             label: 'Search',
@@ -214,7 +215,7 @@ export function BlueskyUserListWindow(p: {
                 label: 'Find Next',
               },
             ],
-          },
+          }, */
           {
             type: 'item',
             id: 'Help',
@@ -280,6 +281,9 @@ export function BlueskyUserListWindow(p: {
             </For>
           </div>
         </div>
+      </Show>
+      <Show when={users.state === 'pending'}>
+        <LoadingAnimation />
       </Show>
     </>
   );
