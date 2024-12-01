@@ -112,14 +112,14 @@ export function BlueskyPost(p: {
       >
         <div class={styles.PostAvatar}>
           <Show when={post().author.avatar}>
-            <div
-              classList={{
-                [styles.PostAvatarImage!]: true,
-                [styles['-small']!]: p.embed,
-              }}
+            <Link
+              class={
+                styles.PostAvatarImage + ' ' + (p.embed ? styles['-small'] : '')
+              }
+              href={`app://Bluesky/Profile?did=${encodeURIComponent(post().author.handle)}`}
             >
               <img src={post().author.avatar} />
-            </div>
+            </Link>
           </Show>
           <Show when={p.replyLine}>
             <div class={styles.PostReplyLine}></div>
