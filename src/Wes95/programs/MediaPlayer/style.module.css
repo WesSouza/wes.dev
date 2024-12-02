@@ -11,6 +11,8 @@
 }
 
 .Controls {
+  display: flex;
+  flex-direction: column;
   background-color: var(--wes95-color-material);
 }
 
