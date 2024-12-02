@@ -26,6 +26,7 @@ const Tokens: Record<
   parameters: {
     did: 'did',
     f: 'file',
+    o: 'open',
     p: 'path',
     q: 'q',
     u: 'url',

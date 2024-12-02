@@ -2,7 +2,7 @@ import { z } from 'zod';
 import { WordPadMainWindow } from './MainWindow';
 
 export const WordPadMainDataSchema = z.object({
-  file: z.string().optional(),
+  open: z.string().optional(),
 });
 
 export type WordPadMainData = z.infer<typeof WordPadMainDataSchema>;
