@@ -5,12 +5,14 @@ import {
   onMount,
 } from 'solid-js';
 import { MenuBar } from '../../components/MenuBar';
+import { Symbol } from '../../components/Symbol';
 import { FileSystemManager } from '../../lib/FileSystemManager';
 import { WindowManager } from '../../lib/WindowManager';
 import type { WindowState } from '../../models/WindowState';
 import { FSOpenEventSchema } from '../../system/FileSystem/registry';
 import { createWindowURL } from '../../utils/Windows';
 import type { MediaPlayerMainData } from './registry';
+import styles from './style.module.css';
 
 export function MediaPlayerMainWindow(p: {
   data: MediaPlayerMainData;
@@ -70,6 +72,16 @@ export function MediaPlayerMainWindow(p: {
       WindowManager.shared.closeWindow(p.window.id);
     }
   };
+
+  const handlePlay = () => {};
+
+  const handlePause = () => {};
+
+  const handleStop = () => {};
+
+  const handleSkipBack = () => {};
+
+  const handleSkipForward = () => {};
 
   return (
     <>
@@ -244,6 +256,68 @@ export function MediaPlayerMainWindow(p: {
         ]}
         onSelect={handleMenuSelect}
       />
+      <div class={'StatusField ' + styles.Video}>Video</div>
+      <div class={styles.Controls}>
+        <div class={styles.Timeline}>
+          <input type="range" />
+        </div>
+        <div class={styles.Buttons}>
+          <button
+            class={'ThinButton -active ' + styles.Button}
+            onClick={handlePlay}
+            type="button"
+          >
+            <Symbol symbol="mediaPlay" />
+          </button>
+          <button
+            class={'ThinButton ' + styles.Button}
+            onClick={handlePause}
+            type="button"
+          >
+            <Symbol symbol="mediaPause" />
+          </button>
+          <button
+            class={'ThinButton ' + styles.Button}
+            onClick={handleStop}
+            type="button"
+          >
+            <Symbol symbol="mediaStop" />
+          </button>
+          <div class="VerticalSeparator"></div>
+          <button
+            class={'ThinButton ' + styles.Button}
+            onClick={handleSkipBack}
+            type="button"
+          >
+            <Symbol symbol="mediaSkipBack" />
+          </button>
+          <button
+            class={'ThinButton ' + styles.Button}
+            onClick={handleSkipBack}
+            type="button"
+          >
+            <Symbol symbol="mediaRewind" />
+          </button>
+          <button
+            class={'ThinButton ' + styles.Button}
+            onClick={handleSkipForward}
+            type="button"
+          >
+            <Symbol symbol="mediaFastForward" />
+          </button>
+          <button
+            class={'ThinButton ' + styles.Button}
+            onClick={handleSkipForward}
+            type="button"
+          >
+            <Symbol symbol="mediaSkipForward" />
+          </button>
+        </div>
+      </div>
+      <div class={'StatusField ' + styles.Status}>
+        <div class={styles.StatusPlayback}>Paused</div>
+        <div class={styles.StatusTime}>00:00 / 00:05</div>
+      </div>
       <div>{fileData()?.data?.id}</div>
     </>
   );

@@ -1,0 +1,78 @@
+.Video {
+  background-color: var(--wes95-color-canvasText);
+  flex-grow: 1;
+}
+
+.Controls {
+  background-color: var(--wes95-color-material);
+}
+
+.Timeline {
+  padding-block: calc(var(--wes95-scale-value) * 4);
+
+  input[type='range'] {
+    appearance: none;
+    width: 100%;
+    margin: 0;
+    background: none;
+
+    &::-webkit-slider-runnable-track {
+      appearance: none;
+      border: var(--wes95-scale-value) solid var(--wes95-color-borderDark);
+      border-block-end-color: var(--wes95-color-borderLightest);
+      border-inline-end-color: var(--wes95-color-borderLightest);
+      background-color: var(--wes95-color-canvas);
+    }
+
+    &::-webkit-slider-thumb {
+      appearance: none;
+      box-shadow:
+        inset calc(var(--wes95-scale-value) * -1)
+          calc(var(--wes95-scale-value) * -1) var(--wes95-color-borderDarkest),
+        inset calc(var(--wes95-scale-value) * -2)
+          calc(var(--wes95-scale-value) * -2) var(--wes95-color-borderDark),
+        inset calc(var(--wes95-scale-value) * 1)
+          calc(var(--wes95-scale-value) * 1) var(--wes95-color-borderLightest),
+        inset calc(var(--wes95-scale-value) * -3)
+          calc(var(--wes95-scale-value) * -4) var(--wes95-color-material),
+        inset calc(var(--wes95-scale-value) * 2)
+          calc(var(--wes95-scale-value) * 3) var(--wes95-color-material),
+        inset calc(var(--wes95-scale-value) * 3)
+          calc(var(--wes95-scale-value) * 4) var(--wes95-color-borderDark);
+      border-radius: 0;
+      background-color: var(--wes95-color-canvas);
+      position: relative;
+      margin-block: calc(var(--wes95-scale-value) * -5);
+      width: calc(var(--wes95-scale-value) * 13);
+      height: calc(var(--wes95-scale-value) * 15);
+    }
+  }
+}
+
+.Buttons {
+  display: flex;
+  gap: calc(var(--wes95-scale-value) * 1);
+  align-items: center;
+}
+
+.Button {
+  svg {
+    width: calc(var(--wes95-scale-value) * 17);
+    height: calc(var(--wes95-scale-value) * 17);
+  }
+}
+
+.Status {
+  display: flex;
+  color: var(--wes95-color-canvas);
+  background-color: var(--wes95-color-canvasText);
+  --wes95-padding-block: calc(var(--wes95-scale-value) * 5);
+  --wes95-padding-inline: calc(var(--wes95-scale-value) * 5);
+}
+
+.StatusPlayback {
+  flex-grow: 1;
+}
+
+.StatusTime {
+}
