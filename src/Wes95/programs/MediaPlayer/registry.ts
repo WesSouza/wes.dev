@@ -2,7 +2,7 @@ import { z } from 'zod';
 import { MediaPlayerMainWindow } from './MainWindow';
 
 export const MediaPlayerMainDataSchema = z.object({
-  file: z.string().optional(),
+  open: z.string().optional(),
 });
 
 export type MediaPlayerMainData = z.infer<typeof MediaPlayerMainDataSchema>;

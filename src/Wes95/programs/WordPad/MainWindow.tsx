@@ -15,14 +15,14 @@ import { createWindowURL } from '../../utils/Windows';
 import type { WordPadMainData } from './registry';
 
 export function WordPadMainWindow(p: {
-  window: WindowState;
   data: WordPadMainData;
+  window: WindowState;
 }) {
   let contentElement!: HTMLDivElement;
   const fileSystem = FileSystemManager.shared;
 
-  const [file] = createResource(p.data.file, fileSystem.getFile);
-  const [fileData] = createResource(p.data.file, fileSystem.readFile);
+  const [file] = createResource(p.data.open, fileSystem.getFile);
+  const [fileData] = createResource(p.data.open, fileSystem.readFile);
 
   onMount(() => {
     WindowManager.shared.init(p.window.id, {
@@ -57,7 +57,7 @@ export function WordPadMainWindow(p: {
         if (event.filePath) {
           WindowManager.shared.replaceWindow(
             p.window.id,
-            `app://WordPad/Main?file=${encodeURIComponent(event.filePath)}`,
+            `app://WordPad/Main?open=${encodeURIComponent(event.filePath)}`,
           );
           contentElement.scrollTo(0, 0);
         }

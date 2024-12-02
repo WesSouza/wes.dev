@@ -44,7 +44,7 @@ export const Explorer = () => {
       SessionManager.shared.restoreFromLocation({
         cleanState: () => {
           windowManager.addWindow(
-            `app://WordPad/Main?file=${encodeURIComponent('/C/My Documents/Welcome.doc')}`,
+            `app://WordPad/Main?open=${encodeURIComponent('/C/My Documents/Welcome.doc')}`,
             {
               active: true,
               maximized: screenBreakpoint() === 'small',
@@ -212,7 +212,7 @@ export const Explorer = () => {
             },
             {
               icon: 'fileTypeWordPad',
-              id: `apps://WordPad/Main?file=${encodeURIComponent('/C/My Documents/Welcome.doc')}`,
+              id: `apps://WordPad/Main?open=${encodeURIComponent('/C/My Documents/Welcome.doc')}`,
               name: 'Welcome.doc',
             },
           ]}

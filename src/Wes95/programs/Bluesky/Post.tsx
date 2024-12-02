@@ -162,7 +162,7 @@ export function BlueskyPost(p: {
                 {(image) => (
                   <Link
                     class={styles.PostContentImage}
-                    href={`app://QuickView/Main?url=${encodeURIComponent(image.fullsize)}`}
+                    href={`app://QuickView/Main?open=${encodeURIComponent(image.fullsize)}`}
                   >
                     <img src={image.thumb} />
                   </Link>
@@ -173,7 +173,7 @@ export function BlueskyPost(p: {
           <Show when={embedVideo()}>
             <Link
               class={styles.PostContentVideo}
-              href={`app://MediaPlayer/Main?url=${encodeURIComponent(embedVideo()!.playlist)}`}
+              href={`app://MediaPlayer/Main?open=${encodeURIComponent(embedVideo()!.playlist)}`}
             >
               <Show when={embedVideo()!.thumbnail}>
                 <img

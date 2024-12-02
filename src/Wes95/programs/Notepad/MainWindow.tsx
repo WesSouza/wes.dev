@@ -19,8 +19,8 @@ export function NotepadMainWindow(p: {
   let contentElement!: HTMLTextAreaElement;
   const fileSystem = FileSystemManager.shared;
 
-  const [file] = createResource(p.data.file, fileSystem.getFile);
-  const [fileData] = createResource(p.data.file, fileSystem.readFile);
+  const [file] = createResource(p.data.open, fileSystem.getFile);
+  const [fileData] = createResource(p.data.open, fileSystem.readFile);
 
   onMount(() => {
     WindowManager.shared.init(p.window.id, {
@@ -53,7 +53,7 @@ export function NotepadMainWindow(p: {
         if (event.filePath) {
           WindowManager.shared.replaceWindow(
             p.window.id,
-            `app://Notepad/Main?file=${encodeURIComponent(event.filePath)}`,
+            `app://Notepad/Main?open=${encodeURIComponent(event.filePath)}`,
           );
           contentElement.scrollTo(0, 0);
         }
