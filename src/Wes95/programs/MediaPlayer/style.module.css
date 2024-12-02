@@ -1,6 +1,13 @@
 .Video {
   background-color: var(--wes95-color-canvasText);
-  flex-grow: 1;
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+
+  video {
+    flex: 1 1 0;
+    overflow: hidden;
+  }
 }
 
 .Controls {

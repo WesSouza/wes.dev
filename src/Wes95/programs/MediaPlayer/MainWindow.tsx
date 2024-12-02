@@ -1,27 +1,21 @@
-import {
-  createEffect,
-  createResource,
-  createUniqueId,
-  onMount,
-} from 'solid-js';
+import { createEffect, createMemo, createUniqueId, onMount } from 'solid-js';
 import { MenuBar } from '../../components/MenuBar';
 import { Symbol } from '../../components/Symbol';
-import { FileSystemManager } from '../../lib/FileSystemManager';
 import { WindowManager } from '../../lib/WindowManager';
 import type { WindowState } from '../../models/WindowState';
 import { FSOpenEventSchema } from '../../system/FileSystem/registry';
 import { createWindowURL } from '../../utils/Windows';
 import type { MediaPlayerMainData } from './registry';
 import styles from './style.module.css';
+import { VideoPlayer } from './VideoPlayer';
 
 export function MediaPlayerMainWindow(p: {
   data: MediaPlayerMainData;
   window: WindowState;
 }) {
-  const fileSystem = FileSystemManager.shared;
-
-  const [file] = createResource(p.data.file, fileSystem.getFile);
-  const [fileData] = createResource(p.data.file, fileSystem.readFile);
+  const videoPlayer = createMemo(() =>
+    p.data.open ? new VideoPlayer(p.data.open) : undefined,
+  );
 
   onMount(() => {
     WindowManager.shared.init(p.window.id, {
@@ -31,7 +25,7 @@ export function MediaPlayerMainWindow(p: {
 
   createEffect(() => {
     WindowManager.shared.setWindow(p.window.id, (window) => {
-      window.title = `${file()?.name ?? 'Untitled'} - Media Player`;
+      window.title = `Media Player`;
     });
   });
 
@@ -54,7 +48,7 @@ export function MediaPlayerMainWindow(p: {
         if (event.filePath) {
           WindowManager.shared.replaceWindow(
             p.window.id,
-            `app://MediaPlayer/Main?file=${encodeURIComponent(event.filePath)}`,
+            `app://MediaPlayer/Main?open=${encodeURIComponent(event.filePath)}`,
           );
         }
         WindowManager.shared.setActiveWindow(p.window);
@@ -256,7 +250,9 @@ export function MediaPlayerMainWindow(p: {
         ]}
         onSelect={handleMenuSelect}
       />
-      <div class={'StatusField ' + styles.Video}>Video</div>
+      <div class={'StatusField ' + styles.Video}>
+        {videoPlayer()?.getElement()}
+      </div>
       <div class={styles.Controls}>
         <div class={styles.Timeline}>
           <input type="range" />
@@ -318,7 +314,6 @@ export function MediaPlayerMainWindow(p: {
         <div class={styles.StatusPlayback}>Paused</div>
         <div class={styles.StatusTime}>00:00 / 00:05</div>
       </div>
-      <div>{fileData()?.data?.id}</div>
     </>
   );
 }
