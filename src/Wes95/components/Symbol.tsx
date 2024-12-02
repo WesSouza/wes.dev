@@ -1,3 +1,5 @@
+import { createMemo } from 'solid-js';
+
 export function Symbol(p: {
   symbol:
     | 'checkmark'
@@ -8,12 +10,12 @@ export function Symbol(p: {
     | 'comment'
     | 'help'
     | 'like'
-    | 'mediaNext'
+    | 'mediaFastForward'
     | 'mediaPause'
     | 'mediaPlay'
-    | 'mediaPrevious'
-    | 'mediaRepeat'
-    | 'mediaShuffle'
+    | 'mediaRewind'
+    | 'mediaSkipBack'
+    | 'mediaSkipForward'
     | 'mediaStop'
     | 'radio'
     | 'repost'
@@ -22,8 +24,9 @@ export function Symbol(p: {
     | 'windowMinimize'
     | 'windowRestore';
 }) {
+  const size = createMemo(() => (p.symbol.startsWith('media') ? 17 : 18));
   return (
-    <svg class="Symbol" viewBox="0 0 18 18">
+    <svg class="Symbol" viewBox={`0 0 ${size()} ${size()}`}>
       <use href={`#${p.symbol}`}></use>
     </svg>
   );

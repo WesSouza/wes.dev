@@ -3,6 +3,7 @@
 .LinkButton,
 .MenuButton,
 .TaskbarButton,
+.ThinButton,
 .ToolbarButton,
 .WindowTitleButton {
   --wes95-button-padding-shift: var(--wes95-scale-value);
@@ -41,6 +42,7 @@
     min-height: calc(var(--wes95-scale-value) * 18);
   }
 
+  &.ThinButton.-active,
   &.TaskbarButton.-active,
   &.ToolbarButton.-active {
     font-weight: bold;
@@ -80,6 +82,7 @@ a:is(
     .FlatButton,
     .MenuButton,
     .TaskbarButton,
+    .ThinButton,
     .ToolbarButton,
     .WindowTitleButton
   ) {
@@ -93,6 +96,7 @@ button:is(
     .LinkButton,
     .MenuButton,
     .TaskbarButton,
+    .ThinButton,
     .ToolbarButton,
     .WindowTitleButton
   ) {
