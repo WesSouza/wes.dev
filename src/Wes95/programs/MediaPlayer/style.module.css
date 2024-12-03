@@ -84,4 +84,5 @@
 }
 
 .StatusTime {
+  font-variant-numeric: tabular-nums;
 }

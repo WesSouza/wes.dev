@@ -1,4 +1,4 @@
-import { createEffect, createMemo, createUniqueId, onMount } from 'solid-js';
+import { createEffect, createUniqueId, onMount } from 'solid-js';
 import { MenuBar } from '../../components/MenuBar';
 import { Symbol } from '../../components/Symbol';
 import { WindowManager } from '../../lib/WindowManager';
@@ -7,19 +7,28 @@ import { FSOpenEventSchema } from '../../system/FileSystem/registry';
 import { createWindowURL } from '../../utils/Windows';
 import type { MediaPlayerMainData } from './registry';
 import styles from './style.module.css';
-import { VideoPlayer } from './VideoPlayer';
+import { createVideoPlayer } from './VideoPlayer';
+import { duration } from '../../utils/dateTime';
+
+const StatusMap = {
+  play: 'Playing',
+  pause: 'Paused',
+  stop: 'Stopped',
+  loading: 'Loading...',
+  empty: '',
+};
 
 export function MediaPlayerMainWindow(p: {
   data: MediaPlayerMainData;
   window: WindowState;
 }) {
-  const videoPlayer = createMemo(() =>
-    p.data.open ? new VideoPlayer(p.data.open) : undefined,
-  );
+  const videoPlayer = createVideoPlayer(p.data.open);
 
   onMount(() => {
     WindowManager.shared.init(p.window.id, {
       icon: 'iconMplayer',
+      width: 370,
+      height: 400,
     });
   });
 
@@ -66,16 +75,6 @@ export function MediaPlayerMainWindow(p: {
       WindowManager.shared.closeWindow(p.window.id);
     }
   };
-
-  const handlePlay = () => {};
-
-  const handlePause = () => {};
-
-  const handleStop = () => {};
-
-  const handleSkipBack = () => {};
-
-  const handleSkipForward = () => {};
 
   return (
     <>
@@ -250,31 +249,41 @@ export function MediaPlayerMainWindow(p: {
         ]}
         onSelect={handleMenuSelect}
       />
-      <div class={'StatusField ' + styles.Video}>
-        {videoPlayer()?.getElement()}
-      </div>
+      <div class={'StatusField ' + styles.Video}>{videoPlayer.element()}</div>
       <div class={styles.Controls}>
         <div class={styles.Timeline}>
-          <input type="range" />
+          <input
+            type="range"
+            min="0"
+            max={videoPlayer.state.duration}
+            value={videoPlayer.state.currentTime ?? '0'}
+            onChange={(event) =>
+              videoPlayer.seek(Number(event.currentTarget.value))
+            }
+          />
         </div>
         <div class={styles.Buttons}>
           <button
-            class={'ThinButton -active ' + styles.Button}
-            onClick={handlePlay}
+            classList={{
+              ThinButton: true,
+              [styles.Button!]: true,
+              '-active': videoPlayer.state.status === 'play',
+            }}
+            onClick={() => videoPlayer.play()}
             type="button"
           >
             <Symbol symbol="mediaPlay" />
           </button>
           <button
             class={'ThinButton ' + styles.Button}
-            onClick={handlePause}
+            onClick={() => videoPlayer.pause()}
             type="button"
           >
             <Symbol symbol="mediaPause" />
           </button>
           <button
             class={'ThinButton ' + styles.Button}
-            onClick={handleStop}
+            onClick={() => videoPlayer.stop()}
             type="button"
           >
             <Symbol symbol="mediaStop" />
@@ -282,28 +291,28 @@ export function MediaPlayerMainWindow(p: {
           <div class="VerticalSeparator"></div>
           <button
             class={'ThinButton ' + styles.Button}
-            onClick={handleSkipBack}
+            onClick={() => videoPlayer.skipBack()}
             type="button"
           >
             <Symbol symbol="mediaSkipBack" />
           </button>
           <button
             class={'ThinButton ' + styles.Button}
-            onClick={handleSkipBack}
+            onClick={() => videoPlayer.rewind()}
             type="button"
           >
             <Symbol symbol="mediaRewind" />
           </button>
           <button
             class={'ThinButton ' + styles.Button}
-            onClick={handleSkipForward}
+            onClick={() => videoPlayer.fastForward()}
             type="button"
           >
             <Symbol symbol="mediaFastForward" />
           </button>
           <button
             class={'ThinButton ' + styles.Button}
-            onClick={handleSkipForward}
+            onClick={() => videoPlayer.skipForward()}
             type="button"
           >
             <Symbol symbol="mediaSkipForward" />
@@ -311,8 +320,13 @@ export function MediaPlayerMainWindow(p: {
         </div>
       </div>
       <div class={'StatusField ' + styles.Status}>
-        <div class={styles.StatusPlayback}>Paused</div>
-        <div class={styles.StatusTime}>00:00 / 00:05</div>
+        <div class={styles.StatusPlayback}>
+          {StatusMap[videoPlayer.state.status]}
+        </div>
+        <div class={styles.StatusTime}>
+          {duration(videoPlayer.state.currentTime ?? 0)} /{' '}
+          {duration(videoPlayer.state.duration ?? 0)}
+        </div>
       </div>
     </>
   );

@@ -164,9 +164,7 @@ export const Explorer = () => {
   const handleShare = () => {
     const url = new URL(location.href);
     url.search = '?' + SessionManager.shared.encode();
-    navigator.share({
-      url: url.toString(),
-    });
+    navigator.clipboard.writeText(url.toString()).catch(console.error);
   };
 
   return (

@@ -1,5 +1,5 @@
-import { onCleanup } from 'solid-js';
-import { createStore, type SetStoreFunction } from 'solid-js/store';
+import { createMemo, onCleanup } from 'solid-js';
+import { createStore } from 'solid-js/store';
 
 export type VideoPlayerState = {
   currentTime: number | undefined;
@@ -7,88 +7,193 @@ export type VideoPlayerState = {
   status: 'play' | 'pause' | 'stop' | 'loading' | 'empty';
 };
 
-export class VideoPlayer {
-  #videoRef: HTMLVideoElement | undefined;
-  #url: URL;
-  #type: 'html5' | 'youtube' | 'vimeo' | undefined;
-  state: VideoPlayerState;
-  #setState: SetStoreFunction<VideoPlayerState>;
+export function createVideoPlayer(urlString: string | undefined) {
+  let videoRef: HTMLVideoElement | undefined;
 
-  constructor(url: string) {
-    const state = createStore<VideoPlayerState>({
-      currentTime: undefined,
-      duration: undefined,
-      status: 'empty',
-    });
-    this.#url = new URL(url);
-    this.state = state[0];
-    this.#setState = state[1];
+  const [state, setState] = createStore<VideoPlayerState>({
+    currentTime: undefined,
+    duration: undefined,
+    status: 'empty',
+  });
 
-    if (/\.(m3u8|mp4)$/.test(this.#url.pathname)) {
-      this.#type = 'html5';
+  const url = createMemo(() => (urlString ? new URL(urlString) : undefined));
+
+  const type = createMemo(() => {
+    if (/\.(m3u8|mp4)$/.test(url()?.pathname ?? '')) {
+      return 'html5';
     } else if (
-      this.#url.hostname === 'youtube.com' ||
-      this.#url.hostname === 'www.youtube.com' ||
-      this.#url.hostname === 'youtu.be'
+      url()?.hostname === 'youtube.com' ||
+      url()?.hostname === 'www.youtube.com' ||
+      url()?.hostname === 'youtu.be'
     ) {
-      this.#type = 'youtube';
+      return 'youtube';
     } else if (
-      this.#url.hostname === 'vimeo.com' ||
-      this.#url.hostname === 'www.vimeo.com'
+      url()?.hostname === 'vimeo.com' ||
+      url()?.hostname === 'www.vimeo.com'
     ) {
-      this.#type = 'vimeo';
+      return 'vimeo';
     }
 
-    onCleanup(() => {
-      this.unsetVideoRef();
-    });
-  }
+    return undefined;
+  });
 
-  handleDurationChange = (event: Event) => {
-    console.log('DurationChange');
+  onCleanup(() => {
+    unsetVideoRef();
+  });
+
+  const handleProgress = () => {
+    console.log('Progress', state.status);
+    if (state.status === 'empty' || state.status === 'loading') {
+      setState('status', 'pause');
+    }
   };
 
-  handleLoadStart = (event: Event) => {
+  const handleDurationChange = () => {
+    setState('duration', videoRef?.duration);
+  };
+
+  const handleEnded = () => {
+    setState('status', 'stop');
+    console.log('Ended');
+  };
+
+  const handleLoadStart = () => {
+    setState('status', 'loading');
     console.log('LoadStart');
   };
 
-  handleProgress = (event: Event) => {
-    console.log('Progress');
+  const handlePause = () => {
+    setState('status', videoRef?.currentTime === 0 ? 'stop' : 'pause');
+    console.log('Pause');
   };
 
-  handleTimeUpdate = (event: Event) => {
-    console.log('TimeUpdate');
+  const handlePlay = () => {
+    setState('status', 'play');
+    console.log('Play');
   };
 
-  setVideoRef = (ref: HTMLVideoElement) => {
-    this.#videoRef = ref;
-    ref.addEventListener('durationchange', this.handleDurationChange);
-    ref.addEventListener('loadstart', this.handleProgress);
-    ref.addEventListener('progress', this.handleProgress);
-    ref.addEventListener('timeupdate', this.handleTimeUpdate);
+  const handleTimeUpdate = () => {
+    if (videoRef?.currentTime === 0 && videoRef.paused) {
+      setState('status', 'stop');
+    }
+    setState('currentTime', videoRef?.currentTime);
   };
 
-  unsetVideoRef = () => {
-    if (!this.#videoRef) {
+  const setVideoRef = (ref: HTMLVideoElement) => {
+    videoRef = ref;
+    ref.addEventListener('durationchange', handleDurationChange);
+    ref.addEventListener('ended', handleEnded);
+    ref.addEventListener('loadstart', handleLoadStart);
+    ref.addEventListener('pause', handlePause);
+    ref.addEventListener('play', handlePlay);
+    ref.addEventListener('progress', handleProgress);
+    ref.addEventListener('timeupdate', handleTimeUpdate);
+  };
+
+  const unsetVideoRef = () => {
+    if (!videoRef) {
       return;
     }
 
-    this.#videoRef.removeEventListener(
-      'durationchange',
-      this.handleDurationChange,
-    );
-    this.#videoRef.removeEventListener('loadstart', this.handleProgress);
-    this.#videoRef.removeEventListener('progress', this.handleProgress);
-    this.#videoRef.removeEventListener('timeupdate', this.handleTimeUpdate);
+    videoRef.removeEventListener('durationchange', handleDurationChange);
+    videoRef.removeEventListener('ended', handleEnded);
+    videoRef.removeEventListener('loadstart', handleLoadStart);
+    videoRef.removeEventListener('pause', handlePause);
+    videoRef.removeEventListener('play', handlePlay);
+    videoRef.removeEventListener('progress', handleProgress);
+    videoRef.removeEventListener('timeupdate', handleTimeUpdate);
   };
 
-  getElement = () => {
-    switch (this.#type) {
+  const element = createMemo(() => {
+    if (!url()) {
+      return <></>;
+    }
+
+    switch (type()) {
       case 'html5': {
         return (
-          <video ref={this.setVideoRef} src={this.#url.toString()}></video>
+          <video playsinline ref={setVideoRef} src={url()?.toString()}></video>
         );
       }
     }
+
+    return <></>;
+  });
+
+  const fastForward = () => {
+    if (!videoRef) {
+      return;
+    }
+
+    videoRef.currentTime += 15;
+  };
+
+  const pause = () => {
+    if (!videoRef) {
+      return;
+    }
+
+    videoRef.pause();
+  };
+
+  const play = () => {
+    if (!videoRef) {
+      return;
+    }
+
+    videoRef.play();
+  };
+
+  const rewind = () => {
+    if (!videoRef) {
+      return;
+    }
+
+    videoRef.currentTime -= 15;
+  };
+
+  const seek = (time: number) => {
+    if (!videoRef) {
+      return;
+    }
+
+    videoRef.currentTime = time;
+  };
+
+  const skipBack = () => {
+    if (!videoRef) {
+      return;
+    }
+
+    videoRef.currentTime = 0;
+  };
+
+  const skipForward = () => {
+    if (!videoRef) {
+      return;
+    }
+    videoRef.currentTime = videoRef.duration - 5;
+  };
+
+  const stop = () => {
+    if (!videoRef) {
+      return;
+    }
+
+    videoRef.currentTime = 0;
+    videoRef.pause();
+  };
+
+  return {
+    element,
+    fastForward,
+    pause,
+    play,
+    rewind,
+    seek,
+    skipBack,
+    skipForward,
+    state,
+    stop,
   };
 }
