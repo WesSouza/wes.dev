@@ -249,7 +249,12 @@ export function MediaPlayerMainWindow(p: {
         ]}
         onSelect={handleMenuSelect}
       />
-      <div class={'StatusField ' + styles.Video}>{videoPlayer.element()}</div>
+      <div
+        class={'StatusField ' + styles.Video}
+        ref={videoPlayer.setContainerRef}
+      >
+        {videoPlayer.element()}
+      </div>
       <div class={styles.Controls}>
         <div class={styles.Timeline}>
           <input
