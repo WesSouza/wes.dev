@@ -31,3 +31,18 @@ export function ago(date: string | Date) {
 
   return agoTimeFormatter.format(diff, unit).replace(' ago', '');
 }
+
+export function duration(secondsInit: number) {
+  const hours = Math.floor(secondsInit / 3600);
+  const minutes = Math.floor(secondsInit / 60);
+  const seconds = Math.floor(secondsInit % 60);
+
+  const result: string[] = [];
+  if (hours) {
+    result.push(hours.toString());
+  }
+  result.push(minutes.toString().padStart(2, '0'));
+  result.push(seconds.toString().padStart(2, '0'));
+
+  return result.join(':');
+}
