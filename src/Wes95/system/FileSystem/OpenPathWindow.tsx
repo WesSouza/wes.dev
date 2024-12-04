@@ -16,6 +16,7 @@ export function FileSystemOpenPathWindow(p: {
     WindowManager.shared.init(p.window.id, {
       width: 460,
       height: 270,
+      showInTaskbar: false,
       sizeConstraints: {
         max: { height: 270 },
         min: { width: 375, height: 270 },
@@ -91,6 +92,7 @@ export function FileSystemOpenPathWindow(p: {
           }}
           autoCapitalize="off"
           autocorrect="off"
+          autofocus
           spellcheck={false}
           onChange={handleInputChange}
           onKeyDown={handleInputKeyDown}
