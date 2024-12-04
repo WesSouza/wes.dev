@@ -52,6 +52,10 @@ export type ProgramRegistry = {
         | (() => Promise<{
             default: (p: { data: any; window: WindowState }) => JSX.Element;
           }>);
+      urls?: {
+        match: RegExp;
+        params?: (matches: Record<string, string>) => Record<string, any>;
+      }[];
     };
   };
 };
@@ -171,11 +175,6 @@ export class WindowManager {
     this.#setState(
       produce((state) => {
         state.windows.push(window);
-        handleActiveWindows(
-          windowInit.active ? window : undefined,
-          this.getWindow(window.parentId),
-          state,
-        );
       }),
     );
 
@@ -343,6 +342,18 @@ export class WindowManager {
       window.x = x;
       window.y = y;
     });
+
+    this.#setState(
+      produce((state) => {
+        handleActiveWindows(
+          windowInit.active ? window : undefined,
+          this.getWindow(window.parentId),
+          state,
+        );
+      }),
+    );
+
+    this.#windowInits.delete(windowId);
   };
 
   isAnyWindowMaximized = () => {
