@@ -51,7 +51,11 @@ export function BlueskyPost(p: {
           </Link>,
         );
       } else if (segment.isLink()) {
-        text.push(<Link href={segment.link!.uri}>{segment.text}</Link>);
+        text.push(
+          <Link href={segment.link!.uri} target="_blank">
+            {segment.text}
+          </Link>,
+        );
       } else if (segment.isTag()) {
         text.push(
           <Link
@@ -188,6 +192,7 @@ export function BlueskyPost(p: {
             <Link
               class={styles.PostContentExternal}
               href={embedExternal()!.uri}
+              target="_blank"
             >
               <Show when={embedExternal()!.thumb}>
                 <img

@@ -624,4 +624,33 @@ export class WindowManager {
 
     return messageWindow;
   };
+
+  // MARK: Utils
+
+  matchURL = (url: string) => {
+    for (const [appName, registry] of Object.entries(this.windowLibrary)) {
+      for (const [windowName, window] of Object.entries(registry.windows)) {
+        if (!window.urls) {
+          continue;
+        }
+
+        for (const urlMatch of window.urls) {
+          const matches = url.match(urlMatch.match);
+          if (!matches) {
+            continue;
+          }
+
+          let params = matches.groups ?? {};
+
+          if (urlMatch.params) {
+            params = urlMatch.params(params);
+          }
+
+          return createWindowURL(`app://${appName}/${windowName}`, params);
+        }
+      }
+    }
+
+    return undefined;
+  };
 }

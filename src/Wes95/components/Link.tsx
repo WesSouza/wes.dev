@@ -3,26 +3,34 @@ import { WindowManager } from '../lib/WindowManager';
 
 export function Link(p: {} & JSX.AnchorHTMLAttributes<HTMLAnchorElement>) {
   const handleClick = (event: MouseEvent) => {
-    if (event.button !== 0 || !p.href || p.target === '_blank') {
+    if (event.button !== 0 || !p.href) {
       return;
     }
 
     const url = new URL(p.href);
 
-    if (
-      (url.protocol === 'http:' || url.protocol === 'https:') &&
-      (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey)
-    ) {
-      return;
+    const isApp = url.protocol === 'app:' || url.protocol === 'system:';
+    const isHTTP = url.protocol === 'http:' || url.protocol === 'https:';
+    const anyKeyboardKey =
+      event.altKey || event.ctrlKey || event.metaKey || event.shiftKey;
+
+    let windowUrl: string | undefined = undefined;
+
+    if (isHTTP && !anyKeyboardKey) {
+      const appUrl = WindowManager.shared.matchURL(p.href);
+      if (appUrl) {
+        windowUrl = appUrl;
+      }
     }
 
-    const windowUrl =
-      url.protocol === 'app:' || url.protocol === 'system:'
-        ? p.href
-        : `app://InternetExplorer/Main?url=${encodeURIComponent(p.href)}`;
+    if (!windowUrl && isApp) {
+      windowUrl = p.href;
+    }
 
-    WindowManager.shared.addWindow(windowUrl, { active: true });
-    event.preventDefault();
+    if (windowUrl) {
+      WindowManager.shared.addWindow(windowUrl, { active: true });
+      event.preventDefault();
+    }
   };
 
   return (

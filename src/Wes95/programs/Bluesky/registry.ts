@@ -54,6 +54,7 @@ export function registerBluesky() {
         window: async () => ({
           default: (await import('./ProfileWindow')).BlueskyProfileWindow,
         }),
+        urls: [{ match: /^https?:\/\/bsky.app\/profile\/(?<did>[^/]+)$/ }],
       },
       PostSearch: {
         async: true,
@@ -61,6 +62,7 @@ export function registerBluesky() {
         window: async () => ({
           default: (await import('./PostSearchWindow')).BlueskyPostSearchWindow,
         }),
+        urls: [{ match: /^https?:\/\/bsky.app\/search?q=(?<q>[^&]+)$/ }],
       },
       PostThread: {
         async: true,
@@ -68,6 +70,15 @@ export function registerBluesky() {
         window: async () => ({
           default: (await import('./PostThreadWindow')).BlueskyPostThreadWindow,
         }),
+        urls: [
+          {
+            match:
+              /^https?:\/\/bsky.app\/profile\/(?<did>[^/]+)\/post\/(?<rid>[^/]+)$/,
+            params: (matches: Record<string, string>) => ({
+              uri: `at://${matches.did}/app.bsky.feed.post/${matches.rid}`,
+            }),
+          },
+        ],
       },
       SearchDialog: {
         async: true,
@@ -83,6 +94,12 @@ export function registerBluesky() {
         window: async () => ({
           default: (await import('./UserListWindow')).BlueskyUserListWindow,
         }),
+        urls: [
+          {
+            match:
+              /^https?:\/\/bsky.app\/profile\/(?<did>[^/]+)\/(?<type>(followers|follows))$/,
+          },
+        ],
       },
     },
   };
