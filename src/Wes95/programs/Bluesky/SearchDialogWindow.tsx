@@ -66,6 +66,7 @@ export function BlueskySearchDialogWindow(p: {
               [styles.SearchDialogInput!]: true,
             }}
             autoCapitalize="off"
+            autofocus
             onChange={handleInputChange}
             onKeyDown={handleInputKeyDown}
             value={value()}
