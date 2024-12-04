@@ -56,7 +56,8 @@ export const MenuButton = (p: {
     }
   };
 
-  createEffect(() => {
+  createEffect(async () => {
+    await Promise.resolve();
     reposition();
   });
 
