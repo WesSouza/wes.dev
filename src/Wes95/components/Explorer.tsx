@@ -34,7 +34,6 @@ export const Explorer = () => {
   let desktopRef!: HTMLElement;
   const windowManager = WindowManager.shared;
   const screenBreakpoint = ScreenManager.shared.screenBreakpoint;
-  const state = windowManager.state;
   const [clock, setClock] = createSignal<string>('');
 
   const ding = createDinger();
@@ -216,7 +215,7 @@ export const Explorer = () => {
           ]}
           onSelect={handleDesktopIconClick}
         />
-        <For each={state.windows}>
+        <For each={windowManager.state.windows}>
           {(window) => (
             <Window
               active={windowManager.isWindowActive(window.id)}
@@ -383,7 +382,7 @@ export const Explorer = () => {
         <div class="VerticalHandle" />
         <div class="TaskbarWindows">
           <For
-            each={state.windows.filter((window) =>
+            each={windowManager.state.windows.filter((window) =>
               windowManager.isWindowInTaskbar(window),
             )}
           >
@@ -391,9 +390,9 @@ export const Explorer = () => {
               <button
                 classList={{
                   TaskbarButton: true,
-                  '-active': state.activeTaskWindow === window.id,
+                  '-active': windowManager.state.activeTaskWindow === window.id,
                   '-small': screenBreakpoint() === 'small',
-                  '-down': state.activeTaskWindow === window.id,
+                  '-down': windowManager.state.activeTaskWindow === window.id,
                 }}
                 onClick={() => windowManager.setActiveWindow(window)}
               >
