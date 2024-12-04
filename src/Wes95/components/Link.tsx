@@ -28,8 +28,8 @@ export function Link(p: {} & JSX.AnchorHTMLAttributes<HTMLAnchorElement>) {
     }
 
     if (windowUrl) {
-      WindowManager.shared.addWindow(windowUrl, { active: true });
       event.preventDefault();
+      WindowManager.shared.addWindow(windowUrl, { active: true });
     }
   };
 
