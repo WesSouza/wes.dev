@@ -99,6 +99,7 @@ export function getRichTextUserDescription(description: string | undefined) {
       text.push(
         <Link
           href={(!link.confirmedByProtocol ? 'https://' : '') + link.string}
+          target="_blank"
         >
           {link.string}
         </Link>,
