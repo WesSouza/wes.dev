@@ -41,3 +41,8 @@ body {
     sans-serif;
   margin: 0;
 }
+
+a,
+button {
+  color: inherit;
+}
