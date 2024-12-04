@@ -40,6 +40,7 @@ export function Window(p: {
     anchorY: 0,
   };
   const activePointers = new Set<number>();
+  let pointerAction: 'move' | 'resize' | undefined;
   let windowRef!: HTMLElement;
   let windowContentsRef!: HTMLDivElement;
 
@@ -80,18 +81,18 @@ export function Window(p: {
     windowManager.setWindowMinimized(p.window.id, true);
   };
 
-  const handleWindowPointerDown: JSX.EventHandler<HTMLElement, PointerEvent> = (
-    event,
+  const handleWindowPointerDown = (
+    event: PointerEvent & { target: Element },
   ) => {
     activePointers.add(event.pointerId);
-    if (
-      p.window.maximized ||
-      p.window.sizeAutomatic ||
-      activePointers.size !== 1 ||
-      event.button !== 0 ||
-      event.target.closest('button') ||
-      event.target.closest('img')
-    ) {
+
+    document.documentElement.addEventListener('pointerup', handlePointerUp);
+    document.documentElement.addEventListener(
+      'pointercancel',
+      handlePointerCancel,
+    );
+
+    if (activePointers.size !== 1 || event.button !== 0) {
       return;
     }
 
@@ -99,66 +100,157 @@ export function Window(p: {
       windowManager.setActiveWindow(p.window);
     }
 
-    const rect = getRect(p.window);
-    const x = event.clientX - rect.x;
-    const y = event.clientY - rect.y;
+    // Move
+    if (!pointerAction && event.target.closest('[data-window-title-bar]')) {
+      const windowRect = windowRef.getBoundingClientRect();
+      clickOffset = {
+        x: event.clientX - windowRect.x,
+        y: event.clientY - windowRect.y,
+      };
 
-    if (x <= ResizeAreaWidth) {
-      resizing.x = true;
-      resizing.anchorX = rect.width + rect.x;
-      resizing.offsetX = x;
+      pointerAction = 'move';
     }
 
-    if (x >= rect.width - ResizeAreaWidth) {
-      resizing.x = true;
-      resizing.offsetX = x - rect.width;
+    // Resize
+    if (
+      !pointerAction &&
+      !p.window.maximized &&
+      !p.window.sizeAutomatic &&
+      !event.target.closest('button') &&
+      !event.target.closest('img')
+    ) {
+      const rect = getRect(p.window);
+      const x = event.clientX - rect.x;
+      const y = event.clientY - rect.y;
+
+      if (x <= ResizeAreaWidth) {
+        resizing.x = true;
+        resizing.anchorX = rect.width + rect.x;
+        resizing.offsetX = x;
+      }
+
+      if (x >= rect.width - ResizeAreaWidth) {
+        resizing.x = true;
+        resizing.offsetX = x - rect.width;
+      }
+
+      if (y <= ResizeAreaWidth) {
+        resizing.y = true;
+        resizing.anchorY = rect.height + rect.y;
+        resizing.offsetY = y;
+      }
+
+      if (y >= rect.height - ResizeAreaWidth) {
+        resizing.y = true;
+        resizing.offsetY = y - rect.height;
+      }
+
+      if (resizing.x || resizing.y) {
+        clickOffset = {
+          x,
+          y,
+        };
+
+        pointerAction = 'resize';
+      }
     }
 
-    if (y <= ResizeAreaWidth) {
-      resizing.y = true;
-      resizing.anchorY = rect.height + rect.y;
-      resizing.offsetY = y;
-    }
+    if (pointerAction) {
+      document.documentElement.addEventListener(
+        'pointermove',
+        handlePointerMove,
+      );
 
-    if (y >= rect.height - ResizeAreaWidth) {
-      resizing.y = true;
-      resizing.offsetY = y - rect.height;
-    }
+      event.preventDefault();
 
-    if (!resizing.x && !resizing.y) {
+      document.documentElement.style.setProperty('touch-action', 'none');
+      windowManager.setMovingWindows(true);
+    }
+  };
+
+  const handlePointerCancel = (event: PointerEvent) => {
+    activePointers.delete(event.pointerId);
+  };
+
+  const handlePointerUp = (event: PointerEvent) => {
+    activePointers.delete(event.pointerId);
+
+    if (activePointers.size !== 0) {
       return;
     }
 
-    clickOffset = {
-      x,
-      y,
-    };
+    // Cleanup
+    if (pointerAction === 'resize') {
+      resizing.x = false;
+      resizing.y = false;
+      resizing.offsetX = 0;
+      resizing.offsetY = 0;
+      resizing.anchorX = 0;
+      resizing.anchorY = 0;
+    }
+
+    document.documentElement.removeEventListener(
+      'pointermove',
+      handlePointerMove,
+    );
+    document.documentElement.removeEventListener('pointerup', handlePointerUp);
+
+    pointerAction = undefined;
+  };
+
+  const handlePointerMove = (event: PointerEvent) => {
+    if (activePointers.size > 1 || !pointerAction) {
+      return;
+    }
 
     event.preventDefault();
 
-    document.documentElement.style.setProperty('touch-action', 'none');
+    if (pointerAction === 'move') {
+      const position = {
+        x: event.clientX - clickOffset!.x,
+        y: event.clientY - clickOffset!.y,
+      };
+      windowManager.setWindowPosition(p.window.id, position);
+    }
 
-    document.documentElement.addEventListener(
-      'pointermove',
-      handleResizingPointerMove,
-      { passive: false },
-    );
-    document.documentElement.addEventListener(
-      'pointerdown',
-      handleResizingPointerDown,
-      { passive: false },
-    );
-    document.documentElement.addEventListener(
-      'pointerup',
-      handleResizingPointerUp,
-    );
+    if (pointerAction === 'resize') {
+      const rect = getRect(p.window);
 
-    windowManager.setMovingWindows(true);
+      const position = {
+        x: event.clientX - clickOffset!.x,
+        y: event.clientY - clickOffset!.y,
+      };
+
+      const size = {
+        width: rect.width,
+        height: rect.height,
+      };
+
+      if (resizing.x) {
+        if (resizing.anchorX) {
+          size.width = resizing.anchorX - position.x;
+        } else {
+          size.width = event.clientX - rect.x - resizing.offsetX;
+        }
+      }
+
+      if (resizing.y) {
+        if (resizing.anchorY) {
+          size.height = resizing.anchorY - position.y;
+        } else {
+          size.height = event.clientY - rect.y - resizing.offsetY;
+        }
+      }
+
+      windowManager.setWindowSize(
+        p.window.id,
+        size,
+        Boolean(resizing.anchorX || resizing.anchorY),
+      );
+    }
   };
 
-  const handleWindowPointerMove: JSX.EventHandler<HTMLElement, PointerEvent> = (
-    event,
-  ) => {
+  const handleWindowPointerMove = (event: PointerEvent) => {
     if (p.window.maximized || p.window.sizeAutomatic) {
       return;
     }
@@ -189,167 +281,6 @@ export function Window(p: {
     } else {
       windowRef.style.setProperty('cursor', CursorMap[cursor] + '-resize');
     }
-  };
-
-  const handleResizingPointerDown = (event: PointerEvent) => {
-    activePointers.add(event.pointerId);
-  };
-
-  const handleResizingPointerMove = (event: PointerEvent) => {
-    if (activePointers.size > 1) {
-      return;
-    }
-
-    event.preventDefault();
-
-    const rect = getRect(p.window);
-
-    const position = {
-      x: event.clientX - clickOffset!.x,
-      y: event.clientY - clickOffset!.y,
-    };
-
-    const size = {
-      width: rect.width,
-      height: rect.height,
-    };
-
-    if (resizing.x) {
-      if (resizing.anchorX) {
-        size.width = resizing.anchorX - position.x;
-      } else {
-        size.width = event.clientX - rect.x - resizing.offsetX;
-      }
-    }
-
-    if (resizing.y) {
-      if (resizing.anchorY) {
-        size.height = resizing.anchorY - position.y;
-      } else {
-        size.height = event.clientY - rect.y - resizing.offsetY;
-      }
-    }
-
-    windowManager.setWindowSize(
-      p.window.id,
-      size,
-      Boolean(resizing.anchorX || resizing.anchorY),
-    );
-  };
-
-  const handleResizingPointerUp = (event: PointerEvent) => {
-    activePointers.delete(event.pointerId);
-
-    resizing.x = false;
-    resizing.y = false;
-    resizing.offsetX = 0;
-    resizing.offsetY = 0;
-    resizing.anchorX = 0;
-    resizing.anchorY = 0;
-
-    document.documentElement.removeEventListener(
-      'pointermove',
-      handleResizingPointerMove,
-    );
-    document.documentElement.style.removeProperty('touch-action');
-
-    if (activePointers.size === 1) {
-      document.documentElement.removeEventListener(
-        'pointerdown',
-        handleResizingPointerDown,
-      );
-      document.documentElement.removeEventListener(
-        'pointerup',
-        handleResizingPointerUp,
-      );
-    }
-
-    windowManager.setMovingWindows(false);
-  };
-
-  const handleTitlePointerDown: JSX.EventHandler<
-    HTMLDivElement,
-    PointerEvent
-  > = (event) => {
-    activePointers.add(event.pointerId);
-    if (
-      activePointers.size !== 1 ||
-      event.button !== 0 ||
-      event.target.closest('button') ||
-      event.target.closest('img') ||
-      resizing.x ||
-      resizing.y ||
-      p.window.maximized
-    ) {
-      return;
-    }
-
-    event.preventDefault();
-
-    document.documentElement.style.setProperty('touch-action', 'none');
-
-    const windowRect = windowRef.getBoundingClientRect();
-    clickOffset = {
-      x: event.clientX - windowRect.x,
-      y: event.clientY - windowRect.y,
-    };
-
-    document.documentElement.addEventListener(
-      'pointermove',
-      handleMovingPointerMove,
-      { passive: false },
-    );
-    document.documentElement.addEventListener(
-      'pointerdown',
-      handleMovingPointerDown,
-      { passive: false },
-    );
-    document.documentElement.addEventListener(
-      'pointerup',
-      handleMovingPointerUp,
-    );
-
-    windowManager.setMovingWindows(true);
-  };
-
-  const handleMovingPointerDown = (event: PointerEvent) => {
-    activePointers.add(event.pointerId);
-  };
-
-  const handleMovingPointerMove = (event: PointerEvent) => {
-    if (activePointers.size > 1) {
-      return;
-    }
-
-    event.preventDefault();
-
-    const position = {
-      x: event.clientX - clickOffset!.x,
-      y: event.clientY - clickOffset!.y,
-    };
-    windowManager.setWindowPosition(p.window.id, position);
-  };
-
-  const handleMovingPointerUp = (event: PointerEvent) => {
-    activePointers.delete(event.pointerId);
-
-    document.documentElement.removeEventListener(
-      'pointermove',
-      handleMovingPointerMove,
-    );
-    document.documentElement.style.removeProperty('touch-action');
-
-    if (activePointers.size === 1) {
-      document.documentElement.removeEventListener(
-        'pointerdown',
-        handleMovingPointerDown,
-      );
-      document.documentElement.removeEventListener(
-        'pointerup',
-        handleMovingPointerUp,
-      );
-    }
-    windowManager.setMovingWindows(false);
   };
 
   const windowContents = () => {
@@ -403,7 +334,7 @@ export function Window(p: {
     >
       <div
         class="WindowTitleBar"
-        onPointerDown={handleTitlePointerDown}
+        data-window-title-bar
         onDblClick={handleMaximize}
       >
         <Show when={p.window.icon}>
