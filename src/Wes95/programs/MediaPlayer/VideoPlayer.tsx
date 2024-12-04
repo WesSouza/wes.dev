@@ -226,30 +226,6 @@ export function createVideoPlayer(urlString: string | undefined) {
     videoRef.removeEventListener('timeupdate', handleTimeUpdate);
   };
 
-  const element = createMemo(() => {
-    if (!url()) {
-      return <></>;
-    }
-
-    switch (type()) {
-      case 'html5': {
-        return (
-          <video
-            id={videoId}
-            playsinline
-            ref={setVideoRef}
-            src={url()?.toString()}
-          ></video>
-        );
-      }
-      case 'youtube': {
-        return <div id={videoId}></div>;
-      }
-    }
-
-    return <></>;
-  });
-
   const fastForward = () => {
     if (videoRef) {
       videoRef.currentTime += 15;
@@ -339,6 +315,49 @@ export function createVideoPlayer(urlString: string | undefined) {
       youtubePlayer.stopVideo();
     }
   };
+
+  const togglePlayback = () => {
+    if (videoRef) {
+      if (videoRef.paused) {
+        videoRef.play();
+      } else {
+        videoRef.pause();
+      }
+    }
+
+    if (youtubePlayer) {
+      if (state.status === 'play') {
+        youtubePlayer.pauseVideo();
+      } else {
+        youtubePlayer.playVideo();
+      }
+    }
+  };
+
+  const element = createMemo(() => {
+    if (!url()) {
+      return <></>;
+    }
+
+    switch (type()) {
+      case 'html5': {
+        return (
+          <video
+            id={videoId}
+            playsinline
+            ref={setVideoRef}
+            src={url()?.toString()}
+            onClick={togglePlayback}
+          ></video>
+        );
+      }
+      case 'youtube': {
+        return <div id={videoId}></div>;
+      }
+    }
+
+    return <></>;
+  });
 
   return {
     element,
