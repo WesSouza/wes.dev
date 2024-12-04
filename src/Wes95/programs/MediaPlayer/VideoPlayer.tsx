@@ -106,7 +106,11 @@ export function createVideoPlayer(urlString: string | undefined) {
         width: containerSize?.width,
         height: containerSize?.height,
         playerVars: {
+          controls: 0,
+          modestbranding: 1,
           playsinline: 1,
+          rel: 0,
+          showinfo: 0,
           start,
         },
         events: {
