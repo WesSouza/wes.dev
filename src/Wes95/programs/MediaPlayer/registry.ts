@@ -15,7 +15,10 @@ export function registerMediaPlayer(): ProgramRegistry {
       Main: {
         schema: MediaPlayerMainDataSchema,
         window: MediaPlayerMainWindow,
-        urls: [{ match: /^(?<open>https?:\/\/youtu.be\/[^/?]+)/ }],
+        urls: [
+          { match: /^(?<open>https?:\/\/youtu.be\/[^/?]+)/ },
+          { match: /^(?<open>https:\/\/www.youtube.com\/watch?v=[^&]+)/ },
+        ],
       },
     },
   };
