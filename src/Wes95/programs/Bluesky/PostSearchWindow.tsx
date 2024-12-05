@@ -1,5 +1,4 @@
 import type { AppBskyFeedDefs, AppBskyFeedSearchPosts } from '@atproto/api';
-import { actions } from 'astro:actions';
 import {
   createEffect,
   createResource,
@@ -14,6 +13,7 @@ import { BlueskyPost } from './Post';
 import type { BlueskyPostSearchData } from './registry';
 import styles from './style.module.css';
 import { LoadingAnimation } from '../../components/LoadingAnimation';
+import { trpc } from '../../../trpc/client';
 
 let currentQuery: string | undefined;
 
@@ -24,7 +24,7 @@ const getSearchPosts = async (
     refetching: string | boolean | undefined;
   },
 ): Promise<AppBskyFeedSearchPosts.OutputSchema> => {
-  const result = await actions.wes95_bluesky.searchPosts({
+  const result = await trpc.wes95_bluesky.searchPosts.query({
     q,
     limit: 100,
     cursor: typeof info.refetching === 'string' ? info.refetching : undefined,
@@ -40,9 +40,9 @@ const getSearchPosts = async (
   currentQuery = q;
 
   return {
-    cursor: result.data.cursor,
+    cursor: result.cursor as string | undefined,
     posts: previousPosts.concat(
-      (result.data?.posts as AppBskyFeedDefs.PostView[]) ?? [],
+      (result.posts as AppBskyFeedDefs.PostView[]) ?? [],
     ),
   };
 };

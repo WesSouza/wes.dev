@@ -107,7 +107,6 @@ export const wes95_bluesky = t.router({
     )
     .query(async ({ input }) => {
       const { data } = await agent.app.bsky.feed.searchPosts(input);
-      console.log(data);
 
       // Use JSON to remove unserializable types
       return JSON.parse(
