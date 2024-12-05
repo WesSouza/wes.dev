@@ -196,6 +196,7 @@ export function Window(p: {
     document.documentElement.removeEventListener('pointerup', handlePointerUp);
 
     pointerAction = undefined;
+    windowManager.setMovingWindows(false);
   };
 
   const handlePointerMove = (event: PointerEvent) => {
