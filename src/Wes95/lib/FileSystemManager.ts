@@ -1,4 +1,4 @@
-import { actions } from 'astro:actions';
+import { trpc } from '../../trpc/client';
 import type { AstroContentEntry } from '../models/AstroContent';
 
 let shared: FileSystemManager | undefined;
@@ -123,14 +123,14 @@ export class FileSystemManager {
     }
 
     this.fileSystemReady = new Promise((resolve) => {
-      actions.wes95_fileSystem
-        .getCollections({ types: ['blog', 'documents'] })
+      trpc.wes95_fileSystem.getCollections
+        .query({ types: ['blog', 'documents'] })
         .then((entries) => {
-          if (!entries.data) {
+          if (!entries) {
             return;
           }
 
-          for (const entry of entries.data) {
+          for (const entry of entries) {
             const file = makeFileFromAstroContent(entry);
             this.fileSystem.set(file.path, file);
           }
@@ -195,7 +195,7 @@ export class FileSystemManager {
     const url = new URL(file.url);
 
     if (url.protocol === 'astro-content:') {
-      return actions.wes95_fileSystem.getEntry({
+      return trpc.wes95_fileSystem.getEntry.query({
         // @ts-expect-error
         type: url.hostname,
         id: url.pathname.substring(1),

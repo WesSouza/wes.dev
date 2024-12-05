@@ -210,7 +210,7 @@ export function NotepadMainWindow(p: {
         </button>
       </div>
       <textarea class="Field" ref={contentElement}>
-        {fileData()?.data?.body}
+        {fileData()?.body}
       </textarea>
     </>
   );

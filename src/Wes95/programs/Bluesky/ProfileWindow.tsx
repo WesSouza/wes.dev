@@ -1,5 +1,4 @@
 import type { AppBskyFeedGetAuthorFeed } from '@atproto/api';
-import { actions } from 'astro:actions';
 import {
   createEffect,
   createMemo,
@@ -9,6 +8,7 @@ import {
   onMount,
   Show,
 } from 'solid-js';
+import { trpc } from '../../../trpc/client';
 import { LoadingAnimation } from '../../components/LoadingAnimation';
 import { MenuBar } from '../../components/MenuBar';
 import { WindowManager } from '../../lib/WindowManager';
@@ -22,16 +22,10 @@ import {
   BlueskySearchDialogEventSchema,
   type BlueskyProfileData,
 } from './registry';
-import { trpc } from '../../../client';
 
 const WesDID = 'did:plc:4qy26t5ss4zosz2mi3hdzuq3';
 
 let currentActor: string | undefined;
-
-const getTest = async () => {
-  const test = await trpc.test.getTest.query('test');
-  console.log(test);
-};
 
 const getAccountPosts = async (
   actor: string,
@@ -40,28 +34,22 @@ const getAccountPosts = async (
     refetching: string | boolean | undefined;
   },
 ): Promise<AppBskyFeedGetAuthorFeed.OutputSchema> => {
-  const result = await actions.wes95_bluesky.getAuthorFeed({
+  const result = await trpc.wes95_bluesky.getAuthorFeed.query({
     actor,
     cursor: typeof info.refetching === 'string' ? info.refetching : undefined,
   });
-
-  if (result.error) {
-    const error = new Error(`getAccountPosts failed`);
-    error.cause = result.error;
-    throw error;
-  }
 
   const previousFeed = currentActor === actor ? (info.value?.feed ?? []) : [];
   currentActor = actor;
 
   return {
-    feed: previousFeed.concat(result.data.feed),
-    cursor: result.data.cursor,
+    feed: previousFeed.concat(result.feed),
+    cursor: result.cursor as string | undefined,
   };
 };
 
 const getProfile = (actor: string) =>
-  actions.wes95_bluesky.getProfile({
+  trpc.wes95_bluesky.getProfile.query({
     actor,
   });
 
@@ -80,7 +68,6 @@ export function BlueskyProfileWindow(p: {
     getAccountPosts,
   );
   const [profile] = createResource(account, getProfile);
-  const [test] = createResource(getTest);
 
   onMount(() => {
     WindowManager.shared.init(p.window.id, {
@@ -92,7 +79,7 @@ export function BlueskyProfileWindow(p: {
 
   createEffect(() => {
     WindowManager.shared.setWindow(p.window.id, (window) => {
-      window.title = `${profile()?.data?.displayName ?? 'Untitled'} - Bluesky`;
+      window.title = `${profile()?.displayName ?? 'Untitled'} - Bluesky`;
     });
   });
 
@@ -195,7 +182,7 @@ export function BlueskyProfileWindow(p: {
       }
 
       case 'Send': {
-        navigator.share({ url: getProfileURL(profile()?.data) });
+        navigator.share({ url: getProfileURL(profile()) });
         break;
       }
     }
@@ -291,21 +278,21 @@ export function BlueskyProfileWindow(p: {
         ]}
         onSelect={handleMenuSelect}
       />
-      <Show when={profile()?.data}>
+      <Show when={profile()}>
         <BlueskyProfileHeader
-          profile={profile()!.data!}
+          profile={profile()!}
           openFollowers={() => {}}
           openFollows={() => {}}
         />
       </Show>
-      <Show when={profile()?.data && posts()?.feed && view() !== 'likes'}>
+      <Show when={profile() && posts()?.feed && view() !== 'likes'}>
         <BlueskyPostList
           contentRef={contentElement}
           // @ts-expect-error
           filter={view()}
           onScrolledToEnd={fetchMore}
           posts={posts()!.feed}
-          profile={profile()!.data!}
+          profile={profile()!}
         />
       </Show>
       <Show when={posts.state === 'pending' || profile.state === 'pending'}>
