@@ -1,4 +1,4 @@
-export function Symbols() {
+export function SvgSprite() {
   return (
     <div class="Sprite">
       <svg xmlns="http://www.w3.org/2000/svg">
@@ -288,6 +288,25 @@ export function Symbols() {
             fill-rule="evenodd"
           />
         </symbol>
+        <filter id="toolbar-disabled-icon">
+          <feColorMatrix
+            in="SourceGraphic"
+            type="matrix"
+            values="0 0 0 0 0.23
+                    0 0 0 0 0.23
+                    0 0 0 0 0.23
+                    -10 -10 -10 10 0"
+          />
+        </filter>
+        <filter id="blue-tint">
+          <feColorMatrix
+            type="matrix"
+            values="0.3 0 0 0 -0.1
+                    0 0.3 0 0 -0.1
+                    0 0 1 0 -0.1
+                    0 0 0 1 0 "
+          ></feColorMatrix>
+        </filter>
       </svg>
     </div>
   );

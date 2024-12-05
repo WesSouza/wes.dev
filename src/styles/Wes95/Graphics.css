@@ -8,3 +8,19 @@
   width: calc(var(--wes95-scale-value) * 9);
   height: calc(var(--wes95-scale-value) * 9);
 }
+
+:is(
+    .Button,
+    .FlatButton,
+    .GhostButton,
+    .LinkButton,
+    .MenuButton,
+    .TaskbarButton,
+    .ThinButton,
+    .ToolbarButton,
+    .WindowTitleButton
+  ):disabled
+  .Icon {
+  filter: url(#toolbar-disabled-icon)
+    drop-shadow(2px 2px 0 var(--wes95-color-canvasTextDisabledShadow));
+}
