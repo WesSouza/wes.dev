@@ -22,10 +22,16 @@ import {
   BlueskySearchDialogEventSchema,
   type BlueskyProfileData,
 } from './registry';
+import { trpc } from '../../../client';
 
 const WesDID = 'did:plc:4qy26t5ss4zosz2mi3hdzuq3';
 
 let currentActor: string | undefined;
+
+const getTest = async () => {
+  const test = await trpc.test.getTest.query('test');
+  console.log(test);
+};
 
 const getAccountPosts = async (
   actor: string,
@@ -74,6 +80,7 @@ export function BlueskyProfileWindow(p: {
     getAccountPosts,
   );
   const [profile] = createResource(account, getProfile);
+  const [test] = createResource(getTest);
 
   onMount(() => {
     WindowManager.shared.init(p.window.id, {

@@ -32,6 +32,8 @@
     "@astrojs/vercel": "8.0.0",
     "@atproto/api": "^0.13.18",
     "@solid-primitives/resize-observer": "^2.0.26",
+    "@trpc/client": "11.0.0-rc.648",
+    "@trpc/server": "11.0.0-rc.648",
     "anchorme": "^3.0.8",
     "astro": "5.0.1",
     "solid-js": "^1.9.3",
