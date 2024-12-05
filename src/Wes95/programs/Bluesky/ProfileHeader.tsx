@@ -42,7 +42,12 @@ export function BlueskyProfileHeader(p: {
         >
           <img src={p.profile.avatar} />
         </div>
-        <Link class="Button" href={getProfileURL(p.profile)} target="_blank">
+        <Link
+          alwaysExternal
+          class="Button"
+          href={getProfileURL(p.profile)}
+          target="_blank"
+        >
           Follow
         </Link>
       </div>
