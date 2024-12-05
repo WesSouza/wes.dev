@@ -1,5 +1,4 @@
 import type { AppBskyFeedDefs } from '@atproto/api';
-import { actions } from 'astro:actions';
 import {
   createEffect,
   createMemo,
@@ -8,19 +7,20 @@ import {
   onMount,
   Show,
 } from 'solid-js';
+import { trpc } from '../../../trpc/client';
+import { LoadingAnimation } from '../../components/LoadingAnimation';
 import { WindowManager } from '../../lib/WindowManager';
 import type { WindowState } from '../../models/WindowState';
 import { getThreadView } from '../../utils/bluesky';
+import { BlueskyPost } from './Post';
 import { BlueskyPostView } from './PostView';
 import type { BlueskyPostThreadData } from './registry';
 import styles from './style.module.css';
-import { BlueskyPost } from './Post';
-import { LoadingAnimation } from '../../components/LoadingAnimation';
 
 const getPostThread = async (
   uri: string,
 ): Promise<AppBskyFeedDefs.ThreadViewPost | undefined> => {
-  const result = await actions.wes95_bluesky.getPostThread({
+  const result = await trpc.wes95_bluesky.getPostThread.query({
     uri,
   });
 
@@ -30,7 +30,7 @@ const getPostThread = async (
     throw error;
   }
 
-  return getThreadView(result.data);
+  return getThreadView(result);
 };
 
 export function BlueskyPostThreadWindow(p: {
@@ -60,10 +60,6 @@ export function BlueskyPostThreadWindow(p: {
     WindowManager.shared.setWindow(p.window.id, (window) => {
       window.title = `Thread - Bluesky`;
     });
-  });
-
-  createEffect(() => {
-    console.log('thread', thread());
   });
 
   return (

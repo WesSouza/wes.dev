@@ -83,10 +83,6 @@ export function BlueskyProfileWindow(p: {
     });
   });
 
-  createEffect(() => {
-    console.log('feed', posts()?.feed);
-  });
-
   const fetchMore = () => {
     const cursor = posts()?.cursor;
     if (cursor) {
@@ -138,7 +134,6 @@ export function BlueskyProfileWindow(p: {
     WindowManager.shared.handleOnce(
       delegateId,
       (event) => {
-        console.log(event);
         if (event.q) {
           WindowManager.shared.addWindow(
             createWindowURL('app://Bluesky/PostSearch', {

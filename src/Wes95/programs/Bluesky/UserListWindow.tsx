@@ -1,4 +1,3 @@
-import { actions } from 'astro:actions';
 import {
   createEffect,
   createResource,
@@ -8,6 +7,8 @@ import {
   onMount,
   Show,
 } from 'solid-js';
+import { trpc } from '../../../trpc/client';
+import { LoadingAnimation } from '../../components/LoadingAnimation';
 import { MenuBar } from '../../components/MenuBar';
 import { WindowManager } from '../../lib/WindowManager';
 import type { Bluesky_UserList } from '../../models/Bluesky';
@@ -16,7 +17,6 @@ import { FSOpenPathEventSchema } from '../../system/FileSystem/registry';
 import { createWindowURL } from '../../utils/Windows';
 import type { BlueskyUserListData } from './registry';
 import styles from './style.module.css';
-import { LoadingAnimation } from '../../components/LoadingAnimation';
 
 type Type = 'follows' | 'followers';
 
@@ -27,24 +27,18 @@ const getUserList = async (
     refetching: string | boolean | undefined;
   },
 ): Promise<Bluesky_UserList & { type: Type }> => {
-  const result = await actions.wes95_bluesky.getUserList({
+  const result = await trpc.wes95_bluesky.getUserList.query({
     actor: options.did,
     type: options.type,
     cursor: typeof info.refetching === 'string' ? info.refetching : undefined,
   });
 
-  if (result.error) {
-    const error = new Error(`getUserList failed`);
-    error.cause = result.error;
-    throw error;
-  }
-
   return {
-    cursor: result.data.cursor,
+    cursor: result.cursor,
     users: (
       (info.value?.type === options.type ? info.value?.users : []) ?? []
-    ).concat(result.data.users),
-    subject: result.data.subject,
+    ).concat(result.users),
+    subject: result.subject,
     type: options.type,
   };
 };
@@ -77,10 +71,6 @@ export function BlueskyUserListWindow(p: {
     WindowManager.shared.setWindow(p.window.id, (window) => {
       window.title = `${users()?.subject.displayName ?? ''} - ${options().type === 'followers' ? 'Followers' : 'Following'} - Bluesky`;
     });
-  });
-
-  createEffect(() => {
-    console.log('users', users()?.users);
   });
 
   const handleUserClick = (handle: string) => {
