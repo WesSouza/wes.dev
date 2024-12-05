@@ -239,6 +239,12 @@ export function createVideoPlayer(urlString: string | undefined) {
     }
   };
 
+  const fullscreen = () => {
+    if (videoRef) {
+      videoRef.requestFullscreen().catch(console.error);
+    }
+  };
+
   const pause = () => {
     if (videoRef) {
       videoRef.pause();
@@ -362,6 +368,7 @@ export function createVideoPlayer(urlString: string | undefined) {
   return {
     element,
     fastForward,
+    fullscreen,
     pause,
     play,
     rewind,
@@ -371,5 +378,6 @@ export function createVideoPlayer(urlString: string | undefined) {
     skipForward,
     state,
     stop,
+    togglePlayback,
   };
 }
