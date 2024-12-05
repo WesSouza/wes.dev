@@ -67,12 +67,47 @@ export function MediaPlayerMainWindow(p: {
   };
 
   const handleMenuSelect = (id: string) => {
-    if (id === 'Open') {
-      openFileDialog();
-    }
-
-    if (id === 'Exit') {
-      WindowManager.shared.closeWindow(p.window.id);
+    switch (id) {
+      case 'About': {
+        // TODO: Implement
+        break;
+      }
+      case 'Exit': {
+        openFileDialog();
+        break;
+      }
+      case 'FastForward': {
+        videoPlayer.fastForward();
+        break;
+      }
+      case 'FullScreen': {
+        videoPlayer.fullscreen();
+        break;
+      }
+      case 'Open': {
+        WindowManager.shared.closeWindow(p.window.id);
+        break;
+      }
+      case 'PlayPause': {
+        videoPlayer.togglePlayback();
+        break;
+      }
+      case 'Rewind': {
+        videoPlayer.rewind();
+        break;
+      }
+      case 'SkipBack': {
+        videoPlayer.skipBack();
+        break;
+      }
+      case 'SkipForward': {
+        videoPlayer.skipForward();
+        break;
+      }
+      case 'Stop': {
+        videoPlayer.stop();
+        break;
+      }
     }
   };
 
@@ -89,24 +124,6 @@ export function MediaPlayerMainWindow(p: {
                 type: 'item',
                 id: 'Open',
                 label: 'Open...',
-              },
-              {
-                type: 'item',
-                id: 'Close',
-                label: 'Close',
-              },
-              {
-                type: 'item',
-                id: 'SaveAs',
-                label: 'Save As...',
-              },
-              {
-                type: 'separator',
-              },
-              {
-                type: 'item',
-                id: 'Properties',
-                label: 'Properties',
               },
               {
                 type: 'separator',
@@ -127,42 +144,6 @@ export function MediaPlayerMainWindow(p: {
                 type: 'item',
                 id: 'FullScreen',
                 label: 'Full Screen',
-              },
-              {
-                type: 'item',
-                id: 'Zoom',
-                label: 'Zoom',
-                submenu: [],
-              },
-              {
-                type: 'separator',
-              },
-              {
-                type: 'item',
-                id: 'Statistics',
-                label: 'Statistics',
-              },
-              {
-                type: 'separator',
-              },
-              {
-                type: 'item',
-                id: 'Settings',
-                label: 'Settings',
-                submenu: [],
-              },
-              {
-                type: 'separator',
-              },
-              {
-                type: 'item',
-                id: 'Captions',
-                label: 'Captions',
-              },
-              {
-                type: 'item',
-                id: 'Options',
-                label: 'Options...',
               },
             ],
           },
@@ -203,34 +184,6 @@ export function MediaPlayerMainWindow(p: {
                 type: 'item',
                 id: 'FastForward',
                 label: 'Fast Forward',
-              },
-              {
-                type: 'separator',
-              },
-              {
-                type: 'item',
-                id: 'Preview',
-                label: 'Preview',
-              },
-              {
-                type: 'item',
-                id: 'GoTo',
-                label: 'Go to...',
-              },
-              {
-                type: 'separator',
-              },
-              {
-                type: 'item',
-                id: 'Language',
-                label: 'Language',
-                submenu: [],
-              },
-              {
-                type: 'item',
-                id: 'Volume',
-                label: 'Volume',
-                submenu: [],
               },
             ],
           },
@@ -280,7 +233,11 @@ export function MediaPlayerMainWindow(p: {
             <Symbol symbol="mediaPlay" />
           </button>
           <button
-            class={'ThinButton ' + styles.Button}
+            classList={{
+              ThinButton: true,
+              [styles.Button!]: true,
+              '-active': videoPlayer.state.status === 'pause',
+            }}
             onClick={() => videoPlayer.pause()}
             type="button"
           >
