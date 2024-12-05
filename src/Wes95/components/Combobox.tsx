@@ -108,7 +108,7 @@ export const Combobox = (p: {
           appearance="listbox"
           id={menuId}
           items={p.items}
-          anchor={anchor()!}
+          anchor={anchor}
           anchorWidth
           onClose={closeMenu}
           onSelect={handleSelect}
