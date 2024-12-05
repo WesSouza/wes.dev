@@ -7,6 +7,7 @@ import {
   onCleanup,
   Show,
   Switch,
+  type Accessor,
   type JSX,
 } from 'solid-js';
 import { createStore } from 'solid-js/store';
@@ -50,7 +51,7 @@ export function Menu(p: {
   'aria-labelledby'?: string;
   appearance?: 'listbox' | 'menu';
   activeFirstItem?: boolean;
-  anchor: Anchor;
+  anchor: Accessor<Anchor | undefined>;
   anchorWidth?: boolean;
   items: (MenuItem | MenuSeparator)[];
   id?: string;
@@ -130,9 +131,9 @@ export function Menu(p: {
   };
 
   createEffect(async () => {
-    const anchor = p.anchor;
+    const anchor = p.anchor();
 
-    if (!menuElement) {
+    if (!menuElement || !anchor) {
       return;
     }
 
@@ -381,7 +382,7 @@ export function Menu(p: {
         <Menu
           aria-labelledby={p.id}
           activeFirstItem={submenu.activeFirstItem}
-          anchor={submenu.anchor!}
+          anchor={() => submenu.anchor!}
           items={submenu.items!}
           id={submenu.id}
           menuId={p.menuId}

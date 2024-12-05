@@ -34,6 +34,10 @@ export const MenuButton = (p: {
   const [internalMenuOpen, setMenuOpen] = createSignal(false);
 
   createEffect(() => {
+    if (!WindowManager.shared.state.movingWindows && !menuOpen()) {
+      reposition();
+    }
+
     if (WindowManager.shared.state.movingWindows && menuOpen()) {
       closeMenu();
     }
@@ -42,18 +46,15 @@ export const MenuButton = (p: {
   const menuOpen = createMemo(() => p.open ?? internalMenuOpen());
 
   const reposition = () => {
-    const open = !menuOpen();
-    if (open) {
-      const rect = element.getBoundingClientRect();
+    const rect = element.getBoundingClientRect();
 
-      setAnchor({
-        x: rect.x,
-        y: rect.y,
-        width: rect.width,
-        height: rect.height,
-        direction: p.direction ?? 'block-end',
-      });
-    }
+    setAnchor({
+      x: rect.x,
+      y: rect.y,
+      width: rect.width,
+      height: rect.height,
+      direction: p.direction ?? 'block-end',
+    });
   };
 
   createEffect(async () => {
@@ -125,7 +126,7 @@ export const MenuButton = (p: {
       <Show when={menuOpen() && anchor()}>
         <Menu
           aria-labelledby={menuButtonId}
-          anchor={anchor()!}
+          anchor={anchor}
           items={p.items}
           id={menuId}
           menuId={menuId}
