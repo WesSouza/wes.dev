@@ -1,9 +1,11 @@
 import type { JSX } from 'solid-js';
 import { WindowManager } from '../lib/WindowManager';
 
-export function Link(p: {} & JSX.AnchorHTMLAttributes<HTMLAnchorElement>) {
+export function Link(
+  p: { alwaysExternal?: boolean } & JSX.AnchorHTMLAttributes<HTMLAnchorElement>,
+) {
   const handleClick = (event: MouseEvent) => {
-    if (event.button !== 0 || !p.href) {
+    if (event.button !== 0 || !p.href || p.alwaysExternal) {
       return;
     }
 
