@@ -1,10 +1,10 @@
 ---
 import Wes95 from '../layouts/Wes95.astro';
 import { Explorer } from '../Wes95/components/Explorer';
-import { Symbols } from '../Wes95/components/Symbols';
+import { SvgSprite } from '../Wes95/components/SvgSprite';
 ---
 
 <Wes95>
   <Explorer client:only="solid-js" />
-  <Symbols client:load />
+  <SvgSprite client:load />
 </Wes95>
