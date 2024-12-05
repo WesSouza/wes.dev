@@ -1,17 +1,6 @@
 .Icon {
   display: block;
-  width: calc(var(--wes95-scale-value) * 16);
-  height: calc(var(--wes95-scale-value) * 16);
-
-  &.-medium {
-    width: calc(var(--wes95-scale-value) * 32);
-    height: calc(var(--wes95-scale-value) * 32);
-  }
-
-  &.-large {
-    width: calc(var(--wes95-scale-value) * 64);
-    height: calc(var(--wes95-scale-value) * 64);
-  }
+  background-image: url('/C/Wes95/System32/shell32.png');
 }
 
 .Symbol {
