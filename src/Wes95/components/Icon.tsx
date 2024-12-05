@@ -1,5 +1,3 @@
-import { WES95_SYSTEM_PATH } from '../../config';
-
 const IconSizes = {
   small: {
     suffix: 'Small',
@@ -14,19 +12,11 @@ const IconSizes = {
 
 export function Icon(p: { icon: string; size?: 'small' | 'medium' | 'large' }) {
   return (
-    <img
+    <div
       classList={{
         Icon: true,
-        '-medium': p.size === 'medium',
-        '-large': p.size === 'large',
+        [`Icon_${p.icon + IconSizes[p.size ?? 'small'].suffix}`]: true,
       }}
-      src={
-        WES95_SYSTEM_PATH +
-        '/' +
-        p.icon +
-        IconSizes[p.size ?? 'small'].suffix +
-        '.png'
-      }
-    />
+    ></div>
   );
 }
