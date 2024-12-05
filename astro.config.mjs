@@ -6,9 +6,13 @@ import { visualizer } from 'rollup-plugin-visualizer';
 // https://astro.build/config
 export default defineConfig({
   site:
-    import.meta.env.MODE === 'development'
-      ? 'http://localhost:4321'
-      : 'https://wes.dev',
+    process.env.VERCEL_ENV === 'production'
+      ? 'https://wes.dev'
+      : process.env.VERCEL_GIT_COMMIT_REF === 'wes95'
+        ? 'https://95.wes.dev'
+        : process.env.VERCEL_URL
+          ? `https://${process.env.VERCEL_URL}`
+          : 'http://localhost:4321',
   output: 'server',
   adapter: vercel(),
   integrations: [solidJs()],
