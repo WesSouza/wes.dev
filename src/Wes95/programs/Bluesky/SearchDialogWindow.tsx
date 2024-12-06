@@ -1,4 +1,5 @@
 import { createSignal, onMount } from 'solid-js';
+import { Button } from '../../components/Button';
 import { WindowManager } from '../../lib/WindowManager';
 import type { WindowState } from '../../models/WindowState';
 import {
@@ -74,22 +75,12 @@ export function BlueskySearchDialogWindow(p: {
         </div>
         <div class="Vertical SmallSpacing MediumGap">
           <div class={styles.SearchDialogButtons}>
-            <button
-              class="Button"
-              style="flex: 1"
-              onClick={handleOpen}
-              type="button"
-            >
+            <Button mainWindowButton onClick={handleOpen} style="flex: 1">
               OK
-            </button>
-            <button
-              class="Button"
-              style="flex: 1"
-              onClick={handleCancelClick}
-              type="button"
-            >
+            </Button>
+            <Button onClick={handleCancelClick} style="flex: 1">
               Cancel
-            </button>
+            </Button>
           </div>
         </div>
       </div>

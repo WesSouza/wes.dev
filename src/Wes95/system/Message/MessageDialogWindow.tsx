@@ -3,6 +3,7 @@ import { Icon } from '../../components/Icon';
 import { WindowManager } from '../../lib/WindowManager';
 import type { WindowState } from '../../models/WindowState';
 import { MessageDialogEventSchema, type MessageDialogData } from './registry';
+import { Button } from '../../components/Button';
 
 const IconTypeMap: Record<string, string> = {
   error: 'dialogError',
@@ -54,10 +55,13 @@ export function MessageDialogWindow(p: {
       </div>
       <div class="Horizontal MediumSpacing -center">
         <For each={ButtonsTypeMap[p.data.type] ?? ButtonsTypeMap.default}>
-          {(button) => (
-            <button class="Button" onClick={() => handleClick(button)}>
+          {(button, index) => (
+            <Button
+              mainWindowButton={index() === 0}
+              onClick={() => handleClick(button)}
+            >
               {button}
-            </button>
+            </Button>
           )}
         </For>
       </div>
