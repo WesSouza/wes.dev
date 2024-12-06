@@ -1,3 +1,17 @@
+export function getRealPublicURL(path: string | undefined) {
+  if (!path) {
+    return;
+  }
+
+  if (path.startsWith('/C/')) {
+    return new URL(location.protocol + location.host + path);
+  } else if (path.startsWith('http:') || path.startsWith('https:')) {
+    return new URL(path);
+  } else {
+    throw new Error(`Invalid path ${path}`);
+  }
+}
+
 export function getURLHostname(url: string) {
   return new URL(url).hostname;
 }
