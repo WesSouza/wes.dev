@@ -66,9 +66,9 @@ export function FileSystemOpenWindow(p: {
       newPath = path.replace(/\/[^/]+$/, '');
     }
     if (/^\/[A-Z]$/.test(path)) {
-      newPath = '/My Website';
+      newPath = '/My Computer';
     }
-    if (path === '/My Website') {
+    if (path === '/My Computer') {
       newPath = '/Desktop';
     }
     setCurrentDirectoryPath(newPath);
@@ -102,8 +102,8 @@ export function FileSystemOpenWindow(p: {
         indentLevel: 1,
       },
       {
-        id: '/My Website',
-        label: 'My Website',
+        id: '/My Computer',
+        label: 'My Computer',
         icon: 'iconComputer',
         type: 'item',
         indentLevel: 1,

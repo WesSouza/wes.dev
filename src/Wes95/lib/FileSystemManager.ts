@@ -3,14 +3,7 @@ import type { AstroContentEntry } from '../models/AstroContent';
 
 let shared: FileSystemManager | undefined;
 
-export type File = {
-  type: 'file';
-  directory: string;
-  extension: string;
-  name: string;
-  path: string;
-  url: string;
-};
+export type FileNode = Directory | File | Shortcut;
 
 export type Directory = {
   type: 'directory';
@@ -20,13 +13,71 @@ export type Directory = {
   url: string;
 };
 
+export type File = {
+  type: 'file';
+  directory: string;
+  extension: string;
+  name: string;
+  path: string;
+  url: string;
+};
+
+export type Shortcut = {
+  type: 'shortcut';
+  directory: string;
+  name: string;
+  path: string;
+  url: string;
+  icon: string;
+};
+
 const ExtensionMap: Record<string, string> = {
   m4a: 'wav',
   mp3: 'wav',
   png: 'bmp',
 };
 
-function addDirectories(entries: Map<string, File | Directory>) {
+const virtualDirectories: Record<string, FileNode[]> = {
+  '/Desktop': [
+    makeDirectory('/My Computer'),
+    makeShortcut(
+      '/My Computer',
+      'Internet Explorer',
+      'app://InternetExplorer/Main',
+      'iconIexplore',
+    ),
+    makeDirectory('/C/My Documents'),
+    makeDirectory('/Recycle Bin'),
+    makeShortcut(
+      '/My Computer',
+      'Bluesky',
+      'app://Bluesky/Profile',
+      'iconBluesky',
+    ),
+    makeShortcut(
+      '/My Computer',
+      'Welcome.doc',
+      `apps://WordPad/Main?open=${encodeURIComponent('/C/My Documents/Welcome.doc')}`,
+      'fileTypeWordPad',
+    ),
+  ],
+  '/My Computer': [
+    makeDirectory('/A'),
+    makeDirectory('/C'),
+    makeDirectory('/D'),
+  ],
+};
+
+const hardcodedFiles = [
+  '/C/My Documents/Photo.png',
+  '/C/Wes95/Media/Chimes.mp3',
+  '/C/Wes95/Media/Chord.mp3',
+  '/C/Wes95/Media/Ding.mp3',
+  '/C/Wes95/Media/Tada.mp3',
+  '/C/Wes95/Media/TheMicrosoftSound.m4a',
+];
+
+function addDirectories(entries: Map<string, FileNode>) {
   for (const [, item] of entries) {
     let currentDirectory = item.directory;
     while (
@@ -51,7 +102,7 @@ function makeDirectory(path: string): Directory {
   return {
     type: 'directory',
     directory,
-    name,
+    name: path.match(/^\/[A-Z]$/) ? name + ':' : name,
     path,
     url,
   };
@@ -95,6 +146,22 @@ function makeFileFromAstroContent(entry: AstroContentEntry): File {
   };
 }
 
+function makeShortcut(
+  directory: string,
+  name: string,
+  url: string,
+  icon: string,
+): Shortcut {
+  return {
+    type: 'shortcut',
+    directory,
+    name,
+    path: directory + '/' + name,
+    url,
+    icon,
+  };
+}
+
 export class FileSystemManager {
   static get shared() {
     if (!shared) {
@@ -104,20 +171,11 @@ export class FileSystemManager {
     return shared;
   }
 
-  hardcodedFiles = [
-    '/C/My Documents/Photo.png',
-    '/C/Wes95/Media/Chimes.mp3',
-    '/C/Wes95/Media/Chord.mp3',
-    '/C/Wes95/Media/Ding.mp3',
-    '/C/Wes95/Media/Tada.mp3',
-    '/C/Wes95/Media/TheMicrosoftSound.m4a',
-  ];
-
-  fileSystem = new Map<string, Directory | File>();
+  fileSystem = new Map<string, FileNode>();
   fileSystemReady: Promise<void>;
 
   constructor() {
-    for (const hardcodedFile of this.hardcodedFiles) {
+    for (const hardcodedFile of hardcodedFiles) {
       const file = makeFile(hardcodedFile);
       this.fileSystem.set(file.path, file);
     }
@@ -162,7 +220,7 @@ export class FileSystemManager {
   getFiles = async (path: string = '/C') => {
     await this.fileSystemReady;
 
-    const files: (File | Directory)[] = [];
+    const files: FileNode[] = [];
     const startsWithPath = path + '/';
 
     for (const [filePath, file] of this.fileSystem) {
@@ -182,6 +240,10 @@ export class FileSystemManager {
           ? 1
           : left.name.localeCompare(right.name),
     );
+
+    if (virtualDirectories[path]) {
+      return [...virtualDirectories[path], ...files];
+    }
 
     return files;
   };

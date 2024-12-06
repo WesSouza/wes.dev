@@ -1,4 +1,15 @@
-import type { Directory, File } from '../lib/FileSystemManager';
+import type { FileNode } from '../lib/FileSystemManager';
+
+const DirectoryIcons: Record<string, string> = {
+  '/Desktop': 'toolbarDeskpad',
+  '/My Computer': 'iconComputer',
+  '/My Documents': 'iconDocumentsFolder',
+  '/C/My Documents': 'iconDocumentsFolder',
+  '/Recycle Bin': 'iconTrashEmpty',
+  '/A': 'iconFloppyDrive',
+  '/C': 'iconDrive',
+  '/D': 'iconCDDrive',
+};
 
 const FileTypesMap = [
   {
@@ -57,9 +68,14 @@ const FileTypesMap = [
   },
 ];
 
-export function mapFileType(file: File | Directory) {
+export function mapFileType(file: FileNode) {
   if (file.type === 'directory') {
-    return { name: 'Folder', icon: 'iconFolderClosed' };
+    return {
+      name: 'Folder',
+      icon: (file.path in DirectoryIcons
+        ? DirectoryIcons[file.path]
+        : 'iconFolderClosed') as string,
+    };
   } else {
     for (const type of FileTypesMap) {
       if (type.test.test(file.name)) {
@@ -80,13 +96,15 @@ export function filterFileTypes(fileTypeIds: string[] | undefined) {
     !fileTypeIds.length ||
     (fileTypeIds.length === 1 && fileTypeIds[0] === 'all')
   ) {
-    return () => true;
+    return (file: FileNode) =>
+      file.type === 'directory' || file.type === 'file';
   }
 
   const fileTypeTests = FileTypesMap.filter((fileType) =>
     fileTypeIds.includes(fileType.id),
   );
-  return (file: File | Directory) =>
+  return (file: FileNode) =>
     file.type === 'directory' ||
-    fileTypeTests.some((fileType) => fileType.test.test(file.path));
+    (file.type === 'file' &&
+      fileTypeTests.some((fileType) => fileType.test.test(file.name)));
 }
