@@ -4,11 +4,11 @@ import { Symbol } from '../../components/Symbol';
 import { WindowManager } from '../../lib/WindowManager';
 import type { WindowState } from '../../models/WindowState';
 import { FSOpenEventSchema } from '../../system/FileSystem/registry';
+import { duration } from '../../utils/dateTime';
 import { createWindowURL } from '../../utils/Windows';
+import { createMediaPlayer } from './MediaPlayer';
 import type { MediaPlayerMainData } from './registry';
 import styles from './style.module.css';
-import { createVideoPlayer } from './VideoPlayer';
-import { duration } from '../../utils/dateTime';
 
 const StatusMap = {
   play: 'Playing',
@@ -22,7 +22,7 @@ export function MediaPlayerMainWindow(p: {
   data: MediaPlayerMainData;
   window: WindowState;
 }) {
-  const videoPlayer = createVideoPlayer(p.data.open);
+  const mediaPlayer = createMediaPlayer(p.data.open);
 
   onMount(() => {
     WindowManager.shared.init(p.window.id, {
@@ -73,39 +73,39 @@ export function MediaPlayerMainWindow(p: {
         break;
       }
       case 'Exit': {
-        openFileDialog();
-        break;
-      }
-      case 'FastForward': {
-        videoPlayer.fastForward();
-        break;
-      }
-      case 'FullScreen': {
-        videoPlayer.fullscreen();
-        break;
-      }
-      case 'Open': {
         WindowManager.shared.closeWindow(p.window.id);
         break;
       }
+      case 'FastForward': {
+        mediaPlayer.fastForward();
+        break;
+      }
+      case 'FullScreen': {
+        mediaPlayer.fullscreen();
+        break;
+      }
+      case 'Open': {
+        openFileDialog();
+        break;
+      }
       case 'PlayPause': {
-        videoPlayer.togglePlayback();
+        mediaPlayer.togglePlayback();
         break;
       }
       case 'Rewind': {
-        videoPlayer.rewind();
+        mediaPlayer.rewind();
         break;
       }
       case 'SkipBack': {
-        videoPlayer.skipBack();
+        mediaPlayer.skipBack();
         break;
       }
       case 'SkipForward': {
-        videoPlayer.skipForward();
+        mediaPlayer.skipForward();
         break;
       }
       case 'Stop': {
-        videoPlayer.stop();
+        mediaPlayer.stop();
         break;
       }
     }
@@ -204,19 +204,19 @@ export function MediaPlayerMainWindow(p: {
       />
       <div
         class={'StatusField ' + styles.Video}
-        ref={videoPlayer.setContainerRef}
+        ref={mediaPlayer.setContainerRef}
       >
-        {videoPlayer.element()}
+        {mediaPlayer.element()}
       </div>
       <div class={styles.Controls}>
         <div class={styles.Timeline}>
           <input
             type="range"
             min="0"
-            max={videoPlayer.state.duration}
-            value={videoPlayer.state.currentTime ?? '0'}
+            max={mediaPlayer.state.duration}
+            value={mediaPlayer.state.currentTime ?? '0'}
             onChange={(event) =>
-              videoPlayer.seek(Number(event.currentTarget.value))
+              mediaPlayer.seek(Number(event.currentTarget.value))
             }
           />
         </div>
@@ -225,9 +225,9 @@ export function MediaPlayerMainWindow(p: {
             classList={{
               ThinButton: true,
               [styles.Button!]: true,
-              '-active': videoPlayer.state.status === 'play',
+              '-active': mediaPlayer.state.status === 'play',
             }}
-            onClick={() => videoPlayer.play()}
+            onClick={() => mediaPlayer.play()}
             type="button"
           >
             <Symbol symbol="mediaPlay" />
@@ -236,16 +236,16 @@ export function MediaPlayerMainWindow(p: {
             classList={{
               ThinButton: true,
               [styles.Button!]: true,
-              '-active': videoPlayer.state.status === 'pause',
+              '-active': mediaPlayer.state.status === 'pause',
             }}
-            onClick={() => videoPlayer.pause()}
+            onClick={() => mediaPlayer.pause()}
             type="button"
           >
             <Symbol symbol="mediaPause" />
           </button>
           <button
             class={'ThinButton ' + styles.Button}
-            onClick={() => videoPlayer.stop()}
+            onClick={() => mediaPlayer.stop()}
             type="button"
           >
             <Symbol symbol="mediaStop" />
@@ -253,28 +253,28 @@ export function MediaPlayerMainWindow(p: {
           <div class="VerticalSeparator"></div>
           <button
             class={'ThinButton ' + styles.Button}
-            onClick={() => videoPlayer.skipBack()}
+            onClick={() => mediaPlayer.skipBack()}
             type="button"
           >
             <Symbol symbol="mediaSkipBack" />
           </button>
           <button
             class={'ThinButton ' + styles.Button}
-            onClick={() => videoPlayer.rewind()}
+            onClick={() => mediaPlayer.rewind()}
             type="button"
           >
             <Symbol symbol="mediaRewind" />
           </button>
           <button
             class={'ThinButton ' + styles.Button}
-            onClick={() => videoPlayer.fastForward()}
+            onClick={() => mediaPlayer.fastForward()}
             type="button"
           >
             <Symbol symbol="mediaFastForward" />
           </button>
           <button
             class={'ThinButton ' + styles.Button}
-            onClick={() => videoPlayer.skipForward()}
+            onClick={() => mediaPlayer.skipForward()}
             type="button"
           >
             <Symbol symbol="mediaSkipForward" />
@@ -283,11 +283,11 @@ export function MediaPlayerMainWindow(p: {
       </div>
       <div class={'StatusField ' + styles.Status}>
         <div class={styles.StatusPlayback}>
-          {StatusMap[videoPlayer.state.status]}
+          {StatusMap[mediaPlayer.state.status]}
         </div>
         <div class={styles.StatusTime}>
-          {duration(videoPlayer.state.currentTime ?? 0)} /{' '}
-          {duration(videoPlayer.state.duration ?? 0)}
+          {duration(mediaPlayer.state.currentTime ?? 0)} /{' '}
+          {duration(mediaPlayer.state.duration ?? 0)}
         </div>
       </div>
     </>

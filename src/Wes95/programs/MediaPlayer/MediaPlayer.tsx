@@ -8,6 +8,7 @@ import {
 } from 'solid-js';
 import { createStore, produce } from 'solid-js/store';
 import type { Size } from '../../models/Geometry';
+import { getRealPublicURL } from '../../utils/url';
 
 let youtubeInjected = false;
 
@@ -22,12 +23,12 @@ export type VideoPlayerState = {
   status: 'play' | 'pause' | 'stop' | 'loading' | 'empty';
 };
 
-export function createVideoPlayer(urlString: string | undefined) {
-  const videoId = createUniqueId();
+export function createMediaPlayer(urlString: string | undefined) {
+  const elementId = createUniqueId();
 
   let containerRef: HTMLDivElement | undefined;
   let containerSize: Size | undefined;
-  let videoRef: HTMLVideoElement | undefined;
+  let elementRef: HTMLAudioElement | HTMLVideoElement | undefined;
   let youtubePlayer: YT.Player | undefined;
   let youtubeTimeTimer: number | undefined;
 
@@ -37,11 +38,13 @@ export function createVideoPlayer(urlString: string | undefined) {
     status: 'empty',
   });
 
-  const url = createMemo(() => (urlString ? new URL(urlString) : undefined));
+  const url = createMemo(() => getRealPublicURL(urlString));
 
   const type = createMemo(() => {
-    if (/\.(m3u8|mp4)$/.test(url()?.pathname ?? '')) {
-      return 'html5';
+    if (/\.(mp3|m4a)$/.test(url()?.pathname ?? '')) {
+      return 'html5-audio';
+    } else if (/\.(m3u8|mp4)$/.test(url()?.pathname ?? '')) {
+      return 'html5-video';
     } else if (
       url()?.hostname === 'youtube.com' ||
       url()?.hostname === 'www.youtube.com' ||
@@ -101,7 +104,7 @@ export function createVideoPlayer(urlString: string | undefined) {
     setState('status', 'loading');
 
     youtubeLoadedPromise.then(() => {
-      youtubePlayer = new YT.Player(videoId, {
+      youtubePlayer = new YT.Player(elementId, {
         videoId: youtubeId,
         width: containerSize?.width,
         height: containerSize?.height,
@@ -158,7 +161,7 @@ export function createVideoPlayer(urlString: string | undefined) {
   };
 
   const handleDurationChange = () => {
-    setState('duration', videoRef?.duration);
+    setState('duration', elementRef?.duration);
   };
 
   const handleEnded = () => {
@@ -170,7 +173,7 @@ export function createVideoPlayer(urlString: string | undefined) {
   };
 
   const handlePause = () => {
-    setState('status', videoRef?.currentTime === 0 ? 'stop' : 'pause');
+    setState('status', elementRef?.currentTime === 0 ? 'stop' : 'pause');
   };
 
   const handlePlay = () => {
@@ -178,10 +181,10 @@ export function createVideoPlayer(urlString: string | undefined) {
   };
 
   const handleTimeUpdate = () => {
-    if (videoRef?.currentTime === 0 && videoRef.paused) {
+    if (elementRef?.currentTime === 0 && elementRef.paused) {
       setState('status', 'stop');
     }
-    setState('currentTime', videoRef?.currentTime);
+    setState('currentTime', elementRef?.currentTime);
   };
 
   const youtubeTimeUpdate = () => {
@@ -201,8 +204,8 @@ export function createVideoPlayer(urlString: string | undefined) {
     containerRef = ref;
   };
 
-  const setVideoRef = (ref: HTMLVideoElement) => {
-    videoRef = ref;
+  const setVideoRef = (ref: HTMLAudioElement | HTMLVideoElement) => {
+    elementRef = ref;
     ref.addEventListener('durationchange', handleDurationChange);
     ref.addEventListener('ended', handleEnded);
     ref.addEventListener('loadstart', handleLoadStart);
@@ -213,22 +216,22 @@ export function createVideoPlayer(urlString: string | undefined) {
   };
 
   const unsetVideoRef = () => {
-    if (!videoRef) {
+    if (!elementRef) {
       return;
     }
 
-    videoRef.removeEventListener('durationchange', handleDurationChange);
-    videoRef.removeEventListener('ended', handleEnded);
-    videoRef.removeEventListener('loadstart', handleLoadStart);
-    videoRef.removeEventListener('pause', handlePause);
-    videoRef.removeEventListener('play', handlePlay);
-    videoRef.removeEventListener('progress', handleProgress);
-    videoRef.removeEventListener('timeupdate', handleTimeUpdate);
+    elementRef.removeEventListener('durationchange', handleDurationChange);
+    elementRef.removeEventListener('ended', handleEnded);
+    elementRef.removeEventListener('loadstart', handleLoadStart);
+    elementRef.removeEventListener('pause', handlePause);
+    elementRef.removeEventListener('play', handlePlay);
+    elementRef.removeEventListener('progress', handleProgress);
+    elementRef.removeEventListener('timeupdate', handleTimeUpdate);
   };
 
   const fastForward = () => {
-    if (videoRef) {
-      videoRef.currentTime += 15;
+    if (elementRef) {
+      elementRef.currentTime += 15;
     }
 
     if (youtubePlayer) {
@@ -240,14 +243,14 @@ export function createVideoPlayer(urlString: string | undefined) {
   };
 
   const fullscreen = () => {
-    if (videoRef) {
-      videoRef.requestFullscreen().catch(console.error);
+    if (elementRef) {
+      elementRef.requestFullscreen().catch(console.error);
     }
   };
 
   const pause = () => {
-    if (videoRef) {
-      videoRef.pause();
+    if (elementRef) {
+      elementRef.pause();
     }
 
     if (youtubePlayer) {
@@ -256,8 +259,8 @@ export function createVideoPlayer(urlString: string | undefined) {
   };
 
   const play = () => {
-    if (videoRef) {
-      videoRef.play();
+    if (elementRef) {
+      elementRef.play();
     }
 
     if (youtubePlayer) {
@@ -266,8 +269,8 @@ export function createVideoPlayer(urlString: string | undefined) {
   };
 
   const rewind = () => {
-    if (videoRef) {
-      videoRef.currentTime -= 15;
+    if (elementRef) {
+      elementRef.currentTime -= 15;
     }
 
     if (youtubePlayer) {
@@ -279,8 +282,8 @@ export function createVideoPlayer(urlString: string | undefined) {
   };
 
   const seek = (time: number) => {
-    if (videoRef) {
-      videoRef.currentTime = time;
+    if (elementRef) {
+      elementRef.currentTime = time;
     }
 
     if (youtubePlayer) {
@@ -289,8 +292,8 @@ export function createVideoPlayer(urlString: string | undefined) {
   };
 
   const skipBack = () => {
-    if (videoRef) {
-      videoRef.currentTime = 0;
+    if (elementRef) {
+      elementRef.currentTime = 0;
     }
 
     if (youtubePlayer) {
@@ -299,8 +302,8 @@ export function createVideoPlayer(urlString: string | undefined) {
   };
 
   const skipForward = () => {
-    if (videoRef) {
-      videoRef.currentTime = videoRef.duration - 5;
+    if (elementRef) {
+      elementRef.currentTime = elementRef.duration - 5;
     }
 
     if (youtubePlayer) {
@@ -312,9 +315,9 @@ export function createVideoPlayer(urlString: string | undefined) {
   };
 
   const stop = () => {
-    if (videoRef) {
-      videoRef.currentTime = 0;
-      videoRef.pause();
+    if (elementRef) {
+      elementRef.currentTime = 0;
+      elementRef.pause();
     }
 
     if (youtubePlayer) {
@@ -323,11 +326,11 @@ export function createVideoPlayer(urlString: string | undefined) {
   };
 
   const togglePlayback = () => {
-    if (videoRef) {
-      if (videoRef.paused) {
-        videoRef.play();
+    if (elementRef) {
+      if (elementRef.paused) {
+        elementRef.play();
       } else {
-        videoRef.pause();
+        elementRef.pause();
       }
     }
 
@@ -346,10 +349,20 @@ export function createVideoPlayer(urlString: string | undefined) {
     }
 
     switch (type()) {
-      case 'html5': {
+      case 'html5-audio': {
+        return (
+          <audio
+            id={elementId}
+            ref={setVideoRef}
+            src={url()?.toString()}
+            onClick={togglePlayback}
+          ></audio>
+        );
+      }
+      case 'html5-video': {
         return (
           <video
-            id={videoId}
+            id={elementId}
             playsinline
             ref={setVideoRef}
             src={url()?.toString()}
@@ -358,7 +371,7 @@ export function createVideoPlayer(urlString: string | undefined) {
         );
       }
       case 'youtube': {
-        return <div id={videoId}></div>;
+        return <div id={elementId}></div>;
       }
     }
 
