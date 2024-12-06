@@ -1,4 +1,4 @@
-import { createEffect, lazy, Show, type JSX } from 'solid-js';
+import { createContext, createEffect, lazy, Show, type JSX } from 'solid-js';
 import type { z } from 'zod';
 import { parseSearchParams } from 'zod-search-params';
 import { ScreenManager } from '../lib/ScreenManager';
@@ -22,6 +22,8 @@ const CursorMap: Record<string, string> = {
   s: 'ns',
   se: 'nwse',
 };
+
+export const WindowContext = createContext<WindowState>();
 
 export function Window(p: {
   active: boolean;
@@ -319,91 +321,93 @@ export function Window(p: {
   };
 
   return (
-    <section
-      classList={{
-        Window: true,
-        '-active': p.active,
-        '-maximized': p.window.maximized,
-        '-minimized': p.window.minimized,
-      }}
-      ref={windowRef}
-      onPointerDown={handleWindowPointerDown}
-      onPointerMove={handleWindowPointerMove}
-      style={{
-        opacity: p.window.initialized ? undefined : '0',
-        ...(!p.window.maximized
-          ? {
-              top: `${p.window.y}px`,
-              left: `${p.window.x}px`,
-              width: `${p.window.width}px`,
-              height: `${p.window.height}px`,
-            }
-          : {}),
-        'z-index': p.zIndex,
-      }}
-    >
-      <div class="WindowTitleBar">
-        <Show when={p.window.icon}>
-          <div class="WindowTitleIcon">
-            <Icon icon={p.window.icon!} />
-          </div>
-        </Show>
-        <button
-          class="GhostButton WindowTitleText"
-          data-window-title-bar
-          onDblClick={handleMaximize}
-          type="button"
-        >
-          {p.window.title}
-        </button>
-        <div class="WindowTitleButtons">
-          <Show when={!p.window.parentId && p.window.showInTaskbar}>
-            <Show when={p.window.minimizable}>
-              <button
-                aria-label="Minimize"
-                type="button"
-                class="WindowTitleButton"
-                onClick={handleMinimize}
-              >
-                <Symbol symbol="windowMinimize" />
-              </button>
-            </Show>
-            <Show when={p.window.maximizable}>
-              <button
-                aria-label={p.window.maximized ? 'Restore' : 'Maximize'}
-                type="button"
-                class="WindowTitleButton"
-                onClick={handleMaximize}
-              >
-                <Symbol
-                  symbol={
-                    p.window.maximized ? 'windowRestore' : 'windowMaximize'
-                  }
-                />
-              </button>
-            </Show>
-          </Show>
-          <button
-            aria-label="Close"
-            type="button"
-            class="WindowTitleButton"
-            onClick={() => windowManager.closeWindow(p.window.id)}
-          >
-            <Symbol symbol="windowClose" />
-          </button>
-        </div>
-      </div>
-      <div
-        ref={windowContentsRef}
+    <WindowContext.Provider value={p.window}>
+      <section
         classList={{
-          WindowContent: true,
-          SmallSpacing: true,
-          '-grow': !p.window.sizeAutomatic,
+          Window: true,
+          '-active': p.active,
+          '-maximized': p.window.maximized,
+          '-minimized': p.window.minimized,
+        }}
+        ref={windowRef}
+        onPointerDown={handleWindowPointerDown}
+        onPointerMove={handleWindowPointerMove}
+        style={{
+          opacity: p.window.initialized ? undefined : '0',
+          ...(!p.window.maximized
+            ? {
+                top: `${p.window.y}px`,
+                left: `${p.window.x}px`,
+                width: `${p.window.width}px`,
+                height: `${p.window.height}px`,
+              }
+            : {}),
+          'z-index': p.zIndex,
         }}
       >
-        {windowContents()}
-      </div>
-      <div class="WindowResize"></div>
-    </section>
+        <div class="WindowTitleBar">
+          <Show when={p.window.icon}>
+            <div class="WindowTitleIcon">
+              <Icon icon={p.window.icon!} />
+            </div>
+          </Show>
+          <button
+            class="GhostButton WindowTitleText"
+            data-window-title-bar
+            onDblClick={handleMaximize}
+            type="button"
+          >
+            {p.window.title}
+          </button>
+          <div class="WindowTitleButtons">
+            <Show when={!p.window.parentId && p.window.showInTaskbar}>
+              <Show when={p.window.minimizable}>
+                <button
+                  aria-label="Minimize"
+                  type="button"
+                  class="WindowTitleButton"
+                  onClick={handleMinimize}
+                >
+                  <Symbol symbol="windowMinimize" />
+                </button>
+              </Show>
+              <Show when={p.window.maximizable}>
+                <button
+                  aria-label={p.window.maximized ? 'Restore' : 'Maximize'}
+                  type="button"
+                  class="WindowTitleButton"
+                  onClick={handleMaximize}
+                >
+                  <Symbol
+                    symbol={
+                      p.window.maximized ? 'windowRestore' : 'windowMaximize'
+                    }
+                  />
+                </button>
+              </Show>
+            </Show>
+            <button
+              aria-label="Close"
+              type="button"
+              class="WindowTitleButton"
+              onClick={() => windowManager.closeWindow(p.window.id)}
+            >
+              <Symbol symbol="windowClose" />
+            </button>
+          </div>
+        </div>
+        <div
+          ref={windowContentsRef}
+          classList={{
+            WindowContent: true,
+            SmallSpacing: true,
+            '-grow': !p.window.sizeAutomatic,
+          }}
+        >
+          {windowContents()}
+        </div>
+        <div class="WindowResize"></div>
+      </section>
+    </WindowContext.Provider>
   );
 }

@@ -5,6 +5,7 @@ import type { WindowState } from '../../models/WindowState';
 import { createWindowURL } from '../../utils/Windows';
 import { FSOpenPathEventSchema, type FSOpenPathData } from './registry';
 import styles from './style.module.css';
+import { Button } from '../../components/Button';
 
 export function FileSystemOpenPathWindow(p: {
   data: FSOpenPathData;
@@ -101,30 +102,15 @@ export function FileSystemOpenPathWindow(p: {
       </div>
       <div class="Horizontal SmallSpacing MediumGap -end">
         <div class={styles.OpenPathButtons}>
-          <button
-            class="Button"
-            style="flex: 1"
-            onClick={handleOpen}
-            type="button"
-          >
+          <Button mainWindowButton onClick={handleOpen} style="flex: 1">
             OK
-          </button>
-          <button
-            class="Button"
-            style="flex: 1"
-            onClick={handleCancelClick}
-            type="button"
-          >
+          </Button>
+          <Button style="flex: 1" onClick={handleCancelClick}>
             Cancel
-          </button>
-          <button
-            class="Button"
-            onClick={handleBrowseClick}
-            disabled={!p.data.browseTypes}
-            type="button"
-          >
+          </Button>
+          <Button onClick={handleBrowseClick} disabled={!p.data.browseTypes}>
             Browse...
-          </button>
+          </Button>
         </div>
       </div>
     </div>

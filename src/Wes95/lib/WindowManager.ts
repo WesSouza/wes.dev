@@ -154,6 +154,12 @@ export class WindowManager {
     );
 
     if (!WindowContentComponent) {
+      this.messageDialog({
+        message: 'Application not found.',
+        title: 'Error',
+        type: 'error',
+        onAction: () => {},
+      });
       console.error(`[Window] Missing window for URL `, url);
       return;
     }

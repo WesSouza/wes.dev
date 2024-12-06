@@ -10,6 +10,7 @@ import {
 } from 'solid-js';
 import { createDinger } from '../lib/ding';
 import { FileSystemManager } from '../lib/FileSystemManager';
+import { FocusProvider } from '../lib/FocusContext';
 import { ScreenManager } from '../lib/ScreenManager';
 import { SessionManager } from '../lib/SessionManager';
 import { WindowManager } from '../lib/WindowManager';
@@ -167,259 +168,262 @@ export const Explorer = () => {
   };
 
   return (
-    <div
-      classList={{
-        Screen: true,
-        '-maximized': windowManager.isAnyWindowMaximized(),
-      }}
-    >
-      <main
-        id="Wes95_Desktop"
-        class="Desktop"
-        onClick={handleDesktopTaskbarClick}
-        ref={desktopRef}
+    <FocusProvider>
+      <div
+        classList={{
+          Screen: true,
+          '-maximized': windowManager.isAnyWindowMaximized(),
+        }}
       >
-        <ItemList
-          appearance="icons-vertical"
-          items={[
-            {
-              icon: 'iconComputer',
-              id: `apps://FileExplorer/Main?path=${encodeURIComponent('/My Computer')}`,
-              name: 'My Computer',
-            },
-            {
-              icon: 'iconDocumentsFolder',
-              id: `apps://FileExplorer/Main?path=${encodeURIComponent('/C/My Documents')}`,
-              name: 'My Documents',
-            },
-            {
-              icon: 'iconIexplorer',
-              id: `apps://InternetExplorer/Main`,
-              name: 'Internet Explorer',
-            },
-            {
-              icon: 'iconTrashEmpty',
-              id: `apps://FileExplorer/Main?path=${encodeURIComponent('/Trash')}`,
-              name: 'Recycle Bin',
-            },
-            {
-              icon: 'iconBluesky',
-              id: `app://Bluesky/Profile`,
-              name: 'Bluesky',
-            },
-            {
-              icon: 'fileTypeWordPad',
-              id: `apps://WordPad/Main?open=${encodeURIComponent('/C/My Documents/Welcome.doc')}`,
-              name: 'Welcome.doc',
-            },
-          ]}
-          onSelect={handleDesktopIconClick}
-        />
-        <For each={windowManager.state.windows}>
-          {(window) => (
-            <Window
-              active={windowManager.isWindowActive(window.id)}
-              window={window}
-              windowManager={windowManager}
-              zIndex={windowManager.getWindowZIndex(window.id)}
-            />
-          )}
-        </For>
-      </main>
-      <footer class="Taskbar" onClick={handleDesktopTaskbarClick}>
-        <MenuButton
-          appearance="taskbar-start"
-          direction="block-start"
-          items={[
-            {
-              type: 'item',
-              id: 'Programs',
-              icon: 'iconProgramsFolder',
-              label: 'Programs',
-              submenu: [
-                {
-                  type: 'item',
-                  id: 'Accessories',
-                  icon: 'iconProgramsFolder',
-                  label: 'Accessories',
-                  submenu: [
-                    {
-                      type: 'item',
-                      id: 'app://Calculator/Main',
-                      icon: 'iconCalculator',
-                      label: 'Calculator',
-                    },
-                    {
-                      type: 'item',
-                      id: 'app://DiskDefragmenter/Main',
-                      icon: 'iconDefrag',
-                      label: 'Disk Defragmenter',
-                    },
-                    {
-                      type: 'item',
-                      id: 'app://MediaPlayer/Main',
-                      icon: 'iconMediaPlayer',
-                      label: 'Media Player',
-                    },
-                    {
-                      type: 'item',
-                      id: 'app://Notepad/Main',
-                      icon: 'iconNotepad',
-                      label: 'Notepad',
-                    },
-                    {
-                      type: 'item',
-                      id: 'app://Paint/Main',
-                      icon: 'iconPaint',
-                      label: 'Paint',
-                    },
-                    {
-                      type: 'item',
-                      id: 'app://Solitaire/Main',
-                      icon: 'iconSolitaire',
-                      label: 'Solitaire',
-                    },
-                    {
-                      type: 'item',
-                      id: 'app://WordPad/Main',
-                      icon: 'iconWordPad',
-                      label: 'WordPad',
-                    },
-                  ],
-                },
-                {
-                  type: 'item',
-                  id: 'StartUp',
-                  icon: 'iconProgramsFolder',
-                  label: 'StartUp',
-                  submenu: [
-                    {
-                      type: 'item',
-                      id: 'StartUpEmpty',
-                      label: '(Empty)',
-                      disabled: true,
-                    },
-                  ],
-                },
-                {
-                  type: 'item',
-                  id: 'app://Bluesky/Profile',
-                  icon: 'iconBluesky',
-                  label: 'Bluesky',
-                },
-                {
-                  type: 'item',
-                  id: 'app://InternetExplorer/Main',
-                  icon: 'iconIexplorer',
-                  label: 'Internet Explorer',
-                },
-                {
-                  type: 'item',
-                  id: 'app://DOS/Main',
-                  icon: 'iconDos',
-                  label: 'MS-DOS Prompt',
-                },
-                {
-                  type: 'item',
-                  id: 'app://WindowsExplorer/Main',
-                  icon: 'iconExplorer',
-                  label: 'Windows Explorer',
-                },
-              ],
-            },
-            {
-              type: 'item',
-              id: 'Documents',
-              icon: 'iconDocumentsFolder',
-              label: 'Documents',
-            },
-            {
-              type: 'item',
-              id: 'Settings',
-              icon: 'iconSettings',
-              label: 'Settings',
-            },
-            {
-              type: 'item',
-              id: 'Find',
-              icon: 'iconFind',
-              label: 'Find',
-            },
-            {
-              type: 'item',
-              id: 'Help',
-              icon: 'iconHelp',
-              label: 'Help',
-            },
-            {
-              type: 'item',
-              id: 'Run',
-              icon: 'iconRun',
-              label: 'Run',
-            },
-            {
-              type: 'separator',
-            },
-            {
-              type: 'item',
-              id: 'Suspend',
-              icon: 'iconSuspend',
-              label: 'Suspend',
-            },
-            {
-              type: 'item',
-              id: 'Shutdown',
-              icon: 'iconShutdown',
-              label: 'Shutdown',
-            },
-          ]}
-          onSelect={handleStartSelect}
+        <main
+          id="Wes95_Desktop"
+          class="Desktop"
+          onClick={handleDesktopTaskbarClick}
+          ref={desktopRef}
         >
-          <Icon icon="iconWes" />
-          <Show when={screenBreakpoint() !== 'small'}>Start</Show>
-        </MenuButton>
-        <div class="VerticalSeparator" />
-        <div class="VerticalHandle" />
-        <div class="TaskbarWindows">
-          <For
-            each={windowManager.state.windows.filter((window) =>
-              windowManager.isWindowInTaskbar(window),
-            )}
-          >
+          <ItemList
+            appearance="icons-vertical"
+            items={[
+              {
+                icon: 'iconComputer',
+                id: `apps://FileExplorer/Main?path=${encodeURIComponent('/My Computer')}`,
+                name: 'My Computer',
+              },
+              {
+                icon: 'iconDocumentsFolder',
+                id: `apps://FileExplorer/Main?path=${encodeURIComponent('/C/My Documents')}`,
+                name: 'My Documents',
+              },
+              {
+                icon: 'iconIexplorer',
+                id: `apps://InternetExplorer/Main`,
+                name: 'Internet Explorer',
+              },
+              {
+                icon: 'iconTrashEmpty',
+                id: `apps://FileExplorer/Main?path=${encodeURIComponent('/Trash')}`,
+                name: 'Recycle Bin',
+              },
+              {
+                icon: 'iconBluesky',
+                id: `app://Bluesky/Profile`,
+                name: 'Bluesky',
+              },
+              {
+                icon: 'fileTypeWordPad',
+                id: `apps://WordPad/Main?open=${encodeURIComponent('/C/My Documents/Welcome.doc')}`,
+                name: 'Welcome.doc',
+              },
+            ]}
+            onSelect={handleDesktopIconClick}
+          />
+          <For each={windowManager.state.windows}>
             {(window) => (
-              <button
-                classList={{
-                  TaskbarButton: true,
-                  '-active': windowManager.state.activeTaskWindow === window.id,
-                  '-small': screenBreakpoint() === 'small',
-                  '-down': windowManager.state.activeTaskWindow === window.id,
-                }}
-                onClick={() => windowManager.setActiveWindow(window)}
-              >
-                <Show when={window.icon}>
-                  <Icon icon={window.icon!} />
-                </Show>
-                <Show when={screenBreakpoint() !== 'small'}>
-                  <span class="TaskbarButtonTitle">{window.title}</span>
-                </Show>
-              </button>
+              <Window
+                active={windowManager.isWindowActive(window.id)}
+                window={window}
+                windowManager={windowManager}
+                zIndex={windowManager.getWindowZIndex(window.id)}
+              />
             )}
           </For>
-        </div>
-        <div class="TaskbarStatus StatusField">
-          <Show when={screenBreakpoint() !== 'small'}>
-            <button class="GhostButton" onClick={handleDing} type="button">
-              <Icon icon="toolbarSound" />
+        </main>
+        <footer class="Taskbar" onClick={handleDesktopTaskbarClick}>
+          <MenuButton
+            appearance="taskbar-start"
+            direction="block-start"
+            items={[
+              {
+                type: 'item',
+                id: 'Programs',
+                icon: 'iconProgramsFolder',
+                label: 'Programs',
+                submenu: [
+                  {
+                    type: 'item',
+                    id: 'Accessories',
+                    icon: 'iconProgramsFolder',
+                    label: 'Accessories',
+                    submenu: [
+                      {
+                        type: 'item',
+                        id: 'app://Calculator/Main',
+                        icon: 'iconCalculator',
+                        label: 'Calculator',
+                      },
+                      {
+                        type: 'item',
+                        id: 'app://DiskDefragmenter/Main',
+                        icon: 'iconDefrag',
+                        label: 'Disk Defragmenter',
+                      },
+                      {
+                        type: 'item',
+                        id: 'app://MediaPlayer/Main',
+                        icon: 'iconMediaPlayer',
+                        label: 'Media Player',
+                      },
+                      {
+                        type: 'item',
+                        id: 'app://Notepad/Main',
+                        icon: 'iconNotepad',
+                        label: 'Notepad',
+                      },
+                      {
+                        type: 'item',
+                        id: 'app://Paint/Main',
+                        icon: 'iconPaint',
+                        label: 'Paint',
+                      },
+                      {
+                        type: 'item',
+                        id: 'app://Solitaire/Main',
+                        icon: 'iconSolitaire',
+                        label: 'Solitaire',
+                      },
+                      {
+                        type: 'item',
+                        id: 'app://WordPad/Main',
+                        icon: 'iconWordPad',
+                        label: 'WordPad',
+                      },
+                    ],
+                  },
+                  {
+                    type: 'item',
+                    id: 'StartUp',
+                    icon: 'iconProgramsFolder',
+                    label: 'StartUp',
+                    submenu: [
+                      {
+                        type: 'item',
+                        id: 'StartUpEmpty',
+                        label: '(Empty)',
+                        disabled: true,
+                      },
+                    ],
+                  },
+                  {
+                    type: 'item',
+                    id: 'app://Bluesky/Profile',
+                    icon: 'iconBluesky',
+                    label: 'Bluesky',
+                  },
+                  {
+                    type: 'item',
+                    id: 'app://InternetExplorer/Main',
+                    icon: 'iconIexplorer',
+                    label: 'Internet Explorer',
+                  },
+                  {
+                    type: 'item',
+                    id: 'app://DOS/Main',
+                    icon: 'iconDos',
+                    label: 'MS-DOS Prompt',
+                  },
+                  {
+                    type: 'item',
+                    id: 'app://WindowsExplorer/Main',
+                    icon: 'iconExplorer',
+                    label: 'Windows Explorer',
+                  },
+                ],
+              },
+              {
+                type: 'item',
+                id: 'Documents',
+                icon: 'iconDocumentsFolder',
+                label: 'Documents',
+              },
+              {
+                type: 'item',
+                id: 'Settings',
+                icon: 'iconSettings',
+                label: 'Settings',
+              },
+              {
+                type: 'item',
+                id: 'Find',
+                icon: 'iconFind',
+                label: 'Find',
+              },
+              {
+                type: 'item',
+                id: 'Help',
+                icon: 'iconHelp',
+                label: 'Help',
+              },
+              {
+                type: 'item',
+                id: 'Run',
+                icon: 'iconRun',
+                label: 'Run',
+              },
+              {
+                type: 'separator',
+              },
+              {
+                type: 'item',
+                id: 'Suspend',
+                icon: 'iconSuspend',
+                label: 'Suspend',
+              },
+              {
+                type: 'item',
+                id: 'Shutdown',
+                icon: 'iconShutdown',
+                label: 'Shutdown',
+              },
+            ]}
+            onSelect={handleStartSelect}
+          >
+            <Icon icon="iconWes" />
+            <Show when={screenBreakpoint() !== 'small'}>Start</Show>
+          </MenuButton>
+          <div class="VerticalSeparator" />
+          <div class="VerticalHandle" />
+          <div class="TaskbarWindows">
+            <For
+              each={windowManager.state.windows.filter((window) =>
+                windowManager.isWindowInTaskbar(window),
+              )}
+            >
+              {(window) => (
+                <button
+                  classList={{
+                    TaskbarButton: true,
+                    '-active':
+                      windowManager.state.activeTaskWindow === window.id,
+                    '-small': screenBreakpoint() === 'small',
+                    '-down': windowManager.state.activeTaskWindow === window.id,
+                  }}
+                  onClick={() => windowManager.setActiveWindow(window)}
+                >
+                  <Show when={window.icon}>
+                    <Icon icon={window.icon!} />
+                  </Show>
+                  <Show when={screenBreakpoint() !== 'small'}>
+                    <span class="TaskbarButtonTitle">{window.title}</span>
+                  </Show>
+                </button>
+              )}
+            </For>
+          </div>
+          <div class="TaskbarStatus StatusField">
+            <Show when={screenBreakpoint() !== 'small'}>
+              <button class="GhostButton" onClick={handleDing} type="button">
+                <Icon icon="toolbarSound" />
+              </button>
+            </Show>
+            <button class="GhostButton" onClick={handleShare} type="button">
+              <Icon icon="toolbarEject" />
             </button>
-          </Show>
-          <button class="GhostButton" onClick={handleShare} type="button">
-            <Icon icon="toolbarEject" />
-          </button>
-          <Show when={screenBreakpoint() !== 'small'}>
-            <div class="TaskbarClock">{clock()}</div>
-          </Show>
-        </div>
-      </footer>
-    </div>
+            <Show when={screenBreakpoint() !== 'small'}>
+              <div class="TaskbarClock">{clock()}</div>
+            </Show>
+          </div>
+        </footer>
+      </div>
+    </FocusProvider>
   );
 };

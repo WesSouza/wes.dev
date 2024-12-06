@@ -69,6 +69,10 @@
   &:not(.LinkButton, .TaskbarButton) {
     justify-content: center;
   }
+
+  &.-main {
+    border: var(--wes95-scale-value) solid var(--wes95-color-borderDarkest);
+  }
 }
 
 .GhostButton {
