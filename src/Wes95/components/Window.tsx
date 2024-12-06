@@ -8,6 +8,7 @@ import type { WindowState } from '../models/WindowState';
 import { getRect, parseWindowURL } from '../utils/Windows';
 import { Icon } from './Icon';
 import { Symbol } from './Symbol';
+import { throttleEvent } from '../utils/events';
 
 const ResizeAreaWidth = 12;
 
@@ -120,8 +121,8 @@ export function Window(p: {
       !event.target.closest('img')
     ) {
       const rect = getRect(p.window);
-      const x = event.clientX - rect.x;
-      const y = event.clientY - rect.y;
+      const x = document.documentElement.scrollLeft + event.clientX - rect.x;
+      const y = document.documentElement.scrollTop + event.clientY - rect.y;
 
       if (x <= ResizeAreaWidth) {
         resizing.x = true;
@@ -199,7 +200,7 @@ export function Window(p: {
     windowManager.setMovingWindows(false);
   };
 
-  const handlePointerMove = (event: PointerEvent) => {
+  const handlePointerMove = throttleEvent((event: PointerEvent) => {
     if (activePointers.size > 1 || !pointerAction) {
       return;
     }
@@ -208,8 +209,8 @@ export function Window(p: {
 
     if (pointerAction === 'move') {
       const position = {
-        x: event.clientX - clickOffset!.x,
-        y: event.clientY - clickOffset!.y,
+        x: document.documentElement.scrollLeft + event.clientX - clickOffset!.x,
+        y: document.documentElement.scrollTop + event.clientY - clickOffset!.y,
       };
       windowManager.setWindowPosition(p.window.id, position);
     }
@@ -218,8 +219,8 @@ export function Window(p: {
       const rect = getRect(p.window);
 
       const position = {
-        x: event.clientX - clickOffset!.x,
-        y: event.clientY - clickOffset!.y,
+        x: document.documentElement.scrollLeft + event.clientX - clickOffset!.x,
+        y: document.documentElement.scrollTop + event.clientY - clickOffset!.y,
       };
 
       const size = {
@@ -231,7 +232,11 @@ export function Window(p: {
         if (resizing.anchorX) {
           size.width = resizing.anchorX - position.x;
         } else {
-          size.width = event.clientX - rect.x - resizing.offsetX;
+          size.width =
+            document.documentElement.scrollLeft +
+            event.clientX -
+            rect.x -
+            resizing.offsetX;
         }
       }
 
@@ -239,7 +244,11 @@ export function Window(p: {
         if (resizing.anchorY) {
           size.height = resizing.anchorY - position.y;
         } else {
-          size.height = event.clientY - rect.y - resizing.offsetY;
+          size.height =
+            document.documentElement.scrollTop +
+            event.clientY -
+            rect.y -
+            resizing.offsetY;
         }
       }
 
@@ -249,16 +258,16 @@ export function Window(p: {
         Boolean(resizing.anchorX || resizing.anchorY),
       );
     }
-  };
+  });
 
-  const handleWindowPointerMove = (event: PointerEvent) => {
+  const handleWindowPointerMove = throttleEvent((event: PointerEvent) => {
     if (p.window.maximized || p.window.sizeAutomatic) {
       return;
     }
 
     const rect = getRect(p.window);
-    const x = event.clientX - rect.x;
-    const y = event.clientY - rect.y;
+    const x = document.documentElement.scrollLeft + event.clientX - rect.x;
+    const y = document.documentElement.scrollTop + event.clientY - rect.y;
     let cursor = '';
 
     if (y <= ResizeAreaWidth) {
@@ -282,7 +291,7 @@ export function Window(p: {
     } else {
       windowRef.style.setProperty('cursor', CursorMap[cursor] + '-resize');
     }
-  };
+  });
 
   const windowContents = () => {
     const [WindowContentComponent, WindowDataSchema, url, type] =
@@ -333,17 +342,20 @@ export function Window(p: {
         'z-index': p.zIndex,
       }}
     >
-      <div
-        class="WindowTitleBar"
-        data-window-title-bar
-        onDblClick={handleMaximize}
-      >
+      <div class="WindowTitleBar">
         <Show when={p.window.icon}>
           <div class="WindowTitleIcon">
             <Icon icon={p.window.icon!} />
           </div>
         </Show>
-        <div class="WindowTitleText">{p.window.title}</div>
+        <button
+          class="GhostButton WindowTitleText"
+          data-window-title-bar
+          onDblClick={handleMaximize}
+          type="button"
+        >
+          {p.window.title}
+        </button>
         <div class="WindowTitleButtons">
           <Show when={!p.window.parentId && p.window.showInTaskbar}>
             <Show when={p.window.minimizable}>

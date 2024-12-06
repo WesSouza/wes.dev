@@ -36,6 +36,7 @@
 }
 
 .WindowTitleText {
+  cursor: default;
   flex-grow: 1;
   font-size: 1.2em;
   overflow: hidden;
