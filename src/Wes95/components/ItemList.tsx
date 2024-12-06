@@ -1,5 +1,6 @@
 import { For, Match, Switch } from 'solid-js';
 import { Icon } from './Icon';
+import { Button } from './Button';
 
 export type Item = {
   id: string;
@@ -66,11 +67,7 @@ export function ItemList(p: {
           <For each={p.items}>
             {(item) => (
               <li class="Item">
-                <button
-                  class="LinkButton"
-                  onClick={() => handleItemClick(item)}
-                  type="button"
-                >
+                <Button appearance="Link" onClick={() => handleItemClick(item)}>
                   <Icon
                     icon={item.icon}
                     size={
@@ -81,7 +78,7 @@ export function ItemList(p: {
                     }
                   />
                   <span class="ItemLabel">{item.name}</span>
-                </button>
+                </Button>
               </li>
             )}
           </For>

@@ -41,18 +41,29 @@
     }
   }
 
-  & .Item {
-    .LinkButton:hover {
-      color: var(--wes95-color-materialTextInvert);
-      background-color: var(--wes95-color-hoverBackground);
-    }
+  .Item {
+    .LinkButton {
+      gap: calc(var(--wes95-scale-value) * 4);
 
-    & .ItemLabel {
-      display: flex;
-      align-items: center;
-      gap: calc(var(--wes95-scale-value) * 2);
-      padding: var(--wes95-scale-value) calc(var(--wes95-scale-value) * 4);
-      width: max-content;
+      &:hover,
+      &:focus {
+        .Icon {
+          filter: url(#blue-tint);
+        }
+
+        .ItemLabel {
+          color: var(--wes95-color-materialTextInvert);
+          background-color: var(--wes95-color-hoverBackground);
+        }
+      }
+
+      .ItemLabel {
+        display: flex;
+        align-items: center;
+        gap: calc(var(--wes95-scale-value) * 2);
+        padding: var(--wes95-scale-value) calc(var(--wes95-scale-value) * 4);
+        width: max-content;
+      }
     }
   }
 }
