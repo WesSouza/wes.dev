@@ -224,13 +224,28 @@ export function BlueskyPost(p: {
           </Show>
           <Show when={!p.embed}>
             <div class={styles.PostInteractions}>
-              <Link class="FlatButton" href={post().url} target="_blank">
+              <Link
+                alwaysExternal
+                class="FlatButton"
+                href={post().url}
+                target="_blank"
+              >
                 <Symbol symbol="comment" /> {post().replyCount}
               </Link>
-              <Link class="FlatButton" href={post().url} target="_blank">
+              <Link
+                alwaysExternal
+                class="FlatButton"
+                href={post().url}
+                target="_blank"
+              >
                 <Symbol symbol="repost" /> {post().repostCount}
               </Link>
-              <Link class="FlatButton" href={post().url} target="_blank">
+              <Link
+                alwaysExternal
+                class="FlatButton"
+                href={post().url}
+                target="_blank"
+              >
                 <Symbol symbol="like" /> {post().likeCount}
               </Link>
             </div>
