@@ -30,7 +30,8 @@ let shared: WindowManager | undefined;
 const NextWindowPositionOffset = 32;
 const MinVisibleLeft = 6 + 4 + 32 + 4 + 32;
 const MinVisibleRight = 34 + 34 + 4 + 34 + 6 + 4 + 34;
-const MinVisibleHeight = 21;
+const MinVisibleTop = 6;
+const MinVisibleBottom = 42;
 
 const DefaultMinSize = {
   width: 320,
@@ -265,9 +266,11 @@ export class WindowManager {
       options;
     const { width: defaultWidth, height: defaultHeight } = options;
 
+    const screenBreakpoint = ScreenManager.shared.screenBreakpoint();
+    const screenRect = ScreenManager.shared.desktopSize();
     const window = this.getWindow(windowId);
     const windowInit = this.#windowInits.get(windowId);
-    if (!window || !windowInit) {
+    if (!window || !windowInit || !screenRect) {
       return;
     }
 
@@ -275,28 +278,35 @@ export class WindowManager {
     let y = windowInit.position?.y;
 
     if (x === undefined || y === undefined) {
-      this.#setState((state) => ({
-        ...state,
-        lastWindowPosition: {
-          x: state.lastWindowPosition.x + NextWindowPositionOffset,
-          y: state.lastWindowPosition.y + NextWindowPositionOffset,
-        },
-      }));
+      this.#setState('lastWindowPosition', (previous) => {
+        const next = {
+          x: previous.x + NextWindowPositionOffset,
+          y: previous.y + NextWindowPositionOffset,
+        };
+        if (next.x > screenRect.width / 2 || next.y > screenRect.height / 2) {
+          return {
+            x: NextWindowPositionOffset,
+            y: NextWindowPositionOffset,
+          };
+        }
+        return {
+          x: next.x,
+          y: next.y,
+        };
+      });
 
       x = this.state.lastWindowPosition.x;
       y = this.state.lastWindowPosition.y;
     }
 
-    let width = windowInit.size?.width ?? defaultWidth ?? DefaultMinSize.width;
-    let height =
-      windowInit.size?.height ?? defaultHeight ?? DefaultMinSize.height;
-
-    const screenRect = ScreenManager.shared.desktopSize();
-
-    if (screenRect) {
-      width = Math.min(width, screenRect.width);
-      height = Math.min(height, screenRect.height);
-    }
+    const width = Math.min(
+      windowInit.size?.width ?? defaultWidth ?? DefaultMinSize.width,
+      screenRect.width,
+    );
+    const height = Math.min(
+      windowInit.size?.height ?? defaultHeight ?? DefaultMinSize.height,
+      screenRect.height,
+    );
 
     if (windowInit.centerToParent ?? centerToParent) {
       const parentRect = this.getEffectiveWindowRect(window.parentId);
@@ -311,13 +321,8 @@ export class WindowManager {
       }
     }
 
-    x = Math.max(x, 0);
-    y = Math.max(y, 0);
-
-    if (screenRect) {
-      x = Math.min(x, screenRect.width - MinVisibleLeft);
-      y = Math.min(y, screenRect.height - MinVisibleHeight);
-    }
+    x = Math.min(Math.max(x, 0), screenRect.width - MinVisibleLeft);
+    y = Math.min(Math.max(y, 0), screenRect.height - MinVisibleBottom);
 
     const showInTaskbar =
       options.showInTaskbar ?? window.parentId === undefined;
@@ -330,13 +335,16 @@ export class WindowManager {
       window.height = height;
       window.icon = options.icon;
       window.maximizable = options.maximizable ?? showInTaskbar;
-      window.maximized = windowInit.maximized;
+      window.maximized =
+        window.maximizable && screenBreakpoint === 'small'
+          ? true
+          : windowInit.maximized;
       window.minimizable = options.minimizable ?? showInTaskbar;
       window.minimized = windowInit.minimized;
       window.showInTaskbar = showInTaskbar;
       window.sizeAutomatic = sizeAutomatic;
       window.sizeConstraints.max = sizeConstraints?.max;
-      window.sizeConstraints.min = sizeConstraints?.min;
+      window.sizeConstraints.min = sizeConstraints?.min ?? DefaultMinSize;
       window.title = options.title ?? 'Untitled';
       window.width = width;
       window.x = x;
@@ -463,9 +471,9 @@ export class WindowManager {
     }
 
     const minX = MinVisibleRight - window.width;
-    const minY = -MinVisibleHeight;
+    const minY = -MinVisibleTop;
     const maxX = desktopSize.width - MinVisibleLeft;
-    const maxY = desktopSize.height - MinVisibleHeight;
+    const maxY = desktopSize.height - MinVisibleBottom;
 
     position.x = clamp(minX, position.x, maxX);
     position.y = clamp(minY, position.y, maxY);
@@ -505,23 +513,19 @@ export class WindowManager {
       y = window.y + window.height - height;
     }
 
-    if (x < 0) {
-      width += x;
-      x = 0;
+    if (y < -MinVisibleTop) {
+      height += MinVisibleTop + y;
+      y = -MinVisibleTop;
     }
 
-    if (y < 0) {
-      height += y;
-      y = 0;
+    if (x > desktopSize.width - MinVisibleLeft) {
+      width -= desktopSize.width - MinVisibleLeft - x;
+      x = desktopSize.width - MinVisibleLeft;
     }
 
-    const overflowX = x + width - desktopSize.width;
-    const overflowY = y + height - desktopSize.height;
-    if (overflowX > 0) {
-      width -= overflowX;
-    }
-    if (overflowY > 0) {
-      height -= overflowY;
+    if (y > desktopSize.height - MinVisibleBottom) {
+      height -= desktopSize.height - MinVisibleBottom - y;
+      y = desktopSize.height - MinVisibleBottom;
     }
 
     this.#setState(
