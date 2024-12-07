@@ -48,6 +48,10 @@ export const Explorer = () => {
             {
               active: true,
               maximized: screenBreakpoint() === 'small',
+              position: {
+                x: 160,
+                y: 30,
+              },
             },
           );
         },
