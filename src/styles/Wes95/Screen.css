@@ -14,11 +14,11 @@ body,
 }
 
 .Desktop {
-  position: relative;
   color: var(--wes95-color-canvasTextInvert);
   flex-grow: 1;
-  z-index: 1;
   overflow: hidden;
+  position: relative;
+  z-index: 1;
 }
 
 .Taskbar {
