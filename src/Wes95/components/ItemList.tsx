@@ -22,11 +22,19 @@ export function ItemList(p: {
   return (
     <Switch>
       <Match when={p.appearance === 'details'}>
-        <table class="ItemList">
+        <table class="ItemList -table">
           <thead>
             <tr>
-              <th>Name</th>
-              <For each={p.columns}>{(column) => <th>{column.name}</th>}</For>
+              <th>
+                <Button class="HeaderButton">Name</Button>
+              </th>
+              <For each={p.columns}>
+                {(column) => (
+                  <th>
+                    <Button class="HeaderButton">{column.name}</Button>
+                  </th>
+                )}
+              </For>
             </tr>
           </thead>
           <tbody>

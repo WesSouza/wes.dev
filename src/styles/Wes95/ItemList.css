@@ -1,30 +1,45 @@
 .ItemList {
-  position: relative;
-  list-style: none;
   padding: 0;
   margin: 0;
   user-select: none;
   -webkit-user-select: none;
 
+  &:not(.-table) {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+  }
+
   &.-icons {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(64px, 1fr));
     max-width: 100%;
+    gap: calc(var(--wes95-scale-value) * 10) 0;
 
     .LinkButton {
       display: flex;
       align-items: center;
-      width: calc(var(--wes95-scale-value) * 64);
-      padding: calc(var(--wes95-scale-value) * 6);
+      width: calc(var(--wes95-scale-value) * 74);
+      height: calc(var(--wes95-scale-value) * 56);
       flex-direction: column;
+    }
+
+    .ItemLabel {
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      display: -webkit-box;
+      max-width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: break-spaces;
     }
   }
 
-  &.-list {
-    display: flex;
+  &.-list,
+  &.-table {
     flex-direction: column;
-    flex-wrap: wrap;
-    height: 100%;
+
+    &:not(.-table) {
+      height: 100%;
+    }
 
     &.-icons {
       gap: calc(var(--wes95-scale-value) * 4);
@@ -35,10 +50,49 @@
       gap: calc(var(--wes95-scale-value) * 4);
 
       .LinkButton {
+        gap: calc(var(--wes95-scale-value) * 2);
         display: flex;
         align-items: center;
+        text-align: left;
+        max-width: calc(var(--wes95-scale-value) * 180);
+        overflow: hidden;
+      }
+
+      .ItemLabel {
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
     }
+
+    &.-table {
+      width: 100%;
+      border-collapse: collapse;
+
+      th {
+        margin: 0;
+        padding: 0;
+      }
+
+      td {
+        margin: 0;
+        padding: var(--wes95-scale-value);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+    }
+
+    .Icon {
+      flex-shrink: 0;
+    }
+  }
+
+  .HeaderButton {
+    font-weight: normal;
+    justify-content: flex-start;
+    width: 100%;
   }
 
   .Item {
@@ -58,11 +112,7 @@
       }
 
       .ItemLabel {
-        display: flex;
-        align-items: center;
-        gap: calc(var(--wes95-scale-value) * 2);
-        padding: var(--wes95-scale-value) calc(var(--wes95-scale-value) * 4);
-        width: max-content;
+        padding: var(--wes95-scale-value);
       }
     }
   }

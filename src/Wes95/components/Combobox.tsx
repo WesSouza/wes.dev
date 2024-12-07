@@ -96,7 +96,9 @@ export const Combobox = (p: {
           <Show when={p.appearance === 'icon' && item()?.icon}>
             <Icon icon={item()!.icon!} />
           </Show>
-          <span>{item()?.label ?? p.placeholder}</span>
+          <span class="ComboboxValueText">
+            {item()?.label ?? p.placeholder}
+          </span>
         </div>
         <button type="button" class="ComboboxButton TaskbarButton">
           <Symbol symbol="chevronDown" />
