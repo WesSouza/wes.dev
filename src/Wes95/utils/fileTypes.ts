@@ -76,6 +76,11 @@ export function mapFileType(file: FileNode) {
         ? DirectoryIcons[file.path]
         : 'iconFolderClosed') as string,
     };
+  } else if (file.type === 'shortcut') {
+    return {
+      name: 'Shortcut',
+      icon: file.icon,
+    };
   } else {
     for (const type of FileTypesMap) {
       if (type.test.test(file.name)) {
