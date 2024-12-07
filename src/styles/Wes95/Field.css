@@ -18,6 +18,12 @@
     flex-grow: 1;
   }
 
+  .ComboboxValueText {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
   .ComboboxButton {
     /* Why the fuck do I need to do this?! */
     max-width: max-content;

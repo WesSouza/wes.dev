@@ -6,6 +6,7 @@ import type { WindowState } from '../models/WindowState';
 import { registerBluesky } from '../programs/Bluesky/registry';
 import { registerCalculator } from '../programs/Calculator/registry';
 import { registerDiskDefragmenter } from '../programs/DiskDefragmenter/registry';
+import { registerFileExplorer } from '../programs/FileExplorer/registry';
 import { registerMediaPlayer } from '../programs/MediaPlayer/registry';
 import { registerNotepad } from '../programs/Notepad/registry';
 import { registerQuickView } from '../programs/QuickView/registry';
@@ -102,6 +103,7 @@ export class WindowManager {
     Bluesky: registerBluesky(),
     Calculator: registerCalculator(),
     DiskDefragmenter: registerDiskDefragmenter(),
+    FileExplorer: registerFileExplorer(),
     FileSystem: registerFileSystem(),
     QuickView: registerQuickView(),
     MediaPlayer: registerMediaPlayer(),

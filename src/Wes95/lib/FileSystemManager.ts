@@ -1,4 +1,5 @@
 import { trpc } from '../../trpc/client';
+import type { MenuItem } from '../components/Menu';
 import type { AstroContentEntry } from '../models/AstroContent';
 
 let shared: FileSystemManager | undefined;
@@ -265,5 +266,81 @@ export class FileSystemManager {
     }
 
     return undefined;
+  };
+
+  static getLookInMenu = (path: string): MenuItem[] => {
+    if (!path.startsWith('/C/')) {
+      path = '';
+    } else {
+      path = path.replace(/^\/C\//, '');
+    }
+
+    return [
+      {
+        id: '/Desktop',
+        label: 'Desktop',
+        icon: 'toolbarDeskpad',
+        type: 'item',
+        indentLevel: 0,
+      },
+      {
+        id: '/C/My Documents',
+        label: 'My Documents',
+        icon: 'iconDocumentsFolder',
+        type: 'item',
+        indentLevel: 1,
+      },
+      {
+        id: '/My Computer',
+        label: 'My Computer',
+        icon: 'iconComputer',
+        type: 'item',
+        indentLevel: 1,
+      },
+      {
+        id: '/A',
+        label: '3½ Floppy (A:)',
+        icon: 'iconFloppyDrive',
+        type: 'item',
+        indentLevel: 2,
+      },
+      {
+        id: '/C',
+        label: 'Hard Disk (C:)',
+        icon: 'iconDrive',
+        type: 'item',
+        indentLevel: 2,
+      },
+      ...path
+        .split('/')
+        .filter(Boolean)
+        .reduce<{ name: string; path: string }[]>(
+          (directories, directory) => [
+            ...directories,
+            {
+              path: directories
+                .map((directory) => directory.name)
+                .concat([directory])
+                .join('/'),
+              name: directory,
+            },
+          ],
+          [],
+        )
+        .map((directory, index) => ({
+          id: `/C/${directory.path}`,
+          label: directory.name,
+          icon: path === directory.path ? 'iconFolderOpen' : 'iconFolderClosed',
+          type: 'item' as const,
+          indentLevel: index + 3,
+        })),
+      {
+        id: '/D',
+        label: 'CD-ROM (D:)',
+        icon: 'iconCDDrive',
+        type: 'item',
+        indentLevel: 2,
+      },
+    ];
   };
 }
