@@ -11,8 +11,9 @@
   }
 
   &.-icons {
-    max-width: 100%;
     gap: calc(var(--wes95-scale-value) * 10) 0;
+    max-width: 100%;
+    padding-block: calc(var(--wes95-scale-value) * 6);
 
     .LinkButton {
       display: flex;
