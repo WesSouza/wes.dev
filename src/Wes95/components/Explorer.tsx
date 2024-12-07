@@ -195,16 +195,6 @@ export const Explorer = () => {
                 name: 'My Documents',
               },
               {
-                icon: 'iconIexplorer',
-                id: `apps://InternetExplorer/Main`,
-                name: 'Internet Explorer',
-              },
-              {
-                icon: 'iconTrashEmpty',
-                id: `apps://FileExplorer/Main?path=${encodeURIComponent('/Trash')}`,
-                name: 'Recycle Bin',
-              },
-              {
                 icon: 'iconBluesky',
                 id: `app://Bluesky/Profile`,
                 name: 'Bluesky',
@@ -247,12 +237,6 @@ export const Explorer = () => {
                     submenu: [
                       {
                         type: 'item',
-                        id: 'app://Calculator/Main',
-                        icon: 'iconCalculator',
-                        label: 'Calculator',
-                      },
-                      {
-                        type: 'item',
                         id: 'app://DiskDefragmenter/Main',
                         icon: 'iconDefrag',
                         label: 'Disk Defragmenter',
@@ -262,18 +246,6 @@ export const Explorer = () => {
                         id: 'app://MediaPlayer/Main',
                         icon: 'iconMediaPlayer',
                         label: 'Media Player',
-                      },
-                      {
-                        type: 'item',
-                        id: 'app://Paint/Main',
-                        icon: 'iconPaint',
-                        label: 'Paint',
-                      },
-                      {
-                        type: 'item',
-                        id: 'app://Solitaire/Main',
-                        icon: 'iconSolitaire',
-                        label: 'Solitaire',
                       },
                       {
                         type: 'item',
@@ -302,18 +274,6 @@ export const Explorer = () => {
                     id: 'app://Bluesky/Profile',
                     icon: 'iconBluesky',
                     label: 'Bluesky',
-                  },
-                  {
-                    type: 'item',
-                    id: 'app://InternetExplorer/Main',
-                    icon: 'iconIexplorer',
-                    label: 'Internet Explorer',
-                  },
-                  {
-                    type: 'item',
-                    id: 'app://DOS/Main',
-                    icon: 'iconDos',
-                    label: 'Command Prompt',
                   },
                   {
                     type: 'item',

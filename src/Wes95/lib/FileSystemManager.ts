@@ -41,14 +41,7 @@ const ExtensionMap: Record<string, string> = {
 const virtualDirectories: Record<string, FileNode[]> = {
   '/Desktop': [
     makeDirectory('/My Computer'),
-    makeShortcut(
-      '/My Computer',
-      'Internet Explorer',
-      'app://InternetExplorer/Main',
-      'iconIexplore',
-    ),
     makeDirectory('/C/My Documents'),
-    makeDirectory('/Recycle Bin'),
     makeShortcut(
       '/My Computer',
       'Bluesky',
