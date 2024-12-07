@@ -25,6 +25,7 @@ export const MenuButton = (p: {
   onOpen?: () => void;
   onSelect: (itemId: string) => void;
   open?: boolean;
+  verticalBar?: JSX.Element;
 }) => {
   let element!: HTMLButtonElement;
   const menuButtonId = createUniqueId();
@@ -134,6 +135,7 @@ export const MenuButton = (p: {
           onMoveLeft={p.onMoveLeft}
           onMoveRight={p.onMoveRight}
           onSelect={handleSelect}
+          verticalBar={p.verticalBar}
         />
       </Show>
     </>

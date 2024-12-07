@@ -295,12 +295,6 @@ export const Explorer = () => {
               },
               {
                 type: 'item',
-                id: 'Settings',
-                icon: 'iconSettings',
-                label: 'Settings',
-              },
-              {
-                type: 'item',
                 id: 'Find',
                 icon: 'iconFind',
                 label: 'Find',
@@ -322,18 +316,19 @@ export const Explorer = () => {
               },
               {
                 type: 'item',
-                id: 'Suspend',
-                icon: 'iconSuspend',
-                label: 'Suspend',
-              },
-              {
-                type: 'item',
                 id: 'Shutdown',
                 icon: 'iconShutdown',
                 label: 'Shutdown',
               },
             ]}
             onSelect={handleStartSelect}
+            verticalBar={
+              <div class="MenuWes95">
+                <div class="Wes95">
+                  <span class="Wes">Wes</span>95
+                </div>
+              </div>
+            }
           >
             <Icon icon="iconWes" />
             <Show when={screenBreakpoint() !== 'small'}>Start</Show>
