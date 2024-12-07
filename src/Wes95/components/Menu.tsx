@@ -11,10 +11,10 @@ import {
   type JSX,
 } from 'solid-js';
 import { createStore } from 'solid-js/store';
+import { ScreenManager } from '../lib/ScreenManager';
 import type { Anchor } from '../models/Geometry';
 import { Icon } from './Icon';
 import { Symbol } from './Symbol';
-import { ScreenManager } from '../lib/ScreenManager';
 
 export type MenuSeparator = {
   type: 'separator';
@@ -60,6 +60,7 @@ export function Menu(p: {
   onMoveLeft?: () => void;
   onMoveRight?: () => void;
   onSelect: (itemId: string) => void;
+  verticalBar?: JSX.Element;
 }) {
   let didMove = false;
   let timer: number | undefined;
@@ -86,7 +87,7 @@ export function Menu(p: {
 
   const scale = ScreenManager.shared.scale;
 
-  const inlineMenuOffsetBlock = scale() * -4;
+  const inlineMenuOffsetBlock = scale() * -3;
   const inlineMenuOffsetInline = scale() * -3;
 
   let menuElement!: HTMLMenuElement;
@@ -312,6 +313,7 @@ export function Menu(p: {
       classList={{
         Menu: true,
         '-listBox': p.appearance === 'listbox',
+        '-verticalBar': p.verticalBar !== undefined,
       }}
       id={p.id}
       data-menu-id={p.menuId}
@@ -319,6 +321,7 @@ export function Menu(p: {
       ref={menuElement}
       style={style()}
     >
+      {p.verticalBar}
       <For each={p.items}>
         {(item, index) =>
           item.type === 'separator' ? (

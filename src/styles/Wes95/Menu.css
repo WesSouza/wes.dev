@@ -1,5 +1,5 @@
 .Menu {
-  --wes95-padding-block: calc(var(--wes95-scale-value) * 2);
+  --wes95-padding-block: var(--wes95-scale-value);
   --wes95-padding-inline: var(--wes95-scale-value);
 
   position: absolute;
@@ -15,6 +15,10 @@
     min-width: calc(var(--wes95-scale-value) * 160);
     max-height: 66vh;
     overflow: auto;
+  }
+
+  &.-verticalBar {
+    padding-inline-start: calc(var(--wes95-scale-value) * 19) !important;
   }
 }
 
@@ -61,4 +65,29 @@
 
 .Toolbar {
   padding: calc(var(--wes95-scale-value) * 1) 0;
+}
+
+.MenuWes95 {
+  position: absolute;
+  display: flex;
+  align-items: flex-end;
+  top: calc(var(--wes95-scale-value) * 3);
+  left: calc(var(--wes95-scale-value) * 3);
+  bottom: calc(var(--wes95-scale-value) * 3);
+  width: calc(var(--wes95-scale-value) * 16);
+  padding: calc(var(--wes95-scale-value) * 4) calc(var(--wes95-scale-value) * 2);
+  font-size: 1.2em;
+  color: var(--wes95-color-headerText);
+  background-color: var(--wes95-color-borderDark);
+
+  .Wes95 {
+    margin-bottom: calc(var(--wes95-scale-value) * -10);
+    transform: rotate(-90deg);
+    transform-origin: top left;
+  }
+
+  .Wes {
+    font-weight: bold;
+    color: var(--wes95-color-borderLight);
+  }
 }
