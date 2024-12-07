@@ -265,12 +265,6 @@ export const Explorer = () => {
                       },
                       {
                         type: 'item',
-                        id: 'app://Notepad/Main',
-                        icon: 'iconNotepad',
-                        label: 'Notepad',
-                      },
-                      {
-                        type: 'item',
                         id: 'app://Paint/Main',
                         icon: 'iconPaint',
                         label: 'Paint',

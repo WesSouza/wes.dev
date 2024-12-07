@@ -8,7 +8,6 @@ import { registerCalculator } from '../programs/Calculator/registry';
 import { registerDiskDefragmenter } from '../programs/DiskDefragmenter/registry';
 import { registerFileExplorer } from '../programs/FileExplorer/registry';
 import { registerMediaPlayer } from '../programs/MediaPlayer/registry';
-import { registerNotepad } from '../programs/Notepad/registry';
 import { registerQuickView } from '../programs/QuickView/registry';
 import { registerWordPad } from '../programs/WordPad/registry';
 import { registerFileSystem } from '../system/FileSystem/registry';
@@ -108,7 +107,6 @@ export class WindowManager {
     QuickView: registerQuickView(),
     MediaPlayer: registerMediaPlayer(),
     Message: registerMessage(),
-    Notepad: registerNotepad(),
     WordPad: registerWordPad(),
   };
 
