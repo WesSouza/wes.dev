@@ -1,10 +1,14 @@
+function adjustPath(path: string) {
+  return path.replace('My Document', 'My_Document');
+}
+
 export function getRealPublicURL(path: string | undefined) {
   if (!path) {
     return;
   }
 
   if (path.startsWith('/C/')) {
-    return new URL(location.protocol + location.host + path);
+    return new URL(location.protocol + location.host + adjustPath(path));
   } else if (path.startsWith('http:') || path.startsWith('https:')) {
     return new URL(path);
   } else {

@@ -4,6 +4,7 @@ import {
   createResource,
   createSignal,
   onMount,
+  Show,
 } from 'solid-js';
 import { Combobox } from '../../components/Combobox';
 import { Icon } from '../../components/Icon';
@@ -20,6 +21,7 @@ export function FileExplorerMainWindow(p: {
   data: FileExplorerMainData;
   window: WindowState;
 }) {
+  const [showToolbar, setShowToolbar] = createSignal(true);
   const [listType, setListType] = createSignal<'icons' | 'list' | 'details'>(
     'icons',
   );
@@ -50,8 +52,27 @@ export function FileExplorerMainWindow(p: {
   });
 
   const handleMenuSelect = (id: string) => {
-    if (id === 'Exit') {
-      WindowManager.shared.closeWindow(p.window.id);
+    switch (id) {
+      case 'Details': {
+        setListType('details');
+        break;
+      }
+      case 'Icons': {
+        setListType('icons');
+        break;
+      }
+      case 'Exit': {
+        WindowManager.shared.closeWindow(p.window.id);
+        break;
+      }
+      case 'List': {
+        setListType('list');
+        break;
+      }
+      case 'Toolbar': {
+        setShowToolbar((show) => !show);
+        break;
+      }
     }
   };
 
@@ -66,7 +87,23 @@ export function FileExplorerMainWindow(p: {
       return;
     }
 
-    // TODO: Open file
+    if (file.type === 'shortcut') {
+      WindowManager.shared.addWindow(file.url, { active: true });
+      return;
+    }
+
+    const programUrl = WindowManager.shared.matchPath(file.path);
+    if (programUrl) {
+      WindowManager.shared.addWindow(programUrl, { active: true });
+      return;
+    }
+
+    WindowManager.shared.messageDialog({
+      type: 'error',
+      title: 'Error',
+      message: `Unable to find a program that can open the file "${file.name}".`,
+      parentId: p.window.id,
+    });
   };
 
   const handleFolderUpClick = () => {
@@ -137,11 +174,7 @@ export function FileExplorerMainWindow(p: {
                 type: 'item',
                 id: 'Toolbar',
                 label: 'Toolbar',
-              },
-              {
-                type: 'item',
-                id: 'StatusBar',
-                label: 'Status Bar',
+                checked: showToolbar() ? 'checkmark' : undefined,
               },
               {
                 type: 'separator',
@@ -150,16 +183,19 @@ export function FileExplorerMainWindow(p: {
                 type: 'item',
                 id: 'LargeIcons',
                 label: 'Large Icons',
+                checked: listType() === 'icons' ? 'radio' : undefined,
               },
               {
                 type: 'item',
                 id: 'List',
                 label: 'List',
+                checked: listType() === 'list' ? 'radio' : undefined,
               },
               {
                 type: 'item',
                 id: 'Details',
                 label: 'Details',
+                checked: listType() === 'details' ? 'radio' : undefined,
               },
             ],
           },
@@ -178,61 +214,63 @@ export function FileExplorerMainWindow(p: {
         ]}
         onSelect={handleMenuSelect}
       />
-      <hr class="HorizontalSeparator" />
-      <div class="Toolbar Horizontal -middle SmallSpacing">
-        <Combobox
-          appearance="icon"
-          items={lookInItems()}
-          selectedItem={currentDirectoryPath()}
-          onChange={setCurrentDirectoryPath}
-        />
-        <button
-          class="ToolbarButton"
-          disabled={currentDirectoryPath() === '/Desktop'}
-          onClick={handleFolderUpClick}
-          type="button"
-        >
-          <Icon icon="toolbarFolderUp" />
-        </button>
-        <button class="ToolbarButton" type="button">
-          <Icon icon="toolbarFolderNew" />
-        </button>
-        <div class="ButtonGroup Horizontal">
+      <Show when={showToolbar()}>
+        <hr class="HorizontalSeparator" />
+        <div class="Toolbar Horizontal -middle SmallSpacing">
+          <Combobox
+            appearance="icon"
+            items={lookInItems()}
+            selectedItem={currentDirectoryPath()}
+            onChange={setCurrentDirectoryPath}
+          />
           <button
-            classList={{
-              ToolbarButton: true,
-              '-active': listType() === 'icons',
-              '-down': listType() === 'icons',
-            }}
-            onClick={() => setListType('icons')}
+            class="ToolbarButton"
+            disabled={currentDirectoryPath() === '/Desktop'}
+            onClick={handleFolderUpClick}
             type="button"
           >
-            <Icon icon="toolbarIcons" />
+            <Icon icon="toolbarFolderUp" />
           </button>
-          <button
-            classList={{
-              ToolbarButton: true,
-              '-active': listType() === 'list',
-              '-down': listType() === 'list',
-            }}
-            onClick={() => setListType('list')}
-            type="button"
-          >
-            <Icon icon="toolbarIconsList" />
+          <button class="ToolbarButton" type="button">
+            <Icon icon="toolbarFolderNew" />
           </button>
-          <button
-            classList={{
-              ToolbarButton: true,
-              '-active': listType() === 'details',
-              '-down': listType() === 'details',
-            }}
-            onClick={() => setListType('details')}
-            type="button"
-          >
-            <Icon icon="toolbarIconsDetails" />
-          </button>
+          <div class="ButtonGroup Horizontal">
+            <button
+              classList={{
+                ToolbarButton: true,
+                '-active': listType() === 'icons',
+                '-down': listType() === 'icons',
+              }}
+              onClick={() => setListType('icons')}
+              type="button"
+            >
+              <Icon icon="toolbarIcons" />
+            </button>
+            <button
+              classList={{
+                ToolbarButton: true,
+                '-active': listType() === 'list',
+                '-down': listType() === 'list',
+              }}
+              onClick={() => setListType('list')}
+              type="button"
+            >
+              <Icon icon="toolbarIconsList" />
+            </button>
+            <button
+              classList={{
+                ToolbarButton: true,
+                '-active': listType() === 'details',
+                '-down': listType() === 'details',
+              }}
+              onClick={() => setListType('details')}
+              type="button"
+            >
+              <Icon icon="toolbarIconsDetails" />
+            </button>
+          </div>
         </div>
-      </div>
+      </Show>
       <div
         classList={{
           Field: true,

@@ -53,6 +53,10 @@ export type ProgramRegistry = {
         | (() => Promise<{
             default: (p: { data: any; window: WindowState }) => JSX.Element;
           }>);
+      files?: {
+        match: RegExp;
+        param: string;
+      }[];
       urls?: {
         match: RegExp;
         params?: (matches: Record<string, string>) => Record<string, any>;
@@ -615,7 +619,7 @@ export class WindowManager {
 
   messageDialog = (options: {
     message: string;
-    onAction: (event: MessageDialogEvent) => void;
+    onAction?: (event: MessageDialogEvent) => void;
     parentId?: string;
     title: string;
     type: 'error' | 'info' | 'question' | 'warning';
@@ -637,7 +641,7 @@ export class WindowManager {
     this.handleOnce(
       delegateId,
       (event) => {
-        options.onAction(event);
+        options.onAction?.(event);
         this.closeWindow(messageWindow?.id);
       },
       MessageDialogEventSchema,
@@ -647,6 +651,29 @@ export class WindowManager {
   };
 
   // MARK: Utils
+
+  matchPath = (path: string) => {
+    for (const [appName, registry] of Object.entries(this.windowLibrary)) {
+      for (const [windowName, window] of Object.entries(registry.windows)) {
+        if (!window.files) {
+          continue;
+        }
+
+        for (const fileMatch of window.files) {
+          const matches = path.match(fileMatch.match);
+          if (!matches) {
+            continue;
+          }
+
+          return createWindowURL(`app://${appName}/${windowName}`, {
+            [fileMatch.param]: path,
+          });
+        }
+      }
+    }
+
+    return undefined;
+  };
 
   matchURL = (url: string) => {
     for (const [appName, registry] of Object.entries(this.windowLibrary)) {
