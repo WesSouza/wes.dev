@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import type { ProgramRegistry } from '../../lib/WindowManager';
 import { WordPadMainWindow } from './MainWindow';
 
 export const WordPadMainDataSchema = z.object({
@@ -7,13 +8,14 @@ export const WordPadMainDataSchema = z.object({
 
 export type WordPadMainData = z.infer<typeof WordPadMainDataSchema>;
 
-export function registerWordPad() {
+export function registerWordPad(): ProgramRegistry {
   return {
     name: 'WordPad',
     windows: {
       Main: {
         schema: WordPadMainDataSchema,
         window: WordPadMainWindow,
+        files: [{ match: /\.(doc|md)$/, param: 'open' }],
       },
     },
   };
