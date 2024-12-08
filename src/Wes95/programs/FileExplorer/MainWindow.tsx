@@ -17,6 +17,14 @@ import { mapFileType } from '../../utils/fileTypes';
 import type { FileExplorerMainData } from './registry';
 import styles from './style.module.css';
 
+const dateFormatter = new Intl.DateTimeFormat('en-US', {
+  day: '2-digit',
+  hour: '2-digit',
+  minute: '2-digit',
+  month: '2-digit',
+  year: 'numeric',
+});
+
 export function FileExplorerMainWindow(p: {
   data: FileExplorerMainData;
   window: WindowState;
@@ -133,17 +141,13 @@ export function FileExplorerMainWindow(p: {
         name: file.name,
         icon: type.icon,
         columns: {
-          size: {
-            value: '',
-            sortValue: '',
-          },
           type: {
             value: type.name,
             sortValue: type.name,
           },
           date: {
-            value: '',
-            sortValue: '',
+            value: file.date ? dateFormatter.format(file.date) : '',
+            sortValue: file.date?.getTime() ?? 0,
           },
         },
       };
@@ -288,7 +292,6 @@ export function FileExplorerMainWindow(p: {
             items={items()}
             onSelect={chooseFile}
             columns={[
-              { key: 'size', name: 'Size' },
               { key: 'type', name: 'Type' },
               { key: 'date', name: 'Date' },
             ]}

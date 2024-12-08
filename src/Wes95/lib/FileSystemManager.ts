@@ -11,6 +11,7 @@ export type Directory = {
   directory: string;
   name: string;
   path: string;
+  date?: Date;
   url: string;
 };
 
@@ -20,6 +21,7 @@ export type File = {
   extension: string;
   name: string;
   path: string;
+  date?: Date;
   url: string;
 };
 
@@ -28,6 +30,7 @@ export type Shortcut = {
   directory: string;
   name: string;
   path: string;
+  date?: Date;
   url: string;
   icon: string;
 };
@@ -117,6 +120,7 @@ function makeFile(path: string): File {
     extension,
     name: `${name}.${extension}`,
     path,
+    date: new Date('1986-10-14T14:00:00Z'),
     url,
   };
 }
@@ -136,6 +140,7 @@ function makeFileFromAstroContent(entry: AstroContentEntry): File {
     extension,
     name: `${name}.${extension}`,
     path,
+    date: new Date(entry.data.date ?? '1986-10-14T14:00:00Z'),
     url,
   };
 }
