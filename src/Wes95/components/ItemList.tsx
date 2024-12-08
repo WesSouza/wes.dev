@@ -6,7 +6,7 @@ export type Item = {
   id: string;
   name: string;
   icon: string;
-  columns?: Record<string, { value: string; sortValue: string }>;
+  columns?: Record<string, { value: string; sortValue: string | number }>;
 };
 
 export function ItemList(p: {

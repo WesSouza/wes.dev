@@ -24,12 +24,19 @@ export const wes95_fileSystem = t.router({
       for (const type of input.types) {
         const content = await getCollection(type);
         result = result.concat(
-          content.map((item) => ({
-            id: item.id,
-            collection: item.collection,
-            data: item.data,
-            slug: item.slug,
-          })),
+          content
+            .filter(
+              (item) =>
+                item.data &&
+                (item.collection === 'documents' ||
+                  (item.collection === 'blog' && item.data.published)),
+            )
+            .map((item) => ({
+              id: item.id,
+              collection: item.collection,
+              data: item.data,
+              slug: item.slug,
+            })),
         );
       }
 
