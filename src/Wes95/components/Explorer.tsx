@@ -47,10 +47,13 @@ export const Explorer = () => {
             `app://WordPad/Main?open=${encodeURIComponent('/C/My Documents/Welcome.doc')}`,
             {
               active: true,
-              maximized: screenBreakpoint() === 'small',
               position: {
                 x: 160,
                 y: 30,
+              },
+              size: {
+                width: 480,
+                height: 520,
               },
             },
           );

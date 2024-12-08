@@ -12,8 +12,10 @@ wes95_file: '/C/My Documents/Welcome.doc'
 
 I'm Wes, a Staff Software Engineer working at [Unqork](https://www.unqork.com/).
 
-You can reach me on [Bluesky](https://bsky.app/profile/wes.dev), check out my
-[GitHub](https://github.com/WesSouza) and read more professional stuff on
-[LinkedIn](https://www.linkedin.com/in/wessouza/).
+Here are some useful links:
 
-Feel free to navigate around, there's a lot to do here :D
+- [Bluesky](https://bsky.app/profile/wes.dev)
+- [GitHub](https://github.com/WesSouza)
+- [LinkedIn](https://www.linkedin.com/in/wessouza/)
+
+Feel free to navigate around and have fun!
