@@ -3,7 +3,10 @@ import {
   createResource,
   createUniqueId,
   onMount,
+  Show,
 } from 'solid-js';
+import { createStore } from 'solid-js/store';
+import { Button } from '../../components/Button';
 import { Icon } from '../../components/Icon';
 import { Markdown } from '../../components/Markdown';
 import { MenuBar } from '../../components/MenuBar';
@@ -21,6 +24,10 @@ export function WordPadMainWindow(p: {
   let contentElement!: HTMLDivElement;
   const fileSystem = FileSystemManager.shared;
 
+  const [store, setStore] = createStore({
+    showToolbar: true,
+    showFormatBar: true,
+  });
   const [file] = createResource(p.data.open, fileSystem.getFile);
   const [fileData] = createResource(p.data.open, fileSystem.readFile);
 
@@ -67,10 +74,59 @@ export function WordPadMainWindow(p: {
     );
   };
 
+  const handleNew = () => {
+    WindowManager.shared.replaceWindow(p.window.id, `app://WordPad/Main`);
+  };
+
   const handleMenuSelect = (id: string) => {
-    if (id === 'Exit') {
-      WindowManager.shared.closeWindow(p.window.id);
+    switch (id) {
+      case 'BulletStyle': {
+        execCommand('insertUnorderedList');
+        break;
+      }
+      case 'Copy': {
+        execCommand('copy');
+        break;
+      }
+      case 'Cut': {
+        execCommand('cut');
+        break;
+      }
+      case 'Exit': {
+        WindowManager.shared.closeWindow(p.window.id);
+        break;
+      }
+      case 'FormatBar': {
+        setStore('showFormatBar', (formatBar) => !formatBar);
+        break;
+      }
+      case 'New': {
+        handleNew();
+        break;
+      }
+      case 'Open': {
+        openFileDialog();
+        break;
+      }
+      case 'Paste': {
+        execCommand('paste');
+        break;
+      }
+      case 'Toolbar': {
+        setStore('showToolbar', (toolbar) => !toolbar);
+        break;
+      }
+      case 'Undo': {
+        execCommand('undo');
+        break;
+      }
     }
+  };
+
+  const execCommand = (command: string, argument?: string) => {
+    contentElement.contentEditable = 'true';
+    document.execCommand(command, false, argument);
+    contentElement.contentEditable = 'false';
   };
 
   return (
@@ -96,11 +152,13 @@ export function WordPadMainWindow(p: {
                 type: 'item',
                 id: 'Save',
                 label: 'Save',
+                disabled: true,
               },
               {
                 type: 'item',
                 id: 'SaveAs',
                 label: 'Save As...',
+                disabled: true,
               },
               {
                 type: 'separator',
@@ -109,28 +167,13 @@ export function WordPadMainWindow(p: {
                 type: 'item',
                 id: 'Print',
                 label: 'Print...',
+                disabled: true,
               },
               {
                 type: 'item',
                 id: 'PrintPreview',
                 label: 'Print Preview',
-              },
-              {
-                type: 'separator',
-              },
-              {
-                type: 'item',
-                id: 'RecentFile',
-                label: 'Recent File',
                 disabled: true,
-              },
-              {
-                type: 'separator',
-              },
-              {
-                type: 'item',
-                id: 'Send',
-                label: 'Send...',
               },
               {
                 type: 'separator',
@@ -170,16 +213,6 @@ export function WordPadMainWindow(p: {
                 id: 'Paste',
                 label: 'Paste',
               },
-              {
-                type: 'item',
-                id: 'Clear',
-                label: 'Clear',
-              },
-              {
-                type: 'item',
-                id: 'SelectAll',
-                label: 'Select All',
-              },
             ],
           },
           {
@@ -191,16 +224,13 @@ export function WordPadMainWindow(p: {
                 type: 'item',
                 id: 'Toolbar',
                 label: 'Toolbar',
+                checked: store.showToolbar ? 'checkmark' : undefined,
               },
               {
                 type: 'item',
                 id: 'FormatBar',
                 label: 'Format Bar',
-              },
-              {
-                type: 'item',
-                id: 'StatusBar',
-                label: 'Status Bar',
+                checked: store.showFormatBar ? 'checkmark' : undefined,
               },
               {
                 type: 'separator',
@@ -209,18 +239,7 @@ export function WordPadMainWindow(p: {
                 type: 'item',
                 id: 'Options',
                 label: 'Options...',
-              },
-            ],
-          },
-          {
-            type: 'item',
-            id: 'Insert',
-            label: 'Insert',
-            submenu: [
-              {
-                type: 'item',
-                id: 'Image',
-                label: 'Image...',
+                disabled: true,
               },
             ],
           },
@@ -233,6 +252,7 @@ export function WordPadMainWindow(p: {
                 type: 'item',
                 id: 'Font',
                 label: 'Font...',
+                disabled: true,
               },
               {
                 type: 'item',
@@ -243,6 +263,7 @@ export function WordPadMainWindow(p: {
                 type: 'item',
                 id: 'Paragraph',
                 label: 'Paragraph...',
+                disabled: true,
               },
             ],
           },
@@ -261,69 +282,120 @@ export function WordPadMainWindow(p: {
         ]}
         onSelect={handleMenuSelect}
       />
-      <hr class="HorizontalSeparator" />
-      <div class="Toolbar Horizontal">
-        <button aria-label="New" class="ToolbarButton" type="button">
-          <Icon icon="toolbarFileNew" />
-        </button>
-        <button
-          aria-label="Open"
-          class="ToolbarButton"
-          onClick={openFileDialog}
-          type="button"
-        >
-          <Icon icon="toolbarOpenFolder" />
-        </button>
-        <button aria-label="Save" class="ToolbarButton" type="button">
-          <Icon icon="toolbarSave" />
-        </button>
-        <div class="MediumSpacer"></div>
-        <button aria-label="Find" class="ToolbarButton" type="button">
-          <Icon icon="toolbarFind" />
-        </button>
-        <div class="MediumSpacer"></div>
-        <button aria-label="Cut" class="ToolbarButton" type="button">
-          <Icon icon="toolbarCut" />
-        </button>
-        <button aria-label="Copy" class="ToolbarButton" type="button">
-          <Icon icon="toolbarCopy" />
-        </button>
-        <button aria-label="Paste" class="ToolbarButton" type="button">
-          <Icon icon="toolbarPaste" />
-        </button>
-        <button aria-label="Undo" class="ToolbarButton" type="button">
-          <Icon icon="toolbarUndo" />
-        </button>
-      </div>
-      <hr class="HorizontalSeparator" />
-      <div class="Toolbar Horizontal">
-        <button aria-label="Bold" class="ToolbarButton" type="button">
-          <Icon icon="toolbarBold" />
-        </button>
-        <button aria-label="Italics" class="ToolbarButton" type="button">
-          <Icon icon="toolbarItalics" />
-        </button>
-        <button aria-label="Underline" class="ToolbarButton" type="button">
-          <Icon icon="toolbarUnderline" />
-        </button>
-        <button aria-label="Text Color" class="ToolbarButton" type="button">
-          <Icon icon="toolbarTextColor" />
-        </button>
-        <div class="MediumSpacer"></div>
-        <button aria-label="Align Left" class="ToolbarButton" type="button">
-          <Icon icon="toolbarAlignLeft" />
-        </button>
-        <button aria-label="Align Center" class="ToolbarButton" type="button">
-          <Icon icon="toolbarAlignCenter" />
-        </button>
-        <button aria-label="Align Right" class="ToolbarButton" type="button">
-          <Icon icon="toolbarAlignRight" />
-        </button>
-        <div class="MediumSpacer"></div>
-        <button aria-label="Unordered List" class="ToolbarButton" type="button">
-          <Icon icon="toolbarUnorderedList" />
-        </button>
-      </div>
+      <Show when={store.showToolbar}>
+        <hr class="HorizontalSeparator" />
+        <div class="Toolbar Horizontal">
+          <Button appearance="Toolbar" aria-label="New" onClick={handleNew}>
+            <Icon icon="toolbarFileNew" />
+          </Button>
+          <Button
+            appearance="Toolbar"
+            aria-label="Open"
+            onClick={openFileDialog}
+          >
+            <Icon icon="toolbarOpenFolder" />
+          </Button>
+          <Button appearance="Toolbar" aria-label="Save" disabled>
+            <Icon icon="toolbarSave" />
+          </Button>
+          <div class="MediumSpacer"></div>
+          <Button appearance="Toolbar" aria-label="Find" disabled>
+            <Icon icon="toolbarFind" />
+          </Button>
+          <div class="MediumSpacer"></div>
+          <Button
+            appearance="Toolbar"
+            aria-label="Cut"
+            onClick={() => execCommand('cut')}
+          >
+            <Icon icon="toolbarCut" />
+          </Button>
+          <Button
+            appearance="Toolbar"
+            aria-label="Copy"
+            onClick={() => execCommand('copy')}
+          >
+            <Icon icon="toolbarCopy" />
+          </Button>
+          <Button
+            appearance="Toolbar"
+            aria-label="Paste"
+            onClick={() => execCommand('paste')}
+          >
+            <Icon icon="toolbarPaste" />
+          </Button>
+          <Button
+            appearance="Toolbar"
+            aria-label="Undo"
+            onClick={() => execCommand('undo')}
+          >
+            <Icon icon="toolbarUndo" />
+          </Button>
+        </div>
+      </Show>
+      <Show when={store.showFormatBar}>
+        <hr class="HorizontalSeparator" />
+        <div class="Toolbar Horizontal">
+          <Button
+            appearance="Toolbar"
+            aria-label="Bold"
+            onClick={() => execCommand('bold')}
+          >
+            <Icon icon="toolbarBold" />
+          </Button>
+          <Button
+            appearance="Toolbar"
+            aria-label="Italics"
+            onClick={() => execCommand('italic')}
+          >
+            <Icon icon="toolbarItalics" />
+          </Button>
+          <Button
+            appearance="Toolbar"
+            aria-label="Underline"
+            onClick={() => execCommand('underline')}
+          >
+            <Icon icon="toolbarUnderline" />
+          </Button>
+          <Button
+            appearance="Toolbar"
+            aria-label="Text Color"
+            onClick={() => execCommand('foreColor', '#ff0000')}
+          >
+            <Icon icon="toolbarTextColor" />
+          </Button>
+          <div class="MediumSpacer"></div>
+          <Button
+            appearance="Toolbar"
+            aria-label="Align Left"
+            onClick={() => execCommand('justifyLeft')}
+          >
+            <Icon icon="toolbarAlignLeft" />
+          </Button>
+          <Button
+            appearance="Toolbar"
+            aria-label="Align Center"
+            onClick={() => execCommand('justifyCenter')}
+          >
+            <Icon icon="toolbarAlignCenter" />
+          </Button>
+          <Button
+            appearance="Toolbar"
+            aria-label="Align Right"
+            onClick={() => execCommand('justifyRight')}
+          >
+            <Icon icon="toolbarAlignRight" />
+          </Button>
+          <div class="MediumSpacer"></div>
+          <Button
+            appearance="Toolbar"
+            aria-label="Unordered List"
+            onClick={() => execCommand('insertUnorderedList')}
+          >
+            <Icon icon="toolbarUnorderedList" />
+          </Button>
+        </div>
+      </Show>
       <div class="Field">
         <div class="Content MediumSpacing Document" ref={contentElement}>
           <Markdown markdown={fileData()?.body} />
