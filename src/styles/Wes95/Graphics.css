@@ -1,5 +1,7 @@
 .Icon {
   display: block;
+  flex-grow: 0;
+  flex-shrink: 0;
   background-image: url('/C/Wes95/System32/shell32.png');
 }
 
