@@ -24,6 +24,7 @@ import {
 import { modifyById, modifyByIds } from '../utils/array';
 import { clamp } from '../utils/size';
 import { ScreenManager } from './ScreenManager';
+import { registerFind } from '../programs/Find/registry';
 
 let shared: WindowManager | undefined;
 
@@ -120,6 +121,7 @@ export class WindowManager {
     DiskDefragmenter: registerDiskDefragmenter(),
     FileExplorer: registerFileExplorer(),
     FileSystem: registerFileSystem(),
+    Find: registerFind(),
     QuickView: registerQuickView(),
     MediaPlayer: registerMediaPlayer(),
     Message: registerMessage(),
