@@ -587,7 +587,12 @@ export class WindowManager {
     );
   };
 
-  setWindowSize = (windowId: string, size: Size, anchorToEdge = false) => {
+  setWindowSize = (
+    windowId: string,
+    size: Size,
+    anchorToXEdge = false,
+    anchorToYEdge = false,
+  ) => {
     const desktopSize = this.desktopSize();
     const window = this.getWindow(windowId);
     if (!desktopSize || !window) {
@@ -607,8 +612,11 @@ export class WindowManager {
       window.sizeConstraints?.max?.height,
     );
 
-    if (anchorToEdge) {
+    if (anchorToXEdge) {
       x = window.x + window.width - width;
+    }
+
+    if (anchorToYEdge) {
       y = window.y + window.height - height;
     }
 

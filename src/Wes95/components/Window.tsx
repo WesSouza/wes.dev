@@ -257,7 +257,8 @@ export function Window(p: {
       windowManager.setWindowSize(
         p.window.id,
         size,
-        Boolean(resizing.anchorX || resizing.anchorY),
+        resizing.anchorX > 0,
+        resizing.anchorY > 0,
       );
     }
   });
