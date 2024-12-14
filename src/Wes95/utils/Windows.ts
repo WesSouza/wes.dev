@@ -6,10 +6,19 @@ import type { z } from 'zod';
 
 export function addActiveWindowToHistory(
   windowId: string,
+  hoist: string[],
   activeWindowHistory: string[],
 ) {
-  activeWindowHistory.unshift(windowId);
-  return [windowId, ...activeWindowHistory.filter((id) => id !== windowId)];
+  const hoistFromHistory = activeWindowHistory.filter((id) =>
+    hoist.includes(id),
+  );
+  return [
+    windowId,
+    ...hoistFromHistory,
+    ...activeWindowHistory.filter(
+      (id) => id !== windowId && !hoist.includes(id),
+    ),
+  ];
 }
 
 export function createWindowURL(
@@ -32,7 +41,7 @@ export function createWindowURL(
 }
 
 export function createZIndexMap(state: WindowManagerState) {
-  const { activeTaskWindowHistory, activeWindowHistory, windows } = state;
+  const { activeWindowHistory, windows } = state;
 
   const windowsMap = new Map(windows.map((window) => [window.id, window]));
   const windowsChildrenMap = new Map<string, WindowState[]>();
@@ -54,10 +63,10 @@ export function createZIndexMap(state: WindowManagerState) {
 
   let zIndex = 0;
 
-  for (let i = activeTaskWindowHistory.length - 1; i >= 0; i--) {
-    const windowId = activeTaskWindowHistory[i]!;
+  for (let i = activeWindowHistory.length - 1; i >= 0; i--) {
+    const windowId = activeWindowHistory[i]!;
     const window = windowsMap.get(windowId);
-    if (!window) {
+    if (!window || window.parentId) {
       continue;
     }
 
@@ -99,17 +108,28 @@ export function handleActiveWindows(
   state: WindowManagerState,
 ) {
   if (activeWindow) {
+    const hoist = parentWindow
+      ? state.windows
+          .filter(
+            (window) =>
+              window.id === parentWindow.id ||
+              window.parentId === parentWindow.id,
+          )
+          .map((window) => window.id)
+      : [];
     if (activeWindow.showInTaskbar || parentWindow?.showInTaskbar) {
       const activeTaskWindow = parentWindow ?? activeWindow;
       state.activeTaskWindow = activeTaskWindow.id;
       state.activeTaskWindowHistory = addActiveWindowToHistory(
         activeTaskWindow.id,
+        [],
         state.activeTaskWindowHistory,
       );
     }
     state.activeWindow = activeWindow.id;
     state.activeWindowHistory = addActiveWindowToHistory(
       activeWindow.id,
+      hoist,
       state.activeWindowHistory,
     );
   }
