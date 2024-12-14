@@ -105,7 +105,7 @@ export class SessionManager {
       const width = (window.width / desktopSize.width)
         .toFixed(5)
         .replace('0.', '');
-      const height = (window.height / desktopSize.width)
+      const height = (window.height / desktopSize.height)
         .toFixed(5)
         .replace('0.', '');
 
