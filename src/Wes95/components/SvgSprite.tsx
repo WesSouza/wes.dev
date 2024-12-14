@@ -102,24 +102,22 @@ export function SvgSprite() {
             d="M2 7h14v2H2zM2 5h14v2H2zM4 9h10v2H4zM6 11h6v2H6zM8 13h2v2H8zM4 3h4v2H4zM10 3h4v2h-4z"
           />
         </symbol>
-        <svg
+        <symbol
           id="mediaFastForward"
           fill="none"
           height="17"
           viewBox="0 0 17 17"
           width="17"
         >
-          <g fill="currentColor">
-            <path d="m14 9h-1v-1h1z" />
-            <path d="m13 10h-1v-3h1z" />
-            <path d="m12 11h-1v-5h1z" />
-            <path d="m11 12h-1v-7h1z" />
-            <path d="m9 9h-1v-1h1z" />
-            <path d="m8 10h-1v-3h1z" />
-            <path d="m7 11h-1v-5h1z" />
-            <path d="m6 12h-1v-7h1z" />
-          </g>
-        </svg>
+          <path
+            d="M11 11L11 12L10 12L10 5L11 5L11 6L12 6L12 7L13 7L13 8L14 8L14 9L13 9L13 10L12 10L12 11L11 11Z"
+            fill="currentColor"
+          />
+          <path
+            d="M6 11L6 12L5 12L5 5L6 5L6 6L7 6L7 7L8 7L8 8L9 8L9 9L8 9L8 10L7 10L7 11L6 11Z"
+            fill="currentColor"
+          />
+        </symbol>
         <symbol
           id="mediaPause"
           width="17"
@@ -139,14 +137,10 @@ export function SvgSprite() {
           height="17"
           fill="none"
         >
-          <g fill="currentColor">
-            <path d="m4 3h2v11h-2z" />
-            <path d="m6 4h2v9h-2z" />
-            <path d="m8 5h2v7h-2z" />
-            <path d="m10 6h2v5h-2z" />
-            <path d="m12 7h2v3h-2z" />
-            <path d="m14 8h1v1h-1z" />
-          </g>
+          <path
+            d="M6 3H4V14H6V13H8V12H10V11H12V10H14V9H15V8H14V7H12V6H10V5H8V4H6V3Z"
+            fill="currentColor"
+          />
         </symbol>
         <symbol
           id="mediaRewind"
@@ -155,16 +149,14 @@ export function SvgSprite() {
           viewBox="0 0 17 17"
           width="17"
         >
-          <g fill="currentColor">
-            <path d="m3 8h1v1h-1z" />
-            <path d="m4 7h1v3h-1z" />
-            <path d="m5 6h1v5h-1z" />
-            <path d="m6 5h1v7h-1z" />
-            <path d="m8 8h1v1h-1z" />
-            <path d="m9 7h1v3h-1z" />
-            <path d="m10 6h1v5h-1z" />
-            <path d="m11 5h1v7h-1z" />
-          </g>
+          <path
+            d="M6 6V5H7V12H6V11H5V10H4V9H3V8H4V7H5V6H6Z"
+            fill="currentColor"
+          />
+          <path
+            d="M11 6V5H12V12H11V11H10V10H9V9H8V8H9V7H10V6H11Z"
+            fill="currentColor"
+          />
         </symbol>
         <symbol
           id="mediaSkipBack"
@@ -173,17 +165,15 @@ export function SvgSprite() {
           width="17"
           fill="none"
         >
-          <g fill="currentColor">
-            <path d="m3 5h1v7h-1z" />
-            <path d="m5 8h1v1h-1z" />
-            <path d="m6 7h1v3h-1z" />
-            <path d="m7 6h1v5h-1z" />
-            <path d="m8 5h1v7h-1z" />
-            <path d="m10 8h1v1h-1z" />
-            <path d="m11 7h1v3h-1z" />
-            <path d="m12 6h1v5h-1z" />
-            <path d="m13 5h1v7h-1z" />
-          </g>{' '}
+          <rect x="3" y="5" width="1" height="7" fill="currentColor" />
+          <path
+            d="M8 6V5H9V12H8V11H7V10H6V9H5V8H6V7H7V6H8Z"
+            fill="currentColor"
+          />
+          <path
+            d="M13 6V5H14V12H13V11H12V10H11V9H10V8H11V7H12V6H13Z"
+            fill="currentColor"
+          />
         </symbol>
         <symbol
           id="mediaSkipForward"
@@ -192,17 +182,22 @@ export function SvgSprite() {
           width="17"
           fill="none"
         >
-          <g fill="currentColor">
-            <path d="m14 12h1v7h-1z" transform="matrix(-1 -0 0 -1 28 24)" />
-            <path d="m12 9h-1v-1h1z" />
-            <path d="m11 10h-1v-3h1z" />
-            <path d="m10 11h-1v-5h1z" />
-            <path d="m9 12h-1v-7h1z" />
-            <path d="m7 9h-1v-1h1z" />
-            <path d="m6 10h-1v-3h1z" />
-            <path d="m5 11h-1v-5h1z" />
-            <path d="m4 12h-1v-7h1z" />
-          </g>
+          <rect
+            x="14"
+            y="12"
+            width="1"
+            height="7"
+            transform="rotate(-180 14 12)"
+            fill="currentColor"
+          />
+          <path
+            d="M9 11L9 12L8 12L8 5L9 5L9 6L10 6L10 7L11 7L11 8L12 8L12 9L11 9L11 10L10 10L10 11L9 11Z"
+            fill="currentColor"
+          />
+          <path
+            d="M4 11L4 12L3 12L3 5L4 5L4 6L5 6L5 7L6 7L6 8L7 8L7 9L6 9L6 10L5 10L5 11L4 11Z"
+            fill="currentColor"
+          />
         </symbol>
         <symbol
           id="mediaStop"
