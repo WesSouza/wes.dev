@@ -1,7 +1,7 @@
 import { createUniqueId, type Accessor, type JSX } from 'solid-js';
 import { createStore, produce, type SetStoreFunction } from 'solid-js/store';
 import { z, ZodType } from 'zod';
-import type { Point, Size } from '../models/Geometry';
+import type { Point, Rect, Size } from '../models/Geometry';
 import type { WindowState } from '../models/WindowState';
 import { registerBluesky } from '../programs/Bluesky/registry';
 import { registerCalculator } from '../programs/Calculator/registry';
@@ -32,11 +32,15 @@ const MinVisibleLeft = 6 + 4 + 32 + 4 + 32;
 const MinVisibleRight = 34 + 34 + 4 + 34 + 6 + 4 + 34;
 const MinVisibleTop = 6;
 const MinVisibleBottom = 42;
+const TitleHeight = 18;
+const TitleAnimationDelay = 350;
 
 const DefaultMinSize = {
   width: 320,
   height: 240,
 };
+
+type TitleAnimationLocation = 'maximized' | 'minimized' | 'restored';
 
 export type WindowLibrary = {
   [k: string]: ProgramRegistry;
@@ -89,6 +93,14 @@ export type WindowManagerState = {
   activeWindowHistory: string[];
   lastWindowPosition: Point;
   movingWindows: boolean;
+  titleAnimation:
+    | {
+        title: string;
+        icon?: string;
+        from: Rect;
+        to: Rect;
+      }
+    | undefined;
   windows: WindowState[];
   windowZIndexMap: Map<string, number>;
 };
@@ -117,6 +129,8 @@ export class WindowManager {
   desktopSize: Accessor<Size | undefined>;
   state: WindowManagerState;
   #setState: SetStoreFunction<WindowManagerState>;
+  #titleAnimationStateTimer: number | undefined;
+  #titleAnimationTitleTimer: number | undefined;
   #windowInits = new Map<string, WindowInit>();
 
   constructor() {
@@ -127,6 +141,7 @@ export class WindowManager {
       activeWindowHistory: [],
       lastWindowPosition: { x: 0, y: 0 },
       movingWindows: false,
+      titleAnimation: undefined,
       windows: [],
       windowZIndexMap: new Map(),
     });
@@ -398,28 +413,63 @@ export class WindowManager {
     );
   };
 
-  setActiveWindow = (window: WindowState | undefined) => {
+  setActiveWindow = (windowItem: WindowState | undefined) => {
     this.#setState(
       produce((state) => {
-        if (!window) {
+        if (!windowItem) {
           state.activeTaskWindow = null;
           state.activeWindow = null;
           handleActiveWindows(undefined, undefined, state);
-          return;
+        } else {
+          handleActiveWindows(
+            windowItem,
+            this.getWindow(windowItem.parentId),
+            state,
+          );
         }
-
-        const windowIdsToRestore = [window.id].concat(
-          state.windows
-            .filter(({ parentId }) => parentId === window.id)
-            .map((window) => window.id),
-        );
-
-        modifyByIds(windowIdsToRestore, state.windows, (window) => {
-          window.minimized = false;
-        });
-        handleActiveWindows(window, this.getWindow(window.parentId), state);
       }),
     );
+
+    if (!windowItem) {
+      return;
+    }
+
+    const minimizedWindows = this.state.windows.some(
+      ({ id, minimized, parentId }) =>
+        (id === windowItem.id || parentId === windowItem.id) && minimized,
+    );
+
+    if (!minimizedWindows) {
+      return;
+    }
+
+    this.animateTitle(
+      windowItem.id,
+      'minimized',
+      windowItem.maximized ? 'maximized' : 'restored',
+    );
+
+    window.clearTimeout(this.#titleAnimationStateTimer);
+    this.#titleAnimationStateTimer = window.setTimeout(() => {
+      this.#setState(
+        produce((state) => {
+          const windowIdsToRestore = [windowItem.id].concat(
+            state.windows
+              .filter(({ parentId }) => parentId === windowItem.id)
+              .map((window) => window.id),
+          );
+
+          modifyByIds(windowIdsToRestore, state.windows, (window) => {
+            window.minimized = false;
+          });
+          handleActiveWindows(
+            windowItem,
+            this.getWindow(windowItem.parentId),
+            state,
+          );
+        }),
+      );
+    }, TitleAnimationDelay);
   };
 
   setMovingWindows = (movingWindows: boolean) => {
@@ -437,40 +487,79 @@ export class WindowManager {
   };
 
   setWindowMaximized = (windowId: string, maximized: boolean) => {
-    this.#setState(
-      produce((state) => {
-        modifyById(windowId, state.windows, (window) => {
-          window.maximized = maximized;
-        });
-      }),
-    );
+    const windowItem = this.getWindow(windowId);
+    if (windowItem?.maximized !== maximized) {
+      this.animateTitle(
+        windowId,
+        maximized ? 'restored' : 'maximized',
+        maximized ? 'maximized' : 'restored',
+      );
+    }
+
+    window.clearTimeout(this.#titleAnimationStateTimer);
+    this.#titleAnimationStateTimer = window.setTimeout(() => {
+      this.#setState(
+        produce((state) => {
+          modifyById(windowId, state.windows, (window) => {
+            window.maximized = maximized;
+          });
+        }),
+      );
+    }, TitleAnimationDelay);
   };
 
   setWindowMinimized = (windowId: string, minimized: boolean) => {
+    const windowItem = this.getWindow(windowId);
+    if (windowItem?.minimized !== minimized) {
+      this.animateTitle(
+        windowId,
+        minimized
+          ? windowItem?.maximized
+            ? 'maximized'
+            : 'restored'
+          : 'minimized',
+        minimized
+          ? 'minimized'
+          : windowItem?.maximized
+            ? 'maximized'
+            : 'restored',
+      );
+    }
+
     this.#setState(
       produce((state) => {
-        const windowIdsToMinimize = [windowId].concat(
-          state.windows
-            .filter((window) => window.parentId === windowId)
-            .map((window) => window.id),
-        );
-
-        modifyByIds(windowIdsToMinimize, state.windows, (window) => {
-          window.minimized = minimized;
-        });
-
-        if (minimized) {
-          if (state.activeTaskWindow === windowId) {
-            state.activeTaskWindow = null;
-            state.activeWindow = null;
-            handleActiveWindows(undefined, undefined, state);
-          } else if (state.activeWindow === windowId) {
-            state.activeWindow = null;
-            handleActiveWindows(undefined, undefined, state);
-          }
-        }
+        state.activeTaskWindow = null;
+        state.activeWindow = null;
       }),
     );
+
+    window.clearTimeout(this.#titleAnimationStateTimer);
+    this.#titleAnimationStateTimer = window.setTimeout(() => {
+      this.#setState(
+        produce((state) => {
+          const windowIdsToMinimize = [windowId].concat(
+            state.windows
+              .filter((window) => window.parentId === windowId)
+              .map((window) => window.id),
+          );
+
+          modifyByIds(windowIdsToMinimize, state.windows, (window) => {
+            window.minimized = minimized;
+          });
+
+          if (minimized) {
+            if (state.activeTaskWindow === windowId) {
+              state.activeTaskWindow = null;
+              state.activeWindow = null;
+              handleActiveWindows(undefined, undefined, state);
+            } else if (state.activeWindow === windowId) {
+              state.activeWindow = null;
+              handleActiveWindows(undefined, undefined, state);
+            }
+          }
+        }),
+      );
+    }, TitleAnimationDelay);
   };
 
   setWindowPosition = (windowId: string, position: Point) => {
@@ -556,6 +645,83 @@ export class WindowManager {
         modifyById(windowId, state.windows, modifyFn);
       }),
     );
+  };
+
+  // MARK: Animation
+
+  animateTitle = (
+    windowId: string,
+    from: TitleAnimationLocation,
+    to: TitleAnimationLocation,
+  ) => {
+    const windowItem = this.getWindow(windowId);
+    if (!windowItem) {
+      return;
+    }
+
+    const fromRect = this.getTitleRect(windowItem, from);
+    const toRect = this.getTitleRect(windowItem, to);
+
+    if (from && to) {
+      this.#setState('titleAnimation', {
+        title: windowItem.title,
+        icon: windowItem.icon,
+        from: fromRect,
+        to: toRect,
+      });
+      window.clearTimeout(this.#titleAnimationTitleTimer);
+      this.#titleAnimationTitleTimer = window.setTimeout(() => {
+        this.#setState('titleAnimation', undefined);
+      }, TitleAnimationDelay);
+    }
+  };
+
+  getTitleRect = (
+    window: WindowState,
+    location: TitleAnimationLocation,
+  ): Rect | undefined => {
+    const scale = ScreenManager.shared.scale();
+    const screen = ScreenManager.shared.desktopSize();
+    if (!screen) {
+      return;
+    }
+
+    switch (location) {
+      case 'maximized': {
+        return {
+          x: 0,
+          y: 0,
+          width: screen.width,
+          height: TitleHeight * scale,
+        };
+      }
+
+      case 'minimized': {
+        const element = document.querySelector(
+          `[data-window-taskbar-button="${window.id}"]`,
+        );
+        if (!element) {
+          return;
+        }
+
+        const rect = element.getBoundingClientRect();
+        return {
+          x: rect.x + scale * 3,
+          y: rect.y + scale * 3,
+          width: rect.width - scale * 6,
+          height: rect.height - scale * 6,
+        };
+      }
+
+      case 'restored': {
+        return {
+          x: window.x + scale * 3,
+          y: window.y + scale * 3,
+          width: window.width - scale * 6,
+          height: TitleHeight * scale,
+        };
+      }
+    }
   };
 
   // MARK: Events

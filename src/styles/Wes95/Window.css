@@ -72,3 +72,28 @@
     flex-grow: 1;
   }
 }
+
+.WindowTitleAnimation {
+  align-items: center;
+  animation: WindowTitleAnimation 350ms linear forwards;
+  background-color: var(--wes95-color-headerBackground);
+  color: var(--wes95-color-headerText);
+  display: flex;
+  gap: calc(var(--wes95-scale-value) * 2);
+  height: var(--wes95-title-from-height);
+  left: var(--wes95-title-from-x);
+  padding: var(--wes95-scale-value) calc(var(--wes95-scale-value) * 2);
+  position: absolute;
+  top: var(--wes95-title-from-y);
+  width: var(--wes95-title-from-width);
+  z-index: 3;
+}
+
+@keyframes WindowTitleAnimation {
+  100% {
+    height: var(--wes95-title-to-height);
+    left: var(--wes95-title-to-x);
+    top: var(--wes95-title-to-y);
+    width: var(--wes95-title-to-width);
+  }
+}

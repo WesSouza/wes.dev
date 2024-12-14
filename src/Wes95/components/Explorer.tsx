@@ -353,6 +353,7 @@ export const Explorer = () => {
                     '-small': screenBreakpoint() === 'small',
                     '-down': windowManager.state.activeTaskWindow === window.id,
                   }}
+                  data-window-taskbar-button={window.id}
                   onClick={() => windowManager.setActiveWindow(window)}
                 >
                   <Show when={window.icon}>
@@ -379,6 +380,30 @@ export const Explorer = () => {
             </Show>
           </div>
         </footer>
+        <Show when={windowManager.state.titleAnimation}>
+          <div
+            class="WindowTitleAnimation"
+            style={{
+              '--wes95-title-from-x': `${windowManager.state.titleAnimation!.from.x}px`,
+              '--wes95-title-from-y': `${windowManager.state.titleAnimation!.from.y}px`,
+              '--wes95-title-from-width': `${windowManager.state.titleAnimation!.from.width}px`,
+              '--wes95-title-from-height': `${windowManager.state.titleAnimation!.from.height}px`,
+              '--wes95-title-to-x': `${windowManager.state.titleAnimation!.to.x}px`,
+              '--wes95-title-to-y': `${windowManager.state.titleAnimation!.to.y}px`,
+              '--wes95-title-to-width': `${windowManager.state.titleAnimation!.to.width}px`,
+              '--wes95-title-to-height': `${windowManager.state.titleAnimation!.to.height}px`,
+            }}
+          >
+            <Show when={windowManager.state.titleAnimation!.icon}>
+              <div class="WindowTitleIcon">
+                <Icon icon={windowManager.state.titleAnimation!.icon!} />
+              </div>
+            </Show>
+            <span class="WindowTitleText">
+              {windowManager.state.titleAnimation!.title}
+            </span>
+          </div>
+        </Show>
       </div>
     </FocusProvider>
   );
