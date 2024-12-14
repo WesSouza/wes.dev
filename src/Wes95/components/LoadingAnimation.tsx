@@ -1,8 +1,8 @@
+import { createEffect, createMemo, createSignal } from 'solid-js';
 import { WES95_SYSTEM_PATH } from '../../config';
-import { createEffect, createSignal } from 'solid-js';
+import { ScreenManager } from '../lib/ScreenManager';
 import { getRandomNumber } from '../utils/random';
 import styles from './LoadingAnimation.module.css';
-import { ScreenManager } from '../lib/ScreenManager';
 
 const AnimationIcons = [
   { animation: 'ComputerSend', width: 104, height: 34 },
@@ -15,23 +15,35 @@ const AnimationIcons = [
   { animation: 'PhoneDial', width: 32, height: 32 },
 ];
 
-export function LoadingAnimation() {
+export function LoadingAnimation(p: { animation?: string }) {
   const [size, setSize] = createSignal<
     { width: number; height: number } | undefined
   >(undefined);
 
-  const iconIndex = getRandomNumber(0, AnimationIcons.length - 1);
-  const icon = AnimationIcons[iconIndex]!;
+  const icon = createMemo(() => {
+    if (p.animation) {
+      return AnimationIcons.find((icon) => icon.animation === p.animation);
+    }
+
+    const iconIndex = getRandomNumber(0, AnimationIcons.length - 1);
+    return AnimationIcons[iconIndex]!;
+  });
 
   createEffect(() => {
     const scale = ScreenManager.shared.scale();
-    setSize({ width: icon.width * scale, height: icon.height * scale });
+    const iconValue = icon();
+    if (iconValue) {
+      setSize({
+        width: iconValue.width * scale,
+        height: iconValue.height * scale,
+      });
+    }
   });
 
   return (
     <div class={styles.Animation}>
       <img
-        src={WES95_SYSTEM_PATH + '/animation' + icon.animation + '.gif'}
+        src={WES95_SYSTEM_PATH + '/animation' + icon()!.animation + '.gif'}
         style={{ width: `${size()?.width}px`, height: `${size()?.height}px` }}
       />
     </div>
