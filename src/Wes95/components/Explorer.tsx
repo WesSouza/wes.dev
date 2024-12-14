@@ -1,5 +1,6 @@
 import {
   createEffect,
+  createResource,
   createSignal,
   createUniqueId,
   For,
@@ -31,6 +32,15 @@ const clockFormatter = Intl.DateTimeFormat(undefined, {
   minute: 'numeric',
 });
 
+const getFirstBlogFiles = async () => {
+  const blogFiles = (
+    await FileSystemManager.shared.getFiles('/C/My Documents/Blog')
+  ).toSorted(
+    (left, right) => (right.date?.getTime() ?? 0) - (left.date?.getTime() ?? 0),
+  );
+  return blogFiles.slice(0, 5);
+};
+
 export const Explorer = () => {
   let desktopRef!: HTMLElement;
   const windowManager = WindowManager.shared;
@@ -38,6 +48,8 @@ export const Explorer = () => {
   const [clock, setClock] = createSignal<string>('');
 
   const ding = createDinger();
+
+  const [firstBlogFiles] = createResource(getFirstBlogFiles);
 
   onMount(() => {
     createEffect(() => {
@@ -295,10 +307,33 @@ export const Explorer = () => {
                 id: 'Documents',
                 icon: 'iconDocumentsFolder',
                 label: 'Documents',
+                submenu: [
+                  {
+                    type: 'item',
+                    id: createWindowURL('app://FileExplorer/Main', {
+                      path: '/C/My Documents/Blog',
+                    }),
+                    icon: 'iconDocumentsFolder',
+                    label: 'Blog',
+                  },
+                  ...(firstBlogFiles()
+                    ? [
+                        { type: 'separator' as const },
+                        ...firstBlogFiles()!.map((file) => ({
+                          type: 'item' as const,
+                          id: createWindowURL('app://FileExplorer/Main', {
+                            path: file.path,
+                          }),
+                          icon: 'fileTypeWordPad',
+                          label: file.name,
+                        })),
+                      ]
+                    : []),
+                ],
               },
               {
                 type: 'item',
-                id: 'Find',
+                id: 'app://Find/Main',
                 icon: 'iconFind',
                 label: 'Find',
               },
