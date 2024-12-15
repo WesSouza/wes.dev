@@ -69,7 +69,16 @@ export function MediaPlayerMainWindow(p: {
   const handleMenuSelect = (id: string) => {
     switch (id) {
       case 'About': {
-        // TODO: Implement
+        WindowManager.shared.addWindow(
+          createWindowURL('system://About/Main', {
+            appIcon: 'iconMplayer',
+            appName: 'Media Player',
+          }),
+          {
+            active: true,
+            parentId: p.window.id,
+          },
+        );
         break;
       }
       case 'Exit': {

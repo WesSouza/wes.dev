@@ -7,9 +7,11 @@ import { registerBluesky } from '../programs/Bluesky/registry';
 import { registerCalculator } from '../programs/Calculator/registry';
 import { registerDiskDefragmenter } from '../programs/DiskDefragmenter/registry';
 import { registerFileExplorer } from '../programs/FileExplorer/registry';
+import { registerFind } from '../programs/Find/registry';
 import { registerMediaPlayer } from '../programs/MediaPlayer/registry';
 import { registerQuickView } from '../programs/QuickView/registry';
 import { registerWordPad } from '../programs/WordPad/registry';
+import { registerAbout } from '../system/About/registry';
 import { registerFileSystem } from '../system/FileSystem/registry';
 import {
   MessageDialogEventSchema,
@@ -24,7 +26,6 @@ import {
 import { modifyById, modifyByIds } from '../utils/array';
 import { clamp } from '../utils/size';
 import { ScreenManager } from './ScreenManager';
-import { registerFind } from '../programs/Find/registry';
 
 let shared: WindowManager | undefined;
 
@@ -116,6 +117,7 @@ export class WindowManager {
   }
 
   windowLibrary: WindowLibrary = {
+    About: registerAbout(),
     Bluesky: registerBluesky(),
     Calculator: registerCalculator(),
     DiskDefragmenter: registerDiskDefragmenter(),

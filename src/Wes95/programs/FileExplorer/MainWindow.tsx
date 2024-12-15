@@ -14,6 +14,7 @@ import { FileSystemManager } from '../../lib/FileSystemManager';
 import { WindowManager } from '../../lib/WindowManager';
 import type { WindowState } from '../../models/WindowState';
 import { mapFileType } from '../../utils/fileTypes';
+import { createWindowURL } from '../../utils/Windows';
 import type { FileExplorerMainData } from './registry';
 import styles from './style.module.css';
 
@@ -61,6 +62,19 @@ export function FileExplorerMainWindow(p: {
 
   const handleMenuSelect = (id: string) => {
     switch (id) {
+      case 'About': {
+        WindowManager.shared.addWindow(
+          createWindowURL('system://About/Main', {
+            appIcon: 'iconExplorer',
+            appName: 'File Explorer',
+          }),
+          {
+            active: true,
+            parentId: p.window.id,
+          },
+        );
+        break;
+      }
       case 'Details': {
         setListType('details');
         break;

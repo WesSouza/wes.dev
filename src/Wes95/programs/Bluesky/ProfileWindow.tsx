@@ -153,6 +153,20 @@ export function BlueskyProfileWindow(p: {
 
   const handleMenuSelect = (id: string) => {
     switch (id) {
+      case 'About': {
+        WindowManager.shared.addWindow(
+          createWindowURL('system://About/Main', {
+            appIcon: 'iconBluesky',
+            appName: 'Bluesky',
+          }),
+          {
+            active: true,
+            parentId: p.window.id,
+          },
+        );
+        break;
+      }
+
       case 'Exit': {
         WindowManager.shared.closeWindow(p.window.id);
         break;

@@ -19,6 +19,7 @@
     "check": "astro check && tsc --noEmit && eslint . && prettier --check src",
     "check:fix": "eslint --fix . && prettier --write src",
     "dev": "astro dev",
+    "generate-acknowledgements": "tsx ./src/scripts/Wes95_Acknowledgements.ts",
     "generate-sprites": "tsx ./src/scripts/Wes95_Sprites.ts && prettier --write src/styles/Wes95/Icons.generated.css",
     "preview": "astro preview",
     "start": "astro dev"
@@ -46,12 +47,14 @@
   "devDependencies": {
     "@astrojs/check": "^0.9.4",
     "@eslint/js": "^9.15.0",
+    "@types/license-checker": "^25.0.6",
     "@types/node": "22.9.3",
     "@types/spritesmith": "^3.4.5",
     "@types/youtube": "^0.1.0",
     "eslint": "^9.15.0",
     "eslint-config-prettier": "^9.1.0",
     "globals": "^15.12.0",
+    "license-checker": "^25.0.1",
     "prettier": "3.3.3",
     "rollup-plugin-visualizer": "^5.12.0",
     "spritesmith": "^3.5.1",

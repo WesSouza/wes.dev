@@ -6,6 +6,7 @@ export const SITE_DOMAIN = 'wes.dev';
 
 export const SRC_PATH = import.meta.dirname;
 
+export const WES95_ACKNOWLEDGEMENTS_PATH = `/acknowledgements.txt`;
 export const WES95_PATH = '/C/Wes95';
 export const WES95_FONTS_PATH = `${WES95_PATH}/Fonts`;
 export const WES95_MEDIA_PATH = `${WES95_PATH}/Media`;

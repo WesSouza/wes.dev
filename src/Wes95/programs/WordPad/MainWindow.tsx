@@ -80,6 +80,19 @@ export function WordPadMainWindow(p: {
 
   const handleMenuSelect = (id: string) => {
     switch (id) {
+      case 'About': {
+        WindowManager.shared.addWindow(
+          createWindowURL('system://About/Main', {
+            appIcon: 'iconWordPad',
+            appName: 'WordPad',
+          }),
+          {
+            active: true,
+            parentId: p.window.id,
+          },
+        );
+        break;
+      }
       case 'BulletStyle': {
         execCommand('insertUnorderedList');
         break;

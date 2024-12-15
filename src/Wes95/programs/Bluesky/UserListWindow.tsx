@@ -122,6 +122,20 @@ export function BlueskyUserListWindow(p: {
 
   const handleMenuSelect = (id: string) => {
     switch (id) {
+      case 'About': {
+        WindowManager.shared.addWindow(
+          createWindowURL('system://About/Main', {
+            appIcon: 'iconBluesky',
+            appName: 'Bluesky',
+          }),
+          {
+            active: true,
+            parentId: p.window.id,
+          },
+        );
+        break;
+      }
+
       case 'Follows':
       case 'Following': {
         setUsersCount(0);

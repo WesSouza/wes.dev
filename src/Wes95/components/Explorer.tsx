@@ -355,7 +355,7 @@ export const Explorer = () => {
                 },
                 {
                   type: 'item',
-                  id: 'Help',
+                  id: 'system://About/Main',
                   icon: 'iconHelp',
                   label: 'Help',
                 },
