@@ -26,6 +26,18 @@ body,
   z-index: 2;
 }
 
+.SafeToPowerOff {
+  background-color: #000;
+  color: #e77530;
+  display: grid;
+  font-size: 3em;
+  font-weight: bold;
+  inset: 0;
+  place-content: center;
+  position: fixed;
+  text-align: center;
+}
+
 body {
   background-color: var(--wes95-color-desktopBackground);
 

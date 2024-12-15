@@ -27,6 +27,8 @@ import { ItemList } from './ItemList';
 import { MenuButton } from './MenuButton';
 import { Window } from './Window';
 
+const PowerOffDelay = 2000;
+
 const clockFormatter = Intl.DateTimeFormat(undefined, {
   hour: 'numeric',
   minute: 'numeric',
@@ -45,7 +47,8 @@ export const Explorer = () => {
   let desktopRef!: HTMLElement;
   const windowManager = WindowManager.shared;
   const screenBreakpoint = ScreenManager.shared.screenBreakpoint;
-  const [clock, setClock] = createSignal<string>('');
+  const [clock, setClock] = createSignal('');
+  const [poweredOff, setPoweredOff] = createSignal(false);
 
   const ding = createDinger();
 
@@ -89,6 +92,14 @@ export const Explorer = () => {
       window.clearTimeout(timer);
     });
   });
+
+  const powerOff = () => {
+    document.documentElement.style.cursor = 'wait';
+    window.setTimeout(() => {
+      document.documentElement.style.cursor = '';
+      setPoweredOff(true);
+    }, PowerOffDelay);
+  };
 
   const run = () => {
     const delegateId = createUniqueId();
@@ -155,6 +166,10 @@ export const Explorer = () => {
     }
 
     switch (id) {
+      case 'Shutdown': {
+        powerOff();
+        break;
+      }
       case 'Run': {
         run();
         break;
@@ -188,258 +203,271 @@ export const Explorer = () => {
 
   return (
     <FocusProvider>
-      <div
-        classList={{
-          Screen: true,
-          '-maximized': windowManager.isAnyWindowMaximized(),
-        }}
-      >
-        <main
-          id="Wes95_Desktop"
-          class="Desktop"
-          onClick={handleDesktopTaskbarClick}
-          ref={desktopRef}
+      <Show when={!poweredOff()} fallback={<SafeToPowerOff />}>
+        <div
+          classList={{
+            Screen: true,
+            '-maximized': windowManager.isAnyWindowMaximized(),
+          }}
         >
-          <ItemList
-            appearance="icons-vertical"
-            items={[
-              {
-                icon: 'iconComputer',
-                id: `apps://FileExplorer/Main?path=${encodeURIComponent('/My Computer')}`,
-                name: 'My Computer',
-              },
-              {
-                icon: 'iconDocumentsFolder',
-                id: `apps://FileExplorer/Main?path=${encodeURIComponent('/C/My Documents')}`,
-                name: 'My Documents',
-              },
-              {
-                icon: 'iconBluesky',
-                id: `app://Bluesky/Profile`,
-                name: 'Bluesky',
-              },
-              {
-                icon: 'fileTypeWordPad',
-                id: `apps://WordPad/Main?open=${encodeURIComponent('/C/My Documents/Welcome.doc')}`,
-                name: 'Welcome.doc',
-              },
-            ]}
-            onSelect={handleDesktopIconClick}
-          />
-          <For each={windowManager.state.windows}>
-            {(window) => (
-              <Window
-                active={windowManager.isWindowActive(window.id)}
-                window={window}
-                windowManager={windowManager}
-                zIndex={windowManager.getWindowZIndex(window.id)}
-              />
-            )}
-          </For>
-        </main>
-        <footer class="Taskbar" onClick={handleDesktopTaskbarClick}>
-          <MenuButton
-            appearance="taskbar-start"
-            direction="block-start"
-            items={[
-              {
-                type: 'item',
-                id: 'Programs',
-                icon: 'iconProgramsFolder',
-                label: 'Programs',
-                submenu: [
-                  {
-                    type: 'item',
-                    id: 'Accessories',
-                    icon: 'iconProgramsFolder',
-                    label: 'Accessories',
-                    submenu: [
-                      {
-                        type: 'item',
-                        id: 'app://DiskDefragmenter/Main',
-                        icon: 'iconDefrag',
-                        label: 'Disk Defragmenter',
-                      },
-                      {
-                        type: 'item',
-                        id: 'app://MediaPlayer/Main',
-                        icon: 'iconMediaPlayer',
-                        label: 'Media Player',
-                      },
-                      {
-                        type: 'item',
-                        id: 'app://WordPad/Main',
-                        icon: 'iconWordPad',
-                        label: 'WordPad',
-                      },
-                    ],
-                  },
-                  {
-                    type: 'item',
-                    id: 'StartUp',
-                    icon: 'iconProgramsFolder',
-                    label: 'StartUp',
-                    submenu: [
-                      {
-                        type: 'item',
-                        id: 'StartUpEmpty',
-                        label: '(Empty)',
-                        disabled: true,
-                      },
-                    ],
-                  },
-                  {
-                    type: 'item',
-                    id: 'app://Bluesky/Profile',
-                    icon: 'iconBluesky',
-                    label: 'Bluesky',
-                  },
-                  {
-                    type: 'item',
-                    id: 'app://FileExplorer/Main',
-                    icon: 'iconExplorer',
-                    label: 'File Explorer',
-                  },
-                ],
-              },
-              {
-                type: 'item',
-                id: 'Documents',
-                icon: 'iconDocumentsFolder',
-                label: 'Documents',
-                submenu: [
-                  {
-                    type: 'item',
-                    id: createWindowURL('app://FileExplorer/Main', {
-                      path: '/C/My Documents/Blog',
-                    }),
-                    icon: 'iconDocumentsFolder',
-                    label: 'Blog',
-                  },
-                  ...(firstBlogFiles()
-                    ? [
-                        { type: 'separator' as const },
-                        ...firstBlogFiles()!.map((file) => ({
-                          type: 'item' as const,
-                          id: createWindowURL('app://FileExplorer/Main', {
-                            path: file.path,
-                          }),
-                          icon: 'fileTypeWordPad',
-                          label: file.name,
-                        })),
-                      ]
-                    : []),
-                ],
-              },
-              {
-                type: 'item',
-                id: 'app://Find/Main',
-                icon: 'iconFind',
-                label: 'Find',
-              },
-              {
-                type: 'item',
-                id: 'Help',
-                icon: 'iconHelp',
-                label: 'Help',
-              },
-              {
-                type: 'item',
-                id: 'Run',
-                icon: 'iconRun',
-                label: 'Run',
-              },
-              {
-                type: 'separator',
-              },
-              {
-                type: 'item',
-                id: 'Shutdown',
-                icon: 'iconShutdown',
-                label: 'Shutdown',
-              },
-            ]}
-            onSelect={handleStartSelect}
-            verticalBar={
-              <div class="MenuWes95">
-                <div class="Wes95">
-                  <span class="Wes">Wes</span>95
-                </div>
-              </div>
-            }
+          <main
+            id="Wes95_Desktop"
+            class="Desktop"
+            onClick={handleDesktopTaskbarClick}
+            ref={desktopRef}
           >
-            <Icon icon="iconWes" />
-            <Show when={screenBreakpoint() !== 'small'}>Start</Show>
-          </MenuButton>
-          <div class="VerticalSeparator" />
-          <div class="VerticalHandle" />
-          <div class="TaskbarWindows">
-            <For
-              each={windowManager.state.windows.filter((window) =>
-                windowManager.isWindowInTaskbar(window),
-              )}
-            >
+            <ItemList
+              appearance="icons-vertical"
+              items={[
+                {
+                  icon: 'iconComputer',
+                  id: `apps://FileExplorer/Main?path=${encodeURIComponent('/My Computer')}`,
+                  name: 'My Computer',
+                },
+                {
+                  icon: 'iconDocumentsFolder',
+                  id: `apps://FileExplorer/Main?path=${encodeURIComponent('/C/My Documents')}`,
+                  name: 'My Documents',
+                },
+                {
+                  icon: 'iconBluesky',
+                  id: `app://Bluesky/Profile`,
+                  name: 'Bluesky',
+                },
+                {
+                  icon: 'fileTypeWordPad',
+                  id: `apps://WordPad/Main?open=${encodeURIComponent('/C/My Documents/Welcome.doc')}`,
+                  name: 'Welcome.doc',
+                },
+              ]}
+              onSelect={handleDesktopIconClick}
+            />
+            <For each={windowManager.state.windows}>
               {(window) => (
-                <button
-                  classList={{
-                    TaskbarButton: true,
-                    '-active':
-                      windowManager.state.activeTaskWindow === window.id,
-                    '-small': screenBreakpoint() === 'small',
-                    '-down': windowManager.state.activeTaskWindow === window.id,
-                  }}
-                  data-window-taskbar-button={window.id}
-                  onClick={() => windowManager.setActiveWindow(window)}
-                >
-                  <Show when={window.icon}>
-                    <Icon icon={window.icon!} />
-                  </Show>
-                  <Show when={screenBreakpoint() !== 'small'}>
-                    <span class="TaskbarButtonTitle">{window.title}</span>
-                  </Show>
-                </button>
+                <Window
+                  active={windowManager.isWindowActive(window.id)}
+                  window={window}
+                  windowManager={windowManager}
+                  zIndex={windowManager.getWindowZIndex(window.id)}
+                />
               )}
             </For>
-          </div>
-          <div class="TaskbarStatus StatusField">
-            <Show when={screenBreakpoint() !== 'small'}>
-              <button class="GhostButton" onClick={handleDing} type="button">
-                <Icon icon="toolbarSound" />
+          </main>
+          <footer class="Taskbar" onClick={handleDesktopTaskbarClick}>
+            <MenuButton
+              appearance="taskbar-start"
+              direction="block-start"
+              items={[
+                {
+                  type: 'item',
+                  id: 'Programs',
+                  icon: 'iconProgramsFolder',
+                  label: 'Programs',
+                  submenu: [
+                    {
+                      type: 'item',
+                      id: 'Accessories',
+                      icon: 'iconProgramsFolder',
+                      label: 'Accessories',
+                      submenu: [
+                        {
+                          type: 'item',
+                          id: 'app://DiskDefragmenter/Main',
+                          icon: 'iconDefrag',
+                          label: 'Disk Defragmenter',
+                        },
+                        {
+                          type: 'item',
+                          id: 'app://MediaPlayer/Main',
+                          icon: 'iconMediaPlayer',
+                          label: 'Media Player',
+                        },
+                        {
+                          type: 'item',
+                          id: 'app://WordPad/Main',
+                          icon: 'iconWordPad',
+                          label: 'WordPad',
+                        },
+                      ],
+                    },
+                    {
+                      type: 'item',
+                      id: 'StartUp',
+                      icon: 'iconProgramsFolder',
+                      label: 'StartUp',
+                      submenu: [
+                        {
+                          type: 'item',
+                          id: 'StartUpEmpty',
+                          label: '(Empty)',
+                          disabled: true,
+                        },
+                      ],
+                    },
+                    {
+                      type: 'item',
+                      id: 'app://Bluesky/Profile',
+                      icon: 'iconBluesky',
+                      label: 'Bluesky',
+                    },
+                    {
+                      type: 'item',
+                      id: 'app://FileExplorer/Main',
+                      icon: 'iconExplorer',
+                      label: 'File Explorer',
+                    },
+                  ],
+                },
+                {
+                  type: 'item',
+                  id: 'Documents',
+                  icon: 'iconDocumentsFolder',
+                  label: 'Documents',
+                  submenu: [
+                    {
+                      type: 'item',
+                      id: createWindowURL('app://FileExplorer/Main', {
+                        path: '/C/My Documents/Blog',
+                      }),
+                      icon: 'iconDocumentsFolder',
+                      label: 'Blog',
+                    },
+                    ...(firstBlogFiles()
+                      ? [
+                          { type: 'separator' as const },
+                          ...firstBlogFiles()!.map((file) => ({
+                            type: 'item' as const,
+                            id: createWindowURL('app://FileExplorer/Main', {
+                              path: file.path,
+                            }),
+                            icon: 'fileTypeWordPad',
+                            label: file.name,
+                          })),
+                        ]
+                      : []),
+                  ],
+                },
+                {
+                  type: 'item',
+                  id: 'app://Find/Main',
+                  icon: 'iconFind',
+                  label: 'Find',
+                },
+                {
+                  type: 'item',
+                  id: 'Help',
+                  icon: 'iconHelp',
+                  label: 'Help',
+                },
+                {
+                  type: 'item',
+                  id: 'Run',
+                  icon: 'iconRun',
+                  label: 'Run',
+                },
+                {
+                  type: 'separator',
+                },
+                {
+                  type: 'item',
+                  id: 'Shutdown',
+                  icon: 'iconShutdown',
+                  label: 'Shutdown',
+                },
+              ]}
+              onSelect={handleStartSelect}
+              verticalBar={
+                <div class="MenuWes95">
+                  <div class="Wes95">
+                    <span class="Wes">Wes</span>95
+                  </div>
+                </div>
+              }
+            >
+              <Icon icon="iconWes" />
+              <Show when={screenBreakpoint() !== 'small'}>Start</Show>
+            </MenuButton>
+            <div class="VerticalSeparator" />
+            <div class="VerticalHandle" />
+            <div class="TaskbarWindows">
+              <For
+                each={windowManager.state.windows.filter((window) =>
+                  windowManager.isWindowInTaskbar(window),
+                )}
+              >
+                {(window) => (
+                  <button
+                    classList={{
+                      TaskbarButton: true,
+                      '-active':
+                        windowManager.state.activeTaskWindow === window.id,
+                      '-small': screenBreakpoint() === 'small',
+                      '-down':
+                        windowManager.state.activeTaskWindow === window.id,
+                    }}
+                    data-window-taskbar-button={window.id}
+                    onClick={() => windowManager.setActiveWindow(window)}
+                  >
+                    <Show when={window.icon}>
+                      <Icon icon={window.icon!} />
+                    </Show>
+                    <Show when={screenBreakpoint() !== 'small'}>
+                      <span class="TaskbarButtonTitle">{window.title}</span>
+                    </Show>
+                  </button>
+                )}
+              </For>
+            </div>
+            <div class="TaskbarStatus StatusField">
+              <Show when={screenBreakpoint() !== 'small'}>
+                <button class="GhostButton" onClick={handleDing} type="button">
+                  <Icon icon="toolbarSound" />
+                </button>
+              </Show>
+              <button class="GhostButton" onClick={handleShare} type="button">
+                <Icon icon="toolbarEject" />
               </button>
-            </Show>
-            <button class="GhostButton" onClick={handleShare} type="button">
-              <Icon icon="toolbarEject" />
-            </button>
-            <Show when={screenBreakpoint() !== 'small'}>
-              <div class="TaskbarClock">{clock()}</div>
-            </Show>
-          </div>
-        </footer>
-        <Show when={windowManager.state.titleAnimation}>
-          <div
-            class="WindowTitleAnimation"
-            style={{
-              '--wes95-title-from-x': `${windowManager.state.titleAnimation!.from.x}px`,
-              '--wes95-title-from-y': `${windowManager.state.titleAnimation!.from.y}px`,
-              '--wes95-title-from-width': `${windowManager.state.titleAnimation!.from.width}px`,
-              '--wes95-title-from-height': `${windowManager.state.titleAnimation!.from.height}px`,
-              '--wes95-title-to-x': `${windowManager.state.titleAnimation!.to.x}px`,
-              '--wes95-title-to-y': `${windowManager.state.titleAnimation!.to.y}px`,
-              '--wes95-title-to-width': `${windowManager.state.titleAnimation!.to.width}px`,
-              '--wes95-title-to-height': `${windowManager.state.titleAnimation!.to.height}px`,
-            }}
-          >
-            <Show when={windowManager.state.titleAnimation!.icon}>
-              <div class="WindowTitleIcon">
-                <Icon icon={windowManager.state.titleAnimation!.icon!} />
-              </div>
-            </Show>
-            <span class="WindowTitleText">
-              {windowManager.state.titleAnimation!.title}
-            </span>
-          </div>
-        </Show>
-      </div>
+              <Show when={screenBreakpoint() !== 'small'}>
+                <div class="TaskbarClock">{clock()}</div>
+              </Show>
+            </div>
+          </footer>
+          <Show when={windowManager.state.titleAnimation}>
+            <div
+              class="WindowTitleAnimation"
+              style={{
+                '--wes95-title-from-x': `${windowManager.state.titleAnimation!.from.x}px`,
+                '--wes95-title-from-y': `${windowManager.state.titleAnimation!.from.y}px`,
+                '--wes95-title-from-width': `${windowManager.state.titleAnimation!.from.width}px`,
+                '--wes95-title-from-height': `${windowManager.state.titleAnimation!.from.height}px`,
+                '--wes95-title-to-x': `${windowManager.state.titleAnimation!.to.x}px`,
+                '--wes95-title-to-y': `${windowManager.state.titleAnimation!.to.y}px`,
+                '--wes95-title-to-width': `${windowManager.state.titleAnimation!.to.width}px`,
+                '--wes95-title-to-height': `${windowManager.state.titleAnimation!.to.height}px`,
+              }}
+            >
+              <Show when={windowManager.state.titleAnimation!.icon}>
+                <div class="WindowTitleIcon">
+                  <Icon icon={windowManager.state.titleAnimation!.icon!} />
+                </div>
+              </Show>
+              <span class="WindowTitleText">
+                {windowManager.state.titleAnimation!.title}
+              </span>
+            </div>
+          </Show>
+        </div>
+      </Show>
     </FocusProvider>
   );
 };
+
+function SafeToPowerOff() {
+  return (
+    <div class="SafeToPowerOff">
+      It's now safe to navigate
+      <br />
+      to another website.
+    </div>
+  );
+}
