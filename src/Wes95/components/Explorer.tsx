@@ -338,8 +338,8 @@ export const Explorer = () => {
                           { type: 'separator' as const },
                           ...firstBlogFiles()!.map((file) => ({
                             type: 'item' as const,
-                            id: createWindowURL('app://FileExplorer/Main', {
-                              path: file.path,
+                            id: createWindowURL('app://WordPad/Main', {
+                              open: file.path,
                             }),
                             icon: 'fileTypeWordPad',
                             label: file.name,
