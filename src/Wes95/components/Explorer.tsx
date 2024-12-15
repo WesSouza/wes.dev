@@ -70,6 +70,7 @@ export const Explorer = () => {
                 width: 480,
                 height: 520,
               },
+              skipAnalytics: true,
             },
           );
         },

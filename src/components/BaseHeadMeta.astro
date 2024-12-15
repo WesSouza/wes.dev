@@ -32,3 +32,10 @@ const { title, description = '', image = '/images/OgImage.png' } = Astro.props;
   data-domain={SITE_DOMAIN}
   is:inline
   src="https://plausible.io/js/plausible.js"></script>
+<script>
+  window.plausible =
+    window.plausible ||
+    function () {
+      (window.plausible.q = window.plausible.q || []).push(arguments);
+    };
+</script>
