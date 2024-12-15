@@ -9,7 +9,6 @@ export function registerFind(): ProgramRegistry {
       Main: {
         schema: z.object({}),
         window: FindMainWindow,
-        files: [{ match: /\.(doc|md)$/, param: 'open' }],
       },
     },
   };
