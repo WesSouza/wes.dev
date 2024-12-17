@@ -31,11 +31,11 @@ export const createURL = (urlString: string): URLObject => {
     throw new Error('Unable to infer hostname and pathname from pathname');
   }
 
-  return {
-    ...urlToObject(url),
-    hostname: matches.groups.hostname,
-    pathname: matches.groups.pathname,
-  };
+  const urlObject = urlToObject(url);
+  urlObject.hostname = matches.groups.hostname;
+  urlObject.pathname = matches.groups.pathname;
+
+  return urlObject;
 };
 
 export function getRealPublicURL(path: string | undefined) {
