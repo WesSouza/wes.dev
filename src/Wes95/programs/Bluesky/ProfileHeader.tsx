@@ -40,7 +40,7 @@ export function BlueskyProfileHeader(p: {
             [styles.ProfileAvatar!]: true,
           }}
         >
-          <img src={p.profile.avatar} />
+          <img src={p.profile.avatar} alt="User avatar" />
         </div>
         <Link
           alwaysExternal

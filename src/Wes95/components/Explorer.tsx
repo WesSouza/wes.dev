@@ -257,6 +257,7 @@ export const Explorer = () => {
           <footer class="Taskbar" onClick={handleDesktopTaskbarClick}>
             <MenuButton
               appearance="taskbar-start"
+              aria-label="Start"
               direction="block-start"
               items={[
                 {
@@ -398,6 +399,7 @@ export const Explorer = () => {
               >
                 {(window) => (
                   <button
+                    aria-label={window.title}
                     classList={{
                       TaskbarButton: true,
                       '-active':
@@ -421,11 +423,21 @@ export const Explorer = () => {
             </div>
             <div class="TaskbarStatus StatusField">
               <Show when={screenBreakpoint() !== 'small'}>
-                <button class="GhostButton" onClick={handleDing} type="button">
+                <button
+                  aria-label="Speaker"
+                  class="GhostButton"
+                  onClick={handleDing}
+                  type="button"
+                >
                   <Icon icon="toolbarSound" />
                 </button>
               </Show>
-              <button class="GhostButton" onClick={handleShare} type="button">
+              <button
+                aria-label="Eject"
+                class="GhostButton"
+                onClick={handleShare}
+                type="button"
+              >
                 <Icon icon="toolbarEject" />
               </button>
               <Show when={screenBreakpoint() !== 'small'}>

@@ -13,6 +13,7 @@ import { Menu, type MenuItem, type MenuSeparator } from './Menu';
 import { WindowManager } from '../lib/WindowManager';
 
 export const MenuButton = (p: {
+  'aria-label'?: string;
   appearance?: 'menu' | 'taskbar' | 'taskbar-start';
   children?: JSX.Element;
   direction?: 'block-start' | 'block-end' | 'inline-start' | 'inline-end';
@@ -108,6 +109,7 @@ export const MenuButton = (p: {
         aria-controls={menuOpen() ? menuId : undefined}
         aria-expanded={menuOpen() ? 'true' : undefined}
         aria-haspopup={'menu'}
+        aria-label={p['aria-label']}
         classList={{
           MenuButton: p.appearance !== 'taskbar',
           TaskbarButton:

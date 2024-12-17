@@ -122,7 +122,7 @@ export function BlueskyPost(p: {
               }
               href={`app://Bluesky/Profile?did=${encodeURIComponent(post().author.handle)}`}
             >
-              <img src={post().author.avatar} />
+              <img src={post().author.avatar} alt="User avatar" />
             </Link>
           </Show>
           <Show when={p.replyLine}>
@@ -168,7 +168,7 @@ export function BlueskyPost(p: {
                     class={styles.PostContentImage}
                     href={`app://QuickView/Main?open=${encodeURIComponent(image.fullsize)}`}
                   >
-                    <img src={image.thumb} />
+                    <img src={image.thumb} alt={image.alt} />
                   </Link>
                 )}
               </For>
@@ -176,6 +176,7 @@ export function BlueskyPost(p: {
           </Show>
           <Show when={embedVideo()}>
             <Link
+              aria-label="Video"
               class={styles.PostContentVideo}
               href={`app://MediaPlayer/Main?open=${encodeURIComponent(embedVideo()!.playlist)}`}
             >
@@ -183,6 +184,7 @@ export function BlueskyPost(p: {
                 <img
                   class={styles.PostContentVideoCover}
                   src={embedVideo()!.thumbnail}
+                  alt={embedVideo()!.alt}
                 />
                 <Icon icon="fileTypeVideo" size="small" />
               </Show>
@@ -197,6 +199,7 @@ export function BlueskyPost(p: {
               <Show when={embedExternal()!.thumb}>
                 <img
                   class={styles.PostContentExternalCover}
+                  alt="Thumbnail"
                   src={embedExternal()!.thumb!}
                 />
               </Show>

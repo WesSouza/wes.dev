@@ -220,6 +220,7 @@ export function MediaPlayerMainWindow(p: {
       <div class={styles.Controls}>
         <div class={styles.Timeline}>
           <input
+            aria-label="Timeline"
             type="range"
             min="0"
             max={mediaPlayer.state.duration}
@@ -231,6 +232,7 @@ export function MediaPlayerMainWindow(p: {
         </div>
         <div class={styles.Buttons}>
           <button
+            aria-label="Play"
             classList={{
               ThinButton: true,
               [styles.Button!]: true,
@@ -242,6 +244,7 @@ export function MediaPlayerMainWindow(p: {
             <Symbol symbol="mediaPlay" />
           </button>
           <button
+            aria-label="Pause"
             classList={{
               ThinButton: true,
               [styles.Button!]: true,
@@ -253,6 +256,7 @@ export function MediaPlayerMainWindow(p: {
             <Symbol symbol="mediaPause" />
           </button>
           <button
+            aria-label="Stop"
             class={'ThinButton ' + styles.Button}
             onClick={() => mediaPlayer.stop()}
             type="button"
@@ -261,6 +265,7 @@ export function MediaPlayerMainWindow(p: {
           </button>
           <div class="VerticalSeparator"></div>
           <button
+            aria-label="Skip Backwards"
             class={'ThinButton ' + styles.Button}
             onClick={() => mediaPlayer.skipBack()}
             type="button"
@@ -268,6 +273,7 @@ export function MediaPlayerMainWindow(p: {
             <Symbol symbol="mediaSkipBack" />
           </button>
           <button
+            aria-label="Rewind"
             class={'ThinButton ' + styles.Button}
             onClick={() => mediaPlayer.rewind()}
             type="button"
@@ -275,6 +281,7 @@ export function MediaPlayerMainWindow(p: {
             <Symbol symbol="mediaRewind" />
           </button>
           <button
+            aria-label="Fast Forward"
             class={'ThinButton ' + styles.Button}
             onClick={() => mediaPlayer.fastForward()}
             type="button"
@@ -282,6 +289,7 @@ export function MediaPlayerMainWindow(p: {
             <Symbol symbol="mediaFastForward" />
           </button>
           <button
+            aria-label="Skip Forward"
             class={'ThinButton ' + styles.Button}
             onClick={() => mediaPlayer.skipForward()}
             type="button"
