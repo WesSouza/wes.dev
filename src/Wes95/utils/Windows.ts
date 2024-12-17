@@ -1,8 +1,9 @@
 import type { JSX } from 'solid-js/jsx-runtime';
+import type { z } from 'zod';
 import type { WindowLibrary, WindowManagerState } from '../lib/WindowManager';
 import type { Rect } from '../models/Geometry';
 import type { WindowState } from '../models/WindowState';
-import type { z } from 'zod';
+import { createURL, type URLObject } from './url';
 
 export function addActiveWindowToHistory(
   windowId: string,
@@ -25,7 +26,7 @@ export function createWindowURL(
   urlString: string,
   object: Record<string, unknown>,
 ) {
-  const url = new URL(urlString);
+  const url = createURL(urlString);
 
   for (const [key, value] of Object.entries(object)) {
     if (typeof value === 'string' || typeof value === 'number') {
@@ -148,11 +149,11 @@ export function parseWindowURL(
           }>)
       ),
       z.AnyZodObject,
-      URL,
+      URLObject,
       'sync' | 'async',
     ]
   | never[] {
-  const url = new URL(urlString);
+  const url = createURL(urlString);
   const programName = url.hostname;
   const windowName = url.pathname.replace(/^\//, '').replace(/\\/g, '_');
 

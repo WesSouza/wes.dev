@@ -1,6 +1,7 @@
 import { trpc } from '../../trpc/client';
 import type { MenuItem } from '../components/Menu';
 import type { AstroContentEntry } from '../models/AstroContent';
+import { createURL } from '../utils/url';
 
 let shared: FileSystemManager | undefined;
 
@@ -253,7 +254,7 @@ export class FileSystemManager {
       return undefined;
     }
 
-    const url = new URL(file.url);
+    const url = createURL(file.url);
 
     if (url.protocol === 'astro-content:') {
       return trpc.wes95_fileSystem.getEntry.query({

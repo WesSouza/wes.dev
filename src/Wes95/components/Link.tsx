@@ -1,5 +1,6 @@
 import type { JSX } from 'solid-js';
 import { WindowManager } from '../lib/WindowManager';
+import { createURL } from '../utils/url';
 
 export function Link(
   p: { alwaysExternal?: boolean } & JSX.AnchorHTMLAttributes<HTMLAnchorElement>,
@@ -9,7 +10,7 @@ export function Link(
       return;
     }
 
-    const url = new URL(p.href);
+    const url = createURL(p.href);
 
     const isApp = url.protocol === 'app:' || url.protocol === 'system:';
     const isHTTP = url.protocol === 'http:' || url.protocol === 'https:';

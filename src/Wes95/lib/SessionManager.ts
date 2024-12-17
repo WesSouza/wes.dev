@@ -1,5 +1,6 @@
 import { collect } from '../../utils/plausible';
 import type { WindowState } from '../models/WindowState';
+import { createURL } from '../utils/url';
 import { ScreenManager } from './ScreenManager';
 import { WindowManager } from './WindowManager';
 
@@ -163,7 +164,7 @@ export class SessionManager {
           continue;
         }
 
-        const url = new URL('app://' + app);
+        const url = createURL('app://' + app);
 
         for (let i = 0; i < params.length; i += 2) {
           const key = Tokens.parameters[params[i]!];
