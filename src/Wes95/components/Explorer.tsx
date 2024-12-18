@@ -257,7 +257,6 @@ export const Explorer = () => {
           <footer class="Taskbar" onClick={handleDesktopTaskbarClick}>
             <MenuButton
               appearance="taskbar-start"
-              aria-label="Start"
               direction="block-start"
               items={[
                 {
@@ -387,7 +386,7 @@ export const Explorer = () => {
               }
             >
               <Icon icon="iconWes" />
-              <Show when={screenBreakpoint() !== 'small'}>Start</Show>
+              Start
             </MenuButton>
             <div class="VerticalSeparator" />
             <div class="VerticalHandle" />
