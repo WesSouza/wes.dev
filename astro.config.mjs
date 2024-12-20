@@ -1,20 +1,18 @@
+import cloudflare from '@astrojs/cloudflare';
 import solidJs from '@astrojs/solid-js';
-import vercel from '@astrojs/vercel';
 import { defineConfig } from 'astro/config';
 import { visualizer } from 'rollup-plugin-visualizer';
 
 // https://astro.build/config
 export default defineConfig({
   site:
-    process.env.VERCEL_ENV === 'production'
+    process.env.CF_PAGES_BRANCH === 'main'
       ? 'https://wes.dev'
-      : process.env.VERCEL_GIT_COMMIT_REF === 'wes95'
-        ? 'https://95.wes.dev'
-        : process.env.VERCEL_URL
-          ? `https://${process.env.VERCEL_URL}`
-          : 'http://localhost:4321',
+      : process.env.CF_PAGES_URL
+        ? process.env.CF_PAGES_URL
+        : 'http://localhost:4321',
   output: 'server',
-  adapter: vercel(),
+  adapter: cloudflare(),
   integrations: [solidJs()],
   vite: {
     plugins: [
