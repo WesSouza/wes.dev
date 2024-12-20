@@ -1,8 +1,8 @@
 # Astro
 .astro
 
-# Vercel
-.vercel
+# Cloudflare
+.wrangler
 
 # build output
 dist/

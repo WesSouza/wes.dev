@@ -2,7 +2,7 @@ Acknowledgements
 
 Portions of this software may utilize the following copyrighted material, the use of which is hereby acknowledged.
 
-Sun, 15 Dec 2024 14:57:58 GMT
+Wed, 25 Dec 2024 15:30:38 GMT
 
 
 ---
@@ -29,6 +29,49 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+
+---
+
+
+# @astrojs/cloudflare
+
+An SSR adapter for use with Cloudflare Pages Functions targets. Write your code in Astro/Javascript and deploy to Cloudflare Pages.
+
+## Documentation
+
+Read the [`@astrojs/cloudflare` docs][docs]
+
+## Support
+
+- Get help in the [Astro Discord][discord]. Post questions in our `#support` forum, or visit our dedicated `#dev` channel to discuss current development and more!
+
+- Check our [Astro Integration Documentation][astro-integration] for more on integrations.
+
+- Submit bug reports and feature requests as [GitHub issues][issues].
+
+## Contributing
+
+This package is maintained by Astro's Core team. You're welcome to submit an issue or PR! These links will help you get started:
+
+- [Contributor Manual][contributing]
+- [Code of Conduct][coc]
+- [Community Guide][community]
+
+## License
+
+MIT
+
+Copyright (c) 2023–present [Astro][astro]
+
+[astro]: https://astro.build/
+[docs]: https://docs.astro.build/en/guides/integrations-guide/cloudflare/
+[contributing]: https://github.com/withastro/astro/blob/main/CONTRIBUTING.md
+[coc]: https://github.com/withastro/.github/blob/main/CODE_OF_CONDUCT.md
+[community]: https://github.com/withastro/.github/blob/main/COMMUNITY_GUIDE.md
+[discord]: https://astro.build/chat/
+[issues]: https://github.com/withastro/adapter/issues
+[astro-integration]: https://docs.astro.build/en/guides/integrations-guide/
 
 
 ---
@@ -93,49 +136,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
-
-
----
-
-
-# @astrojs/vercel
-
-This adapter allows Astro to deploy your SSR site to [Vercel](https://www.vercel.com/).
-
-## Documentation
-
-Read the [`@astrojs/vercel` docs][docs]
-
-## Support
-
-- Get help in the [Astro Discord][discord]. Post questions in our `#support` forum, or visit our dedicated `#dev` channel to discuss current development and more!
-
-- Check our [Astro Integration Documentation][astro-integration] for more on integrations.
-
-- Submit bug reports and feature requests as [GitHub issues][issues].
-
-## Contributing
-
-This package is maintained by Astro's Core team. You're welcome to submit an issue or PR! These links will help you get started:
-
-- [Contributor Manual][contributing]
-- [Code of Conduct][coc]
-- [Community Guide][community]
-
-## License
-
-MIT
-
-Copyright (c) 2023–present [Astro][astro]
-
-[astro]: https://astro.build/
-[docs]: https://docs.astro.build/en/guides/integrations-guide/vercel/
-[contributing]: https://github.com/withastro/astro/blob/main/CONTRIBUTING.md
-[coc]: https://github.com/withastro/.github/blob/main/CODE_OF_CONDUCT.md
-[community]: https://github.com/withastro/.github/blob/main/COMMUNITY_GUIDE.md
-[discord]: https://astro.build/chat/
-[issues]: https://github.com/withastro/astro/issues
-[astro-integration]: https://docs.astro.build/en/guides/integrations-guide/
 
 
 ---
@@ -6537,6 +6537,81 @@ FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
 COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+---
+
+
+<h1 align="center"> ⛅️ wrangler </h1>
+<section align="center" id="shieldio-badges">
+<a href="https://www.npmjs.com/package/wrangler"><img alt="npm"  src="https://img.shields.io/npm/dw/wrangler?style=flat-square"></a>
+<img alt="GitHub contributors" src="https://img.shields.io/github/contributors/cloudflare/workers-sdk?style=flat-square">
+<img alt="GitHub commit activity (branch)" src="https://img.shields.io/github/commit-activity/w/cloudflare/workers-sdk/main?style=flat-square">
+<a href="https://discord.cloudflare.com"><img alt="Discord" src="https://img.shields.io/discord/595317990191398933?color=%23F48120&style=flat-square"></a>
+</section>
+
+`wrangler` is a command line tool for building [Cloudflare Workers](https://workers.cloudflare.com/).
+
+> [!WARNING]
+>
+> Wrangler v2 is **only receiving critical security updates.** We recommend you [migrate to Wrangler v3](https://developers.cloudflare.com/workers/wrangler/migration/update-v2-to-v3/) if you can.
+
+## Quick Start
+
+To get started quickly with a Hello World worker, run the command below:
+
+```bash
+npx wrangler init my-worker -y
+```
+
+For more info, visit our [Getting Started](https://developers.cloudflare.com/workers/get-started/guide/) guide.
+
+## Documentation
+
+For the latest Wrangler documentation, [click here](https://developers.cloudflare.com/workers/wrangler/).
+
+To read more about Workers in general:
+
+- [Getting Started](https://developers.cloudflare.com/workers/get-started/guide/)
+- [How Workers works](https://developers.cloudflare.com/workers/reference/how-workers-works/)
+- [Observability](https://developers.cloudflare.com/workers/observability/)
+- [Platform](https://developers.cloudflare.com/workers/platform/)
+
+## Configuration
+
+Wrangler is configured via a `wrangler.toml` or `wrangler.json` file in the project root. An example configuration generated by `npx wrangler init` or `npx create cloudflare` is as follows:
+
+```toml
+name = "my-worker"
+main = "./src/index.ts"
+compatibility_date = "YYYY-MM-DD"
+```
+
+For more detailed information about configuration, refer to the [documentation](https://developers.cloudflare.com/workers/wrangler/configuration/).
+
+## Commands
+
+### Workers
+
+#### `wrangler dev`
+
+Start a local development server, with live reloading and devtools.
+
+#### `wrangler deploy`
+
+Publish the given script to Cloudflare's global network.
+
+For more commands and options, refer to the [documentation](https://developers.cloudflare.com/workers/wrangler/commands/).
+
+### Pages
+
+#### `wrangler pages dev [directory]`
+
+Serves a static build asset directory.
+
+Builds and runs functions from a `./functions` directory or uses a `_worker.js` file inside the static build asset directory.
+
+For more commands and options, refer to the [documentation](https://developers.cloudflare.com/pages/platform/functions#develop-and-preview-locally) or run `wrangler pages dev --help`.
 
 
 ---
