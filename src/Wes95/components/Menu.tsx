@@ -131,11 +131,17 @@ export function Menu(p: {
     }
   };
 
-  createEffect(async () => {
+  createEffect(() => {
     const anchor = p.anchor();
 
     if (!menuElement || !anchor) {
       return;
+    }
+
+    if (!('showPopover' in menuElement)) {
+      throw new Error(
+        'Your browser does not support a required feature, please upgrade it or use a more modern browser',
+      );
     }
 
     menuElement.showPopover();

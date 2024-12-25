@@ -47,3 +47,8 @@ a,
 button {
   color: inherit;
 }
+
+@font-face {
+  font-family: 'Perfect DOS VGA 437';
+  src: url('/C/Wes95/Fonts/PerfectDOS.ttf') format('truetype');
+}
