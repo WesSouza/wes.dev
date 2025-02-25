@@ -38,7 +38,7 @@
     "@trpc/server": "11.0.0-rc.648",
     "anchorme": "^3.0.8",
     "astro": "5.1.0",
-    "solid-js": "^1.9.3",
+    "solid-js": "^1.9.4",
     "solid-markdown": "^2.0.13",
     "tsx": "^4.19.2",
     "zod": "^3.23.8",
