@@ -1,10 +1,12 @@
 html {
+  font-size: 0.0625em;
   hyphens: auto;
   margin: 0 1em;
 }
 
 body {
   font-family: 'Helvetica Neue', sans-serif;
+  font-size: 16rem;
   margin: 1em auto;
   max-width: 60em;
   line-height: 1.5;
