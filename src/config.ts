@@ -36,7 +36,7 @@ export const SITE_GO_LINKS = [
     goSlug: 'immer-state',
     title: 'Simple React State Management',
     subtitle: 'DEV Community, June 2020',
-    showOnResume: true,
+    showOnResume: false,
   },
   {
     type: 'article',

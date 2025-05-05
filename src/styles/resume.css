@@ -155,6 +155,10 @@ section,
     font-size: 0.8em;
   }
 
+  .page-break {
+    page-break-after: always;
+  }
+
   .print-only {
     display: block;
   }
