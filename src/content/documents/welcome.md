@@ -10,7 +10,7 @@ wes95_file: '/C/My Documents/Welcome.doc'
 
 ![Dithered photo of Wes style="float: right; padding-inline-start: 1em; padding-block-end: 1em; "](/C/My_Documents/Photo.png)
 
-I'm Wes, a Staff Software Engineer working at [Unqork](https://www.unqork.com/).
+I'm Wes Souza, a Staff Software Engineer with 19 years of experience shipping for the web and mobile.
 
 Here are some useful links:
 

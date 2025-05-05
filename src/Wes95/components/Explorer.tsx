@@ -69,7 +69,7 @@ export const Explorer = () => {
               },
               size: {
                 width: 480,
-                height: 520,
+                height: 560,
               },
               skipAnalytics: true,
             },
