@@ -82,28 +82,28 @@
 }
 
 a:is(
-    .Button,
-    .FlatButton,
-    .MenuButton,
-    .TaskbarButton,
-    .ThinButton,
-    .ToolbarButton,
-    .WindowTitleButton
-  ) {
+  .Button,
+  .FlatButton,
+  .MenuButton,
+  .TaskbarButton,
+  .ThinButton,
+  .ToolbarButton,
+  .WindowTitleButton
+) {
   text-decoration: none;
 }
 
 button:is(
-    .Button,
-    .FlatButton,
-    .GhostButton,
-    .LinkButton,
-    .MenuButton,
-    .TaskbarButton,
-    .ThinButton,
-    .ToolbarButton,
-    .WindowTitleButton
-  ) {
+  .Button,
+  .FlatButton,
+  .GhostButton,
+  .LinkButton,
+  .MenuButton,
+  .TaskbarButton,
+  .ThinButton,
+  .ToolbarButton,
+  .WindowTitleButton
+) {
   appearance: none;
   border: none;
   color: inherit;
