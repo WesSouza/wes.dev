@@ -30,7 +30,7 @@
   },
   "packageManager": "pnpm@9.4.0",
   "dependencies": {
-    "@astrojs/cloudflare": "^12.6.4",
+    "@astrojs/cloudflare": "^12.6.6",
     "@astrojs/solid-js": "5.1.0",
     "@atproto/api": "^0.13.35",
     "@solid-primitives/resize-observer": "^2.1.3",
