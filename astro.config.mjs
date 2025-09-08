@@ -15,6 +15,9 @@ export default defineConfig({
   adapter: cloudflare(),
   integrations: [solidJs()],
   vite: {
+    optimizeDeps: {
+      include: ['solid-markdown > micromark', 'solid-markdown > unified'],
+    },
     plugins: [
       visualizer({
         emitFile: true,
