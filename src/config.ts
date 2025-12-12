@@ -1,6 +1,6 @@
 export const SITE_TITLE = 'Wes Souza';
 export const SITE_DESCRIPTION =
-  'I’m a Staff Software Engineer working at Unqork in New York. Read more on my website.';
+  'I’m a Senior Software Engineer working at Canva in London. Read more on my website.';
 
 export const SITE_DOMAIN = 'wes.dev';
 
