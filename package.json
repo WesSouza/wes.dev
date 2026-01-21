@@ -60,6 +60,6 @@
     "spritesmith": "^3.5.1",
     "typescript": "5.9.2",
     "typescript-eslint": "8.40.0",
-    "wrangler": "^4.31.0"
+    "wrangler": "^4.59.1"
   }
 }
