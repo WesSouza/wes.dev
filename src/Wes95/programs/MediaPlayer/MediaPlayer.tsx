@@ -139,7 +139,7 @@ export function createMediaPlayer(urlString: string | undefined) {
             }
 
             if (event.data === YT.PlayerState.PLAYING) {
-              window.setInterval(youtubeTimeUpdate, 1000);
+              youtubeTimeTimer = window.setInterval(youtubeTimeUpdate, 1000);
             } else {
               window.clearInterval(youtubeTimeTimer);
             }
