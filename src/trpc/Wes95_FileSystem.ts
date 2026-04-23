@@ -12,7 +12,6 @@ export const wes95_fileSystem = t.router({
         id: item.id,
         collection: item.collection,
         data: item.data,
-        slug: item.slug,
       }));
     }),
 
@@ -35,7 +34,6 @@ export const wes95_fileSystem = t.router({
               id: item.id,
               collection: item.collection,
               data: item.data,
-              slug: item.slug,
             })),
         );
       }
@@ -56,7 +54,6 @@ export const wes95_fileSystem = t.router({
         body: content.body,
         collection: content.collection,
         data: content.data,
-        slug: content.slug,
       };
     }),
 });

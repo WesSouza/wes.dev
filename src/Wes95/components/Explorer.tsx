@@ -480,6 +480,7 @@ export const Explorer = () => {
 };
 
 function BSOD(p: { error: any; reset: () => void }) {
+  console.error(p.error);
   return (
     <button class="BSOD GhostButton" onClick={p.reset} type="button">
       <h1 class="BSODTitle">Error</h1>

@@ -1,6 +1,5 @@
 ---
 title: 'Keeping Control of the Front-end'
-slug: keeping-control-of-the-front-end
 description: 'At Booking.com, hundreds of developers and designers contribute daily to our codebase, which leads to...'
 date: '2016-02-15T08:00:00.000Z'
 tags: ['components', 'development', 'jquery', 'javascript']

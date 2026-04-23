@@ -1,6 +1,5 @@
 ---
 title: 'Writing Good Pull Requests: A Primer'
-slug: opening-a-pr-a-primer
 description: 'Pull Requests are the main path to add code to any open source project, as well as many closed source...'
 date: '2020-02-18T23:00:00.000Z'
 tags: ['opensource', 'productivity', 'github', 'git']

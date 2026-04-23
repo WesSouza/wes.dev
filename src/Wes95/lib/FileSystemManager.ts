@@ -133,7 +133,7 @@ function makeFileFromAstroContent(entry: AstroContentEntry): File {
   const directory = path.substring(0, lastSlashIndex);
   const extension = path.substring(lastDotIndex + 1);
   const name = path.substring(lastSlashIndex + 1, lastDotIndex);
-  const url = `astro-content://${entry.collection}/${entry.slug}`;
+  const url = `astro-content://${entry.collection}/${entry.id}`;
 
   return {
     type: 'file',
