@@ -19,6 +19,19 @@ export default defineConfig({
       ignoreOutdatedRequests: true,
       include: ['solid-markdown > micromark', 'solid-markdown > unified'],
     },
+    ssr: {
+      optimizeDeps: {
+        ignoreOutdatedRequests: true,
+        include: [
+          '@trpc/server',
+          '@trpc/server/adapters/fetch',
+          'astro/zod',
+          'solid-js/web',
+          'solid-markdown > micromark',
+          'solid-markdown > unified',
+        ],
+      },
+    },
     plugins: [
       visualizer({
         emitFile: true,
