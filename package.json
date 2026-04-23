@@ -22,6 +22,8 @@
     "generate-acknowledgements": "tsx ./src/scripts/Wes95_Acknowledgements.ts",
     "generate-sprites": "tsx ./src/scripts/Wes95_Sprites.ts && prettier --write src/styles/Wes95/Icons.generated.css",
     "preview": "astro build && wrangler dev --config ./dist/server/wrangler.json",
+    "deploy:dry-run": "astro build && wrangler deploy --dry-run --config ./dist/server/wrangler.json",
+    "deploy": "astro build && wrangler deploy --config ./dist/server/wrangler.json",
     "start": "astro dev"
   },
   "engines": {
