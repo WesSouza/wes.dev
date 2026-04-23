@@ -1,6 +1,5 @@
 import { onCleanup, onMount } from 'solid-js';
 import { WES95_MEDIA_PATH } from '../../config';
-import { collect } from '../../utils/plausible';
 
 export function createDinger() {
   let buffer: AudioBuffer | undefined;
@@ -36,7 +35,5 @@ export function createDinger() {
     source.buffer = buffer;
     source.connect(context.destination);
     source.start();
-
-    collect('Sound Played', { sound: 'Ding' });
   };
 }

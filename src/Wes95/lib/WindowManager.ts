@@ -26,7 +26,6 @@ import {
 import { modifyById, modifyByIds } from '../utils/array';
 import { clamp } from '../utils/size';
 import { ScreenManager } from './ScreenManager';
-import { collect } from '../../utils/plausible';
 
 let shared: WindowManager | undefined;
 
@@ -173,8 +172,10 @@ export class WindowManager {
 
     this.#windowInits.set(id, windowInit);
 
-    const [WindowContentComponent, WindowDataSchema, windowURL] =
-      parseWindowURL(url, this.windowLibrary);
+    const [WindowContentComponent, WindowDataSchema] = parseWindowURL(
+      url,
+      this.windowLibrary,
+    );
 
     if (!WindowContentComponent) {
       this.messageDialog({
@@ -207,13 +208,6 @@ export class WindowManager {
         state.windows.push(window);
       }),
     );
-
-    if (!windowInit.skipAnalytics) {
-      collect('Application Opened', {
-        app:
-          windowURL.protocol + '//' + windowURL.hostname + windowURL.pathname,
-      });
-    }
 
     return window;
   };
