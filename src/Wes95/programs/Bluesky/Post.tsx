@@ -72,31 +72,31 @@ export function BlueskyPost(p: {
     return text;
   });
 
+  const embed = createMemo<any>(() =>
+    'embed' in p.post ? (p.post as any).embed : undefined,
+  );
+
   const embedImages = createMemo(() =>
-    p.post.embed && typeof p.post.embed === 'object' && 'images' in p.post.embed
-      ? (p.post.embed.images as AppBskyEmbedImages.ViewImage[])
+    embed() && typeof embed() === 'object' && 'images' in embed()
+      ? (embed()!.images as AppBskyEmbedImages.ViewImage[])
       : undefined,
   );
 
   const embedVideo = createMemo(() =>
-    p.post.embed &&
-    typeof p.post.embed === 'object' &&
-    'playlist' in p.post.embed
-      ? (p.post.embed as AppBskyEmbedVideo.View)
+    embed() && typeof embed() === 'object' && 'playlist' in embed()
+      ? (embed() as AppBskyEmbedVideo.View)
       : undefined,
   );
 
   const embedExternal = createMemo(() =>
-    p.post.embed &&
-    typeof p.post.embed === 'object' &&
-    'external' in p.post.embed
-      ? (p.post.embed.external as AppBskyEmbedExternal.ViewExternal)
+    embed() && typeof embed() === 'object' && 'external' in embed()
+      ? (embed()!.external as AppBskyEmbedExternal.ViewExternal)
       : undefined,
   );
 
   const embedRecord = createMemo(() =>
-    p.post.embed && typeof p.post.embed === 'object' && 'record' in p.post.embed
-      ? getViewRecord(p.post.embed.record as any)
+    embed() && typeof embed() === 'object' && 'record' in embed()
+      ? getViewRecord(embed()!.record as any)
       : undefined,
   );
 

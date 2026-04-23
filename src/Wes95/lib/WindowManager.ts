@@ -1,6 +1,6 @@
 import { createUniqueId, type Accessor, type JSX } from 'solid-js';
 import { createStore, produce, type SetStoreFunction } from 'solid-js/store';
-import { z, ZodType } from 'zod';
+import { z } from 'zod';
 import type { Point, Rect, Size } from '../models/Geometry';
 import type { WindowState } from '../models/WindowState';
 import { registerBluesky } from '../programs/Bluesky/registry';
@@ -53,7 +53,7 @@ export type ProgramRegistry = {
   windows: {
     [k: string]: {
       async?: boolean;
-      schema: z.AnyZodObject;
+      schema: z.ZodObject<any>;
       window:
         | ((p: { data: any; window: WindowState }) => JSX.Element)
         | (() => Promise<{
@@ -739,7 +739,7 @@ export class WindowManager {
 
   // MARK: Events
 
-  handlers = new Map<string, Map<(event: unknown) => void, ZodType>>();
+  handlers = new Map<string, Map<unknown, (event: unknown) => void>>();
 
   addHandler = <T extends z.ZodTypeAny>(
     delegateId: string,
@@ -752,7 +752,12 @@ export class WindowManager {
       this.handlers.set(delegateId, handlers);
     }
 
-    handlers.set(handler, schema);
+    handlers.set(handler, (event: unknown) => {
+      const parsedEvent = schema.safeParse(event);
+      if (parsedEvent.success) {
+        handler(parsedEvent.data);
+      }
+    });
   };
 
   handleOnce = <T extends z.ZodTypeAny>(
@@ -760,17 +765,14 @@ export class WindowManager {
     handler: (event: z.infer<T>) => void,
     schema: T,
   ) => {
-    const handleAndRemove = (event: unknown) => {
-      const parsedEvent = schema.safeParse(event);
-      if (parsedEvent.success) {
-        handler(parsedEvent.data);
-        this.removeHandler(delegateId, handleAndRemove);
-      }
+    const handleAndRemove = (event: z.infer<T>) => {
+      handler(event);
+      this.removeHandler(delegateId, handleAndRemove);
     };
     this.addHandler(delegateId, handleAndRemove, schema);
   };
 
-  removeHandler = (delegateId: string, handler: (event: unknown) => void) => {
+  removeHandler = <T>(delegateId: string, handler: (event: T) => void) => {
     let handlers = this.handlers.get(delegateId);
     if (!handlers) {
       handlers = new Map();
@@ -786,11 +788,8 @@ export class WindowManager {
       return;
     }
 
-    for (const [handler, schema] of handlers) {
-      const parsedEvent = schema.safeParse(event);
-      if (parsedEvent.success) {
-        handler(parsedEvent.data);
-      }
+    for (const handler of handlers.values()) {
+      handler(event);
     }
   };
 

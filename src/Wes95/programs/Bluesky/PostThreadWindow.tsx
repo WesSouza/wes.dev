@@ -12,7 +12,6 @@ import { LoadingAnimation } from '../../components/LoadingAnimation';
 import { WindowManager } from '../../lib/WindowManager';
 import type { WindowState } from '../../models/WindowState';
 import { getThreadView } from '../../utils/bluesky';
-import { BlueskyPost } from './Post';
 import { BlueskyPostView } from './PostView';
 import type { BlueskyPostThreadData } from './registry';
 import styles from './style.module.css';
@@ -23,13 +22,6 @@ const getPostThread = async (
   const result = await trpc.wes95_bluesky.getPostThread.query({
     uri,
   });
-
-  if (result.error) {
-    const error = new Error(`getPostThread failed`);
-    error.cause = result.error;
-    throw error;
-  }
-
   return getThreadView(result);
 };
 
@@ -43,9 +35,12 @@ export function BlueskyPostThreadWindow(p: {
 
   const replies = createMemo(
     () =>
-      (thread()
+      thread()
         ?.replies?.map(getThreadView)
-        .filter(Boolean) as AppBskyFeedDefs.ThreadViewPost[]) ?? [],
+        .filter(
+          (reply): reply is AppBskyFeedDefs.ThreadViewPost =>
+            reply !== undefined,
+        ) ?? [],
   );
 
   onMount(() => {
@@ -74,9 +69,8 @@ export function BlueskyPostThreadWindow(p: {
           <Show when={parent()}>
             <BlueskyPostView postView={parent()!} />
           </Show>
-          <Show when={thread()?.post}>
-            <BlueskyPost post={thread()!.post} />
-            <hr class={styles.PostSeparator!} />
+          <Show when={thread()}>
+            <BlueskyPostView postView={thread()!} />
           </Show>
           <For each={replies()}>
             {(reply) => <BlueskyPostView postView={reply} />}

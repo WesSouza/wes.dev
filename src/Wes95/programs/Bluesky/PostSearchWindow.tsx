@@ -30,12 +30,6 @@ const getSearchPosts = async (
     cursor: typeof info.refetching === 'string' ? info.refetching : undefined,
   });
 
-  if (result.error) {
-    const error = new Error(`getSearchPosts failed`);
-    error.cause = result.error;
-    throw error;
-  }
-
   const previousPosts = currentQuery === q ? (info.value?.posts ?? []) : [];
   currentQuery = q;
 
