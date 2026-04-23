@@ -1,4 +1,3 @@
-import { collect } from '../../utils/plausible';
 import type { WindowState } from '../models/WindowState';
 import { createURL } from '../utils/url';
 import { ScreenManager } from './ScreenManager';
@@ -131,8 +130,6 @@ export class SessionManager {
 
     params.append('a', activeIndex.toString());
 
-    collect('Session Encoded');
-
     return params.toString();
   };
 
@@ -202,8 +199,6 @@ export class SessionManager {
 
     if (windows.length === 0) {
       options?.cleanState?.();
-    } else {
-      collect('Session Restored');
     }
 
     this.initialized = true;

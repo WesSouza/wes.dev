@@ -1,6 +1,4 @@
 ---
-import { SITE_DOMAIN } from '../config';
-
 export interface Props {
   title: string;
   description?: string;
@@ -26,16 +24,3 @@ const { title, description = '', image = '/images/OgImage.png' } = Astro.props;
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
 <meta property="og:image" content={new URL(image, Astro.url)} />
-
-<script
-  defer
-  data-domain={SITE_DOMAIN}
-  is:inline
-  src="https://plausible.io/js/plausible.js"></script>
-<script>
-  window.plausible =
-    window.plausible ||
-    function () {
-      (window.plausible.q = window.plausible.q || []).push(arguments);
-    };
-</script>
