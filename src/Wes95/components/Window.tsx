@@ -1,6 +1,6 @@
 import { createContext, createEffect, lazy, Show, type JSX } from 'solid-js';
 import type { z } from 'zod';
-import { parseSearchParams } from 'zod-search-params';
+import { parseSearchParams } from 'zod-search-params/v4';
 import { ScreenManager } from '../lib/ScreenManager';
 import type { WindowManager } from '../lib/WindowManager';
 import type { Point } from '../models/Geometry';
