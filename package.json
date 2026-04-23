@@ -21,7 +21,7 @@
     "dev": "astro dev",
     "generate-acknowledgements": "tsx ./src/scripts/Wes95_Acknowledgements.ts",
     "generate-sprites": "tsx ./src/scripts/Wes95_Sprites.ts && prettier --write src/styles/Wes95/Icons.generated.css",
-    "preview": "astro build && wrangler pages dev ./dist",
+    "preview": "astro build && wrangler dev --config ./dist/server/wrangler.json",
     "start": "astro dev"
   },
   "engines": {
@@ -30,19 +30,19 @@
   },
   "packageManager": "pnpm@9.4.0",
   "dependencies": {
-    "@astrojs/cloudflare": "^12.6.13",
-    "@astrojs/solid-js": "5.1.0",
-    "@atproto/api": "^0.13.35",
+    "@astrojs/cloudflare": "^13.2.1",
+    "@astrojs/solid-js": "6.0.1",
+    "@atproto/api": "^0.19.11",
     "@solid-primitives/resize-observer": "^2.1.5",
-    "@trpc/client": "11.5.0",
-    "@trpc/server": "11.8.0",
+    "@trpc/client": "11.16.0",
+    "@trpc/server": "11.16.0",
     "anchorme": "^3.0.8",
-    "astro": "5.18.1",
+    "astro": "6.1.9",
     "solid-js": "^1.9.12",
     "solid-markdown": "^2.1.1",
     "tsx": "^4.21.0",
-    "zod": "^3.25.76",
-    "zod-search-params": "^0.1.6"
+    "zod": "^4.3.6",
+    "zod-search-params": "^0.2.1"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.8",

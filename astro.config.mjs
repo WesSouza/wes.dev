@@ -16,6 +16,7 @@ export default defineConfig({
   integrations: [solidJs()],
   vite: {
     optimizeDeps: {
+      ignoreOutdatedRequests: true,
       include: ['solid-markdown > micromark', 'solid-markdown > unified'],
     },
     plugins: [
