@@ -71,21 +71,27 @@ export const wes95_bluesky = t.router({
     )
     .query(async ({ input }) => {
       const { type, ...restInput } = input;
-      const { data } =
-        await agent[type === 'follows' ? 'getFollows' : 'getFollowers'](
-          restInput,
-        );
-      return z
-        .object({
-          cursor: z.string().optional(),
-          subject: Bluesky_Actor_ProfileViewBasicSchema,
-          users: z.array(Bluesky_Actor_ProfileViewBasicSchema),
-        })
-        .parse({
+      const schema = z.object({
+        cursor: z.string().optional(),
+        subject: Bluesky_Actor_ProfileViewBasicSchema,
+        users: z.array(Bluesky_Actor_ProfileViewBasicSchema),
+      });
+
+      if (type === 'followers') {
+        const { data } = await agent.getFollowers(restInput);
+        return schema.parse({
           cursor: data.cursor,
           subject: data.subject,
-          users: data.followers ?? data.follows,
+          users: data.followers,
         });
+      }
+
+      const { data } = await agent.getFollows(restInput);
+      return schema.parse({
+        cursor: data.cursor,
+        subject: data.subject,
+        users: data.follows,
+      });
     }),
 
   searchPosts: publicProcedure

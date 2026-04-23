@@ -148,7 +148,7 @@ export function parseWindowURL(
             default: (p: { data: any; window: WindowState }) => JSX.Element;
           }>)
       ),
-      z.AnyZodObject,
+      z.ZodObject<any>,
       URLObject,
       'sync' | 'async',
     ]

@@ -1,5 +1,4 @@
 import { AppBskyEmbedRecord, AppBskyFeedDefs } from '@atproto/api';
-import type { Bluesky_UnknownType } from '../models/Bluesky';
 import anchorme from 'anchorme';
 import { Link } from '../components/Link';
 
@@ -52,30 +51,16 @@ export function getViewRecord(record: AppBskyEmbedRecord.View['record']) {
   return;
 }
 
-export function getPostView(
-  post:
-    | AppBskyFeedDefs.PostView
-    | AppBskyFeedDefs.NotFoundPost
-    | AppBskyFeedDefs.BlockedPost
-    | Bluesky_UnknownType
-    | undefined,
-) {
+export function getPostView(post: unknown) {
   if (AppBskyFeedDefs.isPostView(post)) {
-    return post;
+    return post as AppBskyFeedDefs.PostView;
   }
   return;
 }
 
-export function getThreadView(
-  thread:
-    | AppBskyFeedDefs.ThreadViewPost
-    | AppBskyFeedDefs.NotFoundPost
-    | AppBskyFeedDefs.BlockedPost
-    | Bluesky_UnknownType
-    | undefined,
-) {
+export function getThreadView(thread: unknown) {
   if (AppBskyFeedDefs.isThreadViewPost(thread)) {
-    return thread;
+    return thread as AppBskyFeedDefs.ThreadViewPost;
   }
   return;
 }

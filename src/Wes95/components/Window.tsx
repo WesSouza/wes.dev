@@ -23,6 +23,11 @@ const CursorMap: Record<string, string> = {
   se: 'nwse',
 };
 
+const parseWindowSearchParams = (
+  schema: z.ZodObject<z.ZodRawShape>,
+  searchParams: URLSearchParams,
+) => parseSearchParams<z.ZodObject<z.ZodRawShape>>(schema, searchParams);
+
 export const WindowContext = createContext<WindowState>();
 
 export function Window(p: {
@@ -307,9 +312,7 @@ export function Window(p: {
       return;
     }
 
-    const data: z.infer<typeof WindowDataSchema> =
-      // @ts-expect-error
-      parseSearchParams(WindowDataSchema, url.searchParams);
+    const data = parseWindowSearchParams(WindowDataSchema, url.searchParams);
 
     const Component =
       type === 'sync'

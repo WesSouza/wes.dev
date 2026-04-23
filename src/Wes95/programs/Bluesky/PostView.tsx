@@ -5,14 +5,27 @@ import { getPostURL, getPostView, getRepost } from '../../utils/bluesky';
 import { BlueskyPost } from './Post';
 import styles from './style.module.css';
 
-export function BlueskyPostView(p: { postView: AppBskyFeedDefs.FeedViewPost }) {
+export function BlueskyPostView(p: {
+  postView: AppBskyFeedDefs.FeedViewPost | AppBskyFeedDefs.ThreadViewPost;
+}) {
   const post = createMemo(() => ({
     ...p.postView.post,
     url: getPostURL(p.postView.post),
   }));
-  const replyRoot = createMemo(() => getPostView(p.postView.reply?.root));
-  const replyParent = createMemo(() => getPostView(p.postView.reply?.parent));
-  const repost = createMemo(() => getRepost(p.postView));
+
+  const feedView = createMemo(() =>
+    'reply' in p.postView || 'reason' in p.postView ? p.postView : undefined,
+  );
+
+  const replyRoot = createMemo(() => getPostView(feedView()?.reply?.root));
+  const replyParent = createMemo(() => getPostView(feedView()?.reply?.parent));
+  const repost = createMemo(() => {
+    const value = feedView();
+    if (!value) {
+      return;
+    }
+    return getRepost(value);
+  });
 
   return (
     <>

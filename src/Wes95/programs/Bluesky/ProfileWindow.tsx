@@ -43,7 +43,9 @@ const getAccountPosts = async (
   currentActor = actor;
 
   return {
-    feed: previousFeed.concat(result.feed),
+    feed: previousFeed.concat(
+      result.feed as AppBskyFeedGetAuthorFeed.OutputSchema['feed'],
+    ),
     cursor: result.cursor as string | undefined,
   };
 };
