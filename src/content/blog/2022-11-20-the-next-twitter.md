@@ -1,6 +1,5 @@
 ---
 title: 'The Next Twitter'
-slug: the-next-twitter
 description: 'The world is not happy with Twitter. Lots of really bad decisions are being pushed by its arrogant...'
 date: '2022-11-20T23:50:59.836Z'
 tags: ['product', 'opinion', 'discuss']

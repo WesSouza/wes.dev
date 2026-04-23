@@ -1,6 +1,5 @@
 ---
 title: "'B' is assignable to the constraint of type 'T', but 'T' could be instantiated with a different subtype of constraint 'A'."
-slug: b-is-assignable-to-the-constraint-of-type-t-but-t-could-be-instantiated-with-a-different-subtype-of-constraint-a
 description: 'This error has plagued me for years now. And thanks to Inigo I finally understood the...'
 date: '2023-01-15T21:23:12.893Z'
 tags: ['typescript', 'generics', 'javascript']

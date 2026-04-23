@@ -1,6 +1,6 @@
 ---
 title: 'From Brazil to Amsterdam'
-slug: from-brazil-to-amsterdam
+
 description: 'What I’ve learned after eight months living in the Netherlands   In this beginning of 2015 I...'
 date: '2015-01-28T08:00:00.000Z'
 tags: ['expat', 'netherlands', 'travel', 'amsterdam']

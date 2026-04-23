@@ -1,6 +1,5 @@
 ---
 title: 'Simple React State Management'
-slug: simple-react-state-management
 description: 'A good state system aims to be concise, easy to scale, and easy to debug. State is very unique per pr...'
 date: '2020-06-30T17:39:55.503Z'
 tags: ['react', 'webdev', 'javascript', 'typescript']

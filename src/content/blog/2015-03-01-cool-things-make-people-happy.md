@@ -1,6 +1,5 @@
 ---
 title: 'Small Things to Make Others Happy'
-slug: cool-things-make-people-happy
 description: 'Working for a couple of big companies as MTV, Univision and Booking.com gave me a glimpse of what it...'
 date: '2015-03-01T08:00:00.000Z'
 tags: ['code', 'webdev', 'css', 'scalability']

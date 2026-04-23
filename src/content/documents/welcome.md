@@ -1,6 +1,5 @@
 ---
 title: 'Welcome!'
-slug: welcome
 description: "I'm Wes, a Senior Software Engineer working at Canva."
 date: '2024-11-17T19:45:00.000Z'
 wes95_file: '/C/My Documents/Welcome.doc'

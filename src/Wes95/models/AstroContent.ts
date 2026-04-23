@@ -9,7 +9,6 @@ export const AstroContentEntrySchema = z.object({
     title: z.string().optional(),
     wes95_file: z.string(),
   }),
-  slug: z.string(),
 });
 
 export type AstroContentEntry = z.infer<typeof AstroContentEntrySchema>;

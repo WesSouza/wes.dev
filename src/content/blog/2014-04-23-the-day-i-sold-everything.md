@@ -1,6 +1,6 @@
 ---
 title: 'The day I sold everything'
-slug: the-day-i-sold-everything
+
 description: 'And what I’ve learned about the mobile internet   In May 2014 I will move to Amsterdam (more...'
 date: '2014-04-23T07:00:00.000Z'
 tags: ['travel']

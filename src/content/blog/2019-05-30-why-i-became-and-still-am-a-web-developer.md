@@ -1,6 +1,5 @@
 ---
 title: 'Why I Became, and still am, a Web Developer'
-slug: why-i-became-and-still-am-a-web-developer
 description: 'Once upon a time, my young self opened Notepad, entered many characters, saved as an .html file, open...'
 date: '2019-05-30T20:05:32.074Z'
 tags: ['career', 'maker', 'javascript', 'webdev']

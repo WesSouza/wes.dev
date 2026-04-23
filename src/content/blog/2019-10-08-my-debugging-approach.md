@@ -1,6 +1,5 @@
 ---
 title: 'Something Broke! How do I fix it?'
-slug: my-debugging-approach
 description: 'Software development is not about how to write perfect, bug-free code, but to be prepared to handle...'
 date: '2019-10-08T16:45:10.047Z'
 tags: ['webdev', 'debug', 'css', 'javascript']
