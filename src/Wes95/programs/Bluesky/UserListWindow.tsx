@@ -47,7 +47,8 @@ export function BlueskyUserListWindow(p: {
   data: BlueskyUserListData;
   window: WindowState;
 }) {
-  let contentElement!: HTMLDivElement;
+  // eslint-disable-next-line no-unassigned-vars
+  let contentRef!: HTMLDivElement;
   const [options, setOptions] = createSignal({
     did: p.data.did,
     type: p.data.type,
@@ -112,7 +113,7 @@ export function BlueskyUserListWindow(p: {
       (event) => {
         if (event.filePath) {
           setOptions((options) => ({ ...options, did: event.filePath! }));
-          contentElement?.scrollTo(0, 0);
+          contentRef?.scrollTo(0, 0);
         }
         WindowManager.shared.setActiveWindow(p.window);
       },
@@ -144,7 +145,7 @@ export function BlueskyUserListWindow(p: {
           type: id.toLowerCase() as any,
         }));
 
-        contentElement?.scrollTo(0, 0);
+        contentRef?.scrollTo(0, 0);
         break;
       }
 
@@ -244,7 +245,7 @@ export function BlueskyUserListWindow(p: {
         >
           <div
             class="Content Vertical"
-            ref={contentElement}
+            ref={contentRef}
             onScroll={handleScroll}
           >
             <For each={users()?.users}>

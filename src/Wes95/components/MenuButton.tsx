@@ -28,7 +28,8 @@ export const MenuButton = (p: {
   open?: boolean;
   verticalBar?: JSX.Element;
 }) => {
-  let element!: HTMLButtonElement;
+  // eslint-disable-next-line no-unassigned-vars
+  let elementRef!: HTMLButtonElement;
   const menuButtonId = createUniqueId();
   const menuId = createUniqueId();
 
@@ -48,7 +49,7 @@ export const MenuButton = (p: {
   const menuOpen = createMemo(() => p.open ?? internalMenuOpen());
 
   const reposition = () => {
-    const rect = element.getBoundingClientRect();
+    const rect = elementRef.getBoundingClientRect();
 
     setAnchor({
       x: rect.x,
@@ -75,7 +76,7 @@ export const MenuButton = (p: {
     if (
       menuOpen() &&
       event.target instanceof HTMLElement &&
-      !element.contains(event.target) &&
+      !elementRef.contains(event.target) &&
       !event.target.closest(`[data-menu-id="${menuId}"]`)
     ) {
       closeMenu();
@@ -121,7 +122,7 @@ export const MenuButton = (p: {
         onClick={toggleMenu}
         onMouseEnter={p.onButtonMouseEnter}
         onMouseLeave={p.onButtonMouseLeave}
-        ref={element}
+        ref={elementRef}
         type="button"
       >
         {p.children}

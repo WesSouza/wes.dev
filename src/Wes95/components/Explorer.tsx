@@ -45,6 +45,7 @@ const getFirstBlogFiles = async () => {
 };
 
 export const Explorer = () => {
+  // eslint-disable-next-line no-unassigned-vars
   let desktopRef!: HTMLElement;
   const windowManager = WindowManager.shared;
   const screenBreakpoint = ScreenManager.shared.screenBreakpoint;

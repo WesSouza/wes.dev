@@ -21,7 +21,8 @@ export function WordPadMainWindow(p: {
   data: WordPadMainData;
   window: WindowState;
 }) {
-  let contentElement!: HTMLDivElement;
+  // eslint-disable-next-line no-unassigned-vars
+  let contentRef!: HTMLDivElement;
   const fileSystem = FileSystemManager.shared;
 
   const [store, setStore] = createStore({
@@ -66,7 +67,7 @@ export function WordPadMainWindow(p: {
             p.window.id,
             `app://WordPad/Main?open=${encodeURIComponent(event.filePath)}`,
           );
-          contentElement.scrollTo(0, 0);
+          contentRef.scrollTo(0, 0);
         }
         WindowManager.shared.setActiveWindow(p.window);
       },
@@ -137,9 +138,9 @@ export function WordPadMainWindow(p: {
   };
 
   const execCommand = (command: string, argument?: string) => {
-    contentElement.contentEditable = 'true';
+    contentRef.contentEditable = 'true';
     document.execCommand(command, false, argument);
-    contentElement.contentEditable = 'false';
+    contentRef.contentEditable = 'false';
   };
 
   return (
@@ -410,7 +411,7 @@ export function WordPadMainWindow(p: {
         </div>
       </Show>
       <div class="Field">
-        <div class="Content MediumSpacing Document" ref={contentElement}>
+        <div class="Content MediumSpacing Document" ref={contentRef}>
           <Markdown markdown={fileData()?.body} />
         </div>
       </div>

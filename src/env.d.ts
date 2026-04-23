@@ -4,3 +4,7 @@
 interface Window {
   onYouTubeIframeAPIReady: () => void;
 }
+
+declare namespace YT {
+  export type Player = import('youtube').Player;
+}

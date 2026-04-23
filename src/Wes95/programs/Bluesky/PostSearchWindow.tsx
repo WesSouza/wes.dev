@@ -51,7 +51,8 @@ export function BlueskyPostSearchWindow(p: {
   data: BlueskyPostSearchData;
   window: WindowState;
 }) {
-  let contentElement!: HTMLDivElement;
+  // eslint-disable-next-line no-unassigned-vars
+  let contentRef!: HTMLDivElement;
   const [postsCount, setPostsCount] = createSignal();
   const [posts, { refetch }] = createResource(p.data.q, getSearchPosts);
 
@@ -92,11 +93,7 @@ export function BlueskyPostSearchWindow(p: {
           [styles.PostList!]: true,
         }}
       >
-        <div
-          class="Content Vertical"
-          onScroll={handleScroll}
-          ref={contentElement}
-        >
+        <div class="Content Vertical" onScroll={handleScroll} ref={contentRef}>
           <For each={posts()?.posts}>
             {(post) => (
               <>

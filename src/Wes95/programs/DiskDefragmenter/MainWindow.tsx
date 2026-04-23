@@ -58,7 +58,8 @@ export function DiskDefragmenterMainWindow(p: { window: WindowState }) {
     rows: 0,
     timer: undefined,
   });
-  let clusterGridElement!: HTMLDivElement;
+  // eslint-disable-next-line no-unassigned-vars
+  let clusterGridRef!: HTMLDivElement;
 
   onMount(() => {
     const desktopSize = ScreenManager.shared.desktopSize();
@@ -94,7 +95,7 @@ export function DiskDefragmenterMainWindow(p: { window: WindowState }) {
 
     setState('timer', window.setInterval(loop, DefragSpeed));
 
-    createResizeObserver(clusterGridElement, (rect) => {
+    createResizeObserver(clusterGridRef, (rect) => {
       const { width, height } = rect;
       const scale = ScreenManager.shared.scale();
 
@@ -318,7 +319,7 @@ export function DiskDefragmenterMainWindow(p: { window: WindowState }) {
       <div class="Field">
         <div
           classList={{ Content: true, [styles.ClusterGrid!]: true }}
-          ref={clusterGridElement}
+          ref={clusterGridRef}
         >
           <For each={clustersOnScreen()}>
             {(cluster) => (
