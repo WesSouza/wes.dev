@@ -57,7 +57,8 @@ export function BlueskyProfileWindow(p: {
   data: BlueskyProfileData;
   window: WindowState;
 }) {
-  let contentElement!: HTMLDivElement;
+  // eslint-disable-next-line no-unassigned-vars
+  let contentRef!: HTMLDivElement;
   const account = createMemo(() => p.data.did ?? WesDID);
   const [view, setView] = createSignal<'posts' | 'replies' | 'media' | 'likes'>(
     'posts',
@@ -296,7 +297,7 @@ export function BlueskyProfileWindow(p: {
       </Show>
       <Show when={profile() && posts()?.feed && view() !== 'likes'}>
         <BlueskyPostList
-          contentRef={contentElement}
+          contentRef={contentRef}
           // @ts-expect-error
           filter={view()}
           onScrolledToEnd={fetchMore}

@@ -21,7 +21,8 @@ export const Combobox = (p: {
   selectedItem?: string;
   placeholder?: string;
 }) => {
-  let anchorElement!: HTMLDivElement;
+  // eslint-disable-next-line no-unassigned-vars
+  let anchorRef!: HTMLDivElement;
   const menuButtonId = createUniqueId();
   const menuId = createUniqueId();
   const [anchor, setAnchor] = createSignal<Anchor>();
@@ -55,12 +56,12 @@ export const Combobox = (p: {
   };
 
   const updateAnchor = () => {
-    if (!anchorElement) {
+    if (!anchorRef) {
       setAnchor(undefined);
       return;
     }
 
-    const rect = anchorElement.getBoundingClientRect();
+    const rect = anchorRef.getBoundingClientRect();
 
     setAnchor({
       x: rect.x,
@@ -73,7 +74,7 @@ export const Combobox = (p: {
 
   onMount(() => {
     createDocumentResizeObserver(updateAnchor);
-    createResizeObserver(anchorElement, updateAnchor);
+    createResizeObserver(anchorRef, updateAnchor);
   });
 
   return (
@@ -88,7 +89,7 @@ export const Combobox = (p: {
           '-icon': p.appearance === 'icon',
         }}
         id={menuButtonId}
-        ref={anchorElement}
+        ref={anchorRef}
         role="combobox"
         onClick={toggleMenu}
       >

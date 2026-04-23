@@ -11,7 +11,8 @@ export function QuickViewMainWindow(p: {
   data: QuickViewMainData;
   window: WindowState;
 }) {
-  let contentElement!: HTMLTextAreaElement;
+  // eslint-disable-next-line no-unassigned-vars
+  let contentRef!: HTMLTextAreaElement;
 
   const url = createMemo(() => {
     return getRealPublicURL(p.data.open)?.toString();
@@ -45,7 +46,7 @@ export function QuickViewMainWindow(p: {
             p.window.id,
             `app://QuickView/Main?open=${encodeURIComponent(event.filePath)}`,
           );
-          contentElement.scrollTo(0, 0);
+          contentRef.scrollTo(0, 0);
         }
         WindowManager.shared.setActiveWindow(p.window);
       },

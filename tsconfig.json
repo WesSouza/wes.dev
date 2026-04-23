@@ -15,6 +15,7 @@
     "strictFunctionTypes": true,
     "strictNullChecks": true,
     "strictPropertyInitialization": true,
+    "types": ["youtube"],
     "verbatimModuleSyntax": true
   },
   "include": [".astro/types.d.ts", "src"],

@@ -44,7 +44,9 @@ export function Window(p: {
   };
   const activePointers = new Set<number>();
   let pointerAction: 'move' | 'resize' | undefined;
+  // eslint-disable-next-line no-unassigned-vars
   let windowRef!: HTMLElement;
+  // eslint-disable-next-line no-unassigned-vars
   let windowContentsRef!: HTMLDivElement;
 
   createEffect(async () => {

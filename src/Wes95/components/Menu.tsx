@@ -90,7 +90,8 @@ export function Menu(p: {
   const inlineMenuOffsetBlock = scale() * -3;
   const inlineMenuOffsetInline = scale() * -3;
 
-  let menuElement!: HTMLMenuElement;
+  // eslint-disable-next-line no-unassigned-vars
+  let menuRef!: HTMLMenuElement;
   const areaEl = document.documentElement;
 
   const handleClick = (index: number, element: HTMLElement) => {
@@ -134,19 +135,19 @@ export function Menu(p: {
   createEffect(() => {
     const anchor = p.anchor();
 
-    if (!menuElement || !anchor) {
+    if (!menuRef || !anchor) {
       return;
     }
 
-    if (!('showPopover' in menuElement)) {
+    if (!('showPopover' in menuRef)) {
       throw new Error(
         'Your browser does not support a required feature, please upgrade it or use a more modern browser',
       );
     }
 
-    menuElement.showPopover();
+    menuRef.showPopover();
     const areaRect = areaEl.getBoundingClientRect();
-    const rect = menuElement.getBoundingClientRect();
+    const rect = menuRef.getBoundingClientRect();
 
     const directionInline = anchor.direction?.startsWith('inline') ?? true;
     const directionStart = anchor.direction?.endsWith('start') ?? false;
@@ -199,11 +200,11 @@ export function Menu(p: {
       opacity: 1,
     });
 
-    menuElement.addEventListener('toggle', handleClose);
+    menuRef.addEventListener('toggle', handleClose);
 
     onCleanup(() => {
-      menuElement.removeEventListener('toggle', handleClose);
-      menuElement.hidePopover();
+      menuRef.removeEventListener('toggle', handleClose);
+      menuRef.hidePopover();
     });
   });
 
@@ -324,7 +325,7 @@ export function Menu(p: {
       id={p.id}
       data-menu-id={p.menuId}
       popover
-      ref={menuElement}
+      ref={menuRef}
       style={style()}
     >
       {p.verticalBar}

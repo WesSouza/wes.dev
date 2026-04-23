@@ -9,12 +9,13 @@ export function Progress(p: {
   showNumber?: boolean;
   value: number;
 }) {
-  let element!: HTMLDivElement;
+  // eslint-disable-next-line no-unassigned-vars
+  let elementRef!: HTMLDivElement;
   const [segments, setSegments] = createSignal<number>(1);
   const appearance = () => p.appearance ?? 'solid';
 
   onMount(() => {
-    createResizeObserver(element, (rect) => {
+    createResizeObserver(elementRef, (rect) => {
       const scale = ScreenManager.shared.scale();
       setSegments(Math.floor((rect.width - 4 * scale) / (10 * scale)));
     });
@@ -38,7 +39,7 @@ export function Progress(p: {
         '--percentage': `${p.value * 100}%`,
         '--segments': segments(),
       }}
-      ref={element}
+      ref={elementRef}
     >
       <progress id={p.id} value={p.value} max="1">
         {(p.value * 100).toFixed(0)}%

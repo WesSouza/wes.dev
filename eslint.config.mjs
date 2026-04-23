@@ -29,7 +29,7 @@ export default tseslint.config(
           argsIgnorePattern: '^_',
           caughtErrorsIgnorePattern: '^_',
           destructuredArrayIgnorePattern: '^_',
-          varsIgnorePattern: '^_',
+          varsIgnorePattern: '^_|Ref$',
         },
       ],
       '@typescript-eslint/triple-slash-reference': 'off',
