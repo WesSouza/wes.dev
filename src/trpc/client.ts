@@ -4,7 +4,7 @@ import type { AppRouter } from './router';
 const trpc = createTRPCClient<AppRouter>({
   links: [
     httpBatchLink({
-      url: import.meta.env.SITE + '/api/trpc',
+      url: '/api/trpc',
     }),
   ],
 });
