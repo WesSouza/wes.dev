@@ -5,12 +5,7 @@ import { visualizer } from 'rollup-plugin-visualizer';
 
 // https://astro.build/config
 export default defineConfig({
-  site:
-    process.env.CF_PAGES_BRANCH === 'main'
-      ? 'https://wes.dev'
-      : process.env.CF_PAGES_URL
-        ? process.env.CF_PAGES_URL
-        : 'http://localhost:4321',
+  site: 'https://wes.dev',
   output: 'server',
   adapter: cloudflare(),
   integrations: [solidJs()],
