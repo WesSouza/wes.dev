@@ -199,7 +199,7 @@ export function FileExplorerMainWindow(p: {
               },
               {
                 type: 'item',
-                id: 'LargeIcons',
+                id: 'Icons',
                 label: 'Large Icons',
                 checked: listType() === 'icons' ? 'radio' : undefined,
               },
