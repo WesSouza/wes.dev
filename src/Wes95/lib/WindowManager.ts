@@ -395,7 +395,9 @@ export class WindowManager {
   };
 
   isAnyWindowMaximized = () => {
-    return this.state.windows.some((window) => window.maximized);
+    return this.state.windows.some(
+      (window) => window.maximized && !window.minimized,
+    );
   };
 
   isWindowActive = (windowId: string) => {
