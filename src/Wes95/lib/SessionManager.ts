@@ -102,7 +102,7 @@ export class SessionManager {
       }
 
       const x = (window.x / desktopSize.width).toFixed(5).replace('0.', '');
-      const y = (window.y / desktopSize.width).toFixed(5).replace('0.', '');
+      const y = (window.y / desktopSize.height).toFixed(5).replace('0.', '');
       const width = (window.width / desktopSize.width)
         .toFixed(5)
         .replace('0.', '');
