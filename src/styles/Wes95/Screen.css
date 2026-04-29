@@ -30,7 +30,8 @@ body {
 }
 
 .Taskbar {
-  position: relative;
+  position: sticky;
+  inset-block-end: 0;
   z-index: 2;
 }
 
