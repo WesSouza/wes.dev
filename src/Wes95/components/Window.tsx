@@ -1,4 +1,11 @@
-import { createContext, createEffect, lazy, Show, type JSX } from 'solid-js';
+import {
+  createContext,
+  createEffect,
+  lazy,
+  onCleanup,
+  Show,
+  type JSX,
+} from 'solid-js';
 import type { z } from 'zod';
 import { parseSearchParams } from 'zod-search-params/v4';
 import { ScreenManager } from '../lib/ScreenManager';
@@ -180,6 +187,10 @@ export function Window(p: {
 
   const handlePointerCancel = (event: PointerEvent) => {
     activePointers.delete(event.pointerId);
+
+    if (activePointers.size === 0) {
+      cleanupPointerAction();
+    }
   };
 
   const handlePointerUp = (event: PointerEvent) => {
@@ -189,7 +200,10 @@ export function Window(p: {
       return;
     }
 
-    // Cleanup
+    cleanupPointerAction();
+  };
+
+  function cleanupPointerAction() {
     if (pointerAction === 'resize') {
       resizing.x = false;
       resizing.y = false;
@@ -204,10 +218,17 @@ export function Window(p: {
       handlePointerMove,
     );
     document.documentElement.removeEventListener('pointerup', handlePointerUp);
+    document.documentElement.removeEventListener(
+      'pointercancel',
+      handlePointerCancel,
+    );
 
+    document.documentElement.style.removeProperty('touch-action');
     pointerAction = undefined;
     windowManager.setMovingWindows(false);
-  };
+  }
+
+  onCleanup(cleanupPointerAction);
 
   const handlePointerMove = throttleEvent((event: PointerEvent) => {
     if (activePointers.size > 1 || !pointerAction) {
