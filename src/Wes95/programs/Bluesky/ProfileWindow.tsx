@@ -25,8 +25,6 @@ import {
 
 const WesDID = 'did:plc:4qy26t5ss4zosz2mi3hdzuq3';
 
-let currentActor: string | undefined;
-
 const getAccountPosts = async (
   actor: string,
   info: {
@@ -39,8 +37,8 @@ const getAccountPosts = async (
     cursor: typeof info.refetching === 'string' ? info.refetching : undefined,
   });
 
-  const previousFeed = currentActor === actor ? (info.value?.feed ?? []) : [];
-  currentActor = actor;
+  const previousFeed =
+    typeof info.refetching === 'string' ? (info.value?.feed ?? []) : [];
 
   return {
     feed: previousFeed.concat(
