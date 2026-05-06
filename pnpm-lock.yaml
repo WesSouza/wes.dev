@@ -9,16 +9,16 @@ importers:
   .:
     dependencies:
       '@astrojs/cloudflare':
-        specifier: ^13.3.1
+        specifier: 13.3.1
         version: 13.3.1(@types/node@25.6.0)(astro@6.2.2(@types/node@25.6.0)(jiti@2.7.0)(rollup@4.60.3)(tsx@4.21.0)(yaml@2.8.4))(jiti@2.7.0)(tsx@4.21.0)(workerd@1.20260504.1)(wrangler@4.88.0)(yaml@2.8.4)
       '@astrojs/solid-js':
         specifier: 6.0.1
         version: 6.0.1(@types/node@25.6.0)(jiti@2.7.0)(solid-js@1.9.12)(tsx@4.21.0)(yaml@2.8.4)
       '@atproto/api':
-        specifier: ^0.19.13
+        specifier: 0.19.13
         version: 0.19.13
       '@solid-primitives/resize-observer':
-        specifier: ^2.1.5
+        specifier: 2.1.5
         version: 2.1.5(solid-js@1.9.12)
       '@trpc/client':
         specifier: 11.17.0
@@ -27,65 +27,65 @@ importers:
         specifier: 11.17.0
         version: 11.17.0(typescript@6.0.3)
       anchorme:
-        specifier: ^3.0.8
+        specifier: 3.0.8
         version: 3.0.8
       astro:
         specifier: 6.2.2
         version: 6.2.2(@types/node@25.6.0)(jiti@2.7.0)(rollup@4.60.3)(tsx@4.21.0)(yaml@2.8.4)
       solid-js:
-        specifier: ^1.9.12
+        specifier: 1.9.12
         version: 1.9.12
       solid-markdown:
-        specifier: ^2.1.1
+        specifier: 2.1.1
         version: 2.1.1(solid-js@1.9.12)
       tsx:
-        specifier: ^4.21.0
+        specifier: 4.21.0
         version: 4.21.0
       zod:
-        specifier: ^4.4.3
+        specifier: 4.4.3
         version: 4.4.3
       zod-search-params:
-        specifier: ^0.2.1
+        specifier: 0.2.1
         version: 0.2.1(zod@4.4.3)
     devDependencies:
       '@astrojs/check':
-        specifier: ^0.9.9
+        specifier: 0.9.9
         version: 0.9.9(prettier@3.8.3)(typescript@6.0.3)
       '@eslint/js':
-        specifier: ^10.0.1
+        specifier: 10.0.1
         version: 10.0.1(eslint@10.3.0(jiti@2.7.0))
       '@types/license-checker':
-        specifier: ^25.0.6
+        specifier: 25.0.6
         version: 25.0.6
       '@types/node':
         specifier: 25.6.0
         version: 25.6.0
       '@types/spritesmith':
-        specifier: ^3.4.5
+        specifier: 3.4.5
         version: 3.4.5
       '@types/youtube':
-        specifier: ^0.2.0
+        specifier: 0.2.0
         version: 0.2.0
       eslint:
-        specifier: ^10.3.0
+        specifier: 10.3.0
         version: 10.3.0(jiti@2.7.0)
       eslint-config-prettier:
-        specifier: ^10.1.8
+        specifier: 10.1.8
         version: 10.1.8(eslint@10.3.0(jiti@2.7.0))
       globals:
-        specifier: ^17.6.0
+        specifier: 17.6.0
         version: 17.6.0
       license-checker:
-        specifier: ^25.0.1
+        specifier: 25.0.1
         version: 25.0.1
       prettier:
         specifier: 3.8.3
         version: 3.8.3
       rollup-plugin-visualizer:
-        specifier: ^7.0.1
+        specifier: 7.0.1
         version: 7.0.1(rollup@4.60.3)
       spritesmith:
-        specifier: ^3.5.1
+        specifier: 3.5.1
         version: 3.5.1
       typescript:
         specifier: 6.0.3
@@ -94,7 +94,7 @@ importers:
         specifier: 8.59.2
         version: 8.59.2(eslint@10.3.0(jiti@2.7.0))(typescript@6.0.3)
       wrangler:
-        specifier: ^4.88.0
+        specifier: 4.88.0
         version: 4.88.0
 
 packages:
