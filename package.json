@@ -43,6 +43,7 @@
     "astro": "6.2.2",
     "solid-js": "1.9.12",
     "solid-markdown": "2.1.1",
+    "streaming-markdown": "0.2.15",
     "tsx": "4.21.0",
     "zod": "4.4.3",
     "zod-search-params": "0.2.1"
