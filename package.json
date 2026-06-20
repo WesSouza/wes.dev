@@ -40,7 +40,7 @@
     "@trpc/client": "11.17.0",
     "@trpc/server": "11.17.0",
     "anchorme": "^3.0.8",
-    "astro": "6.2.2",
+    "astro": "6.4.6",
     "solid-js": "^1.9.12",
     "solid-markdown": "^2.1.1",
     "tsx": "^4.21.0",
