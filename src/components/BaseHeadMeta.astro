@@ -6,7 +6,8 @@ export interface Props {
 }
 
 const { title, description = '', image = '/images/OgImage.png' } = Astro.props;
-const analyticsToken = import.meta.env.PUBLIC_CLOUDFLARE_WEB_ANALYTICS_TOKEN?.trim();
+const analyticsToken =
+  import.meta.env.PUBLIC_CLOUDFLARE_WEB_ANALYTICS_TOKEN?.trim();
 const analyticsConfig = analyticsToken
   ? JSON.stringify({ token: analyticsToken })
   : null;
@@ -33,8 +34,9 @@ const analyticsConfig = analyticsToken
   analyticsConfig && (
     <script
       defer
+      is:inline
       src="https://static.cloudflareinsights.com/beacon.min.js"
       data-cf-beacon={analyticsConfig}
-    ></script>
+    />
   )
 }

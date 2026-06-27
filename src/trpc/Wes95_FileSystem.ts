@@ -1,5 +1,5 @@
+import { z } from 'astro/zod';
 import { getCollection, getEntry } from 'astro:content';
-import { z } from 'astro:schema';
 import type { AstroContentEntry } from '../Wes95/models/AstroContent';
 import { publicProcedure, t } from './app';
 
