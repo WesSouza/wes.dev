@@ -4,7 +4,7 @@ import {
   AppBskyFeedGetAuthorFeed,
   AppBskyFeedSearchPosts,
 } from '@atproto/api';
-import { z } from 'astro:schema';
+import { z } from 'astro/zod';
 import {
   Bluesky_Actor_ProfileViewBasicSchema,
   Bluesky_Actor_ProfileViewDetailedSchema,

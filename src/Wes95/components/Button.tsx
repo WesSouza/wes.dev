@@ -13,13 +13,7 @@ import { WindowContext } from './Window';
 export function Button(
   p: {
     appearance?:
-      | 'Flat'
-      | 'Link'
-      | 'Menu'
-      | 'Taskbar'
-      | 'Thin'
-      | 'Toolbar'
-      | 'WindowTitle';
+      'Flat' | 'Link' | 'Menu' | 'Taskbar' | 'Thin' | 'Toolbar' | 'WindowTitle';
     mainWindowButton?: boolean;
     onClick?: () => void;
   } & JSX.ButtonHTMLAttributes<HTMLButtonElement>,

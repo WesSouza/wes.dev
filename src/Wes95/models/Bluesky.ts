@@ -2,11 +2,9 @@ import { z } from 'zod';
 
 export type Bluesky_UnknownType = z.infer<typeof Bluesky_UnknownTypeSchema>;
 
-export const Bluesky_UnknownTypeSchema = z
-  .object({
-    $type: z.string(),
-  })
-  .passthrough();
+export const Bluesky_UnknownTypeSchema = z.looseObject({
+  $type: z.string(),
+});
 
 export type Bluesky_Repo_StrongRef = z.infer<
   typeof Bluesky_Repo_StrongRefSchema
