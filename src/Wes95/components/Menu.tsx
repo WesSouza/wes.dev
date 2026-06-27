@@ -362,7 +362,7 @@ export function Menu(p: {
               }
               onMouseLeave={handleItemMouseLeave}
               ref={(el) => (itemRefs[index()] = el)}
-              style={{ '--wes95-menu-indent': item.indentLevel }}
+              style={{ '--css95-menu-indent': item.indentLevel }}
             >
               <span class="MenuIcon">
                 <Switch>

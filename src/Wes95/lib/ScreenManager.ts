@@ -73,7 +73,7 @@ export class ScreenManager {
   #getScale = () => {
     const scale =
       getComputedStyle(document.documentElement).getPropertyValue(
-        '--wes95-scale-value',
+        '--css95-scale-value',
       ) ?? '0';
     return parseInt(scale);
   };

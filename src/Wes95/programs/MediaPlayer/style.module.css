@@ -1,5 +1,5 @@
 .Video {
-  background-color: var(--wes95-color-canvasText);
+  background-color: var(--css95-color-canvasText);
   flex: 1;
   display: flex;
   overflow: hidden;
@@ -13,11 +13,11 @@
 .Controls {
   display: flex;
   flex-direction: column;
-  background-color: var(--wes95-color-material);
+  background-color: var(--css95-color-material);
 }
 
 .Timeline {
-  padding-block: calc(var(--wes95-scale-value) * 4);
+  padding-block: calc(var(--css95-scale-value) * 4);
 
   input[type='range'] {
     appearance: none;
@@ -27,56 +27,56 @@
 
     &::-webkit-slider-runnable-track {
       appearance: none;
-      border: var(--wes95-scale-value) solid var(--wes95-color-borderDark);
-      border-block-end-color: var(--wes95-color-borderLightest);
-      border-inline-end-color: var(--wes95-color-borderLightest);
-      background-color: var(--wes95-color-canvas);
+      border: var(--css95-scale-value) solid var(--css95-color-borderDark);
+      border-block-end-color: var(--css95-color-borderLightest);
+      border-inline-end-color: var(--css95-color-borderLightest);
+      background-color: var(--css95-color-canvas);
     }
 
     &::-webkit-slider-thumb {
       appearance: none;
       box-shadow:
-        inset calc(var(--wes95-scale-value) * -1)
-          calc(var(--wes95-scale-value) * -1) var(--wes95-color-borderDarkest),
-        inset calc(var(--wes95-scale-value) * -2)
-          calc(var(--wes95-scale-value) * -2) var(--wes95-color-borderDark),
-        inset calc(var(--wes95-scale-value) * 1)
-          calc(var(--wes95-scale-value) * 1) var(--wes95-color-borderLightest),
-        inset calc(var(--wes95-scale-value) * -3)
-          calc(var(--wes95-scale-value) * -4) var(--wes95-color-material),
-        inset calc(var(--wes95-scale-value) * 2)
-          calc(var(--wes95-scale-value) * 3) var(--wes95-color-material),
-        inset calc(var(--wes95-scale-value) * 3)
-          calc(var(--wes95-scale-value) * 4) var(--wes95-color-borderDark);
+        inset calc(var(--css95-scale-value) * -1)
+          calc(var(--css95-scale-value) * -1) var(--css95-color-borderDarkest),
+        inset calc(var(--css95-scale-value) * -2)
+          calc(var(--css95-scale-value) * -2) var(--css95-color-borderDark),
+        inset calc(var(--css95-scale-value) * 1)
+          calc(var(--css95-scale-value) * 1) var(--css95-color-borderLightest),
+        inset calc(var(--css95-scale-value) * -3)
+          calc(var(--css95-scale-value) * -4) var(--css95-color-material),
+        inset calc(var(--css95-scale-value) * 2)
+          calc(var(--css95-scale-value) * 3) var(--css95-color-material),
+        inset calc(var(--css95-scale-value) * 3)
+          calc(var(--css95-scale-value) * 4) var(--css95-color-borderDark);
       border-radius: 0;
-      background-color: var(--wes95-color-canvas);
+      background-color: var(--css95-color-canvas);
       position: relative;
-      margin-block: calc(var(--wes95-scale-value) * -5);
-      width: calc(var(--wes95-scale-value) * 13);
-      height: calc(var(--wes95-scale-value) * 15);
+      margin-block: calc(var(--css95-scale-value) * -5);
+      width: calc(var(--css95-scale-value) * 13);
+      height: calc(var(--css95-scale-value) * 15);
     }
   }
 }
 
 .Buttons {
   display: flex;
-  gap: calc(var(--wes95-scale-value) * 1);
+  gap: calc(var(--css95-scale-value) * 1);
   align-items: center;
 }
 
 .Button {
   svg {
-    width: calc(var(--wes95-scale-value) * 17);
-    height: calc(var(--wes95-scale-value) * 17);
+    width: calc(var(--css95-scale-value) * 17);
+    height: calc(var(--css95-scale-value) * 17);
   }
 }
 
 .Status {
   display: flex;
-  color: var(--wes95-color-canvas);
-  background-color: var(--wes95-color-canvasText);
-  --wes95-padding-block: calc(var(--wes95-scale-value) * 5);
-  --wes95-padding-inline: calc(var(--wes95-scale-value) * 5);
+  color: var(--css95-color-canvas);
+  background-color: var(--css95-color-canvasText);
+  --css95-padding-block: calc(var(--css95-scale-value) * 5);
+  --css95-padding-inline: calc(var(--css95-scale-value) * 5);
 }
 
 .StatusPlayback {

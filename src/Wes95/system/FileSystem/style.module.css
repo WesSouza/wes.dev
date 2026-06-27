@@ -2,7 +2,7 @@
 }
 
 .OpenPathLabel {
-  width: calc(var(--wes95-scale-value) * 32);
+  width: calc(var(--css95-scale-value) * 32);
 }
 
 .OpenPathInput {
@@ -12,5 +12,5 @@
 .OpenPathButtons {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: var(--wes95-spacing-gap);
+  gap: var(--css95-spacing-gap);
 }

@@ -32,6 +32,9 @@ importers:
       astro:
         specifier: 7.0.3
         version: 7.0.3(@astrojs/markdown-remark@7.2.0)(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.1)(@types/node@26.0.1)(jiti@2.7.0)(rollup@4.62.2)(tsx@4.22.4)(yaml@2.9.0)
+      css95:
+        specifier: ^0.1.0
+        version: 0.1.0(solid-js@1.9.13)
       solid-js:
         specifier: ^1.9.13
         version: 1.9.13
@@ -1614,6 +1617,18 @@ packages:
   css-what@6.2.2:
     resolution: {integrity: sha512-u/O3vwbptzhMs3L1fQE82ZSLHQQfto5gyZzwteVIEyeaY5Fc7R4dapF/BvRoSYFeqfBk4m0V1Vafq5Pjv25wvA==}
     engines: {node: '>= 6'}
+
+  css95@0.1.0:
+    resolution: {integrity: sha512-Zh4vcWk9ojV0czRzzK8i2Pkusq2hr9i4x6ap4qIGC2WBcMxwtRFTRIeJ9cVlqQQXK1IrMAbEBf9Jj9BB1yD6+Q==}
+    engines: {node: '>=18'}
+    peerDependencies:
+      react: '>=18'
+      solid-js: '>=1.8'
+    peerDependenciesMeta:
+      react:
+        optional: true
+      solid-js:
+        optional: true
 
   csso@5.0.5:
     resolution: {integrity: sha512-0LrrStPOdJj+SPCCrGhzryycLjwcgUSHBtxNA8aIDxf0GLsRh1cKYhB00Gd1lDOS4yGH69+SNn13+TWbVHETFQ==}
@@ -5114,6 +5129,10 @@ snapshots:
       source-map-js: 1.2.1
 
   css-what@6.2.2: {}
+
+  css95@0.1.0(solid-js@1.9.13):
+    optionalDependencies:
+      solid-js: 1.9.13
 
   csso@5.0.5:
     dependencies:
