@@ -1,25 +1,6 @@
-@import './Wes95/Borders.css';
-@import './Wes95/Button.css';
-@import './Wes95/Document.css';
-@import './Wes95/Field.css';
+@import 'css95/style.css';
 @import './Wes95/Graphics.css';
 @import './Wes95/Icons.generated.css';
-@import './Wes95/Input.css';
-@import './Wes95/ItemList.css';
-@import './Wes95/Layout.css';
-@import './Wes95/Menu.css';
-@import './Wes95/Screen.css';
-@import './Wes95/Separator.css';
-@import './Wes95/Spacing.css';
-@import './Wes95/StatusField.css';
-@import './Wes95/Taskbar.css';
-@import './Wes95/Theme.css';
-@import './Wes95/ThemeClassic.css';
-@import './Wes95/Window.css';
-
-:root {
-  --wes95-scale-value: 2px;
-}
 
 html,
 body {
@@ -28,6 +9,7 @@ body {
 }
 
 body {
+  background-color: var(--css95-color-desktopBackground);
   font-family:
     system-ui,
     -apple-system,
@@ -41,6 +23,10 @@ body {
     'Helvetica Neue',
     sans-serif;
   margin: 0;
+
+  &:has(.Screen.-maximized) {
+    background-color: var(--css95-color-headerBackground);
+  }
 }
 
 a,
@@ -51,4 +37,54 @@ button {
 @font-face {
   font-family: 'Perfect DOS VGA 437';
   src: url('/C/Wes95/Fonts/PerfectDOS.ttf') format('truetype');
+}
+
+.MenuWes95 {
+  position: absolute;
+  display: flex;
+  align-items: flex-end;
+  top: calc(var(--css95-scale-value) * 3);
+  left: calc(var(--css95-scale-value) * 3);
+  bottom: calc(var(--css95-scale-value) * 3);
+  width: calc(var(--css95-scale-value) * 16);
+  padding: calc(var(--css95-scale-value) * 4) calc(var(--css95-scale-value) * 2);
+  font-size: 1.2em;
+  color: var(--css95-color-headerText);
+  background-color: var(--css95-color-borderDark);
+
+  .Wes95 {
+    margin-bottom: calc(var(--css95-scale-value) * -10);
+    transform: rotate(-90deg);
+    transform-origin: top left;
+  }
+
+  .Wes {
+    font-weight: bold;
+    color: var(--css95-color-borderLight);
+  }
+}
+
+.WindowTitleAnimation {
+  align-items: center;
+  animation: WindowTitleAnimation 350ms linear forwards;
+  background-color: var(--css95-color-headerBackground);
+  color: var(--css95-color-headerText);
+  display: flex;
+  gap: calc(var(--css95-scale-value) * 2);
+  height: var(--wes95-title-from-height);
+  left: var(--wes95-title-from-x);
+  padding: var(--css95-scale-value) calc(var(--css95-scale-value) * 2);
+  position: absolute;
+  top: var(--wes95-title-from-y);
+  width: var(--wes95-title-from-width);
+  z-index: 3;
+}
+
+@keyframes WindowTitleAnimation {
+  100% {
+    height: var(--wes95-title-to-height);
+    left: var(--wes95-title-to-x);
+    top: var(--wes95-title-to-y);
+    width: var(--wes95-title-to-width);
+  }
 }

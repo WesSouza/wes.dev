@@ -3,9 +3,11 @@ import {
   createMemo,
   createUniqueId,
   onCleanup,
+  splitProps,
   useContext,
   type JSX,
 } from 'solid-js';
+import { Button as Css95Button } from 'css95/solid';
 import { FocusContext } from '../lib/FocusContext';
 import { WindowManager } from '../lib/WindowManager';
 import { WindowContext } from './Window';
@@ -21,9 +23,18 @@ export function Button(
   const buttonId = createUniqueId();
   const focus = useContext(FocusContext);
   const window = useContext(WindowContext);
+  const [local, buttonProps] = splitProps(p, [
+    'appearance',
+    'children',
+    'class',
+    'mainWindowButton',
+    'onBlur',
+    'onClick',
+    'onFocus',
+  ]);
 
   const mainButton = createMemo(() => {
-    if (!p.mainWindowButton) {
+    if (!local.mainWindowButton) {
       return false;
     }
 
@@ -51,7 +62,7 @@ export function Button(
 
   const handleDocumentKeyDown = (event: KeyboardEvent) => {
     if (event.code === 'Enter') {
-      p.onClick?.();
+      local.onClick?.();
     }
   };
 
@@ -59,25 +70,51 @@ export function Button(
     focus?.setFocusId(undefined);
 
     // @ts-expect-error
-    p.onBlur?.(event);
+    local.onBlur?.(event);
   };
 
   const handleFocus = (event: FocusEvent) => {
     focus?.setFocusId(buttonId);
 
     // @ts-expect-error
-    p.onFocus?.(event);
+    local.onFocus?.(event);
   };
+
+  const packageAppearance = createMemo(() =>
+    ['Flat', 'Menu', 'WindowTitle', undefined].includes(local.appearance),
+  );
+
+  const fallbackClass = () =>
+    `${local.appearance ?? ''}Button ${mainButton() ? '-main' : ''} ${local.class ?? ''}`;
+
+  if (packageAppearance()) {
+    return (
+      <Css95Button
+        {...buttonProps}
+        flat={local.appearance === 'Flat'}
+        menu={local.appearance === 'Menu'}
+        title={local.appearance === 'WindowTitle'}
+        main={mainButton()}
+        class={local.class}
+        onBlur={handleBlur}
+        onClick={local.onClick}
+        onFocus={handleFocus}
+      >
+        {local.children}
+      </Css95Button>
+    );
+  }
 
   return (
     <button
-      {...p}
+      {...buttonProps}
       type="button"
-      class={`${p.appearance ?? ''}Button ${mainButton() ? '-main' : ''} ${p.class}`}
+      class={fallbackClass()}
       onBlur={handleBlur}
+      onClick={local.onClick}
       onFocus={handleFocus}
     >
-      {p.children}
+      {local.children}
     </button>
   );
 }

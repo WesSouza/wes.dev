@@ -4,12 +4,12 @@
 
 .Cluster {
   display: inline-block;
-  width: calc(var(--wes95-scale-value) * 7);
-  height: calc(var(--wes95-scale-value) * 9);
-  margin: 0 var(--wes95-scale-value) var(--wes95-scale-value) 0;
+  width: calc(var(--css95-scale-value) * 7);
+  height: calc(var(--css95-scale-value) * 9);
+  margin: 0 var(--css95-scale-value) var(--css95-scale-value) 0;
 
   &:not(.-free) {
-    border: var(--wes95-scale-value) solid #000;
+    border: var(--css95-scale-value) solid #000;
   }
 
   &.-optimized {
@@ -35,13 +35,13 @@
     &::after {
       position: absolute;
       content: '';
-      top: calc(var(--wes95-scale-value) * -1);
-      right: calc(var(--wes95-scale-value) * -1);
-      width: calc(var(--wes95-scale-value) * 4);
-      height: calc(var(--wes95-scale-value) * 4);
+      top: calc(var(--css95-scale-value) * -1);
+      right: calc(var(--css95-scale-value) * -1);
+      width: calc(var(--css95-scale-value) * 4);
+      height: calc(var(--css95-scale-value) * 4);
       background-image: url("data:image/svg+xml,%3Csvg width='4' height='4' viewBox='0 0 4 4' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='4' height='4' fill='black'/%3E%3Cpath d='M2 1V0H4V2H3V3H2V2H1V1H2Z' fill='%23FF0000'/%3E%3C/svg%3E%0A");
-      background-size: calc(var(--wes95-scale-value) * 4)
-        calc(var(--wes95-scale-value) * 4);
+      background-size: calc(var(--css95-scale-value) * 4)
+        calc(var(--css95-scale-value) * 4);
     }
   }
 
@@ -58,7 +58,7 @@
   container-type: inline-size;
 
   .Buttons {
-    width: calc(var(--wes95-scale-value) * 60);
+    width: calc(var(--css95-scale-value) * 60);
   }
 }
 
