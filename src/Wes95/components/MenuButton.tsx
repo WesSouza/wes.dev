@@ -8,9 +8,9 @@ import {
   Show,
   type JSX,
 } from 'solid-js';
+import { WindowManager } from '../lib/WindowManager';
 import type { Anchor } from '../models/Geometry';
 import { Menu, type MenuItem, type MenuSeparator } from './Menu';
-import { WindowManager } from '../lib/WindowManager';
 
 export const MenuButton = (p: {
   'aria-label'?: string;

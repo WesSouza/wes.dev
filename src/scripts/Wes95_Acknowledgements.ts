@@ -1,6 +1,6 @@
 import checker from 'license-checker';
-import { fileURLToPath } from 'node:url';
 import { readFile, writeFile } from 'node:fs/promises';
+import { fileURLToPath } from 'node:url';
 
 const root = fileURLToPath(new URL('../..', import.meta.url));
 const output = fileURLToPath(

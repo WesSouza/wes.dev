@@ -60,6 +60,7 @@
     "globals": "^17.7.0",
     "license-checker": "^25.0.1",
     "prettier": "3.9.0",
+    "prettier-plugin-organize-imports": "^4.3.0",
     "rollup-plugin-visualizer": "^7.0.1",
     "spritesmith": "^3.5.1",
     "typescript": "6.0.3",

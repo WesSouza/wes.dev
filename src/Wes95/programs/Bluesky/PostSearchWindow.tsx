@@ -7,13 +7,13 @@ import {
   onMount,
   Show,
 } from 'solid-js';
+import { trpc } from '../../../trpc/client';
+import { LoadingAnimation } from '../../components/LoadingAnimation';
 import { WindowManager } from '../../lib/WindowManager';
 import type { WindowState } from '../../models/WindowState';
 import { BlueskyPost } from './Post';
 import type { BlueskyPostSearchData } from './registry';
 import styles from './style.module.css';
-import { LoadingAnimation } from '../../components/LoadingAnimation';
-import { trpc } from '../../../trpc/client';
 
 let currentQuery: string | undefined;
 

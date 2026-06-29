@@ -10,6 +10,7 @@ import { createMemo, For, Show, type JSX } from 'solid-js';
 import { Icon } from '../../components/Icon';
 import { Link } from '../../components/Link';
 import { Symbol } from '../../components/Symbol';
+import { WindowManager } from '../../lib/WindowManager';
 import { Bluesky_Feed_Post } from '../../models/Bluesky';
 import {
   getInternalPostURL,
@@ -19,7 +20,6 @@ import {
 import { ago } from '../../utils/dateTime';
 import { getURLHostname } from '../../utils/url';
 import styles from './style.module.css';
-import { WindowManager } from '../../lib/WindowManager';
 
 export function BlueskyPost(p: {
   embed?: boolean;

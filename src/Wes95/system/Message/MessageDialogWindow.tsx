@@ -1,9 +1,9 @@
 import { createEffect, For, onMount, Show } from 'solid-js';
+import { Button } from '../../components/Button';
 import { Icon } from '../../components/Icon';
 import { WindowManager } from '../../lib/WindowManager';
 import type { WindowState } from '../../models/WindowState';
 import { MessageDialogEventSchema, type MessageDialogData } from './registry';
-import { Button } from '../../components/Button';
 
 const IconTypeMap: Record<string, string> = {
   error: 'dialogError',

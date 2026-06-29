@@ -12,10 +12,10 @@ import { ScreenManager } from '../lib/ScreenManager';
 import type { WindowManager } from '../lib/WindowManager';
 import type { Point } from '../models/Geometry';
 import type { WindowState } from '../models/WindowState';
+import { throttleEvent } from '../utils/events';
 import { getRect, parseWindowURL } from '../utils/Windows';
 import { Icon } from './Icon';
 import { Symbol } from './Symbol';
-import { throttleEvent } from '../utils/events';
 
 const ResizeAreaWidth = 12;
 

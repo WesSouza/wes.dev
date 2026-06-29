@@ -1,6 +1,6 @@
+import { createResizeObserver } from '@solid-primitives/resize-observer';
 import { createSignal, onMount, type Accessor } from 'solid-js';
 import type { Size } from '../models/Geometry';
-import { createResizeObserver } from '@solid-primitives/resize-observer';
 
 let shared: ScreenManager | undefined;
 

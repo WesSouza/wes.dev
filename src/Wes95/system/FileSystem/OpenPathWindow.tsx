@@ -1,11 +1,11 @@
 import { createEffect, createSignal, onMount } from 'solid-js';
+import { Button } from '../../components/Button';
 import { Icon } from '../../components/Icon';
 import { WindowManager } from '../../lib/WindowManager';
 import type { WindowState } from '../../models/WindowState';
 import { createWindowURL } from '../../utils/Windows';
 import { FSOpenPathEventSchema, type FSOpenPathData } from './registry';
 import styles from './style.module.css';
-import { Button } from '../../components/Button';
 
 export function FileSystemOpenPathWindow(p: {
   data: FSOpenPathData;

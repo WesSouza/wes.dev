@@ -1,6 +1,6 @@
 import { For, Match, Switch } from 'solid-js';
-import { Icon } from './Icon';
 import { Button } from './Button';
+import { Icon } from './Icon';
 
 export type Item = {
   id: string;

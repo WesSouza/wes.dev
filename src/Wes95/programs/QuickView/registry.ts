@@ -1,6 +1,6 @@
 import { z } from 'zod';
-import { QuickViewMainWindow } from './MainWindow';
 import type { ProgramRegistry } from '../../lib/WindowManager';
+import { QuickViewMainWindow } from './MainWindow';
 
 export const QuickViewMainDataSchema = z.object({
   open: z.string().optional(),
