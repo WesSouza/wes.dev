@@ -87,7 +87,11 @@ export function BlueskyPostSearchWindow(p: {
           [styles.PostList!]: true,
         }}
       >
-        <div class="Content Vertical" onScroll={handleScroll} ref={contentRef}>
+        <div
+          class="FieldContent Vertical"
+          onScroll={handleScroll}
+          ref={contentRef}
+        >
           <For each={posts()?.posts}>
             {(post) => (
               <>

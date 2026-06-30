@@ -1,3 +1,4 @@
+import { WindowTitleButton } from 'css95/solid';
 import {
   createContext,
   createEffect,
@@ -389,20 +390,18 @@ export function Window(p: {
           <div class="WindowTitleButtons">
             <Show when={!p.window.parentId && p.window.showInTaskbar}>
               <Show when={p.window.minimizable}>
-                <button
+                <WindowTitleButton
                   aria-label="Minimize"
                   type="button"
-                  class="WindowTitleButton"
                   onClick={handleMinimize}
                 >
                   <Symbol symbol="windowMinimize" />
-                </button>
+                </WindowTitleButton>
               </Show>
               <Show when={p.window.maximizable}>
-                <button
+                <WindowTitleButton
                   aria-label={p.window.maximized ? 'Restore' : 'Maximize'}
                   type="button"
-                  class="WindowTitleButton"
                   onClick={handleMaximize}
                 >
                   <Symbol
@@ -410,17 +409,16 @@ export function Window(p: {
                       p.window.maximized ? 'windowRestore' : 'windowMaximize'
                     }
                   />
-                </button>
+                </WindowTitleButton>
               </Show>
             </Show>
-            <button
+            <WindowTitleButton
               aria-label="Close"
               type="button"
-              class="WindowTitleButton"
               onClick={() => windowManager.closeWindow(p.window.id)}
             >
               <Symbol symbol="windowClose" />
-            </button>
+            </WindowTitleButton>
           </div>
         </div>
         <div

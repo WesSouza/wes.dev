@@ -49,7 +49,11 @@ export function BlueskyPostList(p: {
         [styles.PostList!]: true,
       }}
     >
-      <div class="Content Vertical" ref={p.contentRef} onScroll={handleScroll}>
+      <div
+        class="FieldContent Vertical"
+        ref={p.contentRef}
+        onScroll={handleScroll}
+      >
         <Show when={p.filter === 'posts'}>
           <div class={styles.PostProfileDescription!}>{description()}</div>
           <hr class={styles.PostSeparator!} />

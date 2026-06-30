@@ -318,7 +318,7 @@ export function DiskDefragmenterMainWindow(p: { window: WindowState }) {
     <>
       <div class="Field">
         <div
-          classList={{ Content: true, [styles.ClusterGrid!]: true }}
+          classList={{ FieldContent: true, [styles.ClusterGrid!]: true }}
           ref={clusterGridRef}
         >
           <For each={clustersOnScreen()}>

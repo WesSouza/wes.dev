@@ -43,7 +43,7 @@ export function AboutWindow(p: { data: AboutData; window: WindowState }) {
         </div>
         <div class="Field">
           <div
-            class="Content MediumSpacing"
+            class="FieldContent MediumSpacing"
             style={{ 'white-space': 'pre-wrap' }}
           >
             {acknowledgements()}

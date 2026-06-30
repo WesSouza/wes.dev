@@ -23,8 +23,8 @@ import {
 } from '../system/FileSystem/registry';
 import { isAppURL } from '../utils/url';
 import { createWindowURL } from '../utils/Windows';
+import { ExplorerList } from './ExplorerList';
 import { Icon } from './Icon';
-import { ItemList } from './ItemList';
 import { MenuButton } from './MenuButton';
 import { Window } from './Window';
 
@@ -222,7 +222,7 @@ export const Explorer = () => {
               onClick={handleDesktopTaskbarClick}
               ref={desktopRef}
             >
-              <ItemList
+              <ExplorerList
                 appearance="icons-vertical"
                 items={[
                   {

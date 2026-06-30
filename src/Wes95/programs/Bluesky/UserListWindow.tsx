@@ -244,7 +244,7 @@ export function BlueskyUserListWindow(p: {
           }}
         >
           <div
-            class="Content Vertical"
+            class="FieldContent Vertical"
             ref={contentRef}
             onScroll={handleScroll}
           >
