@@ -411,7 +411,7 @@ export function WordPadMainWindow(p: {
         </div>
       </Show>
       <div class="Field">
-        <div class="Content MediumSpacing Document" ref={contentRef}>
+        <div class="FieldContent MediumSpacing FieldDocument" ref={contentRef}>
           <Markdown markdown={fileData()?.body} />
         </div>
       </div>

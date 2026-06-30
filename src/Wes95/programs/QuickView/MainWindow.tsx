@@ -108,7 +108,7 @@ export function QuickViewMainWindow(p: {
           Field: true,
         }}
       >
-        <div class="Content Vertical">
+        <div class="FieldContent Vertical">
           <img src={url()} style={{ 'align-self': 'flex-start' }} />
         </div>
       </div>

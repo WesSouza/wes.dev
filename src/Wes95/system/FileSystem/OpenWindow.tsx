@@ -6,8 +6,8 @@ import {
   Show,
 } from 'solid-js';
 import { Combobox } from '../../components/Combobox';
+import { ExplorerList } from '../../components/ExplorerList';
 import { Icon } from '../../components/Icon';
-import { ItemList } from '../../components/ItemList';
 import type { MenuItem } from '../../components/Menu';
 import { FileSystemManager } from '../../lib/FileSystemManager';
 import { WindowManager } from '../../lib/WindowManager';
@@ -164,8 +164,8 @@ export function FileSystemOpenWindow(p: {
         </Show>
       </div>
       <div class="Field">
-        <div class="Content SmallSpacing">
-          <ItemList
+        <div class="FieldContent SmallSpacing">
+          <ExplorerList
             appearance={listType()}
             items={items()}
             onSelect={chooseFile}

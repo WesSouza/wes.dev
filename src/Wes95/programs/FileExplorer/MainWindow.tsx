@@ -7,8 +7,8 @@ import {
   Show,
 } from 'solid-js';
 import { Combobox } from '../../components/Combobox';
+import { ExplorerList } from '../../components/ExplorerList';
 import { Icon } from '../../components/Icon';
-import { ItemList } from '../../components/ItemList';
 import { MenuBar } from '../../components/MenuBar';
 import { FileSystemManager } from '../../lib/FileSystemManager';
 import { WindowManager } from '../../lib/WindowManager';
@@ -297,11 +297,11 @@ export function FileExplorerMainWindow(p: {
       >
         <div
           classList={{
-            Content: true,
+            FieldContent: true,
             SmallSpacing: listType() !== 'details',
           }}
         >
-          <ItemList
+          <ExplorerList
             appearance={listType()}
             items={items()}
             onSelect={chooseFile}

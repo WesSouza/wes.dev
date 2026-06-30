@@ -9,7 +9,7 @@ export type Item = {
   columns?: Record<string, { value: string; sortValue: string | number }>;
 };
 
-export function ItemList(p: {
+export function ExplorerList(p: {
   appearance?: 'icons' | 'icons-vertical' | 'list' | 'details';
   columns?: { key: string; name: string }[];
   items: Item[];
@@ -22,16 +22,18 @@ export function ItemList(p: {
   return (
     <Switch>
       <Match when={p.appearance === 'details'}>
-        <table class="ItemList -table">
+        <table class="ExplorerList -details">
           <thead>
             <tr>
               <th>
-                <Button class="HeaderButton">Name</Button>
+                <Button class="ExplorerListHeaderButton">Name</Button>
               </th>
               <For each={p.columns}>
                 {(column) => (
                   <th>
-                    <Button class="HeaderButton">{column.name}</Button>
+                    <Button class="ExplorerListHeaderButton">
+                      {column.name}
+                    </Button>
                   </th>
                 )}
               </For>
@@ -40,7 +42,7 @@ export function ItemList(p: {
           <tbody>
             <For each={p.items}>
               {(item) => (
-                <tr class="Item">
+                <tr class="ExplorerListItem">
                   <td>
                     <button
                       class="LinkButton"
@@ -63,7 +65,7 @@ export function ItemList(p: {
       <Match when={p.appearance !== 'details'}>
         <ul
           classList={{
-            ItemList: true,
+            ExplorerList: true,
             '-icons':
               p.appearance === 'icons' || p.appearance === 'icons-vertical',
             '-list':
@@ -74,7 +76,7 @@ export function ItemList(p: {
         >
           <For each={p.items}>
             {(item) => (
-              <li class="Item">
+              <li class="ExplorerListItem">
                 <Button appearance="Link" onClick={() => handleItemClick(item)}>
                   <Icon
                     icon={item.icon}
@@ -85,7 +87,7 @@ export function ItemList(p: {
                         : 'small'
                     }
                   />
-                  <span class="ItemLabel">{item.name}</span>
+                  <span class="ExplorerListItemLabel">{item.name}</span>
                 </Button>
               </li>
             )}

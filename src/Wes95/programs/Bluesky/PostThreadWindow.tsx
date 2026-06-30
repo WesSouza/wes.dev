@@ -65,7 +65,7 @@ export function BlueskyPostThreadWindow(p: {
           [styles.PostList!]: true,
         }}
       >
-        <div class="Content Vertical">
+        <div class="FieldContent Vertical">
           <Show when={parent()}>
             <BlueskyPostView postView={parent()!} />
           </Show>
