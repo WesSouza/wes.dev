@@ -119,7 +119,11 @@ export function Window(p: {
     }
 
     // Move
-    if (!pointerAction && event.target.closest('[data-window-title-bar]')) {
+    if (
+      !pointerAction &&
+      !p.window.maximized &&
+      event.target.closest('[data-window-title-bar]')
+    ) {
       const windowRect = windowRef.getBoundingClientRect();
       clickOffset = {
         x: event.clientX - windowRect.x,
