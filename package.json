@@ -28,7 +28,7 @@
     "worker-versions-upload": "wrangler versions upload --config ./dist/server/wrangler.json"
   },
   "engines": {
-    "node": "22",
+    "node": "26",
     "pnpm": ">=8"
   },
   "packageManager": "pnpm@9.4.0",

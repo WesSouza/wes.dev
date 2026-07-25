@@ -1,7 +1,7 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "wes-dev-worker",
-  "compatibility_date": "2026-04-16",
+  "compatibility_date": "2026-07-25",
   "compatibility_flags": ["nodejs_compat"],
   "preview_urls": true,
 }
