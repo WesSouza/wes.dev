@@ -85,6 +85,15 @@ section,
   text-align: right;
 }
 
+h3:has(+ .role-location) {
+  margin-bottom: 0.1em;
+}
+
+.role-location {
+  color: #555;
+  font-size: 14rem;
+}
+
 .flex-space-between {
   display: flex;
   justify-content: space-between;
