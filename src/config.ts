@@ -82,7 +82,7 @@ export const SITE_GO_LINKS = [
   // Projects
   {
     type: 'project',
-    href: 'https://wes.dev/enhanced-youtube',
+    href: 'https://www.producthunt.com/products/enhanced-youtube-safari-extension',
     goSlug: 'enhanced-youtube',
     title: 'Enhanced YouTube',
     description:
@@ -91,7 +91,7 @@ export const SITE_GO_LINKS = [
   },
   {
     type: 'project',
-    href: 'https://mastodon-flock.vercel.app',
+    href: 'https://www.producthunt.com/products/mastodon-flock',
     goSlug: 'mastodon-flock',
     title: 'Mastodon Flock',
     description:
@@ -100,7 +100,7 @@ export const SITE_GO_LINKS = [
   },
   {
     type: 'project',
-    href: 'https://watchmirror.app',
+    href: 'https://www.producthunt.com/products/watch-mirror-for-figma',
     goSlug: 'watch-mirror',
     title: 'Watch Mirror',
     description:
