@@ -45,7 +45,7 @@
     "solid-js": "^1.9.14",
     "solid-markdown": "^2.1.1",
     "tsx": "^4.23.1",
-    "zod": "^4.4.3",
+    "zod": "^4.6.6",
     "zod-search-params": "^0.2.1"
   },
   "devDependencies": {
